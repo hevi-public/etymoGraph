@@ -48,10 +48,9 @@ const graphOptions = {
         },
     },
     interaction: {
-        zoomView: true,
+        zoomView: false,
         dragView: true,
         hover: true,
-        zoomSpeed: 0.5,
     },
 };
 
@@ -81,15 +80,22 @@ function updateGraph(data) {
     );
     network = new vis.Network(graphContainer, { nodes, edges }, graphOptions);
 
-    // Trackpad: pinch-to-zoom works (ctrlKey), two-finger scroll pans
+    // Trackpad: pinch zooms (ctrlKey), two-finger scroll pans
     graphContainer.addEventListener("wheel", (e) => {
-        if (e.ctrlKey) return; // pinch-to-zoom, let vis.js handle it
         e.preventDefault();
-        const pos = network.getViewPosition();
-        network.moveTo({
-            position: { x: pos.x + e.deltaX, y: pos.y + e.deltaY },
-            animation: false,
-        });
+        if (e.ctrlKey) {
+            // Pinch gesture — macOS sets ctrlKey for pinch
+            const scale = network.getScale();
+            const newScale = scale * (1 - e.deltaY * 0.01);
+            network.moveTo({ scale: Math.max(0.1, Math.min(5, newScale)), animation: false });
+        } else {
+            // Two-finger scroll — pan
+            const pos = network.getViewPosition();
+            network.moveTo({
+                position: { x: pos.x - e.deltaX, y: pos.y - e.deltaY },
+                animation: false,
+            });
+        }
     }, { passive: false });
 
     network.on("click", (params) => {
