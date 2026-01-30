@@ -54,9 +54,9 @@ Dropdown in the header ("Connections ▾") with checkboxes:
 | Type | Meaning | Default |
 |------|---------|---------|
 | `inh` (Inherited) | Direct ancestor in the same language lineage | Checked |
-| `bor` (Borrowed) | Loanword from another language | Unchecked |
-| `der` (Derived) | General derivation | Unchecked |
-| `cog` (Cognate) | Related word from the same root in another language | Unchecked |
+| `bor` (Borrowed) | Loanword from another language | Checked |
+| `der` (Derived) | General derivation | Checked |
+| `cog` (Cognate) | Related word from the same root in another language | Checked |
 
 Changing the filter re-fetches the tree immediately. Borrowed edges are shown with dashed lines. Cognate edges are shown with gold dashed lines.
 
@@ -82,9 +82,9 @@ Legend displayed in the header.
 ### 5. Force-Directed Graph Layout
 
 - Uses vis.js `forceAtlas2Based` physics solver
-- Nodes spread out organically based on connections
+- Continuously animated — nodes self-organize in real time
+- Etymological root pinned to center (0,0) as gravitational anchor
 - Draggable nodes — click and drag to rearrange
-- Stabilizes after ~200 iterations
 
 ### 6. macOS Trackpad Support
 
@@ -100,8 +100,8 @@ Three buttons in the bottom-right corner:
 
 | Button | Action |
 |--------|--------|
-| ☆ | Focus on the searched word (level 0), zoom to scale 1.2 |
-| ⊙ | Focus on the etymological root (deepest ancestor), zoom to scale 1.2 |
+| ☆ | Focus on the searched word (level 0), zoom to scale 2.5 |
+| ⊙ | Focus on the etymological root (deepest ancestor), zoom to scale 2.5 |
 | ⊞ | Fit the entire graph in view |
 
 All zoom actions animate over 500ms with easeInOutQuad easing. Focus buttons also select/highlight the target node.
@@ -115,8 +115,26 @@ Click any node in the graph to open a side panel showing:
 - **IPA pronunciation**
 - **Definitions** (all glosses from all senses)
 - **Etymology text** (human-readable narrative)
+- **Connections** — grouped by type (Inherited, Borrowed, Derived, Cognate) with clickable links that select and pan to the target node
 
 For words not in the database (e.g., ancestor language words not in the dump), shows an explanatory message. Close with × button.
+
+### 9. Distance-Based Opacity
+
+Clicking a node highlights it and fades distant nodes by graph hop distance:
+
+| Hops | Opacity |
+|------|---------|
+| 0 (selected) | 100% |
+| 1 | 90% |
+| 2 | 50% |
+| 3+ | 10% |
+
+Both node background and text fade together. Clicking empty space resets all nodes to full opacity.
+
+### 10. Click-to-Center
+
+Clicking any node smoothly animates it to the center of the viewport (400ms easeInOutQuad).
 
 ---
 
@@ -181,12 +199,17 @@ For words not in the database (e.g., ancestor language words not in the dump), s
 |---------|-------------|
 | Full multilingual dump | Switched from English-only to full Wiktionary data (10.4M docs) |
 | Etymology tree with descendants | Reverse lookup to build full language family trees |
-| Connection type filter | Toggle inherited/borrowed/derived with checkboxes |
+| Connection type filter | Toggle inherited/borrowed/derived/cognate with checkboxes (all on by default) |
 | Direct-parent chain fix | Only link words to their immediate ancestor |
 | Extended language colors | 10 language families with vibrant palette |
 | macOS trackpad support | Pinch-to-zoom, two-finger pan |
 | Zoom controls | Focus word, focus root, fit-all buttons |
-| Force-directed layout | Organic graph layout instead of rigid hierarchy |
+| Force-directed layout | Continuous self-organizing animation with root as gravitational center |
+| Cognate view | Cognate edges as gold dashed lines, toggleable via filter |
+| Distance-based opacity | Clicked node at full opacity, fading by hop distance |
+| Click-to-center | Clicked nodes animate to viewport center |
+| Clickable connections panel | Detail panel shows connections grouped by type with clickable links |
+| Startup race fix | Backend healthcheck + frontend depends_on prevents nginx failure |
 
 ### Phase 2: Nice-to-Haves — NOT STARTED
 
@@ -198,7 +221,7 @@ For words not in the database (e.g., ancestor language words not in the dump), s
 | N2.4 | Shareable URLs (`/#/wine`) | Not started |
 | N2.5 | Static export for GitHub Pages | Not started |
 | N2.6 | Bulk export (top 1000 words) | Not started |
-| N2.7 | Richer word details panel | Partially done (basic panel exists) |
+| N2.7 | Richer word details panel | Done (connections, definitions, etymology) |
 | N2.8 | Performance (lazy-load, large graphs) | Partially done (descendant cap at 50) |
 
 ---
