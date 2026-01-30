@@ -25,12 +25,12 @@ const filterBtn = document.getElementById("filter-btn");
 const filterDropdown = document.getElementById("filter-dropdown");
 
 filterBtn.addEventListener("click", () => {
-    filterDropdown.hidden = !filterDropdown.hidden;
+    filterDropdown.classList.toggle("open");
 });
 
 document.addEventListener("click", (e) => {
     if (!e.target.closest(".filter-container")) {
-        filterDropdown.hidden = true;
+        filterDropdown.classList.remove("open");
     }
 });
 

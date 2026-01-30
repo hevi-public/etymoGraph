@@ -20,17 +20,13 @@ const EDGE_LABELS = { inh: "inherited", bor: "borrowed", der: "derived" };
 
 const graphOptions = {
     layout: {
-        hierarchical: {
-            direction: "UD",
-            sortMethod: "directed",
-            levelSeparation: 100,
-            nodeSpacing: 150,
-        },
+        improvedLayout: true,
     },
     edges: {
         color: { color: "#555", highlight: "#aaa" },
         font: { color: "#999", size: 11 },
-        smooth: { type: "cubicBezier" },
+        smooth: { type: "continuous" },
+        length: 200,
     },
     nodes: {
         shape: "box",
@@ -38,10 +34,23 @@ const graphOptions = {
         font: { size: 13, multi: true, color: "#fff" },
         margin: 10,
     },
-    physics: false,
+    physics: {
+        solver: "forceAtlas2Based",
+        forceAtlas2Based: {
+            gravitationalConstant: -80,
+            centralGravity: 0.01,
+            springLength: 150,
+            springConstant: 0.02,
+            damping: 0.4,
+        },
+        stabilization: {
+            iterations: 200,
+        },
+    },
     interaction: {
         zoomView: true,
         dragView: true,
+        hover: true,
     },
 };
 
