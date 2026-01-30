@@ -28,6 +28,20 @@ function langColor(lang) {
 
 const EDGE_LABELS = { inh: "inherited", bor: "borrowed", der: "derived", cog: "cognate" };
 
+const OPACITY_BY_HOP = [1.0, 0.9, 0.5, 0.1]; // 0 hops, 1 hop, 2 hops, 3+ hops
+
+function colorWithOpacity(hex, opacity) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r},${g},${b},${opacity})`;
+}
+
+function opacityForHops(hops) {
+    if (hops >= OPACITY_BY_HOP.length) return OPACITY_BY_HOP[OPACITY_BY_HOP.length - 1];
+    return OPACITY_BY_HOP[hops];
+}
+
 const graphOptions = {
     layout: {
         improvedLayout: true,
@@ -63,7 +77,9 @@ const graphOptions = {
 };
 
 let network = null;
+let nodesDataSet = null;
 let currentNodes = [];
+let nodeBaseColors = {};  // id → hex color
 let rootNodeId = null;   // etymological root (deepest ancestor)
 let wordNodeId = null;   // searched word
 
@@ -81,18 +97,22 @@ function updateGraph(data) {
     const etymRoot = data.nodes.reduce((min, n) => (n.level < min.level ? n : min), data.nodes[0]);
     rootNodeId = etymRoot ? etymRoot.id : null;
 
-    const nodes = new vis.DataSet(
+    nodeBaseColors = {};
+    nodesDataSet = new vis.DataSet(
         data.nodes.map((n) => {
             const isRoot = n.id === rootNodeId;
+            const color = langColor(n.language);
+            nodeBaseColors[n.id] = color;
             return {
                 ...n,
                 label: `${n.label}\n(${n.language})`,
-                color: langColor(n.language),
+                color,
                 // Pin the root node to the center
                 ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
             };
         })
     );
+    const nodes = nodesDataSet;
     const edges = new vis.DataSet(
         data.edges.map((e) => ({
             ...e,
@@ -127,11 +147,15 @@ function updateGraph(data) {
 
     network.on("click", (params) => {
         if (params.nodes.length > 0) {
-            const nodeId = params.nodes[0];
-            const node = currentNodes.find((n) => n.id === nodeId);
+            const clickedId = params.nodes[0];
+            const node = currentNodes.find((n) => n.id === clickedId);
             if (node) {
                 showDetail(node.label, node.language);
             }
+            applyBrightnessFromNode(clickedId, edges);
+        } else {
+            // Clicked on empty space — reset all nodes to full brightness
+            resetBrightness();
         }
     });
 }
@@ -167,6 +191,52 @@ async function showDetail(word, lang) {
     } catch (e) {
         etymEl.textContent = `Not in database (${lang} words are not in the English-only Kaikki dump).`;
     }
+}
+
+function applyBrightnessFromNode(startId, edgesDataSet) {
+    // BFS to compute hop distance from the selected node
+    const adjacency = {};
+    edgesDataSet.forEach((e) => {
+        if (!adjacency[e.from]) adjacency[e.from] = [];
+        if (!adjacency[e.to]) adjacency[e.to] = [];
+        adjacency[e.from].push(e.to);
+        adjacency[e.to].push(e.from);
+    });
+
+    const dist = {};
+    const queue = [startId];
+    dist[startId] = 0;
+    while (queue.length > 0) {
+        const cur = queue.shift();
+        for (const neighbor of adjacency[cur] || []) {
+            if (!(neighbor in dist)) {
+                dist[neighbor] = dist[cur] + 1;
+                queue.push(neighbor);
+            }
+        }
+    }
+
+    const updates = [];
+    for (const id in nodeBaseColors) {
+        const hops = dist[id] ?? Infinity;
+        const opacity = hops === Infinity ? OPACITY_BY_HOP[OPACITY_BY_HOP.length - 1] : opacityForHops(hops);
+        const rgba = colorWithOpacity(nodeBaseColors[id], opacity);
+        const fontOpacity = opacity;
+        updates.push({
+            id,
+            color: { background: rgba, border: rgba, highlight: { background: rgba, border: rgba } },
+            font: { color: `rgba(255,255,255,${fontOpacity})` },
+        });
+    }
+    nodesDataSet.update(updates);
+}
+
+function resetBrightness() {
+    const updates = [];
+    for (const id in nodeBaseColors) {
+        updates.push({ id, color: nodeBaseColors[id], font: { color: "#fff" } });
+    }
+    nodesDataSet.update(updates);
 }
 
 document.getElementById("close-panel").addEventListener("click", () => {
