@@ -84,6 +84,7 @@ Legend displayed in the header.
 - Uses vis.js `forceAtlas2Based` physics solver
 - Continuously animated — nodes self-organize in real time
 - Etymological root pinned to center (0,0) as gravitational anchor
+- Exponential mass decay by level — root has mass 5, halving per hop (2.5, 1.25, 1...), creating radial spread
 - Draggable nodes — click and drag to rearrange
 
 ### 6. macOS Trackpad Support

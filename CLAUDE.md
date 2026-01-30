@@ -104,7 +104,7 @@ make clean    # Remove data and containers
 - Nodes: `{ id: "word:lang", label: "word", language: "lang", level: N }`
 - Edges: `{ from: "...", to: "...", label: "inh|bor|der|cog" }`
 - Force-directed layout (forceAtlas2Based), continuously animated
-- Etymological root pinned at (0,0) as gravitational center
+- Etymological root pinned at (0,0) as gravitational center, mass 5 with exponential decay per level
 - Negative levels = ancestors, 0 = searched word, positive = descendants
 - Distance-based opacity on node selection (100% → 90% → 50% → 10% by hop)
 - Clicking a node animates it to viewport center
