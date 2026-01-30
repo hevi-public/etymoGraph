@@ -3,6 +3,7 @@ const suggestions = document.getElementById("suggestions");
 const clearBtn = document.getElementById("clear-btn");
 
 let debounceTimer = null;
+let lastResults = [];
 
 function renderSuggestions(matches) {
     suggestions.innerHTML = "";
@@ -12,11 +13,11 @@ function renderSuggestions(matches) {
     }
     matches.forEach((item) => {
         const li = document.createElement("li");
-        li.textContent = item.word;
+        li.textContent = `${item.word} (${item.lang})`;
         li.addEventListener("click", () => {
             searchInput.value = item.word;
             suggestions.hidden = true;
-            selectWord(item.word);
+            selectWord(item.word, item.lang);
         });
         suggestions.appendChild(li);
     });
@@ -34,6 +35,7 @@ searchInput.addEventListener("input", () => {
     debounceTimer = setTimeout(async () => {
         try {
             const data = await searchWords(q);
+            lastResults = data.results;
             renderSuggestions(data.results);
         } catch (e) {
             suggestions.hidden = true;
@@ -49,11 +51,22 @@ clearBtn.addEventListener("click", () => {
     searchInput.focus();
 });
 
-searchInput.addEventListener("keydown", (e) => {
+searchInput.addEventListener("keydown", async (e) => {
     if (e.key === "Enter") {
         const q = searchInput.value.trim();
-        if (q) {
-            suggestions.hidden = true;
+        if (!q) return;
+        suggestions.hidden = true;
+        clearTimeout(debounceTimer);
+        // Always search first to get the correct language
+        try {
+            const data = await searchWords(q);
+            lastResults = data.results;
+        } catch (_) {}
+        const match = lastResults.find((r) => r.word.toLowerCase() === q.toLowerCase());
+        const firstResult = match || lastResults[0];
+        if (firstResult) {
+            selectWord(firstResult.word, firstResult.lang);
+        } else {
             selectWord(q);
         }
     }

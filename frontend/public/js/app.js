@@ -1,4 +1,5 @@
 let currentWord = "wine";
+let currentLang = "English";
 
 function getSelectedTypes() {
     const checkboxes = document.querySelectorAll("#filter-dropdown input[type=checkbox]:checked");
@@ -6,13 +7,24 @@ function getSelectedTypes() {
     return types.length > 0 ? types.join(",") : "inh";
 }
 
-async function selectWord(word) {
+async function selectWord(word, lang) {
+    // If no language provided, look it up via search
+    if (!lang) {
+        try {
+            const data = await searchWords(word);
+            const exact = data.results.find((r) => r.word.toLowerCase() === word.toLowerCase());
+            lang = exact ? exact.lang : (data.results[0] ? data.results[0].lang : "English");
+        } catch (_) {
+            lang = "English";
+        }
+    }
     currentWord = word;
+    currentLang = lang;
     try {
         const types = getSelectedTypes();
-        const data = await getEtymologyTree(word, "English", types);
+        const data = await getEtymologyTree(word, lang, types);
         if (data.nodes.length === 0) {
-            data.nodes = [{ id: `${word}:English`, label: word, language: "English", level: 0 }];
+            data.nodes = [{ id: `${word}:${lang}`, label: word, language: lang, level: 0 }];
         }
         updateGraph(data);
     } catch (e) {
@@ -36,8 +48,8 @@ document.addEventListener("click", (e) => {
 
 // Re-fetch when filter changes
 filterDropdown.addEventListener("change", () => {
-    selectWord(currentWord);
+    selectWord(currentWord, currentLang);
 });
 
 // Load default word on startup
-selectWord("wine");
+selectWord("wine", "English");
