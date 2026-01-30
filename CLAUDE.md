@@ -7,13 +7,13 @@ A local, Dockerized tool for exploring word etymologies with interactive graph v
 - **Database**: MongoDB (flexible schema for Kaikki JSONL)
 - **Backend**: Python FastAPI (async, auto-docs)
 - **Frontend**: Vanilla JS + vis.js (no build step)
-- **Data**: Kaikki.org English Wiktionary dump
+- **Data**: Kaikki.org full multilingual Wiktionary dump (10.4M documents)
 - **Orchestration**: Docker Compose
 
 ## Project Structure
 
 ```
-etymology-explorer/
+etymo_graph/
 ├── docker-compose.yml
 ├── Makefile
 ├── .env.example
@@ -26,25 +26,29 @@ etymology-explorer/
 │   │   ├── database.py      # MongoDB connection
 │   │   └── routers/
 │   │       ├── words.py     # GET /api/words/{word}
-│   │       ├── etymology.py # GET /api/etymology/{word}/chain
+│   │       ├── etymology.py # GET /api/etymology/{word}/chain + /tree
 │   │       └── search.py    # GET /api/search?q=
 │   └── etl/
 │       └── load.py          # Load Kaikki into MongoDB
 ├── frontend/
 │   ├── Dockerfile
-│   ├── nginx.conf
+│   ├── nginx.conf            # Static files + /api/ proxy to backend
 │   └── public/
 │       ├── index.html
 │       ├── css/style.css
 │       └── js/
-│           ├── app.js       # Main application
-│           ├── graph.js     # vis.js graph logic
-│           ├── search.js    # Search functionality
+│           ├── app.js       # Main application, filter wiring
+│           ├── graph.js     # vis.js graph, zoom, trackpad, detail panel
+│           ├── search.js    # Search autocomplete
 │           └── api.js       # API client
 ├── data/                    # Gitignored
 │   └── raw/                 # Downloaded dumps
-└── scripts/
-    └── download-data.sh
+├── scripts/
+│   ├── init.sh              # Project setup
+│   └── download-data.sh     # Download Kaikki dump
+└── docs/
+    ├── IMPLEMENTATION_PLAN.md
+    └── FEATURES.md           # Detailed feature documentation
 ```
 
 ## Commands
@@ -53,6 +57,7 @@ etymology-explorer/
 make setup    # First time: build, download data, load into MongoDB
 make run      # Start all services
 make stop     # Stop all services
+make update   # Force re-download data + reload
 make logs     # View logs
 make clean    # Remove data and containers
 ```
@@ -66,13 +71,15 @@ make clean    # Remove data and containers
 
 ## Current Status
 
-**Phase**: P0 - Prototype
-**Last completed**: M1.10 - MVP complete
-**Next task**: Phase 2 nice-to-haves
+**Phase**: MVP complete + enhancements
+**Last completed**: Etymology tree with descendant branches, connection type filter, zoom controls, trackpad support
+**Next task**: Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
-## Implementation Plan
+## Documentation
 
-See `docs/IMPLEMENTATION_PLAN.md` for detailed task breakdowns.
+- `docs/FEATURES.md` — Detailed feature documentation, API reference, implementation status, known limitations. **Keep this up to date when adding or changing features.**
+- `docs/IMPLEMENTATION_PLAN.md` — Original implementation plan with task breakdowns.
+- `README.md` — User-facing setup and usage guide.
 
 ## Conventions
 
@@ -91,12 +98,13 @@ See `docs/IMPLEMENTATION_PLAN.md` for detailed task breakdowns.
 - All endpoints under `/api/`
 - Return JSON
 - Use proper HTTP status codes (200, 404, 500)
-- Include CORS headers for frontend
+- Nginx proxies `/api/` from frontend (port 8080) to backend (port 8000)
 
 ### vis.js Graph
-- Nodes: `{ id: "word:lang", label: "word", language: "lang" }`
-- Edges: `{ from: "...", to: "...", label: "inherited|borrowed|derived" }`
-- Hierarchical layout (ancestors above)
+- Nodes: `{ id: "word:lang", label: "word", language: "lang", level: N }`
+- Edges: `{ from: "...", to: "...", label: "inh|bor|der" }`
+- Force-directed layout (forceAtlas2Based)
+- Negative levels = ancestors, 0 = searched word, positive = descendants
 
 ## Kaikki Data Notes
 
@@ -113,7 +121,10 @@ Etymology template types:
 - `der` = derived from
 - `cog` = cognate (related, not ancestor)
 
+Important: Kaikki stores the **full** ancestry chain on each word (not just the immediate parent). The tree builder uses only the first ancestry template to determine the direct parent.
+
 ## Working Principles
 
 - **Automate everything**: Every repeatable action should be scriptable. Use `scripts/`, `Makefile`, and Docker Compose so nothing requires manual steps.
-- **Document everything important**: Keep README, CLAUDE.md, and IMPLEMENTATION_PLAN.md up to date. Update current status after completing tasks. Add troubleshooting notes when issues are encountered.
+- **Document everything important**: Keep README, CLAUDE.md, FEATURES.md, and IMPLEMENTATION_PLAN.md up to date. Update current status after completing tasks. Add troubleshooting notes when issues are encountered.
+- **Update feature docs**: When adding or changing features, always update `docs/FEATURES.md` with the current state, and note any new known limitations.
