@@ -48,7 +48,7 @@ const graphOptions = {
     },
     edges: {
         color: { color: "#555", highlight: "#aaa" },
-        font: { color: "#999", size: 11 },
+        font: { color: "#999", size: 11, strokeWidth: 0 },
         smooth: { type: "continuous" },
         length: 200,
     },
