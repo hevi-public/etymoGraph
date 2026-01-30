@@ -53,9 +53,7 @@ const graphOptions = {
             springConstant: 0.02,
             damping: 0.4,
         },
-        stabilization: {
-            iterations: 200,
-        },
+        stabilization: false,
     },
     interaction: {
         zoomView: false,
