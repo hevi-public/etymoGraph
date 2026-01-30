@@ -11,6 +11,7 @@ LANG_CODE_MAP = {
     "enm": "Middle English",
     "ang": "Old English",
     "gem-pro": "Proto-Germanic",
+    "gmw-pro": "Proto-West Germanic",
     "ine-pro": "Proto-Indo-European",
     "la": "Latin",
     "itc-pro": "Proto-Italic",
@@ -43,41 +44,46 @@ async def get_etymology_chain(word: str, lang: str = "English", max_depth: int =
     col = get_words_collection()
     nodes = {}
     edges = []
-    visited = set()
 
-    async def trace(w, l, level):
-        nid = node_id(w, l)
-        if nid in visited or level > max_depth:
-            return
-        visited.add(nid)
+    doc = await col.find_one({"word": word, "lang": lang}, {"_id": 0, "etymology_templates": 1})
 
-        nodes[nid] = {"id": nid, "label": w, "language": l, "level": level}
+    # Build root node
+    root_id = node_id(word, lang)
+    nodes[root_id] = {"id": root_id, "label": word, "language": lang, "level": 0}
 
-        doc = await col.find_one({"word": w, "lang": l}, {"_id": 0, "etymology_templates": 1})
-        if not doc:
-            return
+    if not doc:
+        return {"nodes": list(nodes.values()), "edges": edges}
 
-        for tmpl in doc.get("etymology_templates", []):
-            if tmpl.get("name") not in ANCESTRY_TYPES:
-                continue
-            args = tmpl.get("args", {})
-            ancestor_lang_code = args.get("2", "")
-            ancestor_word = args.get("3", "")
-            if not ancestor_word or not ancestor_lang_code:
-                continue
+    # Extract ancestry templates in order — they form a chain
+    ancestry = []
+    for tmpl in doc.get("etymology_templates", []):
+        if tmpl.get("name") not in ANCESTRY_TYPES:
+            continue
+        args = tmpl.get("args", {})
+        ancestor_lang_code = args.get("2", "")
+        ancestor_word = args.get("3", "")
+        if not ancestor_word or not ancestor_lang_code:
+            continue
+        ancestry.append({
+            "word": ancestor_word,
+            "lang": lang_name(ancestor_lang_code),
+            "type": tmpl["name"],
+        })
 
-            ancestor_lang = lang_name(ancestor_lang_code)
-            ancestor_id = node_id(ancestor_word, ancestor_lang)
-
-            edges.append({
-                "from": nid,
-                "to": ancestor_id,
-                "label": tmpl["name"],
-            })
-
-            await trace(ancestor_word, ancestor_lang, level + 1)
-
-    await trace(word, lang, 0)
+    # Chain them: word → ancestor1 → ancestor2 → ...
+    prev_id = root_id
+    for i, anc in enumerate(ancestry):
+        if i >= max_depth:
+            break
+        aid = node_id(anc["word"], anc["lang"])
+        if aid not in nodes:
+            nodes[aid] = {"id": aid, "label": anc["word"], "language": anc["lang"], "level": i + 1}
+        edges.append({
+            "from": prev_id,
+            "to": aid,
+            "label": anc["type"],
+        })
+        prev_id = aid
 
     return {
         "nodes": list(nodes.values()),

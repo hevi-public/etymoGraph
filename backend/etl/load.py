@@ -6,7 +6,7 @@ from pathlib import Path
 from pymongo import MongoClient, IndexModel, TEXT
 
 MONGO_URI = "mongodb://mongodb:27017/etymology"
-DATA_FILE = "/data/raw/kaikki-english.jsonl"
+DATA_FILE = "/data/raw/raw-wiktextract-data.jsonl"
 BATCH_SIZE = 1000
 
 
