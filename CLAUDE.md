@@ -67,8 +67,8 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: P0 - Prototype
-**Last completed**: P0.1 - Basic Docker + vis.js setup
-**Next task**: P0.2 - Static search box
+**Last completed**: M1.7 - Search API
+**Next task**: M1.8 - Connect frontend to API
 
 ## Implementation Plan
 
