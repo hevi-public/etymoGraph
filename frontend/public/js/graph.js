@@ -180,7 +180,7 @@ function focusNode(nodeId) {
     if (!pos) return;
     network.moveTo({
         position: { x: pos.x, y: pos.y },
-        scale: 1.2,
+        scale: 2.5,
         animation: { duration: 500, easingFunction: "easeInOutQuad" },
     });
     network.selectNodes([nodeId]);
