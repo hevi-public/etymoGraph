@@ -78,6 +78,7 @@ const graphOptions = {
 
 let network = null;
 let nodesDataSet = null;
+let edgesDataSet = null;
 let currentNodes = [];
 let nodeBaseColors = {};  // id → hex color
 let rootNodeId = null;   // etymological root (deepest ancestor)
@@ -113,7 +114,7 @@ function updateGraph(data) {
         })
     );
     const nodes = nodesDataSet;
-    const edges = new vis.DataSet(
+    edgesDataSet = new vis.DataSet(
         data.edges.map((e) => ({
             ...e,
             label: EDGE_LABELS[e.label] || e.label,
@@ -122,6 +123,7 @@ function updateGraph(data) {
             color: e.label === "cog" ? { color: "#F5C842", highlight: "#FFE066" } : undefined,
         }))
     );
+    const edges = edgesDataSet;
     network = new vis.Network(graphContainer, { nodes, edges }, graphOptions);
 
     // Start view centered on the root node
@@ -167,6 +169,76 @@ function updateGraph(data) {
     });
 }
 
+function selectNodeById(nodeId) {
+    if (!network) return;
+    network.selectNodes([nodeId]);
+    const pos = network.getPositions([nodeId])[nodeId];
+    if (pos) {
+        network.moveTo({
+            position: { x: pos.x, y: pos.y },
+            animation: { duration: 400, easingFunction: "easeInOutQuad" },
+        });
+    }
+    applyBrightnessFromNode(nodeId, edgesDataSet);
+    const node = currentNodes.find((n) => n.id === nodeId);
+    if (node) showDetail(node.label, node.language);
+}
+
+function buildConnectionsPanel(nodeId) {
+    const container = document.getElementById("detail-connections");
+    container.innerHTML = "";
+
+    if (!edgesDataSet) return;
+
+    const CONNECTION_SECTIONS = {
+        inh: "Inherited",
+        bor: "Borrowed",
+        der: "Derived",
+        cog: "Cognate",
+    };
+
+    // Collect edges from/to this node, grouped by original label
+    const grouped = {};
+    edgesDataSet.forEach((e) => {
+        // e.label is the display label ("inherited"), we need the raw type
+        const rawType = Object.keys(EDGE_LABELS).find((k) => EDGE_LABELS[k] === e.label) || e.label;
+        let targetId = null;
+        if (e.from === nodeId) targetId = e.to;
+        else if (e.to === nodeId) targetId = e.from;
+        if (!targetId) return;
+
+        if (!grouped[rawType]) grouped[rawType] = [];
+        grouped[rawType].push(targetId);
+    });
+
+    for (const [type, label] of Object.entries(CONNECTION_SECTIONS)) {
+        const targets = grouped[type];
+        if (!targets || targets.length === 0) continue;
+
+        const h3 = document.createElement("h3");
+        h3.textContent = label;
+        container.appendChild(h3);
+
+        const ul = document.createElement("ul");
+        ul.className = "connection-list";
+        for (const tid of targets) {
+            const node = currentNodes.find((n) => n.id === tid);
+            if (!node) continue;
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = "#";
+            a.textContent = `${node.label} (${node.language})`;
+            a.addEventListener("click", (ev) => {
+                ev.preventDefault();
+                selectNodeById(tid);
+            });
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+        container.appendChild(ul);
+    }
+}
+
 async function showDetail(word, lang) {
     const panel = document.getElementById("detail-panel");
     const wordEl = document.getElementById("detail-word");
@@ -183,6 +255,10 @@ async function showDetail(word, lang) {
     defsEl.innerHTML = "";
     etymEl.textContent = "";
     panel.hidden = false;
+
+    // Build connections from graph edges
+    const nodeId = `${word}:${lang}`;
+    buildConnectionsPanel(nodeId);
 
     try {
         const data = await getWord(word, lang);

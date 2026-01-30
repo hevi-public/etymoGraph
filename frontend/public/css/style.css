@@ -293,6 +293,24 @@ header h1 {
     margin-bottom: 4px;
 }
 
+.connection-list {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.connection-list a {
+    color: #4a90d9;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.connection-list a:hover {
+    color: #6bb0f5;
+    text-decoration: underline;
+}
+
 #detail-etym {
     font-size: 0.85rem;
     line-height: 1.5;
