@@ -118,6 +118,7 @@ Click any node in the graph to open a side panel showing:
 - **Word** and **language**
 - **Part of speech** (noun, verb, etc.)
 - **IPA pronunciation**
+- **Wiktionary link** — opens the word's Wiktionary page in a new tab. Uses `Reconstruction:` prefix for proto-languages (e.g., Proto-Italic/wīnom) and `#Language` anchors for regular words
 - **Definitions** (all glosses from all senses)
 - **Etymology text** (human-readable narrative)
 - **Connections** — grouped by type (Inherited, Borrowed, Derived, Cognate) with clickable links that select and pan to the target node
