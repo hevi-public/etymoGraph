@@ -220,8 +220,8 @@ def _extract_cognates(doc):
         if tmpl.get("name") != COGNATE_TYPE:
             continue
         args = tmpl.get("args", {})
-        cog_lang_code = args.get("2", "")
-        cog_word = args.get("3", "")
+        cog_lang_code = args.get("1", "")
+        cog_word = args.get("2", "")
         if not cog_word or not cog_lang_code:
             continue
         cognates.append({
