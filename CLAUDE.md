@@ -71,9 +71,9 @@ make clean    # Remove data and containers
 
 ## Current Status
 
-**Phase**: MVP complete + enhancements
-**Last completed**: Etymology tree with descendant branches, connection type filter, zoom controls, trackpad support
-**Next task**: Phase 2 nice-to-haves (see docs/FEATURES.md for status)
+**Phase**: MVP complete + Phase 2 in progress
+**Last completed**: Cognate view (N2.1), richer detail panel (N2.7), distance-based opacity, click-to-center, continuous animation, startup race fix
+**Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
 ## Documentation
 
@@ -102,9 +102,12 @@ make clean    # Remove data and containers
 
 ### vis.js Graph
 - Nodes: `{ id: "word:lang", label: "word", language: "lang", level: N }`
-- Edges: `{ from: "...", to: "...", label: "inh|bor|der" }`
-- Force-directed layout (forceAtlas2Based)
+- Edges: `{ from: "...", to: "...", label: "inh|bor|der|cog" }`
+- Force-directed layout (forceAtlas2Based), continuously animated
+- Etymological root pinned at (0,0) as gravitational center
 - Negative levels = ancestors, 0 = searched word, positive = descendants
+- Distance-based opacity on node selection (100% → 90% → 50% → 10% by hop)
+- Clicking a node animates it to viewport center
 
 ## Kaikki Data Notes
 
