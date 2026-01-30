@@ -250,6 +250,14 @@ async function showDetail(word, lang) {
     const etymEl = document.getElementById("detail-etym");
 
     wordEl.textContent = word;
+    const wiktLink = document.getElementById("detail-wikt");
+    if (lang.startsWith("Proto-")) {
+        // e.g. Reconstruction:Proto-Italic/wīnom
+        const cleanWord = word.replace(/^\*/, "");
+        wiktLink.href = `https://en.wiktionary.org/wiki/Reconstruction:${encodeURIComponent(lang)}/${encodeURIComponent(cleanWord)}`;
+    } else {
+        wiktLink.href = `https://en.wiktionary.org/wiki/${encodeURIComponent(word)}#${encodeURIComponent(lang)}`;
+    }
     langEl.textContent = lang;
     posEl.textContent = "";
     ipaEl.textContent = "";

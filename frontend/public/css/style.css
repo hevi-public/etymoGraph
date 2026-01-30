@@ -279,6 +279,18 @@ header h1 {
     margin-bottom: 4px;
 }
 
+#detail-wikt {
+    display: inline-block;
+    text-decoration: none;
+    color: #5B8DEF;
+    opacity: 0.7;
+    margin-top: 8px;
+}
+
+#detail-wikt:hover {
+    opacity: 1;
+}
+
 #detail-panel h3 {
     font-size: 0.9rem;
     color: #aaa;
