@@ -2,19 +2,21 @@ const searchInput = document.getElementById("search-input");
 const suggestions = document.getElementById("suggestions");
 const clearBtn = document.getElementById("clear-btn");
 
+let debounceTimer = null;
+
 function renderSuggestions(matches) {
     suggestions.innerHTML = "";
     if (matches.length === 0) {
         suggestions.hidden = true;
         return;
     }
-    matches.forEach((word) => {
+    matches.forEach((item) => {
         const li = document.createElement("li");
-        li.textContent = word;
+        li.textContent = item.word;
         li.addEventListener("click", () => {
-            searchInput.value = word;
+            searchInput.value = item.word;
             suggestions.hidden = true;
-            selectWord(word);
+            selectWord(item.word);
         });
         suggestions.appendChild(li);
     });
@@ -22,14 +24,21 @@ function renderSuggestions(matches) {
 }
 
 searchInput.addEventListener("input", () => {
-    const q = searchInput.value.toLowerCase().trim();
+    const q = searchInput.value.trim();
     clearBtn.hidden = q === "";
     if (q === "") {
         suggestions.hidden = true;
         return;
     }
-    const matches = WORD_LIST.filter((w) => w.startsWith(q));
-    renderSuggestions(matches);
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(async () => {
+        try {
+            const data = await searchWords(q);
+            renderSuggestions(data.results);
+        } catch (e) {
+            suggestions.hidden = true;
+        }
+    }, 300);
 });
 
 clearBtn.addEventListener("click", () => {
@@ -42,15 +51,14 @@ clearBtn.addEventListener("click", () => {
 
 searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-        const q = searchInput.value.toLowerCase().trim();
-        if (ETYMOLOGIES[q]) {
+        const q = searchInput.value.trim();
+        if (q) {
             suggestions.hidden = true;
             selectWord(q);
         }
     }
 });
 
-// Close suggestions when clicking outside
 document.addEventListener("click", (e) => {
     if (!e.target.closest(".search-container")) {
         suggestions.hidden = true;

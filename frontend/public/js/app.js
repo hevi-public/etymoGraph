@@ -1,7 +1,12 @@
-function selectWord(word) {
-    const data = ETYMOLOGIES[word];
-    if (data) {
+async function selectWord(word) {
+    try {
+        const data = await getEtymologyChain(word);
+        if (data.nodes.length === 0) {
+            data.nodes = [{ id: `${word}:English`, label: word, language: "English", level: 0 }];
+        }
         updateGraph(data);
+    } catch (e) {
+        console.error("Failed to load etymology:", e);
     }
 }
 
