@@ -153,6 +153,13 @@ function updateGraph(data) {
                 showDetail(node.label, node.language);
             }
             applyBrightnessFromNode(clickedId, edges);
+            const pos = network.getPositions([clickedId])[clickedId];
+            if (pos) {
+                network.moveTo({
+                    position: { x: pos.x, y: pos.y },
+                    animation: { duration: 400, easingFunction: "easeInOutQuad" },
+                });
+            }
         } else {
             // Clicked on empty space — reset all nodes to full brightness
             resetBrightness();
