@@ -92,7 +92,7 @@ function updateGraph(data) {
             // Two-finger scroll — pan
             const pos = network.getViewPosition();
             network.moveTo({
-                position: { x: pos.x - e.deltaX, y: pos.y - e.deltaY },
+                position: { x: pos.x + e.deltaX, y: pos.y + e.deltaY },
                 animation: false,
             });
         }
