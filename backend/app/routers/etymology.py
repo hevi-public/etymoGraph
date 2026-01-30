@@ -165,14 +165,13 @@ async def _find_descendants(col, word, lang, lc, parent_level, nodes, edges, vis
             continue
         seen.add((dw, dl))
 
-        # Find which template type links this descendant to our ancestor
-        edge_type = "inh"
-        for tmpl in doc.get("etymology_templates", []):
-            if tmpl.get("name") in allowed_types:
-                args = tmpl.get("args", {})
-                if args.get("2") == lc and args.get("3") == word:
-                    edge_type = tmpl["name"]
-                    break
+        # Only include if this ancestor is the IMMEDIATE parent
+        # (first ancestry template in the descendant's chain)
+        first_ancestry = _extract_ancestry(doc, allowed_types)
+        if not first_ancestry or first_ancestry[0]["lang_code"] != lc or first_ancestry[0]["word"] != word:
+            continue
+
+        edge_type = first_ancestry[0]["type"]
 
         edge_key = (did, parent_id)
         if edge_key in visited_edges:
