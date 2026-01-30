@@ -4,6 +4,8 @@ from app.database import get_words_collection
 router = APIRouter()
 
 ANCESTRY_TYPES = {"inh", "bor", "der"}
+COGNATE_TYPE = "cog"
+ALL_EDGE_TYPES = ANCESTRY_TYPES | {COGNATE_TYPE}
 
 LANG_CODE_MAP = {
     "en": "English",
@@ -81,13 +83,15 @@ async def get_etymology_tree(
     lang: str = "English",
     max_ancestor_depth: int = 10,
     max_descendant_depth: int = Query(3, ge=1, le=5),
-    types: str = Query("inh", description="Comma-separated connection types: inh,bor,der"),
+    types: str = Query("inh", description="Comma-separated connection types: inh,bor,der,cog"),
 ):
     """Build a full tree: trace up to the root, then find all descendants at each level."""
     col = get_words_collection()
     nodes = {}
     edges = []
-    allowed_types = set(types.split(",")) & ANCESTRY_TYPES
+    requested_types = set(types.split(","))
+    include_cognates = COGNATE_TYPE in requested_types
+    allowed_types = requested_types & ANCESTRY_TYPES
 
     if not allowed_types:
         allowed_types = {"inh"}
@@ -130,6 +134,24 @@ async def get_etymology_tree(
             nodes, edges, visited_edges,
             max_descendant_depth, 0, allowed_types,
         )
+
+    # Step 3: Add cognates if requested
+    if include_cognates:
+        for nid, node in list(nodes.items()):
+            doc = await col.find_one(
+                {"word": node["label"], "lang": node["language"]},
+                {"_id": 0, "etymology_templates": 1},
+            )
+            if not doc:
+                continue
+            for cog in _extract_cognates(doc):
+                cid = node_id(cog["word"], cog["lang"])
+                if cid not in nodes:
+                    nodes[cid] = {"id": cid, "label": cog["word"], "language": cog["lang"], "level": node["level"]}
+                edge_key = (nid, cid)
+                if edge_key not in visited_edges:
+                    visited_edges.add(edge_key)
+                    edges.append({"from": nid, "to": cid, "label": "cog"})
 
     return {"nodes": list(nodes.values()), "edges": edges}
 
@@ -189,6 +211,25 @@ async def _find_descendants(col, word, lang, lc, parent_level, nodes, edges, vis
             nodes, edges, visited_edges,
             max_depth, current_depth + 1, allowed_types,
         )
+
+
+def _extract_cognates(doc):
+    """Extract cognate relationships from a document."""
+    cognates = []
+    for tmpl in doc.get("etymology_templates", []):
+        if tmpl.get("name") != COGNATE_TYPE:
+            continue
+        args = tmpl.get("args", {})
+        cog_lang_code = args.get("2", "")
+        cog_word = args.get("3", "")
+        if not cog_word or not cog_lang_code:
+            continue
+        cognates.append({
+            "word": cog_word,
+            "lang": lang_name(cog_lang_code),
+            "lang_code": cog_lang_code,
+        })
+    return cognates
 
 
 def _extract_ancestry(doc, allowed_types=None):

@@ -56,8 +56,9 @@ Dropdown in the header ("Connections ▾") with checkboxes:
 | `inh` (Inherited) | Direct ancestor in the same language lineage | Checked |
 | `bor` (Borrowed) | Loanword from another language | Unchecked |
 | `der` (Derived) | General derivation | Unchecked |
+| `cog` (Cognate) | Related word from the same root in another language | Unchecked |
 
-Changing the filter re-fetches the tree immediately. Borrowed edges are shown with dashed lines.
+Changing the filter re-fetches the tree immediately. Borrowed edges are shown with dashed lines. Cognate edges are shown with gold dashed lines.
 
 ### 4. Language Family Colors
 
@@ -191,7 +192,7 @@ For words not in the database (e.g., ancestor language words not in the dump), s
 
 | Task | Description | Status |
 |------|-------------|--------|
-| N2.1 | Cognate view (same PIE root) | Not started |
+| N2.1 | Cognate view (same PIE root) | Done |
 | N2.2 | Language family filter (show only Germanic, etc.) | Not started |
 | N2.3 | Dark mode toggle | Not needed (app is already dark) |
 | N2.4 | Shareable URLs (`/#/wine`) | Not started |

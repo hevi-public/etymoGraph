@@ -26,7 +26,7 @@ function langColor(lang) {
     return LANG_COLORS.other;
 }
 
-const EDGE_LABELS = { inh: "inherited", bor: "borrowed", der: "derived" };
+const EDGE_LABELS = { inh: "inherited", bor: "borrowed", der: "derived", cog: "cognate" };
 
 const graphOptions = {
     layout: {
@@ -95,7 +95,8 @@ function updateGraph(data) {
             ...e,
             label: EDGE_LABELS[e.label] || e.label,
             arrows: "to",
-            dashes: e.label === "bor",
+            dashes: e.label === "bor" || e.label === "cog",
+            color: e.label === "cog" ? { color: "#F5C842", highlight: "#FFE066" } : undefined,
         }))
     );
     network = new vis.Network(graphContainer, { nodes, edges }, graphOptions);
