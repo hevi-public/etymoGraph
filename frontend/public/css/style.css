@@ -20,12 +20,84 @@ header {
     padding: 12px 20px;
     background: #16213e;
     border-bottom: 1px solid #0f3460;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 header h1 {
     font-size: 1.2rem;
     font-weight: 500;
     color: #e0e0e0;
+    white-space: nowrap;
+}
+
+.search-container {
+    position: relative;
+    width: 300px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 6px 12px;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    outline: none;
+    padding-right: 28px;
+}
+
+#search-input:focus {
+    border-color: #4a90d9;
+}
+
+#clear-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+#clear-btn:hover {
+    color: #e0e0e0;
+}
+
+#search-input::placeholder {
+    color: #666;
+}
+
+#suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    list-style: none;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#suggestions li {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+#suggestions li:hover {
+    background: #0f3460;
 }
 
 #graph {

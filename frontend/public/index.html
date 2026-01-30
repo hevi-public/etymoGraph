@@ -10,8 +10,16 @@
 <body>
     <header>
         <h1>Etymology Explorer</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search a word..." autocomplete="off">
+            <button id="clear-btn" hidden type="button">&times;</button>
+            <ul id="suggestions" hidden></ul>
+        </div>
     </header>
     <div id="graph"></div>
+    <script src="js/data.js"></script>
     <script src="js/graph.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
