@@ -37,7 +37,14 @@
         </div>
     </header>
     <div id="main">
-        <div id="graph"></div>
+        <div id="graph-wrapper">
+            <div id="graph"></div>
+            <div id="zoom-controls">
+                <button id="zoom-word" type="button" title="Focus on searched word">☆</button>
+                <button id="zoom-root" type="button" title="Focus on etymological root">⊙</button>
+                <button id="zoom-fit" type="button" title="Fit all">⊞</button>
+            </div>
+        </div>
         <aside id="detail-panel" hidden>
             <button id="close-panel" type="button">&times;</button>
             <h2 id="detail-word"></h2>

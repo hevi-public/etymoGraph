@@ -195,9 +195,45 @@ header h1 {
     min-height: 0;
 }
 
-#graph {
+#graph-wrapper {
     flex: 1;
     min-height: 0;
+    position: relative;
+}
+
+#graph {
+    width: 100%;
+    height: 100%;
+}
+
+#zoom-controls {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 5;
+}
+
+#zoom-controls button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    background: #16213e;
+    color: #e0e0e0;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#zoom-controls button:hover {
+    border-color: #4a90d9;
+    background: #1a1a2e;
 }
 
 /* Detail panel */

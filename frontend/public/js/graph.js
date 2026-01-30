@@ -66,12 +66,22 @@ const graphOptions = {
 
 let network = null;
 let currentNodes = [];
+let rootNodeId = null;   // etymological root (deepest ancestor)
+let wordNodeId = null;   // searched word
 
 function updateGraph(data) {
     if (network) {
         network.destroy();
     }
     currentNodes = data.nodes;
+
+    // The searched word has level 0
+    const wordNode = data.nodes.find((n) => n.level === 0);
+    wordNodeId = wordNode ? wordNode.id : null;
+
+    // The etymological root is the node with the lowest (most negative) level
+    const etymRoot = data.nodes.reduce((min, n) => (n.level < min.level ? n : min), data.nodes[0]);
+    rootNodeId = etymRoot ? etymRoot.id : null;
 
     const nodes = new vis.DataSet(
         data.nodes.map((n) => ({
@@ -154,4 +164,27 @@ async function showDetail(word, lang) {
 
 document.getElementById("close-panel").addEventListener("click", () => {
     document.getElementById("detail-panel").hidden = true;
+});
+
+// Zoom controls
+function focusNode(nodeId) {
+    if (!network || !nodeId) return;
+    const pos = network.getPositions([nodeId])[nodeId];
+    if (!pos) return;
+    network.moveTo({
+        position: { x: pos.x, y: pos.y },
+        scale: 1.2,
+        animation: { duration: 500, easingFunction: "easeInOutQuad" },
+    });
+    network.selectNodes([nodeId]);
+}
+
+document.getElementById("zoom-word").addEventListener("click", () => focusNode(wordNodeId));
+document.getElementById("zoom-root").addEventListener("click", () => focusNode(rootNodeId));
+
+document.getElementById("zoom-fit").addEventListener("click", () => {
+    if (!network) return;
+    network.fit({
+        animation: { duration: 500, easingFunction: "easeInOutQuad" },
+    });
 });
