@@ -82,11 +82,16 @@ function updateGraph(data) {
     rootNodeId = etymRoot ? etymRoot.id : null;
 
     const nodes = new vis.DataSet(
-        data.nodes.map((n) => ({
-            ...n,
-            label: `${n.label}\n(${n.language})`,
-            color: langColor(n.language),
-        }))
+        data.nodes.map((n) => {
+            const isRoot = n.id === rootNodeId;
+            return {
+                ...n,
+                label: `${n.label}\n(${n.language})`,
+                color: langColor(n.language),
+                // Pin the root node to the center
+                ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
+            };
+        })
     );
     const edges = new vis.DataSet(
         data.edges.map((e) => ({
@@ -98,6 +103,9 @@ function updateGraph(data) {
         }))
     );
     network = new vis.Network(graphContainer, { nodes, edges }, graphOptions);
+
+    // Start view centered on the root node
+    network.moveTo({ position: { x: 0, y: 0 }, scale: 1, animation: false });
 
     // Trackpad: pinch zooms (ctrlKey), two-finger scroll pans
     graphContainer.addEventListener("wheel", (e) => {
