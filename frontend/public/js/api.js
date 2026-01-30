@@ -17,3 +17,9 @@ async function getEtymologyChain(word, lang = "English") {
     if (!res.ok) throw new Error("Etymology chain failed");
     return res.json();
 }
+
+async function getEtymologyTree(word, lang = "English") {
+    const res = await fetch(`${API_BASE}/etymology/${encodeURIComponent(word)}/tree?lang=${encodeURIComponent(lang)}`);
+    if (!res.ok) throw new Error("Etymology tree failed");
+    return res.json();
+}

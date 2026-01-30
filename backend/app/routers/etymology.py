@@ -1,9 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from app.database import get_words_collection
 
 router = APIRouter()
 
-# Template types that represent ancestry relationships
 ANCESTRY_TYPES = {"inh", "bor", "der"}
 
 LANG_CODE_MAP = {
@@ -30,9 +29,16 @@ LANG_CODE_MAP = {
     "zh": "Chinese",
 }
 
+# Reverse map: full name → code
+LANG_NAME_MAP = {v: k for k, v in LANG_CODE_MAP.items()}
+
 
 def lang_name(code):
     return LANG_CODE_MAP.get(code, code)
+
+
+def lang_code(name):
+    return LANG_NAME_MAP.get(name, name)
 
 
 def node_id(word, lang):
@@ -41,20 +47,148 @@ def node_id(word, lang):
 
 @router.get("/etymology/{word}/chain")
 async def get_etymology_chain(word: str, lang: str = "English", max_depth: int = 10):
+    """Trace ancestry chain upward from a word to its root."""
     col = get_words_collection()
     nodes = {}
     edges = []
 
     doc = await col.find_one({"word": word, "lang": lang}, {"_id": 0, "etymology_templates": 1})
 
-    # Build root node
     root_id = node_id(word, lang)
     nodes[root_id] = {"id": root_id, "label": word, "language": lang, "level": 0}
 
     if not doc:
         return {"nodes": list(nodes.values()), "edges": edges}
 
-    # Extract ancestry templates in order — they form a chain
+    ancestry = _extract_ancestry(doc)
+
+    prev_id = root_id
+    for i, anc in enumerate(ancestry):
+        if i >= max_depth:
+            break
+        aid = node_id(anc["word"], anc["lang"])
+        if aid not in nodes:
+            nodes[aid] = {"id": aid, "label": anc["word"], "language": anc["lang"], "level": i + 1}
+        edges.append({"from": prev_id, "to": aid, "label": anc["type"]})
+        prev_id = aid
+
+    return {"nodes": list(nodes.values()), "edges": edges}
+
+
+@router.get("/etymology/{word}/tree")
+async def get_etymology_tree(
+    word: str,
+    lang: str = "English",
+    max_ancestor_depth: int = 10,
+    max_descendant_depth: int = Query(3, ge=1, le=5),
+):
+    """Build a full tree: trace up to the root, then find all descendants at each level."""
+    col = get_words_collection()
+    nodes = {}
+    edges = []
+
+    # Step 1: Trace ancestry upward
+    doc = await col.find_one({"word": word, "lang": lang}, {"_id": 0, "etymology_templates": 1})
+
+    root_id = node_id(word, lang)
+    nodes[root_id] = {"id": root_id, "label": word, "language": lang, "level": 0}
+
+    if not doc:
+        return {"nodes": list(nodes.values()), "edges": edges}
+
+    ancestry = _extract_ancestry(doc)
+
+    # Build the ancestor chain and collect all ancestor nodes
+    ancestor_chain = []  # list of (word, lang, lang_code, level)
+    ancestor_chain.append((word, lang, lang_code(lang), 0))
+
+    prev_id = root_id
+    for i, anc in enumerate(ancestry):
+        if i >= max_ancestor_depth:
+            break
+        aid = node_id(anc["word"], anc["lang"])
+        if aid not in nodes:
+            nodes[aid] = {"id": aid, "label": anc["word"], "language": anc["lang"], "level": -(i + 1)}
+        edges.append({"from": aid, "to": prev_id, "label": anc["type"]})
+        ancestor_chain.append((anc["word"], anc["lang"], anc["lang_code"], -(i + 1)))
+        prev_id = aid
+
+    # Step 2: From each ancestor, find descendants (branches)
+    visited_edges = set()
+    # Record edges we already have so we don't duplicate
+    for e in edges:
+        visited_edges.add((e["from"], e["to"]))
+
+    for anc_word, anc_lang, anc_lc, anc_level in ancestor_chain:
+        await _find_descendants(
+            col, anc_word, anc_lang, anc_lc, anc_level,
+            nodes, edges, visited_edges,
+            max_descendant_depth, 0,
+        )
+
+    return {"nodes": list(nodes.values()), "edges": edges}
+
+
+async def _find_descendants(col, word, lang, lc, parent_level, nodes, edges, visited_edges, max_depth, current_depth):
+    """Find words that inherited/borrowed/derived from this word."""
+    if current_depth >= max_depth:
+        return
+
+    parent_id = node_id(word, lang)
+
+    # Query: find documents whose etymology_templates reference this word as ancestor
+    cursor = col.find(
+        {"etymology_templates": {"$elemMatch": {
+            "name": {"$in": list(ANCESTRY_TYPES)},
+            "args.2": lc,
+            "args.3": word,
+        }}},
+        {"_id": 0, "word": 1, "lang": 1, "lang_code": 1, "etymology_templates": 1},
+    ).limit(50)  # Cap to prevent explosion
+
+    docs = await cursor.to_list(length=50)
+
+    # Deduplicate by word+lang
+    seen = set()
+    for doc in docs:
+        dw = doc["word"]
+        dl = doc["lang"]
+        dlc = doc.get("lang_code", "")
+        did = node_id(dw, dl)
+
+        if (dw, dl) in seen:
+            continue
+        seen.add((dw, dl))
+
+        # Find which template type links this descendant to our ancestor
+        edge_type = "inh"
+        for tmpl in doc.get("etymology_templates", []):
+            if tmpl.get("name") in ANCESTRY_TYPES:
+                args = tmpl.get("args", {})
+                if args.get("2") == lc and args.get("3") == word:
+                    edge_type = tmpl["name"]
+                    break
+
+        edge_key = (did, parent_id)
+        if edge_key in visited_edges:
+            continue
+        visited_edges.add(edge_key)
+
+        if did not in nodes:
+            nodes[did] = {"id": did, "label": dw, "language": dl, "level": parent_level + 1}
+
+        edges.append({"from": parent_id, "to": did, "label": edge_type})
+
+        # Recurse to find this descendant's descendants
+        await _find_descendants(
+            col, dw, dl, dlc, parent_level + 1,
+            nodes, edges, visited_edges,
+            max_depth, current_depth + 1,
+        )
+
+
+def _extract_ancestry(doc):
+    """Extract ordered ancestry templates from a document."""
     ancestry = []
     for tmpl in doc.get("etymology_templates", []):
         if tmpl.get("name") not in ANCESTRY_TYPES:
@@ -67,25 +201,7 @@ async def get_etymology_chain(word: str, lang: str = "English", max_depth: int =
         ancestry.append({
             "word": ancestor_word,
             "lang": lang_name(ancestor_lang_code),
+            "lang_code": ancestor_lang_code,
             "type": tmpl["name"],
         })
-
-    # Chain them: word → ancestor1 → ancestor2 → ...
-    prev_id = root_id
-    for i, anc in enumerate(ancestry):
-        if i >= max_depth:
-            break
-        aid = node_id(anc["word"], anc["lang"])
-        if aid not in nodes:
-            nodes[aid] = {"id": aid, "label": anc["word"], "language": anc["lang"], "level": i + 1}
-        edges.append({
-            "from": prev_id,
-            "to": aid,
-            "label": anc["type"],
-        })
-        prev_id = aid
-
-    return {
-        "nodes": list(nodes.values()),
-        "edges": edges,
-    }
+    return ancestry

@@ -59,6 +59,7 @@ def main():
     col.create_indexes([
         IndexModel([("word", 1), ("lang", 1)]),
         IndexModel([("word", TEXT)]),
+        IndexModel([("etymology_templates.args.2", 1), ("etymology_templates.args.3", 1)]),
     ])
     print("Done.")
 
