@@ -1,18 +1,28 @@
 const graphContainer = document.getElementById("graph");
 
 const LANG_COLORS = {
-    germanic: "#4a90d9",
-    romance: "#d94a4a",
-    greek: "#4abd8c",
-    pie: "#d4a843",
-    other: "#888",
+    germanic: "#5B8DEF",
+    romance: "#EF5B5B",
+    greek: "#43D9A2",
+    pie: "#F5C842",
+    slavic: "#CE6BF0",
+    celtic: "#FF8C42",
+    indoiranian: "#FF6B9D",
+    semitic: "#00BCD4",
+    uralic: "#8BC34A",
+    other: "#A0A0B8",
 };
 
 function langColor(lang) {
-    if (/english|german|norse|dutch|frisian|gothic|proto-germanic/i.test(lang)) return LANG_COLORS.germanic;
-    if (/latin|italic|french|spanish|portuguese|romanian|proto-italic/i.test(lang)) return LANG_COLORS.romance;
+    if (/english|german|norse|dutch|frisian|gothic|proto-germanic|proto-west germanic|saxon|scots|yiddish|afrikaans|plautdietsch|limburgish|luxembourgish|cimbrian|alemannic|bavarian|vilamovian|saterland/i.test(lang)) return LANG_COLORS.germanic;
+    if (/latin|italic|french|spanish|portuguese|romanian|proto-italic|catalan|occitan|sardinian|galician|venetian|sicilian|neapolitan|asturian/i.test(lang)) return LANG_COLORS.romance;
     if (/greek/i.test(lang)) return LANG_COLORS.greek;
     if (/proto-indo-european/i.test(lang)) return LANG_COLORS.pie;
+    if (/russian|polish|czech|slovak|serbian|croatian|bulgarian|ukrainian|slovene|proto-slavic|old church slavonic|belarusian|macedonian|sorbian/i.test(lang)) return LANG_COLORS.slavic;
+    if (/irish|welsh|scottish gaelic|breton|cornish|manx|proto-celtic|old irish/i.test(lang)) return LANG_COLORS.celtic;
+    if (/sanskrit|hindi|persian|urdu|bengali|punjabi|avestan|pali|proto-indo-iranian/i.test(lang)) return LANG_COLORS.indoiranian;
+    if (/arabic|hebrew|aramaic|akkadian|proto-semitic/i.test(lang)) return LANG_COLORS.semitic;
+    if (/finnish|hungarian|estonian|proto-uralic|proto-finnic/i.test(lang)) return LANG_COLORS.uralic;
     return LANG_COLORS.other;
 }
 

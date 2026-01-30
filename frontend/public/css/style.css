@@ -177,11 +177,16 @@ header h1 {
     display: inline-block;
 }
 
-.dot.germanic { background: #4a90d9; }
-.dot.romance { background: #d94a4a; }
-.dot.greek { background: #4abd8c; }
-.dot.pie { background: #d4a843; }
-.dot.other { background: #888; }
+.dot.germanic { background: #5B8DEF; }
+.dot.romance { background: #EF5B5B; }
+.dot.greek { background: #43D9A2; }
+.dot.pie { background: #F5C842; }
+.dot.slavic { background: #CE6BF0; }
+.dot.celtic { background: #FF8C42; }
+.dot.indoiranian { background: #FF6B9D; }
+.dot.semitic { background: #00BCD4; }
+.dot.uralic { background: #8BC34A; }
+.dot.other { background: #A0A0B8; }
 
 /* Main layout */
 #main {
