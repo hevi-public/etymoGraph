@@ -67,8 +67,8 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: P0 - Prototype
-**Last completed**: None (starting fresh)
-**Next task**: P0.1 - Basic Docker + vis.js setup
+**Last completed**: P0.1 - Basic Docker + vis.js setup
+**Next task**: P0.2 - Static search box
 
 ## Implementation Plan
 
@@ -112,3 +112,8 @@ Etymology template types:
 - `bor` = borrowed from (loanword)
 - `der` = derived from
 - `cog` = cognate (related, not ancestor)
+
+## Working Principles
+
+- **Automate everything**: Every repeatable action should be scriptable. Use `scripts/`, `Makefile`, and Docker Compose so nothing requires manual steps.
+- **Document everything important**: Keep README, CLAUDE.md, and IMPLEMENTATION_PLAN.md up to date. Update current status after completing tasks. Add troubleshooting notes when issues are encountered.
