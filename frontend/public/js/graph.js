@@ -109,6 +109,7 @@ function updateGraph(data) {
                 label: `${n.label}\n(${n.language})`,
                 color,
                 // Pin the root node to the center
+                mass: isRoot ? 5 : Math.max(1, 4 - Math.abs(n.level)),
                 ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
             };
         })
