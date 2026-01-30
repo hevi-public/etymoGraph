@@ -81,11 +81,16 @@ async def get_etymology_tree(
     lang: str = "English",
     max_ancestor_depth: int = 10,
     max_descendant_depth: int = Query(3, ge=1, le=5),
+    types: str = Query("inh", description="Comma-separated connection types: inh,bor,der"),
 ):
     """Build a full tree: trace up to the root, then find all descendants at each level."""
     col = get_words_collection()
     nodes = {}
     edges = []
+    allowed_types = set(types.split(",")) & ANCESTRY_TYPES
+
+    if not allowed_types:
+        allowed_types = {"inh"}
 
     # Step 1: Trace ancestry upward
     doc = await col.find_one({"word": word, "lang": lang}, {"_id": 0, "etymology_templates": 1})
@@ -96,7 +101,7 @@ async def get_etymology_tree(
     if not doc:
         return {"nodes": list(nodes.values()), "edges": edges}
 
-    ancestry = _extract_ancestry(doc)
+    ancestry = _extract_ancestry(doc, allowed_types)
 
     # Build the ancestor chain and collect all ancestor nodes
     ancestor_chain = []  # list of (word, lang, lang_code, level)
@@ -123,13 +128,13 @@ async def get_etymology_tree(
         await _find_descendants(
             col, anc_word, anc_lang, anc_lc, anc_level,
             nodes, edges, visited_edges,
-            max_descendant_depth, 0,
+            max_descendant_depth, 0, allowed_types,
         )
 
     return {"nodes": list(nodes.values()), "edges": edges}
 
 
-async def _find_descendants(col, word, lang, lc, parent_level, nodes, edges, visited_edges, max_depth, current_depth):
+async def _find_descendants(col, word, lang, lc, parent_level, nodes, edges, visited_edges, max_depth, current_depth, allowed_types):
     """Find words that inherited/borrowed/derived from this word."""
     if current_depth >= max_depth:
         return
@@ -139,7 +144,7 @@ async def _find_descendants(col, word, lang, lc, parent_level, nodes, edges, vis
     # Query: find documents whose etymology_templates reference this word as ancestor
     cursor = col.find(
         {"etymology_templates": {"$elemMatch": {
-            "name": {"$in": list(ANCESTRY_TYPES)},
+            "name": {"$in": list(allowed_types)},
             "args.2": lc,
             "args.3": word,
         }}},
@@ -163,7 +168,7 @@ async def _find_descendants(col, word, lang, lc, parent_level, nodes, edges, vis
         # Find which template type links this descendant to our ancestor
         edge_type = "inh"
         for tmpl in doc.get("etymology_templates", []):
-            if tmpl.get("name") in ANCESTRY_TYPES:
+            if tmpl.get("name") in allowed_types:
                 args = tmpl.get("args", {})
                 if args.get("2") == lc and args.get("3") == word:
                     edge_type = tmpl["name"]
@@ -183,15 +188,16 @@ async def _find_descendants(col, word, lang, lc, parent_level, nodes, edges, vis
         await _find_descendants(
             col, dw, dl, dlc, parent_level + 1,
             nodes, edges, visited_edges,
-            max_depth, current_depth + 1,
+            max_depth, current_depth + 1, allowed_types,
         )
 
 
-def _extract_ancestry(doc):
+def _extract_ancestry(doc, allowed_types=None):
     """Extract ordered ancestry templates from a document."""
+    types = allowed_types or ANCESTRY_TYPES
     ancestry = []
     for tmpl in doc.get("etymology_templates", []):
-        if tmpl.get("name") not in ANCESTRY_TYPES:
+        if tmpl.get("name") not in types:
             continue
         args = tmpl.get("args", {})
         ancestor_lang_code = args.get("2", "")

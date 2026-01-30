@@ -15,6 +15,14 @@
             <button id="clear-btn" hidden type="button">&times;</button>
             <ul id="suggestions" hidden></ul>
         </div>
+        <div class="filter-container">
+            <button id="filter-btn" type="button">Connections ▾</button>
+            <div id="filter-dropdown" hidden>
+                <label><input type="checkbox" value="inh" checked> Inherited</label>
+                <label><input type="checkbox" value="bor"> Borrowed</label>
+                <label><input type="checkbox" value="der"> Derived</label>
+            </div>
+        </div>
         <div class="legend">
             <span class="legend-item"><span class="dot germanic"></span>Germanic</span>
             <span class="legend-item"><span class="dot romance"></span>Romance</span>

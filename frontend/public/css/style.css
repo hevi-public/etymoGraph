@@ -101,6 +101,55 @@ header h1 {
     background: #0f3460;
 }
 
+/* Filter dropdown */
+.filter-container {
+    position: relative;
+}
+
+#filter-btn {
+    padding: 6px 12px;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+#filter-btn:hover {
+    border-color: #4a90d9;
+}
+
+#filter-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    padding: 8px 12px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+#filter-dropdown label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #ccc;
+}
+
+#filter-dropdown input[type="checkbox"] {
+    accent-color: #4a90d9;
+}
+
 /* Legend */
 .legend {
     display: flex;
