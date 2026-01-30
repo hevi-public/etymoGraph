@@ -101,6 +101,12 @@ header h1 {
     background: #0f3460;
 }
 
+#suggestions .lang-hint {
+    opacity: 0.45;
+    font-size: 0.8rem;
+    margin-left: 4px;
+}
+
 /* Filter dropdown */
 .filter-container {
     position: relative;

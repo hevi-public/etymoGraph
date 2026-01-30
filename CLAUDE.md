@@ -72,7 +72,7 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Cognate view (N2.1), richer detail panel (N2.7), distance-based opacity, click-to-center, continuous animation, startup race fix
+**Last completed**: Multilingual search with language auto-detection, cognate view (N2.1), richer detail panel (N2.7), distance-based opacity, click-to-center, continuous animation, startup race fix
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
 ## Documentation

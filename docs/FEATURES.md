@@ -29,7 +29,9 @@ The app is a fully functional local etymology explorer with interactive graph vi
 - Dropdown shows matching words (up to 20)
 - Click a suggestion or press Enter to load
 - Clear button (×) resets to default word ("wine")
-- Defaults to English language results
+- Suggestions show word and language, e.g., "asztal (Hungarian)"
+- Clicking a suggestion or pressing Enter passes the correct language to the graph
+- If no language is provided (e.g., direct call), auto-detects via search API lookup
 
 ### 2. Etymology Tree Visualization
 
@@ -233,7 +235,7 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 
 2. **Descendant cap**: Each node is limited to 50 descendants to prevent graph explosion. Some PIE roots have hundreds of descendants across all languages.
 
-3. **Search is English-only**: The search endpoint filters by `lang: "English"`. Other languages can be explored by clicking through the graph.
+3. **Search prefix matching**: Search uses prefix regex, which may return unexpected results for short queries.
 
 4. **No URL routing**: Refreshing the page always loads "wine". No browser back/forward support.
 
