@@ -16,6 +16,8 @@ function langColor(lang) {
     return LANG_COLORS.other;
 }
 
+const EDGE_LABELS = { inh: "inherited", bor: "borrowed", der: "derived" };
+
 const graphOptions = {
     layout: {
         hierarchical: {
@@ -44,11 +46,14 @@ const graphOptions = {
 };
 
 let network = null;
+let currentNodes = [];
 
 function updateGraph(data) {
     if (network) {
         network.destroy();
     }
+    currentNodes = data.nodes;
+
     const nodes = new vis.DataSet(
         data.nodes.map((n) => ({
             ...n,
@@ -59,9 +64,57 @@ function updateGraph(data) {
     const edges = new vis.DataSet(
         data.edges.map((e) => ({
             ...e,
+            label: EDGE_LABELS[e.label] || e.label,
             arrows: "to",
             dashes: e.label === "bor",
         }))
     );
     network = new vis.Network(graphContainer, { nodes, edges }, graphOptions);
+
+    network.on("click", (params) => {
+        if (params.nodes.length > 0) {
+            const nodeId = params.nodes[0];
+            const node = currentNodes.find((n) => n.id === nodeId);
+            if (node) {
+                showDetail(node.label, node.language);
+            }
+        }
+    });
 }
+
+async function showDetail(word, lang) {
+    const panel = document.getElementById("detail-panel");
+    const wordEl = document.getElementById("detail-word");
+    const langEl = document.getElementById("detail-lang");
+    const posEl = document.getElementById("detail-pos");
+    const ipaEl = document.getElementById("detail-ipa");
+    const defsEl = document.getElementById("detail-defs");
+    const etymEl = document.getElementById("detail-etym");
+
+    wordEl.textContent = word;
+    langEl.textContent = lang;
+    posEl.textContent = "";
+    ipaEl.textContent = "";
+    defsEl.innerHTML = "";
+    etymEl.textContent = "";
+    panel.hidden = false;
+
+    try {
+        const data = await getWord(word, lang);
+        posEl.textContent = data.pos || "";
+        ipaEl.textContent = data.pronunciation || "";
+        defsEl.innerHTML = "";
+        (data.definitions || []).forEach((d) => {
+            const li = document.createElement("li");
+            li.textContent = d;
+            defsEl.appendChild(li);
+        });
+        etymEl.textContent = data.etymology_text || "No etymology text available.";
+    } catch (e) {
+        etymEl.textContent = `Not in database (${lang} words are not in the English-only Kaikki dump).`;
+    }
+}
+
+document.getElementById("close-panel").addEventListener("click", () => {
+    document.getElementById("detail-panel").hidden = true;
+});

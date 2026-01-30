@@ -67,8 +67,8 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: P0 - Prototype
-**Last completed**: M1.7 - Search API
-**Next task**: M1.8 - Connect frontend to API
+**Last completed**: M1.10 - MVP complete
+**Next task**: Phase 2 nice-to-haves
 
 ## Implementation Plan
 

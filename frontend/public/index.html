@@ -15,8 +15,28 @@
             <button id="clear-btn" hidden type="button">&times;</button>
             <ul id="suggestions" hidden></ul>
         </div>
+        <div class="legend">
+            <span class="legend-item"><span class="dot germanic"></span>Germanic</span>
+            <span class="legend-item"><span class="dot romance"></span>Romance</span>
+            <span class="legend-item"><span class="dot greek"></span>Greek</span>
+            <span class="legend-item"><span class="dot pie"></span>PIE</span>
+            <span class="legend-item"><span class="dot other"></span>Other</span>
+        </div>
     </header>
-    <div id="graph"></div>
+    <div id="main">
+        <div id="graph"></div>
+        <aside id="detail-panel" hidden>
+            <button id="close-panel" type="button">&times;</button>
+            <h2 id="detail-word"></h2>
+            <p id="detail-lang" class="detail-meta"></p>
+            <p id="detail-pos" class="detail-meta"></p>
+            <p id="detail-ipa" class="detail-meta"></p>
+            <h3>Definitions</h3>
+            <ul id="detail-defs"></ul>
+            <h3>Etymology</h3>
+            <p id="detail-etym"></p>
+        </aside>
+    </div>
     <script src="js/api.js"></script>
     <script src="js/graph.js"></script>
     <script src="js/search.js"></script>

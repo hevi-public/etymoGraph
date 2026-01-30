@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker compose:*)",
+      "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph status)",
+      "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph log --oneline -3)",
+      "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph add CLAUDE.md docker-compose.yml frontend/nginx.conf Makefile backend/ scripts/download-data.sh)",
+      "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph commit -m \"$\\(cat <<''EOF''\nM1.1-M1.7: Add MongoDB, FastAPI backend, ETL pipeline, and API endpoints\n\n- MongoDB container with health check and persistent volume\n- Download script for Kaikki English dump\n- ETL loader: batch insert 1.4M documents with indexes\n- FastAPI app with CORS, word lookup, etymology chain, and search endpoints\n- Nginx reverse proxy for /api/ to backend\n- Makefile for setup/run/stop/clean automation\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph add frontend/public/js/api.js frontend/public/js/search.js frontend/public/js/graph.js frontend/public/js/app.js frontend/public/index.html)",
+      "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph commit -m \"$\\(cat <<''EOF''\nM1.8: Connect frontend to real API\n\nReplace hardcoded etymology data with live API calls. Search uses\ndebounced API queries, graph renders real etymology chains from MongoDB.\nLanguage-based coloring applied from API response.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  }
+}

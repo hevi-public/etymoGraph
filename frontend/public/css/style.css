@@ -32,6 +32,7 @@ header h1 {
     white-space: nowrap;
 }
 
+/* Search */
 .search-container {
     position: relative;
     width: 300px;
@@ -100,8 +101,106 @@ header h1 {
     background: #0f3460;
 }
 
+/* Legend */
+.legend {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.dot.germanic { background: #4a90d9; }
+.dot.romance { background: #d94a4a; }
+.dot.greek { background: #4abd8c; }
+.dot.pie { background: #d4a843; }
+.dot.other { background: #888; }
+
+/* Main layout */
+#main {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+}
+
 #graph {
     flex: 1;
-    width: 100%;
     min-height: 0;
+}
+
+/* Detail panel */
+#detail-panel {
+    width: 320px;
+    background: #16213e;
+    border-left: 1px solid #0f3460;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+}
+
+#close-panel {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+#close-panel:hover {
+    color: #e0e0e0;
+}
+
+#detail-panel h2 {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+#detail-panel .detail-meta {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+#detail-panel h3 {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#detail-defs {
+    list-style: disc;
+    padding-left: 18px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+#detail-defs li {
+    margin-bottom: 4px;
+}
+
+#detail-etym {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #bbb;
 }
