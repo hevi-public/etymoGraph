@@ -27,11 +27,13 @@ The app is a fully functional local etymology explorer with interactive graph vi
 - Text input in the header with prefix-based autocomplete
 - Queries the API with 300ms debounce
 - Dropdown shows matching words (up to 20)
+- Exact case-sensitive matches are prioritized over prefix matches (e.g., "key" ranks above "Key")
 - Click a suggestion or press Enter to load
 - Clear button (×) resets to default word ("wine")
-- Suggestions show word and language, e.g., "asztal (Hungarian)"
+- Suggestions show word and language (language dimmed), e.g., "asztal (Hungarian)"
 - Clicking a suggestion or pressing Enter passes the correct language to the graph
 - If no language is provided (e.g., direct call), auto-detects via search API lookup
+- Multilingual: searches across all languages in the database
 
 ### 2. Etymology Tree Visualization
 

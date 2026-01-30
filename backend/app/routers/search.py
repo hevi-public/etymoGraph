@@ -1,3 +1,5 @@
+import re
+
 from fastapi import APIRouter, HTTPException, Query
 from app.database import get_words_collection
 
@@ -15,7 +17,7 @@ async def search_words(q: str = Query(..., min_length=1), limit: int = Query(20,
 
     # Second: prefix matches (case-insensitive) to fill remaining slots
     prefix_cursor = col.find(
-        {"word": {"$regex": f"^{q}", "$options": "i"}},
+        {"word": {"$regex": f"^{re.escape(q)}", "$options": "i"}},
         projection,
     ).limit(limit * 3)
     prefix_results = await prefix_cursor.to_list(length=limit * 3)
