@@ -11,18 +11,19 @@ function formatEtymologyText(text, templates) {
     // For cognates: "1"=lang_code, "2"=word
     const templateLookup = {};
     if (templates && templates.length) {
+        // Process cognates first, then ancestry types so ancestry takes priority for shared words
+        for (const t of templates) {
+            if (!t.args || t.name !== "cog") continue;
+            const langCode = t.args["1"] || "";
+            const w = t.args["2"] || "";
+            if (w && langCode) templateLookup[w] = { word: w, lang_code: langCode };
+        }
         for (const t of templates) {
             if (!t.args) continue;
-            const type = t.name || "";
-            if (["inh", "bor", "der"].includes(type)) {
-                const langCode = t.args["2"] || "";
-                const w = t.args["3"] || "";
-                if (w && langCode) templateLookup[w] = { word: w, lang_code: langCode };
-            } else if (type === "cog") {
-                const langCode = t.args["1"] || "";
-                const w = t.args["2"] || "";
-                if (w && langCode) templateLookup[w] = { word: w, lang_code: langCode };
-            }
+            if (!["inh", "bor", "der"].includes(t.name)) continue;
+            const langCode = t.args["2"] || "";
+            const w = t.args["3"] || "";
+            if (w && langCode) templateLookup[w] = { word: w, lang_code: langCode };
         }
     }
 
@@ -87,12 +88,22 @@ function formatEtymologyText(text, templates) {
     // Render etymology tree as a chain with arrows
     if (tree) {
         const steps = tree.split("\n").map(s => {
-            // Each step may be like "word (Language)" — try to link the word part
-            const m = s.match(/^(\*?\S+)\s*\((.+)\)$/);
-            if (m) {
-                return makeLink(m[1], m[1]) + " (" + esc(m[2]) + ")";
+            // Chain items are "Language word" (e.g. "Old English wæter") or "word (Language)"
+            const parenMatch = s.match(/^(\*?\S+)\s*\((.+)\)$/);
+            if (parenMatch) {
+                return makeLink(parenMatch[1], parenMatch[1]) + " (" + esc(parenMatch[2]) + ")";
             }
-            return makeLink(s, s);
+            // Try "Language word" format: extract last token as the word
+            const lastSpace = s.lastIndexOf(" ");
+            if (lastSpace > 0) {
+                const word = s.slice(lastSpace + 1);
+                const lang = s.slice(0, lastSpace);
+                const entry = templateLookup[word] || templateLookup[word.replace(/^\*/, "")];
+                if (entry) {
+                    return esc(lang) + " " + makeLink(word, word);
+                }
+            }
+            return esc(s);
         });
         html += '<div class="etym-chain">' + steps.join(' <span class="etym-arrow">→</span> ') + "</div>";
     }
@@ -115,12 +126,23 @@ function formatEtymologyText(text, templates) {
         const items = cognates.split("\n").map((c) => c.replace(/^\*\s*/, "").trim()).filter(Boolean);
         html += '<details class="etym-cognates"><summary>Cognates (' + items.length + ")</summary><p>";
         html += items.map(c => {
-            // Try to link cognate words: "word (Language)" pattern
-            const m = c.match(/^(\*?\S+)\s*\((.+)\)$/);
-            if (m) {
-                return makeLink(m[1], m[1]) + " (" + esc(m[2]) + ")";
+            // Cognates are "Language word ("gloss")" e.g. 'Scots watter ("water")'
+            // Extract the word before the gloss parenthetical
+            const glossMatch = c.match(/^(.+?)\s+(\(".+"\))$/);
+            if (glossMatch) {
+                const before = glossMatch[1]; // "Scots watter"
+                const gloss = glossMatch[2];  // ("water")
+                // Last token of before is the word
+                const ls = before.lastIndexOf(" ");
+                if (ls > 0) {
+                    const word = before.slice(ls + 1);
+                    const lang = before.slice(0, ls);
+                    return esc(lang) + " " + makeLink(word, word) + " " + '<span class="etym-gloss">' + esc(gloss) + "</span>";
+                }
+                return makeLink(before, before) + " " + '<span class="etym-gloss">' + esc(gloss) + "</span>";
             }
-            return makeLink(c, c);
+            // Fallback: try linkifying the whole thing
+            return linkifyText(esc(c));
         }).join(", ");
         html += "</p></details>";
     }
