@@ -49,7 +49,9 @@ The reviewer reads every changed file without asking the author questions first.
 
 If any of these are unclear from the code alone, that is a review finding — the code needs clarification, not the review.
 
-### 3. Reviewer Produces Findings
+### 3. Reviewer Writes Findings to File
+
+The reviewer writes all findings to a shared review file (using the review template). This file is the single source of truth for the review — no verbal back-and-forth.
 
 Findings are categorized by severity:
 
@@ -69,17 +71,67 @@ Each finding follows this format:
 **Suggestion**: Concrete fix (not just "make it better")
 ```
 
-### 4. Author Responds
+The reviewer writes findings to `code_review/reviews/<date>-<feature>.md` using the review template. Once complete, the file is the handoff — the author reads it without further explanation.
 
-For each finding, the author either:
+### 4. Negotiation
 
-- **Fixes** it (preferred)
-- **Explains** why the current code is correct/intentional (reviewer may accept or push back)
-- **Defers** with a tracked TODO (only for CONSIDER items)
+The author and reviewer resolve findings through structured written rounds in the review file. The goal is **convergence on the best outcome**, not winning arguments.
 
-### 5. Reviewer Confirms
+#### 4a. Author Response Round
 
-Reviewer re-reads changed files and confirms all MUST/SHOULD items are resolved. Review is complete.
+The author reads the findings file and writes a response for each finding in the Resolution section:
+
+| Response | Meaning | When to use |
+|----------|---------|-------------|
+| **Accept** | Author agrees and will fix | Finding is clearly correct |
+| **Counter** | Author proposes an alternative fix | Author sees a better solution than suggested |
+| **Challenge** | Author believes current code is correct | Author has context the reviewer lacked |
+
+For **Counter** and **Challenge** responses, the author MUST provide:
+- **Evidence**: Code references, data format examples, or behavioral proof — not opinions
+- **Proposed resolution**: A concrete alternative (for Counter) or explanation of why the status quo is correct (for Challenge)
+
+```
+| # | Finding | Response | Evidence | Proposed Resolution |
+|---|---------|----------|----------|---------------------|
+| 1 | Naming: `d` unclear | Accept | — | Will rename to `descendantNodes` |
+| 2 | Extract helper fn | Counter | Only used once (line 84) | Inline with a clarifying comment instead |
+| 3 | Missing null check | Challenge | MongoDB `find()` always returns array (driver docs §4.2) | No change needed |
+```
+
+#### 4b. Reviewer Evaluation Round
+
+The reviewer reads the author's responses and for each:
+
+- **Accept**: Acknowledged. No further action.
+- **Counter**: Reviewer evaluates the alternative. Either accepts it or explains why the original suggestion is stronger. If both sides have merit, reviewer defaults to **author's preference** — the author owns the code.
+- **Challenge**: Reviewer evaluates the evidence. If the evidence holds, the finding is withdrawn. If not, the reviewer restates with additional context.
+
+The reviewer writes their evaluation in a new section of the review file:
+
+```
+## Reviewer Evaluation
+
+| # | Author Response | Reviewer Decision | Rationale |
+|---|----------------|-------------------|-----------|
+| 1 | Accept | — | — |
+| 2 | Counter: inline + comment | Agree | Single-use, extraction would be premature |
+| 3 | Challenge: driver guarantees array | Withdraw | Verified, driver docs confirm |
+```
+
+#### 4c. Tiebreaking Rules
+
+If author and reviewer still disagree after one round:
+
+1. **MUST findings**: Reviewer wins. Safety and correctness are non-negotiable.
+2. **SHOULD findings**: Whoever provides stronger evidence wins. If evidence is equal, **author decides** — they carry the maintenance burden.
+3. **CONSIDER findings**: Author always wins. These are preferences by definition.
+
+No finding may go more than **two rounds** of back-and-forth. If unresolved after two rounds, apply the tiebreaker above and move on.
+
+### 5. Resolution and Sign-Off
+
+The author implements all accepted and lost-tiebreak changes, then updates the review file's Resolution section. The reviewer re-reads changed files and confirms all MUST/SHOULD items are resolved. Review is complete.
 
 ---
 

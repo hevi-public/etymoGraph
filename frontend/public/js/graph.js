@@ -268,6 +268,7 @@ function updateGraph(data) {
     edgesDataSet = new vis.DataSet(
         data.edges.map((e) => ({
             ...e,
+            rawType: e.label,
             label: EDGE_LABELS[e.label] || e.label,
             arrows: "to",
             dashes: e.label === "bor" || e.label === "cog",
@@ -279,25 +280,6 @@ function updateGraph(data) {
 
     // Start view centered on the root node
     network.moveTo({ position: { x: 0, y: 0 }, scale: 1, animation: false });
-
-    // Trackpad: pinch zooms (ctrlKey), two-finger scroll pans
-    graphContainer.addEventListener("wheel", (e) => {
-        e.preventDefault();
-        if (e.ctrlKey) {
-            // Pinch gesture — macOS sets ctrlKey for pinch
-            const scale = network.getScale();
-            const newScale = scale * (1 - e.deltaY * 0.01);
-            network.moveTo({ scale: Math.max(0.1, Math.min(5, newScale)), animation: false });
-        } else {
-            // Two-finger scroll — pan, scaled by zoom level
-            const pos = network.getViewPosition();
-            const scale = network.getScale();
-            network.moveTo({
-                position: { x: pos.x + e.deltaX / scale, y: pos.y + e.deltaY / scale },
-                animation: false,
-            });
-        }
-    }, { passive: false });
 
     network.on("click", (params) => {
         if (params.nodes.length > 0) {
@@ -320,6 +302,25 @@ function updateGraph(data) {
         }
     });
 }
+
+// Trackpad: pinch zooms (ctrlKey), two-finger scroll pans
+// Added once outside updateGraph to prevent listener accumulation
+graphContainer.addEventListener("wheel", (e) => {
+    if (!network) return;
+    e.preventDefault();
+    if (e.ctrlKey) {
+        const scale = network.getScale();
+        const newScale = scale * (1 - e.deltaY * 0.01);
+        network.moveTo({ scale: Math.max(0.1, Math.min(5, newScale)), animation: false });
+    } else {
+        const pos = network.getViewPosition();
+        const scale = network.getScale();
+        network.moveTo({
+            position: { x: pos.x + e.deltaX / scale, y: pos.y + e.deltaY / scale },
+            animation: false,
+        });
+    }
+}, { passive: false });
 
 function selectNodeById(nodeId) {
     if (!network) return;
@@ -349,11 +350,10 @@ function buildConnectionsPanel(nodeId) {
         cog: "Cognate",
     };
 
-    // Collect edges from/to this node, grouped by original label
+    // Collect edges from/to this node, grouped by type
     const grouped = {};
     edgesDataSet.forEach((e) => {
-        // e.label is the display label ("inherited"), we need the raw type
-        const rawType = Object.keys(EDGE_LABELS).find((k) => EDGE_LABELS[k] === e.label) || e.label;
+        const rawType = e.rawType || e.label;
         let targetId = null;
         if (e.from === nodeId) targetId = e.to;
         else if (e.to === nodeId) targetId = e.from;
@@ -542,12 +542,8 @@ document.getElementById("detail-etym").addEventListener("click", (e) => {
     } else {
         // In-app mode: look up full language name from graph nodes, then load full tree
         if (typeof selectWord === "function") {
-            const nodeId = currentNodes.find(n => {
-                const [w] = n.id.split(":");
-                return w === word;
-            });
-            const fullLang = nodeId ? nodeId.language : undefined;
-            selectWord(word, fullLang);
+            const matchedNode = currentNodes.find(n => n.label === word);
+            selectWord(word, matchedNode ? matchedNode.language : undefined);
         }
     }
 });

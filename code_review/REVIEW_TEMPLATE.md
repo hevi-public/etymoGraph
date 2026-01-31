@@ -49,15 +49,27 @@ _(Use the format below for each finding. Delete this line.)_
 
 ---
 
-## Resolution (Author fills this)
+## Author Response
 
-| # | Finding | Resolution |
-|---|---------|------------|
-| 1 | Title | Fixed / Explained / Deferred |
+| # | Finding | Response | Evidence | Proposed Resolution |
+|---|---------|----------|----------|---------------------|
+| 1 | Title | Accept / Counter / Challenge | [evidence or —] | [concrete action] |
 
 ---
 
-## Reviewer Sign-Off
+## Reviewer Evaluation
+
+| # | Author Response | Reviewer Decision | Rationale |
+|---|----------------|-------------------|-----------|
+| 1 | Accept | — | — |
+
+---
+
+## Resolution and Sign-Off
+
+| # | Finding | Final Outcome |
+|---|---------|---------------|
+| 1 | Title | Fixed / Withdrawn / Deferred |
 
 - [ ] All MUST items resolved
 - [ ] All SHOULD items resolved or justified

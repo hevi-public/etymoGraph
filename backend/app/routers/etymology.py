@@ -151,10 +151,14 @@ async def _expand_cognates(col, nodes, edges, visited_edges,
                            max_ancestor_depth, max_descendant_depth, allowed_types,
                            max_cognate_depth):
     """Expand cognates from all current nodes, recursively up to max_cognate_depth rounds."""
+    processed_nids = set()
     for _ in range(max_cognate_depth):
         new_cognate_nodes = []
 
-        for nid, node in list(nodes.items()):
+        # Only query nodes not yet processed for cognates
+        unprocessed = [(nid, node) for nid, node in nodes.items() if nid not in processed_nids]
+        for nid, node in unprocessed:
+            processed_nids.add(nid)
             doc = await col.find_one(
                 {"word": node["label"], "lang": node["language"]},
                 {"_id": 0, "etymology_templates": 1},

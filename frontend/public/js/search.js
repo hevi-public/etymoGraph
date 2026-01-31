@@ -13,7 +13,11 @@ function renderSuggestions(matches) {
     }
     matches.forEach((item) => {
         const li = document.createElement("li");
-        li.innerHTML = `${item.word} <span class="lang-hint">${item.lang}</span>`;
+        li.textContent = item.word + " ";
+        const langSpan = document.createElement("span");
+        langSpan.className = "lang-hint";
+        langSpan.textContent = item.lang;
+        li.appendChild(langSpan);
         li.addEventListener("click", () => {
             searchInput.value = item.word;
             suggestions.hidden = true;
