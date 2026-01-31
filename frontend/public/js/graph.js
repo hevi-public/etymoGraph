@@ -211,11 +211,11 @@ const graphOptions = {
     physics: {
         solver: "forceAtlas2Based",
         forceAtlas2Based: {
-            gravitationalConstant: -80,
+            gravitationalConstant: -120,
             centralGravity: 0.01,
-            springLength: 150,
-            springConstant: 0.02,
-            damping: 0.4,
+            springLength: 200,
+            springConstant: 0.05,
+            damping: 0.7,
         },
         stabilization: false,
     },
