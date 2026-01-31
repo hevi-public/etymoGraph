@@ -305,6 +305,8 @@ header h1 {
     padding-left: 18px;
     font-size: 0.9rem;
     line-height: 1.5;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 #detail-defs li {
