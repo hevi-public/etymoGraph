@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: January 30, 2026*
+*Last updated: January 31, 2026*
 
 ---
 
@@ -15,8 +15,12 @@ The app is a fully functional local etymology explorer with interactive graph vi
 - **Storage**: MongoDB with compound indexes for fast lookups
 - **Indexes**:
   - `(word, lang)` — word lookup
-  - `word` text index — search
+  - `word` — prefix search (case-sensitive regex)
+  - `word` text index — full-text search
   - `(etymology_templates.args.2, etymology_templates.args.3)` — descendant lookups
+  - `(etymology_templates.name, etymology_templates.args.2, etymology_templates.args.3)` — typed descendant lookups
+- **Auxiliary collections**:
+  - `languages` — precomputed lang_code ↔ lang name mapping (~4,760 entries), built at ETL time
 
 ---
 
@@ -28,6 +32,7 @@ The app is a fully functional local etymology explorer with interactive graph vi
 - Queries the API with 300ms debounce
 - Dropdown shows matching words (up to 20)
 - Exact case-sensitive matches are prioritized over prefix matches (e.g., "key" ranks above "Key")
+- Prefix search is case-sensitive to enable MongoDB index usage (fast even on 10.4M docs)
 - Click a suggestion or press Enter to load
 - Clear button (×) resets to default word ("wine")
 - Suggestions show word and language (language dimmed), e.g., "asztal (Hungarian)"
@@ -44,6 +49,10 @@ The core feature. Builds a full family tree for any word:
 **Descendant branches** — From each ancestor in the chain, finds all words that directly descend from it. This shows sibling languages branching off at each historical stage.
 
 **Direct-parent filtering** — Only links a word to an ancestor if that ancestor is its immediate (first) parent in the etymology chain. Prevents spurious links where Kaikki data lists the full ancestry on every word.
+
+**Cognate expansion** — When cognates are enabled, each cognate's full ancestry and descendant tree is also expanded (up to 2 rounds). This means searching "busz" (Hungarian) with cognates shows not just English/German/French "bus", but also all the languages that borrowed from English "bus" (Japanese, Welsh, Arabic, etc.).
+
+**Language code mapping** — Language codes (e.g., "hu" → "Hungarian") are resolved dynamically from a precomputed `languages` collection in MongoDB, covering all ~4,760 languages in the dataset. No hardcoded mapping.
 
 **Parameters**:
 - `max_ancestor_depth`: 10 (how far back to trace)
@@ -211,11 +220,14 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 | macOS trackpad support | Pinch-to-zoom, two-finger pan |
 | Zoom controls | Focus word, focus root, fit-all buttons |
 | Force-directed layout | Continuous self-organizing animation with root as gravitational center |
-| Cognate view | Cognate edges as gold dashed lines, toggleable via filter |
+| Cognate view | Cognate edges as gold dashed lines, toggleable via filter, recursive expansion |
 | Distance-based opacity | Clicked node at full opacity, fading by hop distance |
 | Click-to-center | Clicked nodes animate to viewport center |
 | Clickable connections panel | Detail panel shows connections grouped by type with clickable links |
 | Startup race fix | Backend healthcheck + frontend depends_on prevents nginx failure |
+| Search performance | Case-sensitive prefix regex to use index, single-field word index |
+| Dynamic lang mapping | Language code ↔ name from DB instead of hardcoded map (~4,760 languages) |
+| Recursive cognate expansion | Cognate nodes get their own ancestry + descendants expanded (2 rounds) |
 
 ### Phase 2: Nice-to-Haves — NOT STARTED
 
@@ -238,7 +250,7 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 
 2. **Descendant cap**: Each node is limited to 50 descendants to prevent graph explosion. Some PIE roots have hundreds of descendants across all languages.
 
-3. **Search prefix matching**: Search uses prefix regex, which may return unexpected results for short queries.
+3. **Search prefix matching**: Search uses case-sensitive prefix regex for performance. Lowercase queries won't match capitalized words (use exact match for that).
 
 4. **No URL routing**: Refreshing the page always loads "wine". No browser back/forward support.
 

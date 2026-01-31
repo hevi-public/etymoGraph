@@ -15,9 +15,9 @@ async def search_words(q: str = Query(..., min_length=1), limit: int = Query(20,
     exact_cursor = col.find({"word": q}, projection).limit(limit)
     exact_results = await exact_cursor.to_list(length=limit)
 
-    # Second: prefix matches (case-insensitive) to fill remaining slots
+    # Second: prefix matches (case-sensitive to use index) to fill remaining slots
     prefix_cursor = col.find(
-        {"word": {"$regex": f"^{re.escape(q)}", "$options": "i"}},
+        {"word": {"$regex": f"^{re.escape(q)}"}},
         projection,
     ).limit(limit * 3)
     prefix_results = await prefix_cursor.to_list(length=limit * 3)

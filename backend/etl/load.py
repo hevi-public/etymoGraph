@@ -58,9 +58,26 @@ def main():
     print("Creating indexes...")
     col.create_indexes([
         IndexModel([("word", 1), ("lang", 1)]),
+        IndexModel([("word", 1)]),
         IndexModel([("word", TEXT)]),
         IndexModel([("etymology_templates.args.2", 1), ("etymology_templates.args.3", 1)]),
+        IndexModel([("etymology_templates.name", 1), ("etymology_templates.args.2", 1), ("etymology_templates.args.3", 1)]),
     ])
+
+    print("Building language code lookup table...")
+    lang_col = db.languages
+    lang_col.drop()
+    pipeline = [
+        {"$group": {"_id": {"lang_code": "$lang_code", "lang": "$lang"}}},
+        {"$project": {"_id": 0, "lang_code": "$_id.lang_code", "lang": "$_id.lang"}},
+    ]
+    lang_docs = list(col.aggregate(pipeline, allowDiskUse=True))
+    if lang_docs:
+        lang_col.insert_many(lang_docs)
+        lang_col.create_index("lang_code")
+        lang_col.create_index("lang")
+    print(f"  {len(lang_docs)} language mappings stored.")
+
     print("Done.")
 
 
