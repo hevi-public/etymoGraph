@@ -490,6 +490,11 @@ document.getElementById("close-panel").addEventListener("click", () => {
     document.getElementById("detail-panel").hidden = true;
 });
 
+document.getElementById("toggle-panel").addEventListener("click", () => {
+    const panel = document.getElementById("detail-panel");
+    panel.hidden = !panel.hidden;
+});
+
 // Zoom controls
 function focusNode(nodeId) {
     if (!network || !nodeId) return;

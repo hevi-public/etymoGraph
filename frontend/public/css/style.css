@@ -214,7 +214,7 @@ header h1 {
 
 #zoom-controls {
     position: absolute;
-    bottom: 16px;
+    top: 16px;
     right: 16px;
     pointer-events: auto;
     display: flex;
