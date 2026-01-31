@@ -1,10 +1,50 @@
 const graphContainer = document.getElementById("graph");
 
-function formatEtymologyText(text) {
+function formatEtymologyText(text, templates) {
     if (!text) return '<span class="etym-empty">No etymology text available.</span>';
 
     // Escape HTML
     const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    // Build lookup from templates: word → {word, lang_code} for linkable terms
+    // Kaikki templates have args as dict with string keys: "1"=source_lang, "2"=target_lang, "3"=word
+    // For cognates: "1"=lang_code, "2"=word
+    const templateLookup = {};
+    if (templates && templates.length) {
+        for (const t of templates) {
+            if (!t.args) continue;
+            const type = t.name || "";
+            if (["inh", "bor", "der"].includes(type)) {
+                const langCode = t.args["2"] || "";
+                const w = t.args["3"] || "";
+                if (w && langCode) templateLookup[w] = { word: w, lang_code: langCode };
+            } else if (type === "cog") {
+                const langCode = t.args["1"] || "";
+                const w = t.args["2"] || "";
+                if (w && langCode) templateLookup[w] = { word: w, lang_code: langCode };
+            }
+        }
+    }
+
+    // Create a link for a word if it exists in the template lookup
+    function makeLink(displayText, word) {
+        const entry = templateLookup[word] || templateLookup[word.replace(/^\*/, "")];
+        if (!entry) return esc(displayText);
+        return `<a class="etym-link" href="#" data-word="${esc(entry.word)}" data-lang-code="${esc(entry.lang_code)}">${esc(displayText)}</a>`;
+    }
+
+    // Try to linkify text by matching known template words
+    function linkifyText(escaped) {
+        if (!Object.keys(templateLookup).length) return escaped;
+        // Sort by length descending to match longer words first
+        const words = Object.keys(templateLookup).sort((a, b) => b.length - a.length);
+        const pattern = new RegExp("(?<![\\w*])(" + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join("|") + ")(?!\\w)", "g");
+        return escaped.replace(pattern, (match) => {
+            const entry = templateLookup[match];
+            if (!entry) return match;
+            return `<a class="etym-link" href="#" data-word="${esc(entry.word)}" data-lang-code="${esc(entry.lang_code)}">${match}</a>`;
+        });
+    }
 
     // Split into sections: etymology tree, main prose, cognates
     let tree = "";
@@ -46,7 +86,14 @@ function formatEtymologyText(text) {
 
     // Render etymology tree as a chain with arrows
     if (tree) {
-        const steps = tree.split("\n").map(esc);
+        const steps = tree.split("\n").map(s => {
+            // Each step may be like "word (Language)" — try to link the word part
+            const m = s.match(/^(\*?\S+)\s*\((.+)\)$/);
+            if (m) {
+                return makeLink(m[1], m[1]) + " (" + esc(m[2]) + ")";
+            }
+            return makeLink(s, s);
+        });
         html += '<div class="etym-chain">' + steps.join(' <span class="etym-arrow">→</span> ') + "</div>";
     }
 
@@ -58,6 +105,8 @@ function formatEtymologyText(text) {
             '$1 <strong>$2</strong>');
         // Style quoted terms: ("word") or ("word", "gloss")
         escaped = escaped.replace(/\(("[^"]*")\)/g, '<span class="etym-gloss">($1)</span>');
+        // Linkify known template words in prose
+        escaped = linkifyText(escaped);
         html += '<p class="etym-prose">' + escaped + "</p>";
     }
 
@@ -65,7 +114,14 @@ function formatEtymologyText(text) {
     if (cognates) {
         const items = cognates.split("\n").map((c) => c.replace(/^\*\s*/, "").trim()).filter(Boolean);
         html += '<details class="etym-cognates"><summary>Cognates (' + items.length + ")</summary><p>";
-        html += items.map(esc).join(", ");
+        html += items.map(c => {
+            // Try to link cognate words: "word (Language)" pattern
+            const m = c.match(/^(\*?\S+)\s*\((.+)\)$/);
+            if (m) {
+                return makeLink(m[1], m[1]) + " (" + esc(m[2]) + ")";
+            }
+            return makeLink(c, c);
+        }).join(", ");
         html += "</p></details>";
     }
 
@@ -351,7 +407,7 @@ async function showDetail(word, lang) {
             li.textContent = d;
             defsEl.appendChild(li);
         });
-        etymEl.innerHTML = formatEtymologyText(data.etymology_text);
+        etymEl.innerHTML = formatEtymologyText(data.etymology_text, data.etymology_templates);
     } catch (e) {
         const errSpan = document.createElement("span");
         errSpan.className = "etym-empty";
@@ -432,4 +488,38 @@ document.getElementById("zoom-fit").addEventListener("click", () => {
     network.fit({
         animation: { duration: 500, easingFunction: "easeInOutQuad" },
     });
+});
+
+// Etymology link mode: persist preference
+const etymLinkSelect = document.getElementById("etym-link-mode");
+etymLinkSelect.value = localStorage.getItem("etymLinkMode") || "app";
+etymLinkSelect.addEventListener("change", () => {
+    localStorage.setItem("etymLinkMode", etymLinkSelect.value);
+});
+
+// Delegated click handler for etymology links
+document.getElementById("detail-etym").addEventListener("click", (e) => {
+    const link = e.target.closest("a.etym-link");
+    if (!link) return;
+    e.preventDefault();
+    const word = link.dataset.word;
+    const langCode = link.dataset.langCode;
+    const mode = etymLinkSelect.value;
+
+    if (mode === "wikt") {
+        const url = word.startsWith("*")
+            ? `https://en.wiktionary.org/wiki/Reconstruction:${encodeURIComponent(langCode)}/${encodeURIComponent(word.replace(/^\*/, ""))}`
+            : `https://en.wiktionary.org/wiki/${encodeURIComponent(word)}`;
+        window.open(url, "_blank", "noopener");
+    } else {
+        // In-app mode: look up full language name from graph nodes, then load full tree
+        if (typeof selectWord === "function") {
+            const nodeId = currentNodes.find(n => {
+                const [w] = n.id.split(":");
+                return w === word;
+            });
+            const fullLang = nodeId ? nodeId.language : undefined;
+            selectWord(word, fullLang);
+        }
+    }
 });

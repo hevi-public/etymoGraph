@@ -390,3 +390,44 @@ header h1 {
     color: #666;
     font-style: italic;
 }
+
+/* Etymology header with link mode toggle */
+.etym-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+.etym-header h3 {
+    margin: 0;
+}
+
+#etym-link-mode {
+    padding: 2px 4px;
+    border: 1px solid #0f3460;
+    border-radius: 3px;
+    background: #1a1a2e;
+    color: #999;
+    font-size: 0.7rem;
+    cursor: pointer;
+    outline: none;
+}
+
+#etym-link-mode:hover {
+    border-color: #4a90d9;
+    color: #ccc;
+}
+
+/* Etymology links */
+a.etym-link {
+    color: #5B8DEF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a.etym-link:hover {
+    color: #8BB4F5;
+    text-decoration: underline;
+}

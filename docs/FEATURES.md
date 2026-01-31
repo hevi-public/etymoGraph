@@ -129,7 +129,7 @@ Click any node in the graph to open a side panel showing:
 - **IPA pronunciation**
 - **Wiktionary link** — opens the word's Wiktionary page in a new tab. Uses `Reconstruction:` prefix for proto-languages (e.g., Proto-Italic/wīnom) and `#Language` anchors for regular words
 - **Definitions** (all glosses from all senses)
-- **Etymology text** (human-readable narrative)
+- **Etymology text** (human-readable narrative) — words mentioned in the etymology chain, prose, and cognates are clickable links when they match known `etymology_templates`. A link-mode toggle next to the "Etymology" heading lets users choose between **In-app** (loads the word in the graph via `selectWord()`) and **Wiktionary** (opens a new tab). Preference is persisted in `localStorage`.
 - **Connections** — grouped by type (Inherited, Borrowed, Derived, Cognate) with clickable links that select and pan to the target node
 
 For words not in the database (e.g., ancestor language words not in the dump), shows an explanatory message. Close with × button.
