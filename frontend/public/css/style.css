@@ -305,7 +305,7 @@ header h1 {
     padding-left: 18px;
     font-size: 0.9rem;
     line-height: 1.5;
-    max-height: 300px;
+    max-height: 200px;
     overflow-y: auto;
 }
 
