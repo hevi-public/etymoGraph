@@ -267,10 +267,11 @@ function updateGraph(data) {
             const newScale = scale * (1 - e.deltaY * 0.01);
             network.moveTo({ scale: Math.max(0.1, Math.min(5, newScale)), animation: false });
         } else {
-            // Two-finger scroll — pan
+            // Two-finger scroll — pan, scaled by zoom level
             const pos = network.getViewPosition();
+            const scale = network.getScale();
             network.moveTo({
-                position: { x: pos.x + e.deltaX, y: pos.y + e.deltaY },
+                position: { x: pos.x + e.deltaX / scale, y: pos.y + e.deltaY / scale },
                 animation: false,
             });
         }
