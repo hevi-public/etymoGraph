@@ -104,16 +104,17 @@ Legend displayed in the header.
 
 Custom wheel event handling for natural trackpad behavior:
 
-- **Two-finger scroll** → pans the graph (natural scroll direction)
+- **Two-finger scroll** → pans the graph (natural scroll direction), speed scaled by zoom level so panning feels consistent when zoomed in
 - **Pinch** → zooms in/out (macOS sends `ctrlKey` for pinch gestures)
 - vis.js built-in zoom is disabled to prevent conflicts
 
 ### 7. Zoom Controls
 
-Three buttons in the bottom-right corner:
+Four buttons in the top-right corner:
 
 | Button | Action |
 |--------|--------|
+| ☰ | Toggle the detail panel open/closed |
 | ☆ | Focus on the searched word (level 0), zoom to scale 2.5 |
 | ⊙ | Focus on the etymological root (deepest ancestor), zoom to scale 2.5 |
 | ⊞ | Fit the entire graph in view |
@@ -217,8 +218,8 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 | Connection type filter | Toggle inherited/borrowed/derived/cognate with checkboxes (all on by default) |
 | Direct-parent chain fix | Only link words to their immediate ancestor |
 | Extended language colors | 10 language families with vibrant palette |
-| macOS trackpad support | Pinch-to-zoom, two-finger pan |
-| Zoom controls | Focus word, focus root, fit-all buttons |
+| macOS trackpad support | Pinch-to-zoom, two-finger pan with zoom-scaled panning speed |
+| Zoom controls | Panel toggle, focus word, focus root, fit-all buttons (top-right) |
 | Force-directed layout | Continuous self-organizing animation with root as gravitational center |
 | Cognate view | Cognate edges as gold dashed lines, toggleable via filter, recursive expansion |
 | Distance-based opacity | Clicked node at full opacity, fading by hop distance |
@@ -228,6 +229,10 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 | Search performance | Case-sensitive prefix regex to use index, single-field word index |
 | Dynamic lang mapping | Language code ↔ name from DB instead of hardcoded map (~4,760 languages) |
 | Recursive cognate expansion | Cognate nodes get their own ancestry + descendants expanded (2 rounds) |
+| Etymology link mode toggle | Chain/prose/cognate words are clickable; in-app or Wiktionary mode with localStorage persistence |
+| Detail panel toggle | ☰ button in zoom controls to reopen closed detail panel |
+| Zoom-scaled panning | Two-finger pan speed scales with zoom level for consistent feel |
+| Physics tuning | Higher damping (0.7), stronger repulsion (-120), longer springs (200) for faster settling and better spacing |
 
 ### Phase 2: Nice-to-Haves — NOT STARTED
 
