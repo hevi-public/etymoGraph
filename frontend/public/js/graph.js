@@ -1,5 +1,77 @@
 const graphContainer = document.getElementById("graph");
 
+function formatEtymologyText(text) {
+    if (!text) return '<span class="etym-empty">No etymology text available.</span>';
+
+    // Escape HTML
+    const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    // Split into sections: etymology tree, main prose, cognates
+    let tree = "";
+    let prose = "";
+    let cognates = "";
+
+    const lines = text.split("\n");
+    let section = "auto"; // auto-detect
+
+    for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+
+        if (trimmed === "Etymology tree") {
+            section = "tree";
+            continue;
+        }
+        if (trimmed === "Cognates" || trimmed === "Cognates:") {
+            section = "cognates";
+            continue;
+        }
+        // Prose typically starts with "From " or "Borrowed " etc.
+        if (section === "tree" && /^(From |Borrowed |Learned |Coined |Back-formation|A |The |Inherited |Uncertain|Originally|Perhaps|Probably|Possibly|Compare |Cf\.|Related |See |Also |Equivalent |Compound |Blend |Variant |Alteration |Clipping |Abbreviation |Acronym |Named )/.test(trimmed)) {
+            section = "prose";
+        }
+
+        if (section === "tree") {
+            tree += (tree ? "\n" : "") + trimmed;
+        } else if (section === "cognates") {
+            cognates += (cognates ? "\n" : "") + trimmed;
+        } else {
+            // prose or auto
+            prose += (prose ? "\n" : "") + trimmed;
+            section = "prose";
+        }
+    }
+
+    let html = "";
+
+    // Render etymology tree as a chain with arrows
+    if (tree) {
+        const steps = tree.split("\n").map(esc);
+        html += '<div class="etym-chain">' + steps.join(' <span class="etym-arrow">→</span> ') + "</div>";
+    }
+
+    // Render prose: highlight foreign terms in parentheses like φίλος (phílos, "loving")
+    if (prose) {
+        let escaped = esc(prose);
+        // Bold language names at start of sentences like "From Middle English", "from Proto-Germanic"
+        escaped = escaped.replace(/\b(from|From|of)\s+((?:Proto-|Middle |Old |Late |Ancient |Medieval |Vulgar |Biblical |Classical )*[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b/g,
+            '$1 <strong>$2</strong>');
+        // Style quoted terms: ("word") or ("word", "gloss")
+        escaped = escaped.replace(/\(("[^"]*")\)/g, '<span class="etym-gloss">($1)</span>');
+        html += '<p class="etym-prose">' + escaped + "</p>";
+    }
+
+    // Render cognates as a compact list
+    if (cognates) {
+        const items = cognates.split("\n").map((c) => c.replace(/^\*\s*/, "").trim()).filter(Boolean);
+        html += '<details class="etym-cognates"><summary>Cognates (' + items.length + ")</summary><p>";
+        html += items.map(esc).join(", ");
+        html += "</p></details>";
+    }
+
+    return html || '<span class="etym-empty">No etymology text available.</span>';
+}
+
 const LANG_COLORS = {
     germanic: "#5B8DEF",
     romance: "#EF5B5B",
@@ -279,9 +351,13 @@ async function showDetail(word, lang) {
             li.textContent = d;
             defsEl.appendChild(li);
         });
-        etymEl.textContent = data.etymology_text || "No etymology text available.";
+        etymEl.innerHTML = formatEtymologyText(data.etymology_text);
     } catch (e) {
-        etymEl.textContent = `Not in database (${lang} words are not in the English-only Kaikki dump).`;
+        const errSpan = document.createElement("span");
+        errSpan.className = "etym-empty";
+        errSpan.textContent = `Not in database (${lang} words are not in the English-only Kaikki dump).`;
+        etymEl.innerHTML = "";
+        etymEl.appendChild(errSpan);
     }
 }
 

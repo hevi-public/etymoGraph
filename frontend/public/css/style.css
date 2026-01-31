@@ -334,3 +334,57 @@ header h1 {
     line-height: 1.5;
     color: #bbb;
 }
+
+.etym-chain {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid #5B8DEF;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.82rem;
+    line-height: 1.8;
+}
+
+.etym-arrow {
+    color: #5B8DEF;
+    margin: 0 2px;
+}
+
+.etym-prose {
+    margin: 0 0 8px 0;
+}
+
+.etym-prose strong {
+    color: #ddd;
+}
+
+.etym-gloss {
+    color: #999;
+    font-style: italic;
+}
+
+.etym-cognates {
+    margin-top: 8px;
+    font-size: 0.8rem;
+}
+
+.etym-cognates summary {
+    cursor: pointer;
+    color: #888;
+    font-weight: 500;
+}
+
+.etym-cognates summary:hover {
+    color: #aaa;
+}
+
+.etym-cognates p {
+    margin: 6px 0 0 0;
+    color: #999;
+    line-height: 1.6;
+}
+
+.etym-empty {
+    color: #666;
+    font-style: italic;
+}
