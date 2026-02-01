@@ -135,6 +135,31 @@ The author implements all accepted and lost-tiebreak changes, then updates the r
 
 ---
 
+## Human Action Summary
+
+Every step of the review process must end with a clear **"What the human should do next"** section. Agents cannot merge, deploy, or make final judgment calls — only the human owner can. Each review step output must conclude with a short block:
+
+```
+## What You (Human) Should Do Next
+
+- [Concrete action item 1]
+- [Concrete action item 2]
+```
+
+Guidelines per step:
+
+| Step | Typical Human Actions |
+|------|----------------------|
+| **1. Author Prepares** | Review the review request summary. Confirm the scope is correct and no files are missing. Kick off the reviewer. |
+| **2. Reviewer Reads Cold** | Nothing yet — wait for findings. |
+| **3. Findings Written** | Read the findings. Flag any the reviewer missed. Decide if MUST items match your priorities. Assign the author to respond. |
+| **4. Negotiation** | Read both sides. Override any decision you disagree with — your call is final. Tell agents to proceed with fixes. |
+| **5. Sign-Off** | Verify the final state yourself (run the app, spot-check code). Merge the branch if satisfied. Update project status in CLAUDE.md if needed. |
+
+This ensures the human is never left wondering "what now?" after an agent hands off.
+
+---
+
 ## What to Look For
 
 ### Readability (Can I follow this?)
