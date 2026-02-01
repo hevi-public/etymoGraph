@@ -72,7 +72,7 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Era-layered graph layout (vertical bands by historical era, replacing circular force-directed layout)
+**Last completed**: Pluggable layout engine (force-directed and era-layered as selectable strategies with dropdown and localStorage persistence)
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
 ## Documentation
