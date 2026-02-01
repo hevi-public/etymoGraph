@@ -105,7 +105,7 @@ The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layou
 - Initial view at (0,0) scale 1
 
 #### Era Layers
-- Fixed Y positions per era tier; X is free to self-organize
+- Fixed Y positions per era tier; initial X positions cluster nodes by language family, then physics fine-tunes
 - 8 horizontal era bands from oldest (bottom) to newest (top):
 
 | Tier | Era | Example Languages |

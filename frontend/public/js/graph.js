@@ -252,6 +252,45 @@ function getEraTier(lang) {
     return 6;
 }
 
+/** Group nodes by era tier, then by language family within each tier.
+ *  Returns { tier: { family: [nodeId, ...] } } */
+function groupNodesByTierAndFamily(nodes) {
+    const tiers = {};
+    for (const n of nodes) {
+        const tier = getEraTier(n.language);
+        const family = getLangFamily(n.language);
+        if (!tiers[tier]) tiers[tier] = {};
+        if (!tiers[tier][family]) tiers[tier][family] = [];
+        tiers[tier][family].push(n.id);
+    }
+    return tiers;
+}
+
+/** Compute centered X positions for family clusters within each tier. Returns { nodeId: x } */
+function assignFamilyClusterPositions(tieredGroups, { familySpacing = 200, nodeSpacing = 40 } = {}) {
+    const positions = {};
+    for (const families of Object.values(tieredGroups)) {
+        let cursor = 0;
+        const allIdsInTier = [];
+        for (const ids of Object.values(families)) {
+            const familyWidth = (ids.length - 1) * nodeSpacing;
+            const familyStart = cursor - familyWidth / 2;
+            ids.forEach((id, i) => {
+                positions[id] = familyStart + i * nodeSpacing;
+            });
+            allIdsInTier.push(...ids);
+            cursor += familySpacing;
+        }
+        // Center all positions in this tier around x=0
+        const xs = allIdsInTier.map((id) => positions[id]);
+        const offset = (Math.min(...xs) + Math.max(...xs)) / 2;
+        for (const id of allIdsInTier) {
+            positions[id] -= offset;
+        }
+    }
+    return positions;
+}
+
 // Shared vis.js options; each layout overrides only what differs
 function baseGraphOptions(overrides) {
     const base = {
@@ -358,6 +397,8 @@ const LAYOUTS = {
         },
         buildVisNodes(nodes) {
             const baseColors = {};
+            const tierFamilyGroups = groupNodesByTierAndFamily(nodes);
+            const nodeXPositions = assignFamilyClusterPositions(tierFamilyGroups);
             const visNodes = nodes.map((n) => {
                 const color = langColor(n.language);
                 baseColors[n.id] = color;
@@ -368,6 +409,7 @@ const LAYOUTS = {
                     label: `${n.label}\n(${n.language})`,
                     color,
                     mass: 1,
+                    x: nodeXPositions[n.id] || 0,
                     y: yPos,
                     fixed: { y: true },
                 };
@@ -376,30 +418,23 @@ const LAYOUTS = {
         },
         buildExtraEdges(nodes) {
             // Build invisible short-spring edges between same-family nodes within the same era tier
-            const tierFamilyGroups = {};
-            for (const n of nodes) {
-                const tier = getEraTier(n.language);
-                const family = getLangFamily(n.language);
-                const key = `${tier}:${family}`;
-                if (!tierFamilyGroups[key]) tierFamilyGroups[key] = [];
-                tierFamilyGroups[key].push(n.id);
-            }
-
+            const tieredGroups = groupNodesByTierAndFamily(nodes);
             const edges = [];
-            for (const [key, ids] of Object.entries(tierFamilyGroups)) {
-                if (ids.length < 2) continue;
-                const tier = parseInt(key.split(":")[0]);
-                const tierFactor = tier / 6;
-                const groupFactor = Math.min((ids.length - 1) / 10, 1);
-                const springLength = 20 + 100 * (0.5 * tierFactor + 0.5 * groupFactor);
-                for (let i = 0; i < ids.length - 1; i++) {
-                    edges.push({
-                        from: ids[i],
-                        to: ids[i + 1],
-                        hidden: true,
-                        physics: true,
-                        length: springLength,
-                    });
+            for (const [tier, families] of Object.entries(tieredGroups)) {
+                for (const ids of Object.values(families)) {
+                    if (ids.length < 2) continue;
+                    const tierFactor = parseInt(tier) / 6;
+                    const groupFactor = Math.min((ids.length - 1) / 10, 1);
+                    const springLength = 20 + 100 * (0.5 * tierFactor + 0.5 * groupFactor);
+                    for (let i = 0; i < ids.length - 1; i++) {
+                        edges.push({
+                            from: ids[i],
+                            to: ids[i + 1],
+                            hidden: true,
+                            physics: true,
+                            length: springLength,
+                        });
+                    }
                 }
             }
             return edges;
