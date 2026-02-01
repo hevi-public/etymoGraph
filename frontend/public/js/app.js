@@ -7,16 +7,19 @@ function getSelectedTypes() {
     return types.length > 0 ? types.join(",") : "inh";
 }
 
+async function resolveLanguage(word) {
+    try {
+        const data = await searchWords(word);
+        const exact = data.results.find((r) => r.word.toLowerCase() === word.toLowerCase());
+        return exact ? exact.lang : (data.results[0] ? data.results[0].lang : "English");
+    } catch (_) {
+        return "English";
+    }
+}
+
 async function selectWord(word, lang) {
-    // If no language provided, look it up via search
     if (!lang) {
-        try {
-            const data = await searchWords(word);
-            const exact = data.results.find((r) => r.word.toLowerCase() === word.toLowerCase());
-            lang = exact ? exact.lang : (data.results[0] ? data.results[0].lang : "English");
-        } catch (_) {
-            lang = "English";
-        }
+        lang = await resolveLanguage(word);
     }
     currentWord = word;
     currentLang = lang;
