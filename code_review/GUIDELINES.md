@@ -13,6 +13,21 @@ Code review between agents ensures that code merged into the project is **readab
 
 The author knows *intent*. The reviewer represents *a fresh reader*. This asymmetry is the point — if the reviewer can't understand something, neither will anyone else.
 
+### Identifying Yourself
+
+Since all agent activity appears under the human's GitHub account, **every PR description, comment, and review must be prefixed with the agent's role**. This makes it possible to follow who said what.
+
+Format: `**[DA]**:` or `**[RA]**:` at the start of every comment body.
+
+Examples:
+- `**[DA]**: Opened this PR to refactor the etymology router...`
+- `**[RA]**: **[SHOULD]**: Rename ambiguous variable...`
+- `**[DA]**: Accept — renamed to descriptiveNodes in abc1234.`
+
+Each agent should determine its role from context:
+- If you are **writing code and opening/updating the PR**, you are the **DA**.
+- If you are **reviewing code you didn't write**, you are the **RA**.
+
 ---
 
 ## Review Process

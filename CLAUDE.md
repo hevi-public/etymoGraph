@@ -134,9 +134,11 @@ Important: Kaikki stores the **full** ancestry chain on each word (not just the 
 
 Reviews happen through GitHub Pull Requests, not local files. See `code_review/GUIDELINES.md` for the full process.
 
+**Agent identification:** All PR comments must be prefixed with `**[DA]**:` or `**[RA]**:` since everything appears under the human's GitHub account. Each agent determines its role from context (writing code = DA, reviewing = RA).
+
 **Quick reference:**
-1. **Developer Agent** opens a PR with structured description (what changed, files, how to verify, concerns)
-2. **Review Agent** reviews the PR using `gh` CLI — inline comments + summary review with MUST/SHOULD/CONSIDER findings
+1. **Developer Agent (DA)** opens a PR with structured description (what changed, files, how to verify, concerns)
+2. **Review Agent (RA)** reviews the PR using `gh` CLI — inline comments + summary review with MUST/SHOULD/CONSIDER findings
 3. **Developer Agent** responds to each finding (accept/counter/challenge), pushes fixes
 4. **Review Agent** re-reviews and approves or requests changes
 5. **Human** is notified at each step with the PR URL and what to do next
