@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: January 31, 2026*
+*Last updated: February 1, 2026*
 
 ---
 
@@ -92,13 +92,39 @@ Nodes are color-coded by language family:
 
 Legend displayed in the header.
 
-### 5. Force-Directed Graph Layout
+### 5. Pluggable Layout Engine
 
-- Uses vis.js `forceAtlas2Based` physics solver
-- Continuously animated — nodes self-organize in real time
-- Etymological root pinned to center (0,0) as gravitational anchor
-- Exponential mass decay by level — root has mass 5, halving per hop (2.5, 1.25, 1...), creating radial spread
-- Draggable nodes — click and drag to rearrange
+The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layout names to strategy objects, each providing `getGraphOptions()`, `buildVisNodes()`, `buildExtraEdges()`, `getInitialView()`, and an optional `onBeforeDrawing` canvas hook. Shared vis.js options are extracted into `baseGraphOptions()` so each strategy only overrides what differs. Language family classification uses a single `LANG_FAMILIES` source of truth for both color and family name. A `<select>` dropdown in the header lets users switch layouts; the preference is persisted in `localStorage`.
+
+**Built-in layouts:**
+
+#### Force-Directed
+- Root node pinned at (0,0) with mass 5, exponential mass decay per level
+- `centralGravity: 0.01`, `springLength: 200`, `damping: 0.7`
+- No extra edges, no canvas drawing
+- Initial view at (0,0) scale 1
+
+#### Era Layers
+- Fixed Y positions per era tier; X is free to self-organize
+- 8 horizontal era bands from oldest (bottom) to newest (top):
+
+| Tier | Era | Example Languages |
+|------|-----|-------------------|
+| 0 | Deep Proto (~4000+ BCE) | Proto-Indo-European, Proto-Uralic |
+| 1 | Branch Proto (~2000–500 BCE) | Proto-Germanic, Proto-Italic, Proto-Slavic |
+| 2 | Classical/Ancient (~500 BCE–500 CE) | Latin, Ancient Greek, Sanskrit, Gothic |
+| 3 | Early Medieval (~500–1000 CE) | Old English, Old Norse, Old French |
+| 4 | Late Medieval (~1000–1500 CE) | Middle English, Middle French, Anglo-Norman |
+| 5 | Early Modern (~1500–1700 CE) | Early Modern English |
+| 6 | Modern (~1700–present) | English, French, German, Finnish (default) |
+| 7 | Contemporary | Reserved for neologisms |
+
+- Language classification uses prefix matching: `Proto-Indo-European` → tier 0, other `Proto-*` → tier 1, `Old *` → tier 3, etc.
+- Invisible family-clustering spring edges between same-family nodes in the same tier
+- Era bands drawn as subtle alternating backgrounds with labels on the left margin
+- Initial view centered on the searched word's era tier
+
+**Adding a new layout:** Add an entry to the `LAYOUTS` object in `graph.js` conforming to the strategy interface. It will automatically appear in the dropdown.
 
 ### 6. macOS Trackpad Support
 
@@ -220,7 +246,7 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 | Extended language colors | 10 language families with vibrant palette |
 | macOS trackpad support | Pinch-to-zoom, two-finger pan with zoom-scaled panning speed |
 | Zoom controls | Panel toggle, focus word, focus root, fit-all buttons (top-right) |
-| Force-directed layout | Continuous self-organizing animation with root as gravitational center |
+| Era-layered layout | Vertically layered by historical era with horizontal self-organization |
 | Cognate view | Cognate edges as gold dashed lines, toggleable via filter, recursive expansion |
 | Distance-based opacity | Clicked node at full opacity, fading by hop distance |
 | Click-to-center | Clicked nodes animate to viewport center |
@@ -232,7 +258,8 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 | Etymology link mode toggle | Chain/prose/cognate words are clickable; in-app or Wiktionary mode with localStorage persistence |
 | Detail panel toggle | ☰ button in zoom controls to reopen closed detail panel |
 | Zoom-scaled panning | Two-finger pan speed scales with zoom level for consistent feel |
-| Physics tuning | Higher damping (0.7), stronger repulsion (-120), longer springs (200) for faster settling and better spacing |
+| Physics tuning | Softer repulsion (-80), weak central gravity (0.005), stiffer springs for horizontal stability within era bands |
+| Pluggable layout engine | Layout strategies as pluggable objects with registry, dropdown selector, localStorage persistence |
 
 ### Phase 2: Nice-to-Haves — NOT STARTED
 
