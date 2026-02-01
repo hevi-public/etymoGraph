@@ -72,7 +72,7 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Etymology link mode toggle (in-app / Wiktionary) for chain items, prose, and cognates
+**Last completed**: Frontend refactoring — extracted 16 pure functions from large methods in graph.js, app.js, search.js (no behavior changes)
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
 ## Documentation

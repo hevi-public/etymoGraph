@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: January 31, 2026*
+*Last updated: February 1, 2026*
 
 ---
 
@@ -233,6 +233,7 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 | Detail panel toggle | ☰ button in zoom controls to reopen closed detail panel |
 | Zoom-scaled panning | Two-finger pan speed scales with zoom level for consistent feel |
 | Physics tuning | Higher damping (0.7), stronger repulsion (-120), longer springs (200) for faster settling and better spacing |
+| Frontend refactoring | Extracted 16 pure functions from large methods in graph.js/app.js/search.js for readability and testability (no behavior changes) |
 
 ### Phase 2: Nice-to-Haves — NOT STARTED
 
