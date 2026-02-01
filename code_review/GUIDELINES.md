@@ -8,50 +8,77 @@ Code review between agents ensures that code merged into the project is **readab
 
 ## Roles
 
-**Author Agent** — wrote the code, opens it for review.
-**Reviewer Agent** — reads the code cold, provides feedback.
+**Developer Agent (DA)** — wrote the code, opens a PR for review.
+**Review Agent (RA)** — reads the code cold, reviews the PR.
 
 The author knows *intent*. The reviewer represents *a fresh reader*. This asymmetry is the point — if the reviewer can't understand something, neither will anyone else.
+
+### Identifying Yourself
+
+Since all agent activity appears under the human's GitHub account, **every PR description, comment, and review must be prefixed with the agent's role**. This makes it possible to follow who said what.
+
+Format: `**[DA]**:` or `**[RA]**:` at the start of every comment body.
+
+Examples:
+- `**[DA]**: Opened this PR to refactor the etymology router...`
+- `**[RA]**: **[SHOULD]**: Rename ambiguous variable...`
+- `**[DA]**: Accept — renamed to descriptiveNodes in abc1234.`
+
+Each agent should determine its role from context:
+- If you are **writing code and opening/updating the PR**, you are the **DA**.
+- If you are **reviewing code you didn't write**, you are the **RA**.
 
 ---
 
 ## Review Process
 
-### 1. Author Prepares the Review
+All reviews happen through GitHub Pull Requests using the `gh` CLI.
 
-Before requesting review, the author provides:
+### 1. DA Opens a Pull Request
 
-```
-## Review Request
+The DA creates a branch, commits changes, and opens a PR with a structured description (the repo has a PR template that guides this):
 
-### What changed
+```bash
+gh pr create --title "Short description" --body "$(cat <<'EOF'
+## What changed
 [1-3 sentence summary of the change and why it was made]
 
-### Files changed
+## Files changed
 [List of files, in reading order — most important first]
 
-### How to verify
+## How to verify
 [How to test that it works — API calls, UI actions, etc.]
 
-### Concerns
+## Concerns
 [Anything the author is unsure about or wants specific feedback on]
+EOF
+)"
 ```
 
-The author does NOT pre-explain the code. The reviewer should be able to understand it from reading alone. If they can't, that's the first finding.
+The DA does NOT pre-explain the code. The reviewer should be able to understand it from reading alone. If they can't, that's the first finding.
 
-### 2. Reviewer Reads Cold
+DA notifies the human:
+> "PR #N opened: [title]. URL: [link]. **Next**: Assign the Review Agent to review this PR."
 
-The reviewer reads every changed file without asking the author questions first. They form their own understanding of:
+### 2. RA Reviews the Pull Request
 
+The RA reads the PR diff cold using `gh`:
+
+```bash
+gh pr view <N>
+gh pr diff <N>
+```
+
+They form their own understanding of:
 - What does this code do?
 - Why does it exist?
 - How does it connect to the rest of the codebase?
 
-If any of these are unclear from the code alone, that is a review finding — the code needs clarification, not the review.
+If any of these are unclear from the code alone, that is a review finding.
 
-### 3. Reviewer Writes Findings to File
-
-The reviewer writes all findings to a shared review file (using the review template). This file is the single source of truth for the review — no verbal back-and-forth.
+The RA leaves findings as:
+- **Inline comments** on specific lines for file/line-specific issues
+- **A summary review** with overall assessment and finding counts
 
 Findings are categorized by severity:
 
@@ -61,67 +88,85 @@ Findings are categorized by severity:
 | **SHOULD** | Readability problems, unclear intent, missing context | Fix unless author justifies |
 | **CONSIDER** | Style preferences, minor improvements, alternative approaches | Author's discretion |
 
-Each finding follows this format:
-
+Inline comment format:
 ```
-### [MUST/SHOULD/CONSIDER] Short title
+**[MUST/SHOULD/CONSIDER]**: Short title
 
-**File**: path/to/file.js:42-58
 **Issue**: What's wrong or unclear
 **Suggestion**: Concrete fix (not just "make it better")
 ```
 
-The reviewer writes findings to `code_review/reviews/<date>-<feature>.md` using the review template. Once complete, the file is the handoff — the author reads it without further explanation.
+The RA submits their review:
+```bash
+gh pr review <N> --comment --body "$(cat <<'EOF'
+## Review Summary
 
-### 4. Negotiation
+| Level | Count |
+|-------|-------|
+| MUST | X |
+| SHOULD | Y |
+| CONSIDER | Z |
 
-The author and reviewer resolve findings through structured written rounds in the review file. The goal is **convergence on the best outcome**, not winning arguments.
+**Overall**: [1-2 sentence summary of code quality]
 
-#### 4a. Author Response Round
+See inline comments for details.
+EOF
+)"
+```
 
-The author reads the findings file and writes a response for each finding in the Resolution section:
+RA notifies the human:
+> "PR #N reviewed. X MUST, Y SHOULD, Z CONSIDER findings. URL: [link]. **Next**: Assign the Developer Agent to address findings."
+
+### 3. DA Responds to Findings
+
+The DA reads review comments and replies to each one:
+
+```bash
+# Read review comments
+gh api repos/{owner}/{repo}/pulls/{N}/comments
+```
+
+For each finding, the DA replies on the comment thread with one of:
 
 | Response | Meaning | When to use |
 |----------|---------|-------------|
-| **Accept** | Author agrees and will fix | Finding is clearly correct |
-| **Counter** | Author proposes an alternative fix | Author sees a better solution than suggested |
-| **Challenge** | Author believes current code is correct | Author has context the reviewer lacked |
+| **Accept** | DA agrees and will fix | Finding is clearly correct |
+| **Counter** | DA proposes an alternative fix | DA sees a better solution than suggested |
+| **Challenge** | DA believes current code is correct | DA has context the reviewer lacked |
 
-For **Counter** and **Challenge** responses, the author MUST provide:
+For **Counter** and **Challenge** responses, the DA MUST provide:
 - **Evidence**: Code references, data format examples, or behavioral proof — not opinions
 - **Proposed resolution**: A concrete alternative (for Counter) or explanation of why the status quo is correct (for Challenge)
 
-```
-| # | Finding | Response | Evidence | Proposed Resolution |
-|---|---------|----------|----------|---------------------|
-| 1 | Naming: `d` unclear | Accept | — | Will rename to `descendantNodes` |
-| 2 | Extract helper fn | Counter | Only used once (line 84) | Inline with a clarifying comment instead |
-| 3 | Missing null check | Challenge | MongoDB `find()` always returns array (driver docs §4.2) | No change needed |
-```
+The DA pushes fixes for accepted items and requests re-review.
 
-#### 4b. Reviewer Evaluation Round
+DA notifies the human:
+> "Responded to all findings on PR #N. Accepted X, countered Y, challenged Z. Pushed fixes. URL: [link]. **Next**: Assign the Review Agent to re-evaluate."
 
-The reviewer reads the author's responses and for each:
+### 4. RA Re-reviews
 
-- **Accept**: Acknowledged. No further action.
-- **Counter**: Reviewer evaluates the alternative. Either accepts it or explains why the original suggestion is stronger. If both sides have merit, reviewer defaults to **author's preference** — the author owns the code.
-- **Challenge**: Reviewer evaluates the evidence. If the evidence holds, the finding is withdrawn. If not, the reviewer restates with additional context.
+The RA re-reads the diff, evaluates responses to countered/challenged findings:
 
-The reviewer writes their evaluation in a new section of the review file:
+- **Accept responses**: Verified fix was pushed.
+- **Counter responses**: Evaluates the alternative. Accepts if it has merit, or explains why the original suggestion is stronger. If both sides have merit, defaults to **DA's preference** — the author owns the code.
+- **Challenge responses**: Evaluates the evidence. If it holds, the finding is withdrawn. If not, restates with additional context.
 
-```
-## Reviewer Evaluation
-
-| # | Author Response | Reviewer Decision | Rationale |
-|---|----------------|-------------------|-----------|
-| 1 | Accept | — | — |
-| 2 | Counter: inline + comment | Agree | Single-use, extraction would be premature |
-| 3 | Challenge: driver guarantees array | Withdraw | Verified, driver docs confirm |
+If satisfied:
+```bash
+gh pr review <N> --approve --body "All findings resolved. LGTM."
 ```
 
-#### 4c. Tiebreaking Rules
+If not:
+```bash
+gh pr review <N> --request-changes --body "Remaining issues: ..."
+```
 
-If author and reviewer still disagree after one round:
+RA notifies the human:
+> "PR #N approved/changes requested. [Summary]. URL: [link]. **Next**: Merge the PR if satisfied / Assign DA to address remaining issues."
+
+### 5. Tiebreaking Rules
+
+If DA and RA still disagree after one round:
 
 1. **MUST findings**: Reviewer wins. Safety and correctness are non-negotiable.
 2. **SHOULD findings**: Whoever provides stronger evidence wins. If evidence is equal, **author decides** — they carry the maintenance burden.
@@ -129,32 +174,18 @@ If author and reviewer still disagree after one round:
 
 No finding may go more than **two rounds** of back-and-forth. If unresolved after two rounds, apply the tiebreaker above and move on.
 
-### 5. Resolution and Sign-Off
-
-The author implements all accepted and lost-tiebreak changes, then updates the review file's Resolution section. The reviewer re-reads changed files and confirms all MUST/SHOULD items are resolved. Review is complete.
-
 ---
 
 ## Human Action Summary
 
-Every step of the review process must end with a clear **"What the human should do next"** section. Agents cannot merge, deploy, or make final judgment calls — only the human owner can. Each review step output must conclude with a short block:
+Every step of the review process must end with a clear notification to the human. Agents cannot merge, deploy, or make final judgment calls — only the human owner can.
 
-```
-## What You (Human) Should Do Next
-
-- [Concrete action item 1]
-- [Concrete action item 2]
-```
-
-Guidelines per step:
-
-| Step | Typical Human Actions |
-|------|----------------------|
-| **1. Author Prepares** | Review the review request summary. Confirm the scope is correct and no files are missing. Kick off the reviewer. |
-| **2. Reviewer Reads Cold** | Nothing yet — wait for findings. |
-| **3. Findings Written** | Read the findings. Flag any the reviewer missed. Decide if MUST items match your priorities. Assign the author to respond. |
-| **4. Negotiation** | Read both sides. Override any decision you disagree with — your call is final. Tell agents to proceed with fixes. |
-| **5. Sign-Off** | Verify the final state yourself (run the app, spot-check code). Merge the branch if satisfied. Update project status in CLAUDE.md if needed. |
+| Step | Agent notifies human with |
+|------|--------------------------|
+| **1. DA opens PR** | PR URL, title, summary. "Assign the Review Agent to review." |
+| **2. RA reviews** | Finding counts, PR URL. "Assign the Developer Agent to address findings." |
+| **3. DA responds** | Accept/counter/challenge counts, PR URL. "Assign the Review Agent to re-evaluate." |
+| **4. RA re-reviews** | Approval or remaining issues, PR URL. "Merge if satisfied / assign DA for remaining issues." |
 
 This ensures the human is never left wondering "what now?" after an agent hands off.
 

@@ -95,6 +95,9 @@ make clean    # Remove data and containers
 - **ALWAYS update `docs/FEATURES.md` before committing any feature or behavior change**
 - Commit after each completed task
 
+### Pull Requests
+- Always check for the latest usable PR number before submitting (`gh pr list` or `gh pr view`), to avoid creating duplicates or editing the wrong PR
+
 ### API Design
 - All endpoints under `/api/`
 - Return JSON
@@ -126,6 +129,24 @@ Etymology template types:
 - `cog` = cognate (related, not ancestor)
 
 Important: Kaikki stores the **full** ancestry chain on each word (not just the immediate parent). The tree builder uses only the first ancestry template to determine the direct parent.
+
+## Code Review Process
+
+Reviews happen through GitHub Pull Requests, not local files. See `code_review/GUIDELINES.md` for the full process.
+
+**Agent identification:** All PR comments must be prefixed with `**[DA]**:` or `**[RA]**:` since everything appears under the human's GitHub account. Each agent determines its role from context (writing code = DA, reviewing = RA).
+
+**Quick reference:**
+1. **Developer Agent (DA)** opens a PR with structured description (what changed, files, how to verify, concerns)
+2. **Review Agent (RA)** reviews the PR using `gh` CLI — inline comments + summary review with MUST/SHOULD/CONSIDER findings
+3. **Developer Agent** responds to each finding (accept/counter/challenge), pushes fixes
+4. **Review Agent** re-reviews and approves or requests changes
+5. **Human** is notified at each step with the PR URL and what to do next
+
+Key files:
+- `code_review/GUIDELINES.md` — Full review process, severity levels, tiebreaking rules
+- `code_review/REVIEW_TEMPLATE.md` — Comment format reference for the Review Agent
+- `.github/PULL_REQUEST_TEMPLATE.md` — PR description template
 
 ## Working Principles
 
