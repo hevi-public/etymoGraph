@@ -72,7 +72,7 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Pluggable layout engine (force-directed and era-layered as selectable strategies with dropdown and localStorage persistence)
+**Last completed**: Era Layers family clustering (initial X positions group same-family nodes together per tier)
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
 ## Documentation
