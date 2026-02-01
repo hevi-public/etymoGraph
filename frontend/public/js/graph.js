@@ -171,43 +171,40 @@ function formatEtymologyText(text, templates) {
 
 // --- Graph constants and utilities ---
 
-const LANG_COLORS = {
-    germanic: "#5B8DEF",
-    romance: "#EF5B5B",
-    greek: "#43D9A2",
-    pie: "#F5C842",
-    slavic: "#CE6BF0",
-    celtic: "#FF8C42",
-    indoiranian: "#FF6B9D",
-    semitic: "#00BCD4",
-    uralic: "#8BC34A",
-    other: "#A0A0B8",
-};
+// Single source of truth for language family classification: [family, color, regex]
+const LANG_FAMILIES = [
+    ["germanic",    "#5B8DEF", /english|german|norse|dutch|frisian|gothic|proto-germanic|proto-west germanic|saxon|scots|yiddish|afrikaans|plautdietsch|limburgish|luxembourgish|cimbrian|alemannic|bavarian|vilamovian|saterland/i],
+    ["romance",     "#EF5B5B", /latin|italic|french|spanish|portuguese|romanian|proto-italic|catalan|occitan|sardinian|galician|venetian|sicilian|neapolitan|asturian/i],
+    ["greek",       "#43D9A2", /greek/i],
+    ["pie",         "#F5C842", /proto-indo-european/i],
+    ["slavic",      "#CE6BF0", /russian|polish|czech|slovak|serbian|croatian|bulgarian|ukrainian|slovene|proto-slavic|old church slavonic|belarusian|macedonian|sorbian/i],
+    ["celtic",      "#FF8C42", /irish|welsh|scottish gaelic|breton|cornish|manx|proto-celtic|old irish/i],
+    ["indoiranian", "#FF6B9D", /sanskrit|hindi|persian|urdu|bengali|punjabi|avestan|pali|proto-indo-iranian/i],
+    ["semitic",     "#00BCD4", /arabic|hebrew|aramaic|akkadian|proto-semitic/i],
+    ["uralic",      "#8BC34A", /finnish|hungarian|estonian|proto-uralic|proto-finnic/i],
+];
+
+const DEFAULT_FAMILY_COLOR = "#A0A0B8";
+
+// Derive LANG_COLORS for use in legend CSS class mapping
+const LANG_COLORS = Object.fromEntries([
+    ...LANG_FAMILIES.map(([family, color]) => [family, color]),
+    ["other", DEFAULT_FAMILY_COLOR],
+]);
+
+function classifyLang(lang) {
+    for (const [family, color, regex] of LANG_FAMILIES) {
+        if (regex.test(lang)) return { family, color };
+    }
+    return { family: "other", color: DEFAULT_FAMILY_COLOR };
+}
 
 function langColor(lang) {
-    if (/english|german|norse|dutch|frisian|gothic|proto-germanic|proto-west germanic|saxon|scots|yiddish|afrikaans|plautdietsch|limburgish|luxembourgish|cimbrian|alemannic|bavarian|vilamovian|saterland/i.test(lang)) return LANG_COLORS.germanic;
-    if (/latin|italic|french|spanish|portuguese|romanian|proto-italic|catalan|occitan|sardinian|galician|venetian|sicilian|neapolitan|asturian/i.test(lang)) return LANG_COLORS.romance;
-    if (/greek/i.test(lang)) return LANG_COLORS.greek;
-    if (/proto-indo-european/i.test(lang)) return LANG_COLORS.pie;
-    if (/russian|polish|czech|slovak|serbian|croatian|bulgarian|ukrainian|slovene|proto-slavic|old church slavonic|belarusian|macedonian|sorbian/i.test(lang)) return LANG_COLORS.slavic;
-    if (/irish|welsh|scottish gaelic|breton|cornish|manx|proto-celtic|old irish/i.test(lang)) return LANG_COLORS.celtic;
-    if (/sanskrit|hindi|persian|urdu|bengali|punjabi|avestan|pali|proto-indo-iranian/i.test(lang)) return LANG_COLORS.indoiranian;
-    if (/arabic|hebrew|aramaic|akkadian|proto-semitic/i.test(lang)) return LANG_COLORS.semitic;
-    if (/finnish|hungarian|estonian|proto-uralic|proto-finnic/i.test(lang)) return LANG_COLORS.uralic;
-    return LANG_COLORS.other;
+    return classifyLang(lang).color;
 }
 
 function getLangFamily(lang) {
-    if (/english|german|norse|dutch|frisian|gothic|proto-germanic|proto-west germanic|saxon|scots|yiddish|afrikaans|plautdietsch|limburgish|luxembourgish|cimbrian|alemannic|bavarian|vilamovian|saterland/i.test(lang)) return "germanic";
-    if (/latin|italic|french|spanish|portuguese|romanian|proto-italic|catalan|occitan|sardinian|galician|venetian|sicilian|neapolitan|asturian/i.test(lang)) return "romance";
-    if (/greek/i.test(lang)) return "greek";
-    if (/proto-indo-european/i.test(lang)) return "pie";
-    if (/russian|polish|czech|slovak|serbian|croatian|bulgarian|ukrainian|slovene|proto-slavic|old church slavonic|belarusian|macedonian|sorbian/i.test(lang)) return "slavic";
-    if (/irish|welsh|scottish gaelic|breton|cornish|manx|proto-celtic|old irish/i.test(lang)) return "celtic";
-    if (/sanskrit|hindi|persian|urdu|bengali|punjabi|avestan|pali|proto-indo-iranian/i.test(lang)) return "indoiranian";
-    if (/arabic|hebrew|aramaic|akkadian|proto-semitic/i.test(lang)) return "semitic";
-    if (/finnish|hungarian|estonian|proto-uralic|proto-finnic/i.test(lang)) return "uralic";
-    return "other";
+    return classifyLang(lang).family;
 }
 
 const EDGE_LABELS = { inh: "inherited", bor: "borrowed", der: "derived", cog: "cognate" };
@@ -255,27 +252,57 @@ function getEraTier(lang) {
     return 6;
 }
 
+// Shared vis.js options; each layout overrides only what differs
+function baseGraphOptions(overrides) {
+    const base = {
+        layout: { improvedLayout: true },
+        edges: {
+            color: { color: "#555", highlight: "#aaa" },
+            font: { color: "#999", size: 11, strokeWidth: 0 },
+            smooth: { type: "continuous" },
+            length: 200,
+        },
+        nodes: {
+            shape: "box",
+            borderWidth: 0,
+            font: { size: 13, multi: true, color: "#fff" },
+            margin: 10,
+        },
+        physics: {
+            solver: "forceAtlas2Based",
+            forceAtlas2Based: {},
+            stabilization: false,
+        },
+        interaction: {
+            zoomView: false,
+            dragView: true,
+            hover: true,
+        },
+    };
+    // Deep-merge overrides into base
+    for (const [section, values] of Object.entries(overrides)) {
+        if (typeof values === "object" && !Array.isArray(values) && base[section]) {
+            base[section] = { ...base[section], ...values };
+            // One more level for nested objects like forceAtlas2Based
+            for (const [k, v] of Object.entries(values)) {
+                if (typeof v === "object" && !Array.isArray(v) && base[section][k] && typeof base[section][k] === "object") {
+                    base[section][k] = { ...base[section][k], ...v };
+                }
+            }
+        } else {
+            base[section] = values;
+        }
+    }
+    return base;
+}
+
 const LAYOUTS = {
     "force-directed": {
         name: "force-directed",
         label: "Force-Directed",
         getGraphOptions() {
-            return {
-                layout: { improvedLayout: true },
-                edges: {
-                    color: { color: "#555", highlight: "#aaa" },
-                    font: { color: "#999", size: 11, strokeWidth: 0 },
-                    smooth: { type: "continuous" },
-                    length: 200,
-                },
-                nodes: {
-                    shape: "box",
-                    borderWidth: 0,
-                    font: { size: 13, multi: true, color: "#fff" },
-                    margin: 10,
-                },
+            return baseGraphOptions({
                 physics: {
-                    solver: "forceAtlas2Based",
                     forceAtlas2Based: {
                         gravitationalConstant: -120,
                         centralGravity: 0.01,
@@ -283,14 +310,8 @@ const LAYOUTS = {
                         springConstant: 0.05,
                         damping: 0.7,
                     },
-                    stabilization: false,
                 },
-                interaction: {
-                    zoomView: false,
-                    dragView: true,
-                    hover: true,
-                },
-            };
+            });
         },
         buildVisNodes(nodes, rootId) {
             const baseColors = {};
@@ -314,29 +335,16 @@ const LAYOUTS = {
         getInitialView() {
             return { position: { x: 0, y: 0 }, scale: 1 };
         },
-        onAfterDraw: null,
+        onBeforeDrawing: null,
     },
 
     "era-layered": {
         name: "era-layered",
         label: "Era Layers",
         getGraphOptions() {
-            return {
-                layout: { improvedLayout: true },
-                edges: {
-                    color: { color: "#555", highlight: "#aaa" },
-                    font: { color: "#999", size: 11, strokeWidth: 0 },
-                    smooth: { type: "continuous" },
-                    length: 150,
-                },
-                nodes: {
-                    shape: "box",
-                    borderWidth: 0,
-                    font: { size: 13, multi: true, color: "#fff" },
-                    margin: 10,
-                },
+            return baseGraphOptions({
+                edges: { length: 150 },
                 physics: {
-                    solver: "forceAtlas2Based",
                     forceAtlas2Based: {
                         gravitationalConstant: -80,
                         centralGravity: 0.001,
@@ -345,14 +353,8 @@ const LAYOUTS = {
                         damping: 0.95,
                         avoidOverlap: 0.7,
                     },
-                    stabilization: false,
                 },
-                interaction: {
-                    zoomView: false,
-                    dragView: true,
-                    hover: true,
-                },
-            };
+            });
         },
         buildVisNodes(nodes) {
             const baseColors = {};
@@ -408,9 +410,10 @@ const LAYOUTS = {
             const startY = ERA_TIERS[wordTier]?.y || 0;
             return { position: { x: 0, y: startY }, scale: 0.8 };
         },
-        onAfterDraw(network, ctx) {
+        onBeforeDrawing(network, ctx) {
             const bandHeight = 150;
             const halfBand = bandHeight / 2;
+            // Wide enough to always cover the viewport even when panned far horizontally
             const bandWidth = 20000;
             const labelX = -bandWidth / 2 + 20;
 
@@ -492,8 +495,8 @@ function updateGraph(data) {
     const edges = edgesDataSet;
     network = new vis.Network(graphContainer, { nodes, edges }, options);
 
-    if (layout.onAfterDraw) {
-        network.on("beforeDrawing", (ctx) => layout.onAfterDraw(network, ctx));
+    if (layout.onBeforeDrawing) {
+        network.on("beforeDrawing", (ctx) => layout.onBeforeDrawing(network, ctx));
     }
 
     const view = layout.getInitialView(data.nodes, wordNodeId, rootNodeId);
