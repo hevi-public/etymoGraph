@@ -127,6 +127,22 @@ Etymology template types:
 
 Important: Kaikki stores the **full** ancestry chain on each word (not just the immediate parent). The tree builder uses only the first ancestry template to determine the direct parent.
 
+## Code Review Process
+
+Reviews happen through GitHub Pull Requests, not local files. See `code_review/GUIDELINES.md` for the full process.
+
+**Quick reference:**
+1. **Developer Agent** opens a PR with structured description (what changed, files, how to verify, concerns)
+2. **Review Agent** reviews the PR using `gh` CLI — inline comments + summary review with MUST/SHOULD/CONSIDER findings
+3. **Developer Agent** responds to each finding (accept/counter/challenge), pushes fixes
+4. **Review Agent** re-reviews and approves or requests changes
+5. **Human** is notified at each step with the PR URL and what to do next
+
+Key files:
+- `code_review/GUIDELINES.md` — Full review process, severity levels, tiebreaking rules
+- `code_review/REVIEW_TEMPLATE.md` — Comment format reference for the Review Agent
+- `.github/PULL_REQUEST_TEMPLATE.md` — PR description template
+
 ## Working Principles
 
 - **Automate everything**: Every repeatable action should be scriptable. Use `scripts/`, `Makefile`, and Docker Compose so nothing requires manual steps.

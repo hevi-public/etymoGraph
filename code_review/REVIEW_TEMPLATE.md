@@ -1,88 +1,71 @@
-# Code Review: [Feature/Change Name]
+# Review Agent Comment Format Reference
 
-**Date**: YYYY-MM-DD
-**Author**: [agent name]
-**Reviewer**: [agent name]
-**Status**: PENDING | IN PROGRESS | APPROVED | CHANGES REQUESTED
+This document describes how the Review Agent (RA) should structure their GitHub PR review comments. The actual review happens on the PR itself — this is a formatting reference only.
 
 ---
 
-## Review Request (Author fills this)
+## Inline Comments (on specific lines)
 
-### What changed
-[1-3 sentences]
+For each finding, leave an inline comment on the relevant line(s):
 
-### Files changed
-1. `path/to/most-important-file`
-2. `path/to/next-file`
+```
+**[MUST/SHOULD/CONSIDER]**: Short title
 
-### How to verify
-- Step 1
-- Step 2
+**Issue**: What's wrong or unclear
+**Suggestion**: Concrete fix (not just "make it better")
+```
 
-### Concerns
-[Anything specific you want reviewed]
+Example:
+```
+**[SHOULD]**: Rename ambiguous variable
+
+**Issue**: `d` on line 42 could mean anything — data, document, descendant
+**Suggestion**: Rename to `descendantNodes` to match its contents
+```
 
 ---
 
-## Findings (Reviewer fills this)
+## Summary Review
 
-### Summary
+After leaving inline comments, submit a summary review using `gh pr review`:
+
+```
+## Review Summary
 
 | Level | Count |
 |-------|-------|
-| MUST | 0 |
-| SHOULD | 0 |
-| CONSIDER | 0 |
+| MUST | X |
+| SHOULD | Y |
+| CONSIDER | Z |
 
-**Overall**: [1-2 sentence summary of code quality]
+**Overall**: [1-2 sentence assessment of code quality]
 
-### Findings
-
-_(Use the format below for each finding. Delete this line.)_
-
-#### [MUST/SHOULD/CONSIDER] Title
-
-**File**: `path/to/file:line`
-**Issue**: What's wrong or unclear
-**Suggestion**: Concrete fix
+See inline comments for details.
+```
 
 ---
 
-## Author Response
+## Responding to Author Replies
 
-| # | Finding | Response | Evidence | Proposed Resolution |
-|---|---------|----------|----------|---------------------|
-| 1 | Title | Accept / Counter / Challenge | [evidence or —] | [concrete action] |
+When the DA responds to findings, the RA evaluates each reply:
 
----
-
-## Reviewer Evaluation
-
-| # | Author Response | Reviewer Decision | Rationale |
-|---|----------------|-------------------|-----------|
-| 1 | Accept | — | — |
+- **Accept**: Verify the fix was pushed. No further comment needed.
+- **Counter**: Evaluate the alternative. Reply with agreement or explain why the original is stronger.
+- **Challenge**: Evaluate the evidence. Reply with withdrawal or restatement with additional context.
 
 ---
 
-## Resolution and Sign-Off
+## Final Review Submission
 
-| # | Finding | Final Outcome |
-|---|---------|---------------|
-| 1 | Title | Fixed / Withdrawn / Deferred |
-
-- [ ] All MUST items resolved
-- [ ] All SHOULD items resolved or justified
-- [ ] Re-read changed files after fixes
-- [ ] **APPROVED**
+- If all findings are resolved: `gh pr review <N> --approve --body "All findings resolved. LGTM."`
+- If issues remain: `gh pr review <N> --request-changes --body "Remaining issues: ..."`
 
 ---
 
-## What You (Human) Should Do Next
+## Severity Reference
 
-_Each agent filling out a section above should replace this with concrete next actions for the human. Examples:_
-
-- [ ] Review the findings above and flag anything missed
-- [ ] Run the app and verify [specific behavior]
-- [ ] Merge the branch if satisfied
-- [ ] Update project status in CLAUDE.md
+| Level | Meaning | Action Required |
+|-------|---------|-----------------|
+| **MUST** | Bugs, security issues, broken behavior | Fix before merge |
+| **SHOULD** | Readability problems, unclear intent, missing context | Fix unless author justifies |
+| **CONSIDER** | Style preferences, minor improvements, alternative approaches | Author's discretion |
