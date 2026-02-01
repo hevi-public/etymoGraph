@@ -88,6 +88,7 @@ make clean    # Remove data and containers
 - JavaScript: Vanilla ES6+, no frameworks
 - Use meaningful variable names
 - Add comments for non-obvious logic
+- Code style should follow general Clean Code principles with Functional Paradigm style. Such as: heavy use of small pure-functions, that are expressive in themselves (don't make a function call of an elementary operation for example). Consider code readability and understandability, maintainability from both human and LLM perspective
 
 ### Git Commits
 - Format: `[TASK_ID]: Description`
