@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: January 31, 2026*
+*Last updated: February 1, 2026*
 
 ---
 
@@ -94,7 +94,7 @@ Legend displayed in the header.
 
 ### 5. Pluggable Layout Engine
 
-The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layout names to strategy objects, each providing `getGraphOptions()`, `buildVisNodes()`, `buildExtraEdges()`, `getInitialView()`, and an optional `onAfterDraw` canvas hook. A `<select>` dropdown in the header lets users switch layouts; the preference is persisted in `localStorage`.
+The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layout names to strategy objects, each providing `getGraphOptions()`, `buildVisNodes()`, `buildExtraEdges()`, `getInitialView()`, and an optional `onBeforeDrawing` canvas hook. Shared vis.js options are extracted into `baseGraphOptions()` so each strategy only overrides what differs. Language family classification uses a single `LANG_FAMILIES` source of truth for both color and family name. A `<select>` dropdown in the header lets users switch layouts; the preference is persisted in `localStorage`.
 
 **Built-in layouts:**
 
