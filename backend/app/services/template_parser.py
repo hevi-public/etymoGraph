@@ -1,10 +1,13 @@
-"""Pure functions for extracting structured relationships from Kaikki etymology_templates."""
+"""Extract structured relationships from Kaikki etymology_templates."""
 
 from app.services import lang_cache
 
 ANCESTRY_TYPES = {"inh", "bor", "der"}
 COGNATE_TYPE = "cog"
-ALL_EDGE_TYPES = ANCESTRY_TYPES | {COGNATE_TYPE}
+
+
+def node_id(word: str, lang: str) -> str:
+    return f"{word}:{lang}"
 
 
 def extract_ancestry(doc: dict, allowed_types: set[str] | None = None) -> list[dict]:

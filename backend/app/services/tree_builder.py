@@ -1,14 +1,10 @@
 """TreeBuilder: holds shared graph state and exposes methods for building etymology trees."""
 
 from app.services import lang_cache
-from app.services.template_parser import extract_ancestry, extract_cognates
+from app.services.template_parser import extract_ancestry, extract_cognates, node_id
 
 MAX_DESCENDANTS_PER_NODE = 50
 DEFAULT_MAX_COGNATE_ROUNDS = 2
-
-
-def _node_id(word: str, lang: str) -> str:
-    return f"{word}:{lang}"
 
 
 class TreeBuilder:
@@ -23,7 +19,7 @@ class TreeBuilder:
         self.visited_edges: set[tuple] = set()
 
     def add_node(self, word: str, lang: str, level: int) -> str:
-        nid = _node_id(word, lang)
+        nid = node_id(word, lang)
         if nid not in self.nodes:
             self.nodes[nid] = {"id": nid, "label": word, "language": lang, "level": level}
         return nid
@@ -60,7 +56,7 @@ class TreeBuilder:
         ancestry = extract_ancestry(doc, self.allowed_types)
         chain = [(word, lang, lang_cache.name_to_code(lang), base_level)]
 
-        prev_id = _node_id(word, lang)
+        prev_id = node_id(word, lang)
         for i, anc in enumerate(ancestry):
             if i >= self.max_ancestor_depth:
                 break
@@ -82,7 +78,7 @@ class TreeBuilder:
         if depth >= self.max_descendant_depth:
             return
 
-        parent_id = _node_id(word, lang)
+        parent_id = node_id(word, lang)
 
         cursor = self.col.find(
             {"etymology_templates": {"$elemMatch": {
@@ -111,7 +107,7 @@ class TreeBuilder:
                 continue
 
             edge_type = first_ancestry[0]["type"]
-            did = _node_id(dw, dl)
+            did = node_id(dw, dl)
 
             if not self.add_edge(did, parent_id, edge_type):
                 continue
@@ -125,6 +121,7 @@ class TreeBuilder:
         for _ in range(max_rounds):
             new_cognate_nodes = []
 
+            # Snapshot: expand_word below adds new nodes
             unprocessed = [(nid, node) for nid, node in self.nodes.items()
                            if nid not in processed_nids]
             for nid, node in unprocessed:
@@ -136,7 +133,7 @@ class TreeBuilder:
                 if not doc:
                     continue
                 for cog in extract_cognates(doc):
-                    cid = _node_id(cog["word"], cog["lang"])
+                    cid = node_id(cog["word"], cog["lang"])
                     if not self.add_edge(nid, cid, "cog"):
                         continue
                     if cid not in self.nodes:
@@ -147,5 +144,5 @@ class TreeBuilder:
                 break
 
             for cog_word, cog_lang in new_cognate_nodes:
-                cog_level = self.nodes[_node_id(cog_word, cog_lang)]["level"]
+                cog_level = self.nodes[node_id(cog_word, cog_lang)]["level"]
                 await self.expand_word(cog_word, cog_lang, cog_level)
