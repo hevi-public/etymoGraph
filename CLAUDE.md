@@ -95,6 +95,9 @@ make clean    # Remove data and containers
 - **ALWAYS update `docs/FEATURES.md` before committing any feature or behavior change**
 - Commit after each completed task
 
+### Pull Requests
+- Always check for the latest usable PR number before submitting (`gh pr list` or `gh pr view`), to avoid creating duplicates or editing the wrong PR
+
 ### API Design
 - All endpoints under `/api/`
 - Return JSON
