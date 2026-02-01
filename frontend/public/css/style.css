@@ -127,6 +127,21 @@ header h1 {
     border-color: #4a90d9;
 }
 
+#layout-select {
+    padding: 6px 12px;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+}
+
+#layout-select:hover {
+    border-color: #4a90d9;
+}
+
 #filter-dropdown {
     position: absolute;
     top: 100%;

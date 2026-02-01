@@ -54,5 +54,21 @@ filterDropdown.addEventListener("change", () => {
     selectWord(currentWord, currentLang);
 });
 
+// Layout selector: populate from LAYOUTS registry and wire change handler
+const layoutSelect = document.getElementById("layout-select");
+for (const [key, layout] of Object.entries(LAYOUTS)) {
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = layout.label;
+    layoutSelect.appendChild(opt);
+}
+layoutSelect.value = currentLayout;
+
+layoutSelect.addEventListener("change", () => {
+    currentLayout = layoutSelect.value;
+    localStorage.setItem("graphLayout", currentLayout);
+    selectWord(currentWord, currentLang);
+});
+
 // Load default word on startup
 selectWord("wine", "English");

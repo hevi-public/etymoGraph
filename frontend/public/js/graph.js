@@ -169,37 +169,6 @@ function formatEtymologyText(text, templates) {
     return html || '<span class="etym-empty">No etymology text available.</span>';
 }
 
-// --- Era tier definitions for layered layout ---
-
-const ERA_TIERS = [
-    { name: "Deep Proto", date: "~4000+ BCE", y: 800 },
-    { name: "Branch Proto", date: "~2000–500 BCE", y: 650 },
-    { name: "Classical/Ancient", date: "~500 BCE–500 CE", y: 500 },
-    { name: "Early Medieval", date: "~500–1000 CE", y: 350 },
-    { name: "Late Medieval", date: "~1000–1500 CE", y: 200 },
-    { name: "Early Modern", date: "~1500–1700 CE", y: 50 },
-    { name: "Modern", date: "~1700–present", y: -100 },
-    { name: "Contemporary", date: "recent", y: -250 },
-];
-
-// Deep proto roots: these specific "Proto-" languages are tier 0
-const DEEP_PROTO = /^Proto-(Indo-European|Uralic|Afro-Asiatic|Sino-Tibetan|Austronesian|Niger-Congo|Trans-New Guinea|Dravidian|Turkic|Mongolic|Japonic|Koreanic|Tai|Austroasiatic|Nilo-Saharan)$/i;
-
-// Specific classical-era languages that don't have an "Ancient"/"Old" prefix
-const CLASSICAL_SPECIFIC = /^(Latin|Sanskrit|Avestan|Gothic|Akkadian|Sumerian|Tocharian [AB]|Pali|Oscan|Umbrian|Mycenaean Greek|Hittite|Luwian|Lydian|Lycian|Sogdian|Bactrian|Prakrit|Elamite)$/i;
-
-function getEraTier(lang) {
-    if (!lang) return 6;
-    if (DEEP_PROTO.test(lang)) return 0;
-    if (/^Proto-/.test(lang)) return 1;
-    if (/^(Ancient |Classical |Biblical )/.test(lang)) return 2;
-    if (CLASSICAL_SPECIFIC.test(lang)) return 2;
-    if (/^Old /.test(lang)) return 3;
-    if (/^Middle |^Anglo-Norman$/i.test(lang)) return 4;
-    if (/^Early Modern /.test(lang)) return 5;
-    return 6;
-}
-
 // --- Graph constants and utilities ---
 
 const LANG_COLORS = {
@@ -257,40 +226,219 @@ function opacityForHops(hops) {
     return OPACITY_BY_HOP[hops];
 }
 
-const graphOptions = {
-    layout: {
-        improvedLayout: true,
-    },
-    edges: {
-        color: { color: "#555", highlight: "#aaa" },
-        font: { color: "#999", size: 11, strokeWidth: 0 },
-        smooth: { type: "continuous" },
-        length: 150,
-    },
-    nodes: {
-        shape: "box",
-        borderWidth: 0,
-        font: { size: 13, multi: true, color: "#fff" },
-        margin: 10,
-    },
-    physics: {
-        solver: "forceAtlas2Based",
-        forceAtlas2Based: {
-            gravitationalConstant: -80,
-            centralGravity: 0.001,
-            springLength: 500,
-            springConstant: 0.002,
-            damping: 0.95,
-            avoidOverlap: 0.7,
+// --- Layout Strategy Engine ---
+
+// Era tier definitions (used by eraLayered strategy)
+const ERA_TIERS = [
+    { name: "Deep Proto", date: "~4000+ BCE", y: 800 },
+    { name: "Branch Proto", date: "~2000–500 BCE", y: 650 },
+    { name: "Classical/Ancient", date: "~500 BCE–500 CE", y: 500 },
+    { name: "Early Medieval", date: "~500–1000 CE", y: 350 },
+    { name: "Late Medieval", date: "~1000–1500 CE", y: 200 },
+    { name: "Early Modern", date: "~1500–1700 CE", y: 50 },
+    { name: "Modern", date: "~1700–present", y: -100 },
+    { name: "Contemporary", date: "recent", y: -250 },
+];
+
+const DEEP_PROTO = /^Proto-(Indo-European|Uralic|Afro-Asiatic|Sino-Tibetan|Austronesian|Niger-Congo|Trans-New Guinea|Dravidian|Turkic|Mongolic|Japonic|Koreanic|Tai|Austroasiatic|Nilo-Saharan)$/i;
+const CLASSICAL_SPECIFIC = /^(Latin|Sanskrit|Avestan|Gothic|Akkadian|Sumerian|Tocharian [AB]|Pali|Oscan|Umbrian|Mycenaean Greek|Hittite|Luwian|Lydian|Lycian|Sogdian|Bactrian|Prakrit|Elamite)$/i;
+
+function getEraTier(lang) {
+    if (!lang) return 6;
+    if (DEEP_PROTO.test(lang)) return 0;
+    if (/^Proto-/.test(lang)) return 1;
+    if (/^(Ancient |Classical |Biblical )/.test(lang)) return 2;
+    if (CLASSICAL_SPECIFIC.test(lang)) return 2;
+    if (/^Old /.test(lang)) return 3;
+    if (/^Middle |^Anglo-Norman$/i.test(lang)) return 4;
+    if (/^Early Modern /.test(lang)) return 5;
+    return 6;
+}
+
+const LAYOUTS = {
+    "force-directed": {
+        name: "force-directed",
+        label: "Force-Directed",
+        getGraphOptions() {
+            return {
+                layout: { improvedLayout: true },
+                edges: {
+                    color: { color: "#555", highlight: "#aaa" },
+                    font: { color: "#999", size: 11, strokeWidth: 0 },
+                    smooth: { type: "continuous" },
+                    length: 200,
+                },
+                nodes: {
+                    shape: "box",
+                    borderWidth: 0,
+                    font: { size: 13, multi: true, color: "#fff" },
+                    margin: 10,
+                },
+                physics: {
+                    solver: "forceAtlas2Based",
+                    forceAtlas2Based: {
+                        gravitationalConstant: -120,
+                        centralGravity: 0.01,
+                        springLength: 200,
+                        springConstant: 0.05,
+                        damping: 0.7,
+                    },
+                    stabilization: false,
+                },
+                interaction: {
+                    zoomView: false,
+                    dragView: true,
+                    hover: true,
+                },
+            };
         },
-        stabilization: false,
+        buildVisNodes(nodes, rootId) {
+            const baseColors = {};
+            const visNodes = nodes.map((n) => {
+                const isRoot = n.id === rootId;
+                const color = langColor(n.language);
+                baseColors[n.id] = color;
+                return {
+                    ...n,
+                    label: `${n.label}\n(${n.language})`,
+                    color,
+                    mass: isRoot ? 5 : Math.max(1, 5 / Math.pow(2, Math.abs(n.level))),
+                    ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
+                };
+            });
+            return { visNodes, nodeBaseColors: baseColors };
+        },
+        buildExtraEdges() {
+            return [];
+        },
+        getInitialView() {
+            return { position: { x: 0, y: 0 }, scale: 1 };
+        },
+        onAfterDraw: null,
     },
-    interaction: {
-        zoomView: false,
-        dragView: true,
-        hover: true,
+
+    "era-layered": {
+        name: "era-layered",
+        label: "Era Layers",
+        getGraphOptions() {
+            return {
+                layout: { improvedLayout: true },
+                edges: {
+                    color: { color: "#555", highlight: "#aaa" },
+                    font: { color: "#999", size: 11, strokeWidth: 0 },
+                    smooth: { type: "continuous" },
+                    length: 150,
+                },
+                nodes: {
+                    shape: "box",
+                    borderWidth: 0,
+                    font: { size: 13, multi: true, color: "#fff" },
+                    margin: 10,
+                },
+                physics: {
+                    solver: "forceAtlas2Based",
+                    forceAtlas2Based: {
+                        gravitationalConstant: -80,
+                        centralGravity: 0.001,
+                        springLength: 500,
+                        springConstant: 0.002,
+                        damping: 0.95,
+                        avoidOverlap: 0.7,
+                    },
+                    stabilization: false,
+                },
+                interaction: {
+                    zoomView: false,
+                    dragView: true,
+                    hover: true,
+                },
+            };
+        },
+        buildVisNodes(nodes) {
+            const baseColors = {};
+            const visNodes = nodes.map((n) => {
+                const color = langColor(n.language);
+                baseColors[n.id] = color;
+                const tier = getEraTier(n.language);
+                const yPos = ERA_TIERS[tier].y;
+                return {
+                    ...n,
+                    label: `${n.label}\n(${n.language})`,
+                    color,
+                    mass: 1,
+                    y: yPos,
+                    fixed: { y: true },
+                };
+            });
+            return { visNodes, nodeBaseColors: baseColors };
+        },
+        buildExtraEdges(nodes) {
+            // Build invisible short-spring edges between same-family nodes within the same era tier
+            const tierFamilyGroups = {};
+            for (const n of nodes) {
+                const tier = getEraTier(n.language);
+                const family = getLangFamily(n.language);
+                const key = `${tier}:${family}`;
+                if (!tierFamilyGroups[key]) tierFamilyGroups[key] = [];
+                tierFamilyGroups[key].push(n.id);
+            }
+
+            const edges = [];
+            for (const [key, ids] of Object.entries(tierFamilyGroups)) {
+                if (ids.length < 2) continue;
+                const tier = parseInt(key.split(":")[0]);
+                const tierFactor = tier / 6;
+                const groupFactor = Math.min((ids.length - 1) / 10, 1);
+                const springLength = 20 + 100 * (0.5 * tierFactor + 0.5 * groupFactor);
+                for (let i = 0; i < ids.length - 1; i++) {
+                    edges.push({
+                        from: ids[i],
+                        to: ids[i + 1],
+                        hidden: true,
+                        physics: true,
+                        length: springLength,
+                    });
+                }
+            }
+            return edges;
+        },
+        getInitialView(nodes, wordNodeId) {
+            const wordNode = nodes.find(n => n.id === wordNodeId);
+            const wordTier = wordNode ? getEraTier(wordNode.language) : 6;
+            const startY = ERA_TIERS[wordTier]?.y || 0;
+            return { position: { x: 0, y: startY }, scale: 0.8 };
+        },
+        onAfterDraw(network, ctx) {
+            const bandHeight = 150;
+            const halfBand = bandHeight / 2;
+            const bandWidth = 20000;
+            const labelX = -bandWidth / 2 + 20;
+
+            for (let i = 0; i < ERA_TIERS.length; i++) {
+                const tier = ERA_TIERS[i];
+                const top = tier.y - halfBand;
+
+                if (i % 2 === 0) {
+                    ctx.fillStyle = "rgba(255,255,255,0.03)";
+                    ctx.fillRect(-bandWidth / 2, top, bandWidth, bandHeight);
+                }
+
+                ctx.fillStyle = "rgba(255,255,255,0.25)";
+                ctx.font = "bold 14px sans-serif";
+                ctx.textAlign = "left";
+                ctx.textBaseline = "middle";
+                ctx.fillText(tier.name, labelX, tier.y - 8);
+                ctx.font = "11px sans-serif";
+                ctx.fillStyle = "rgba(255,255,255,0.15)";
+                ctx.fillText(tier.date, labelX, tier.y + 10);
+            }
+        },
     },
 };
+
+let currentLayout = localStorage.getItem("graphLayout") || "era-layered";
+// Validate stored layout
+if (!LAYOUTS[currentLayout]) currentLayout = "era-layered";
 
 let network = null;
 let nodesDataSet = null;
@@ -309,58 +457,6 @@ function findRootAndWordNodes(nodes) {
         rootNodeId: etymRoot ? etymRoot.id : null,
         wordNodeId: wordNode ? wordNode.id : null,
     };
-}
-
-function buildVisNodes(nodes, rootId) {
-    const baseColors = {};
-    const visNodes = nodes.map((n) => {
-        const color = langColor(n.language);
-        baseColors[n.id] = color;
-        const tier = getEraTier(n.language);
-        const yPos = ERA_TIERS[tier].y;
-        return {
-            ...n,
-            label: `${n.label}\n(${n.language})`,
-            color,
-            mass: 1,
-            y: yPos,
-            fixed: { y: true },
-        };
-    });
-    return { visNodes, nodeBaseColors: baseColors };
-}
-
-// Build invisible short-spring edges between same-family nodes within the same era tier
-function buildFamilyEdges(nodes) {
-    const tierFamilyGroups = {};
-    for (const n of nodes) {
-        const tier = getEraTier(n.language);
-        const family = getLangFamily(n.language);
-        const key = `${tier}:${family}`;
-        if (!tierFamilyGroups[key]) tierFamilyGroups[key] = [];
-        tierFamilyGroups[key].push(n.id);
-    }
-
-    const edges = [];
-    for (const [key, ids] of Object.entries(tierFamilyGroups)) {
-        if (ids.length < 2) continue;
-        const tier = parseInt(key.split(":")[0]);
-        // Tight springs for old tiers, loose for young tiers
-        const tierFactor = tier / 6;                      // 0..1 oldest→youngest
-        // Tight when few siblings in group, loose when many
-        const groupFactor = Math.min((ids.length - 1) / 10, 1); // 1 node pair=0, 10+=1
-        const springLength = 20 + 100 * (0.5 * tierFactor + 0.5 * groupFactor);
-        for (let i = 0; i < ids.length - 1; i++) {
-            edges.push({
-                from: ids[i],
-                to: ids[i + 1],
-                hidden: true,
-                physics: true,
-                length: springLength,
-            });
-        }
-    }
-    return edges;
 }
 
 function buildVisEdges(edges) {
@@ -384,50 +480,24 @@ function updateGraph(data) {
     rootNodeId = found.rootNodeId;
     wordNodeId = found.wordNodeId;
 
-    const built = buildVisNodes(data.nodes, rootNodeId);
-    nodeBaseColors = built.nodeBaseColors;
+    const layout = LAYOUTS[currentLayout];
+    const options = layout.getGraphOptions();
+    const { visNodes, nodeBaseColors: colors } = layout.buildVisNodes(data.nodes, rootNodeId);
+    nodeBaseColors = colors;
 
-    nodesDataSet = new vis.DataSet(built.visNodes);
+    nodesDataSet = new vis.DataSet(visNodes);
     const nodes = nodesDataSet;
-    const familyEdges = buildFamilyEdges(data.nodes);
-    edgesDataSet = new vis.DataSet([...buildVisEdges(data.edges), ...familyEdges]);
+    const extraEdges = layout.buildExtraEdges(data.nodes);
+    edgesDataSet = new vis.DataSet([...buildVisEdges(data.edges), ...extraEdges]);
     const edges = edgesDataSet;
-    network = new vis.Network(graphContainer, { nodes, edges }, graphOptions);
+    network = new vis.Network(graphContainer, { nodes, edges }, options);
 
-    // Draw era band backgrounds and labels
-    network.on("beforeDrawing", (ctx) => {
-        const bandHeight = 150; // height of each era band
-        const halfBand = bandHeight / 2;
-        // Draw wide enough to always cover the viewport
-        const bandWidth = 20000;
-        const labelX = -bandWidth / 2 + 20;
+    if (layout.onAfterDraw) {
+        network.on("beforeDrawing", (ctx) => layout.onAfterDraw(network, ctx));
+    }
 
-        for (let i = 0; i < ERA_TIERS.length; i++) {
-            const tier = ERA_TIERS[i];
-            const top = tier.y - halfBand;
-
-            // Alternating subtle background bands
-            if (i % 2 === 0) {
-                ctx.fillStyle = "rgba(255,255,255,0.03)";
-                ctx.fillRect(-bandWidth / 2, top, bandWidth, bandHeight);
-            }
-
-            // Era label on the left
-            ctx.fillStyle = "rgba(255,255,255,0.25)";
-            ctx.font = "bold 14px sans-serif";
-            ctx.textAlign = "left";
-            ctx.textBaseline = "middle";
-            ctx.fillText(tier.name, labelX, tier.y - 8);
-            ctx.font = "11px sans-serif";
-            ctx.fillStyle = "rgba(255,255,255,0.15)";
-            ctx.fillText(tier.date, labelX, tier.y + 10);
-        }
-    });
-
-    // Start view centered on the searched word's era
-    const wordTier = wordNodeId ? getEraTier(currentNodes.find(n => n.id === wordNodeId)?.language) : 6;
-    const startY = ERA_TIERS[wordTier]?.y || 0;
-    network.moveTo({ position: { x: 0, y: startY }, scale: 0.8, animation: false });
+    const view = layout.getInitialView(data.nodes, wordNodeId, rootNodeId);
+    network.moveTo({ ...view, animation: false });
 
     network.on("click", (params) => {
         if (params.nodes.length > 0) {
