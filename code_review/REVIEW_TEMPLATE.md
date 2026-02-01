@@ -75,3 +75,14 @@ _(Use the format below for each finding. Delete this line.)_
 - [ ] All SHOULD items resolved or justified
 - [ ] Re-read changed files after fixes
 - [ ] **APPROVED**
+
+---
+
+## What You (Human) Should Do Next
+
+_Each agent filling out a section above should replace this with concrete next actions for the human. Examples:_
+
+- [ ] Review the findings above and flag anything missed
+- [ ] Run the app and verify [specific behavior]
+- [ ] Merge the branch if satisfied
+- [ ] Update project status in CLAUDE.md

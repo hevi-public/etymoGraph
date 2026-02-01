@@ -1,53 +1,53 @@
 const graphContainer = document.getElementById("graph");
 
-function formatEtymologyText(text, templates) {
-    if (!text) return '<span class="etym-empty">No etymology text available.</span>';
+// --- Pure utility functions extracted from formatEtymologyText ---
 
-    // Escape HTML
-    const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function escapeHtml(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
 
-    // Build lookup from templates: word → {word, lang_code} for linkable terms
-    // Kaikki templates have args as dict with string keys: "1"=source_lang, "2"=target_lang, "3"=word
-    // For cognates: "1"=lang_code, "2"=word
-    const templateLookup = {};
-    if (templates && templates.length) {
-        // Process cognates first, then ancestry types so ancestry takes priority for shared words
-        for (const t of templates) {
-            if (!t.args || t.name !== "cog") continue;
-            const langCode = t.args["1"] || "";
-            const w = t.args["2"] || "";
-            if (w && langCode) templateLookup[w] = { word: w, lang_code: langCode };
-        }
-        for (const t of templates) {
-            if (!t.args) continue;
-            if (!["inh", "bor", "der"].includes(t.name)) continue;
-            const langCode = t.args["2"] || "";
-            const w = t.args["3"] || "";
-            if (w && langCode) templateLookup[w] = { word: w, lang_code: langCode };
-        }
+// Build lookup from templates: word → {word, lang_code} for linkable terms.
+// Kaikki templates have args as dict with string keys: "1"=source_lang, "2"=target_lang, "3"=word
+// For cognates: "1"=lang_code, "2"=word
+function buildTemplateLookup(templates) {
+    const lookup = {};
+    if (!templates || !templates.length) return lookup;
+    // Process cognates first, then ancestry types so ancestry takes priority for shared words
+    for (const t of templates) {
+        if (!t.args || t.name !== "cog") continue;
+        const langCode = t.args["1"] || "";
+        const w = t.args["2"] || "";
+        if (w && langCode) lookup[w] = { word: w, lang_code: langCode };
     }
-
-    // Create a link for a word if it exists in the template lookup
-    function makeLink(displayText, word) {
-        const entry = templateLookup[word] || templateLookup[word.replace(/^\*/, "")];
-        if (!entry) return esc(displayText);
-        return `<a class="etym-link" href="#" data-word="${esc(entry.word)}" data-lang-code="${esc(entry.lang_code)}">${esc(displayText)}</a>`;
+    for (const t of templates) {
+        if (!t.args) continue;
+        if (!["inh", "bor", "der"].includes(t.name)) continue;
+        const langCode = t.args["2"] || "";
+        const w = t.args["3"] || "";
+        if (w && langCode) lookup[w] = { word: w, lang_code: langCode };
     }
+    return lookup;
+}
 
-    // Try to linkify text by matching known template words
-    function linkifyText(escaped) {
-        if (!Object.keys(templateLookup).length) return escaped;
-        // Sort by length descending to match longer words first
-        const words = Object.keys(templateLookup).sort((a, b) => b.length - a.length);
-        const pattern = new RegExp("(?<![\\w*])(" + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join("|") + ")(?!\\w)", "g");
-        return escaped.replace(pattern, (match) => {
-            const entry = templateLookup[match];
-            if (!entry) return match;
-            return `<a class="etym-link" href="#" data-word="${esc(entry.word)}" data-lang-code="${esc(entry.lang_code)}">${match}</a>`;
-        });
-    }
+function makeEtymLink(displayText, word, templateLookup) {
+    const entry = templateLookup[word] || templateLookup[word.replace(/^\*/, "")];
+    if (!entry) return escapeHtml(displayText);
+    return `<a class="etym-link" href="#" data-word="${escapeHtml(entry.word)}" data-lang-code="${escapeHtml(entry.lang_code)}">${escapeHtml(displayText)}</a>`;
+}
 
-    // Split into sections: etymology tree, main prose, cognates
+function linkifyEtymologyText(escaped, templateLookup) {
+    if (!Object.keys(templateLookup).length) return escaped;
+    // Sort by length descending to match longer words first
+    const words = Object.keys(templateLookup).sort((a, b) => b.length - a.length);
+    const pattern = new RegExp("(?<![\\w*])(" + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join("|") + ")(?!\\w)", "g");
+    return escaped.replace(pattern, (match) => {
+        const entry = templateLookup[match];
+        if (!entry) return match;
+        return `<a class="etym-link" href="#" data-word="${escapeHtml(entry.word)}" data-lang-code="${escapeHtml(entry.lang_code)}">${match}</a>`;
+    });
+}
+
+function splitEtymologySections(text) {
     let tree = "";
     let prose = "";
     let cognates = "";
@@ -67,7 +67,6 @@ function formatEtymologyText(text, templates) {
             section = "cognates";
             continue;
         }
-        // Prose typically starts with "From " or "Borrowed " etc.
         if (section === "tree" && /^(From |Borrowed |Learned |Coined |Back-formation|A |The |Inherited |Uncertain|Originally|Perhaps|Probably|Possibly|Compare |Cf\.|Related |See |Also |Equivalent |Compound |Blend |Variant |Alteration |Clipping |Abbreviation |Acronym |Named )/.test(trimmed)) {
             section = "prose";
         }
@@ -77,78 +76,100 @@ function formatEtymologyText(text, templates) {
         } else if (section === "cognates") {
             cognates += (cognates ? "\n" : "") + trimmed;
         } else {
-            // prose or auto
             prose += (prose ? "\n" : "") + trimmed;
             section = "prose";
         }
     }
 
+    return { tree, prose, cognates };
+}
+
+// Render etymology tree as a chain with arrows.
+// Chain items are "Language word" (e.g. "Old English wæter") or "word (Language)".
+function renderEtymologyChain(treeText, templateLookup) {
+    const steps = treeText.split("\n").map(s => {
+        const parenMatch = s.match(/^(\*?\S+)\s*\((.+)\)$/);
+        if (parenMatch) {
+            return makeEtymLink(parenMatch[1], parenMatch[1], templateLookup) + " (" + escapeHtml(parenMatch[2]) + ")";
+        }
+        const lastSpace = s.lastIndexOf(" ");
+        if (lastSpace > 0) {
+            const word = s.slice(lastSpace + 1);
+            const lang = s.slice(0, lastSpace);
+            const entry = templateLookup[word] || templateLookup[word.replace(/^\*/, "")];
+            if (entry) {
+                return escapeHtml(lang) + " " + makeEtymLink(word, word, templateLookup);
+            }
+        }
+        return escapeHtml(s);
+    });
+    return '<div class="etym-chain">' + steps.join(' <span class="etym-arrow">→</span> ') + "</div>";
+}
+
+// Render cognates as a compact collapsible list.
+// Cognates are "Language word ("gloss")" e.g. 'Scots watter ("water")'.
+function renderEtymologyCognates(cognatesText, templateLookup) {
+    const items = cognatesText.split("\n").map((c) => c.replace(/^\*\s*/, "").trim()).filter(Boolean);
+    let html = '<details class="etym-cognates"><summary>Cognates (' + items.length + ")</summary><p>";
+    html += items.map(c => {
+        const glossMatch = c.match(/^(.+?)\s+(\(".+"\))$/);
+        if (glossMatch) {
+            const before = glossMatch[1];
+            const gloss = glossMatch[2];
+            const ls = before.lastIndexOf(" ");
+            if (ls > 0) {
+                const word = before.slice(ls + 1);
+                const lang = before.slice(0, ls);
+                return escapeHtml(lang) + " " + makeEtymLink(word, word, templateLookup) + " " + '<span class="etym-gloss">' + escapeHtml(gloss) + "</span>";
+            }
+            return makeEtymLink(before, before, templateLookup) + " " + '<span class="etym-gloss">' + escapeHtml(gloss) + "</span>";
+        }
+        return linkifyEtymologyText(escapeHtml(c), templateLookup);
+    }).join(", ");
+    html += "</p></details>";
+    return html;
+}
+
+function buildWiktionaryUrl(word, lang) {
+    if (lang.startsWith("Proto-")) {
+        const cleanWord = word.replace(/^\*/, "");
+        return `https://en.wiktionary.org/wiki/Reconstruction:${encodeURIComponent(lang)}/${encodeURIComponent(cleanWord)}`;
+    }
+    return `https://en.wiktionary.org/wiki/${encodeURIComponent(word)}#${encodeURIComponent(lang)}`;
+}
+
+// --- formatEtymologyText orchestrator ---
+
+function formatEtymologyText(text, templates) {
+    if (!text) return '<span class="etym-empty">No etymology text available.</span>';
+
+    const templateLookup = buildTemplateLookup(templates);
+    const { tree, prose, cognates } = splitEtymologySections(text);
+
     let html = "";
 
-    // Render etymology tree as a chain with arrows
     if (tree) {
-        const steps = tree.split("\n").map(s => {
-            // Chain items are "Language word" (e.g. "Old English wæter") or "word (Language)"
-            const parenMatch = s.match(/^(\*?\S+)\s*\((.+)\)$/);
-            if (parenMatch) {
-                return makeLink(parenMatch[1], parenMatch[1]) + " (" + esc(parenMatch[2]) + ")";
-            }
-            // Try "Language word" format: extract last token as the word
-            const lastSpace = s.lastIndexOf(" ");
-            if (lastSpace > 0) {
-                const word = s.slice(lastSpace + 1);
-                const lang = s.slice(0, lastSpace);
-                const entry = templateLookup[word] || templateLookup[word.replace(/^\*/, "")];
-                if (entry) {
-                    return esc(lang) + " " + makeLink(word, word);
-                }
-            }
-            return esc(s);
-        });
-        html += '<div class="etym-chain">' + steps.join(' <span class="etym-arrow">→</span> ') + "</div>";
+        html += renderEtymologyChain(tree, templateLookup);
     }
 
-    // Render prose: highlight foreign terms in parentheses like φίλος (phílos, "loving")
+    // Render prose inline (straightforward ~10 lines)
     if (prose) {
-        let escaped = esc(prose);
-        // Bold language names at start of sentences like "From Middle English", "from Proto-Germanic"
+        let escaped = escapeHtml(prose);
         escaped = escaped.replace(/\b(from|From|of)\s+((?:Proto-|Middle |Old |Late |Ancient |Medieval |Vulgar |Biblical |Classical )*[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b/g,
             '$1 <strong>$2</strong>');
-        // Style quoted terms: ("word") or ("word", "gloss")
         escaped = escaped.replace(/\(("[^"]*")\)/g, '<span class="etym-gloss">($1)</span>');
-        // Linkify known template words in prose
-        escaped = linkifyText(escaped);
+        escaped = linkifyEtymologyText(escaped, templateLookup);
         html += '<p class="etym-prose">' + escaped + "</p>";
     }
 
-    // Render cognates as a compact list
     if (cognates) {
-        const items = cognates.split("\n").map((c) => c.replace(/^\*\s*/, "").trim()).filter(Boolean);
-        html += '<details class="etym-cognates"><summary>Cognates (' + items.length + ")</summary><p>";
-        html += items.map(c => {
-            // Cognates are "Language word ("gloss")" e.g. 'Scots watter ("water")'
-            // Extract the word before the gloss parenthetical
-            const glossMatch = c.match(/^(.+?)\s+(\(".+"\))$/);
-            if (glossMatch) {
-                const before = glossMatch[1]; // "Scots watter"
-                const gloss = glossMatch[2];  // ("water")
-                // Last token of before is the word
-                const ls = before.lastIndexOf(" ");
-                if (ls > 0) {
-                    const word = before.slice(ls + 1);
-                    const lang = before.slice(0, ls);
-                    return esc(lang) + " " + makeLink(word, word) + " " + '<span class="etym-gloss">' + esc(gloss) + "</span>";
-                }
-                return makeLink(before, before) + " " + '<span class="etym-gloss">' + esc(gloss) + "</span>";
-            }
-            // Fallback: try linkifying the whole thing
-            return linkifyText(esc(c));
-        }).join(", ");
-        html += "</p></details>";
+        html += renderEtymologyCognates(cognates, templateLookup);
     }
 
     return html || '<span class="etym-empty">No etymology text available.</span>';
 }
+
+// --- Graph constants and utilities ---
 
 const LANG_COLORS = {
     germanic: "#5B8DEF",
@@ -234,47 +255,61 @@ let nodeBaseColors = {};  // id → hex color
 let rootNodeId = null;   // etymological root (deepest ancestor)
 let wordNodeId = null;   // searched word
 
+// --- updateGraph helpers ---
+
+function findRootAndWordNodes(nodes) {
+    const wordNode = nodes.find((n) => n.level === 0);
+    const etymRoot = nodes.reduce((min, n) => (n.level < min.level ? n : min), nodes[0]);
+    return {
+        rootNodeId: etymRoot ? etymRoot.id : null,
+        wordNodeId: wordNode ? wordNode.id : null,
+    };
+}
+
+function buildVisNodes(nodes, rootId) {
+    const baseColors = {};
+    const visNodes = nodes.map((n) => {
+        const isRoot = n.id === rootId;
+        const color = langColor(n.language);
+        baseColors[n.id] = color;
+        return {
+            ...n,
+            label: `${n.label}\n(${n.language})`,
+            color,
+            mass: isRoot ? 5 : Math.max(1, 5 / Math.pow(2, Math.abs(n.level))),
+            ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
+        };
+    });
+    return { visNodes, nodeBaseColors: baseColors };
+}
+
+function buildVisEdges(edges) {
+    return edges.map((e) => ({
+        ...e,
+        rawType: e.label,
+        label: EDGE_LABELS[e.label] || e.label,
+        arrows: "to",
+        dashes: e.label === "bor" || e.label === "cog",
+        color: e.label === "cog" ? { color: "#F5C842", highlight: "#FFE066" } : undefined,
+    }));
+}
+
 function updateGraph(data) {
     if (network) {
         network.destroy();
     }
     currentNodes = data.nodes;
 
-    // The searched word has level 0
-    const wordNode = data.nodes.find((n) => n.level === 0);
-    wordNodeId = wordNode ? wordNode.id : null;
+    const found = findRootAndWordNodes(data.nodes);
+    rootNodeId = found.rootNodeId;
+    wordNodeId = found.wordNodeId;
 
-    // The etymological root is the node with the lowest (most negative) level
-    const etymRoot = data.nodes.reduce((min, n) => (n.level < min.level ? n : min), data.nodes[0]);
-    rootNodeId = etymRoot ? etymRoot.id : null;
+    const built = buildVisNodes(data.nodes, rootNodeId);
+    nodeBaseColors = built.nodeBaseColors;
 
-    nodeBaseColors = {};
-    nodesDataSet = new vis.DataSet(
-        data.nodes.map((n) => {
-            const isRoot = n.id === rootNodeId;
-            const color = langColor(n.language);
-            nodeBaseColors[n.id] = color;
-            return {
-                ...n,
-                label: `${n.label}\n(${n.language})`,
-                color,
-                // Pin the root node to the center
-                mass: isRoot ? 5 : Math.max(1, 5 / Math.pow(2, Math.abs(n.level))),
-                ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
-            };
-        })
-    );
+    nodesDataSet = new vis.DataSet(built.visNodes);
     const nodes = nodesDataSet;
-    edgesDataSet = new vis.DataSet(
-        data.edges.map((e) => ({
-            ...e,
-            rawType: e.label,
-            label: EDGE_LABELS[e.label] || e.label,
-            arrows: "to",
-            dashes: e.label === "bor" || e.label === "cog",
-            color: e.label === "cog" ? { color: "#F5C842", highlight: "#FFE066" } : undefined,
-        }))
-    );
+    edgesDataSet = new vis.DataSet(buildVisEdges(data.edges));
     const edges = edgesDataSet;
     network = new vis.Network(graphContainer, { nodes, edges }, graphOptions);
 
@@ -337,6 +372,23 @@ function selectNodeById(nodeId) {
     if (node) showDetail(node.label, node.language);
 }
 
+// --- buildConnectionsPanel helper ---
+
+function groupEdgesByType(edgesDS, nodeId) {
+    const grouped = {};
+    edgesDS.forEach((e) => {
+        const rawType = e.rawType || e.label;
+        let targetId = null;
+        if (e.from === nodeId) targetId = e.to;
+        else if (e.to === nodeId) targetId = e.from;
+        if (!targetId) return;
+
+        if (!grouped[rawType]) grouped[rawType] = [];
+        grouped[rawType].push(targetId);
+    });
+    return grouped;
+}
+
 function buildConnectionsPanel(nodeId) {
     const container = document.getElementById("detail-connections");
     container.innerHTML = "";
@@ -350,18 +402,7 @@ function buildConnectionsPanel(nodeId) {
         cog: "Cognate",
     };
 
-    // Collect edges from/to this node, grouped by type
-    const grouped = {};
-    edgesDataSet.forEach((e) => {
-        const rawType = e.rawType || e.label;
-        let targetId = null;
-        if (e.from === nodeId) targetId = e.to;
-        else if (e.to === nodeId) targetId = e.from;
-        if (!targetId) return;
-
-        if (!grouped[rawType]) grouped[rawType] = [];
-        grouped[rawType].push(targetId);
-    });
+    const grouped = groupEdgesByType(edgesDataSet, nodeId);
 
     for (const [type, label] of Object.entries(CONNECTION_SECTIONS)) {
         const targets = grouped[type];
@@ -391,6 +432,8 @@ function buildConnectionsPanel(nodeId) {
     }
 }
 
+// --- showDetail ---
+
 async function showDetail(word, lang) {
     const panel = document.getElementById("detail-panel");
     const wordEl = document.getElementById("detail-word");
@@ -402,13 +445,7 @@ async function showDetail(word, lang) {
 
     wordEl.textContent = word;
     const wiktLink = document.getElementById("detail-wikt");
-    if (lang.startsWith("Proto-")) {
-        // e.g. Reconstruction:Proto-Italic/wīnom
-        const cleanWord = word.replace(/^\*/, "");
-        wiktLink.href = `https://en.wiktionary.org/wiki/Reconstruction:${encodeURIComponent(lang)}/${encodeURIComponent(cleanWord)}`;
-    } else {
-        wiktLink.href = `https://en.wiktionary.org/wiki/${encodeURIComponent(word)}#${encodeURIComponent(lang)}`;
-    }
+    wiktLink.href = buildWiktionaryUrl(word, lang);
     langEl.textContent = lang;
     posEl.textContent = "";
     ipaEl.textContent = "";
@@ -440,10 +477,12 @@ async function showDetail(word, lang) {
     }
 }
 
-function applyBrightnessFromNode(startId, edgesDataSet) {
-    // BFS to compute hop distance from the selected node
+// --- applyBrightnessFromNode helpers ---
+
+// BFS to compute hop distance from a starting node across all graph edges.
+function computeHopDistances(edgesDS, startId) {
     const adjacency = {};
-    edgesDataSet.forEach((e) => {
+    edgesDS.forEach((e) => {
         if (!adjacency[e.from]) adjacency[e.from] = [];
         if (!adjacency[e.to]) adjacency[e.to] = [];
         adjacency[e.from].push(e.to);
@@ -462,12 +501,15 @@ function applyBrightnessFromNode(startId, edgesDataSet) {
             }
         }
     }
+    return dist;
+}
 
+function buildBrightnessUpdates(baseColors, hopDistances) {
     const updates = [];
-    for (const id in nodeBaseColors) {
-        const hops = dist[id] ?? Infinity;
+    for (const id in baseColors) {
+        const hops = hopDistances[id] ?? Infinity;
         const opacity = hops === Infinity ? OPACITY_BY_HOP[OPACITY_BY_HOP.length - 1] : opacityForHops(hops);
-        const rgba = colorWithOpacity(nodeBaseColors[id], opacity);
+        const rgba = colorWithOpacity(baseColors[id], opacity);
         const fontOpacity = opacity;
         updates.push({
             id,
@@ -475,6 +517,12 @@ function applyBrightnessFromNode(startId, edgesDataSet) {
             font: { color: `rgba(255,255,255,${fontOpacity})` },
         });
     }
+    return updates;
+}
+
+function applyBrightnessFromNode(startId, edgesDS) {
+    const hopDistances = computeHopDistances(edgesDS, startId);
+    const updates = buildBrightnessUpdates(nodeBaseColors, hopDistances);
     nodesDataSet.update(updates);
 }
 

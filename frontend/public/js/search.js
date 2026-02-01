@@ -5,6 +5,12 @@ const clearBtn = document.getElementById("clear-btn");
 let debounceTimer = null;
 let lastResults = [];
 
+function findBestMatch(results, query) {
+    const q = query.toLowerCase();
+    const exact = results.find((r) => r.word.toLowerCase() === q);
+    return exact || results[0] || null;
+}
+
 function renderSuggestions(matches) {
     suggestions.innerHTML = "";
     if (matches.length === 0) {
@@ -66,8 +72,7 @@ searchInput.addEventListener("keydown", async (e) => {
             const data = await searchWords(q);
             lastResults = data.results;
         } catch (_) {}
-        const match = lastResults.find((r) => r.word.toLowerCase() === q.toLowerCase());
-        const firstResult = match || lastResults[0];
+        const firstResult = findBestMatch(lastResults, q);
         if (firstResult) {
             selectWord(firstResult.word, firstResult.lang);
         } else {
