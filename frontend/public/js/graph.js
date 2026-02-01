@@ -169,6 +169,37 @@ function formatEtymologyText(text, templates) {
     return html || '<span class="etym-empty">No etymology text available.</span>';
 }
 
+// --- Era tier definitions for layered layout ---
+
+const ERA_TIERS = [
+    { name: "Deep Proto", date: "~4000+ BCE", y: 800 },
+    { name: "Branch Proto", date: "~2000–500 BCE", y: 650 },
+    { name: "Classical/Ancient", date: "~500 BCE–500 CE", y: 500 },
+    { name: "Early Medieval", date: "~500–1000 CE", y: 350 },
+    { name: "Late Medieval", date: "~1000–1500 CE", y: 200 },
+    { name: "Early Modern", date: "~1500–1700 CE", y: 50 },
+    { name: "Modern", date: "~1700–present", y: -100 },
+    { name: "Contemporary", date: "recent", y: -250 },
+];
+
+// Deep proto roots: these specific "Proto-" languages are tier 0
+const DEEP_PROTO = /^Proto-(Indo-European|Uralic|Afro-Asiatic|Sino-Tibetan|Austronesian|Niger-Congo|Trans-New Guinea|Dravidian|Turkic|Mongolic|Japonic|Koreanic|Tai|Austroasiatic|Nilo-Saharan)$/i;
+
+// Specific classical-era languages that don't have an "Ancient"/"Old" prefix
+const CLASSICAL_SPECIFIC = /^(Latin|Sanskrit|Avestan|Gothic|Akkadian|Sumerian|Tocharian [AB]|Pali|Oscan|Umbrian|Mycenaean Greek|Hittite|Luwian|Lydian|Lycian|Sogdian|Bactrian|Prakrit|Elamite)$/i;
+
+function getEraTier(lang) {
+    if (!lang) return 6;
+    if (DEEP_PROTO.test(lang)) return 0;
+    if (/^Proto-/.test(lang)) return 1;
+    if (/^(Ancient |Classical |Biblical )/.test(lang)) return 2;
+    if (CLASSICAL_SPECIFIC.test(lang)) return 2;
+    if (/^Old /.test(lang)) return 3;
+    if (/^Middle |^Anglo-Norman$/i.test(lang)) return 4;
+    if (/^Early Modern /.test(lang)) return 5;
+    return 6;
+}
+
 // --- Graph constants and utilities ---
 
 const LANG_COLORS = {
@@ -197,6 +228,19 @@ function langColor(lang) {
     return LANG_COLORS.other;
 }
 
+function getLangFamily(lang) {
+    if (/english|german|norse|dutch|frisian|gothic|proto-germanic|proto-west germanic|saxon|scots|yiddish|afrikaans|plautdietsch|limburgish|luxembourgish|cimbrian|alemannic|bavarian|vilamovian|saterland/i.test(lang)) return "germanic";
+    if (/latin|italic|french|spanish|portuguese|romanian|proto-italic|catalan|occitan|sardinian|galician|venetian|sicilian|neapolitan|asturian/i.test(lang)) return "romance";
+    if (/greek/i.test(lang)) return "greek";
+    if (/proto-indo-european/i.test(lang)) return "pie";
+    if (/russian|polish|czech|slovak|serbian|croatian|bulgarian|ukrainian|slovene|proto-slavic|old church slavonic|belarusian|macedonian|sorbian/i.test(lang)) return "slavic";
+    if (/irish|welsh|scottish gaelic|breton|cornish|manx|proto-celtic|old irish/i.test(lang)) return "celtic";
+    if (/sanskrit|hindi|persian|urdu|bengali|punjabi|avestan|pali|proto-indo-iranian/i.test(lang)) return "indoiranian";
+    if (/arabic|hebrew|aramaic|akkadian|proto-semitic/i.test(lang)) return "semitic";
+    if (/finnish|hungarian|estonian|proto-uralic|proto-finnic/i.test(lang)) return "uralic";
+    return "other";
+}
+
 const EDGE_LABELS = { inh: "inherited", bor: "borrowed", der: "derived", cog: "cognate" };
 
 const OPACITY_BY_HOP = [1.0, 0.9, 0.5, 0.1]; // 0 hops, 1 hop, 2 hops, 3+ hops
@@ -221,7 +265,7 @@ const graphOptions = {
         color: { color: "#555", highlight: "#aaa" },
         font: { color: "#999", size: 11, strokeWidth: 0 },
         smooth: { type: "continuous" },
-        length: 200,
+        length: 150,
     },
     nodes: {
         shape: "box",
@@ -232,11 +276,12 @@ const graphOptions = {
     physics: {
         solver: "forceAtlas2Based",
         forceAtlas2Based: {
-            gravitationalConstant: -120,
-            centralGravity: 0.01,
-            springLength: 200,
-            springConstant: 0.05,
-            damping: 0.7,
+            gravitationalConstant: -80,
+            centralGravity: 0.001,
+            springLength: 500,
+            springConstant: 0.002,
+            damping: 0.95,
+            avoidOverlap: 0.7,
         },
         stabilization: false,
     },
@@ -269,18 +314,53 @@ function findRootAndWordNodes(nodes) {
 function buildVisNodes(nodes, rootId) {
     const baseColors = {};
     const visNodes = nodes.map((n) => {
-        const isRoot = n.id === rootId;
         const color = langColor(n.language);
         baseColors[n.id] = color;
+        const tier = getEraTier(n.language);
+        const yPos = ERA_TIERS[tier].y;
         return {
             ...n,
             label: `${n.label}\n(${n.language})`,
             color,
-            mass: isRoot ? 5 : Math.max(1, 5 / Math.pow(2, Math.abs(n.level))),
-            ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
+            mass: 1,
+            y: yPos,
+            fixed: { y: true },
         };
     });
     return { visNodes, nodeBaseColors: baseColors };
+}
+
+// Build invisible short-spring edges between same-family nodes within the same era tier
+function buildFamilyEdges(nodes) {
+    const tierFamilyGroups = {};
+    for (const n of nodes) {
+        const tier = getEraTier(n.language);
+        const family = getLangFamily(n.language);
+        const key = `${tier}:${family}`;
+        if (!tierFamilyGroups[key]) tierFamilyGroups[key] = [];
+        tierFamilyGroups[key].push(n.id);
+    }
+
+    const edges = [];
+    for (const [key, ids] of Object.entries(tierFamilyGroups)) {
+        if (ids.length < 2) continue;
+        const tier = parseInt(key.split(":")[0]);
+        // Tight springs for old tiers, loose for young tiers
+        const tierFactor = tier / 6;                      // 0..1 oldest→youngest
+        // Tight when few siblings in group, loose when many
+        const groupFactor = Math.min((ids.length - 1) / 10, 1); // 1 node pair=0, 10+=1
+        const springLength = 20 + 100 * (0.5 * tierFactor + 0.5 * groupFactor);
+        for (let i = 0; i < ids.length - 1; i++) {
+            edges.push({
+                from: ids[i],
+                to: ids[i + 1],
+                hidden: true,
+                physics: true,
+                length: springLength,
+            });
+        }
+    }
+    return edges;
 }
 
 function buildVisEdges(edges) {
@@ -309,12 +389,45 @@ function updateGraph(data) {
 
     nodesDataSet = new vis.DataSet(built.visNodes);
     const nodes = nodesDataSet;
-    edgesDataSet = new vis.DataSet(buildVisEdges(data.edges));
+    const familyEdges = buildFamilyEdges(data.nodes);
+    edgesDataSet = new vis.DataSet([...buildVisEdges(data.edges), ...familyEdges]);
     const edges = edgesDataSet;
     network = new vis.Network(graphContainer, { nodes, edges }, graphOptions);
 
-    // Start view centered on the root node
-    network.moveTo({ position: { x: 0, y: 0 }, scale: 1, animation: false });
+    // Draw era band backgrounds and labels
+    network.on("beforeDrawing", (ctx) => {
+        const bandHeight = 150; // height of each era band
+        const halfBand = bandHeight / 2;
+        // Draw wide enough to always cover the viewport
+        const bandWidth = 20000;
+        const labelX = -bandWidth / 2 + 20;
+
+        for (let i = 0; i < ERA_TIERS.length; i++) {
+            const tier = ERA_TIERS[i];
+            const top = tier.y - halfBand;
+
+            // Alternating subtle background bands
+            if (i % 2 === 0) {
+                ctx.fillStyle = "rgba(255,255,255,0.03)";
+                ctx.fillRect(-bandWidth / 2, top, bandWidth, bandHeight);
+            }
+
+            // Era label on the left
+            ctx.fillStyle = "rgba(255,255,255,0.25)";
+            ctx.font = "bold 14px sans-serif";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "middle";
+            ctx.fillText(tier.name, labelX, tier.y - 8);
+            ctx.font = "11px sans-serif";
+            ctx.fillStyle = "rgba(255,255,255,0.15)";
+            ctx.fillText(tier.date, labelX, tier.y + 10);
+        }
+    });
+
+    // Start view centered on the searched word's era
+    const wordTier = wordNodeId ? getEraTier(currentNodes.find(n => n.id === wordNodeId)?.language) : 6;
+    const startY = ERA_TIERS[wordTier]?.y || 0;
+    network.moveTo({ position: { x: 0, y: startY }, scale: 0.8, animation: false });
 
     network.on("click", (params) => {
         if (params.nodes.length > 0) {
