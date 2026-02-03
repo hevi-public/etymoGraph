@@ -72,7 +72,7 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Uncertain etymology detection and display (dashed borders, uncertainty badges, API fields)
+**Last completed**: Related mention edges for words without ancestry (component/mention edge types)
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
 ## Documentation
@@ -107,7 +107,7 @@ make clean    # Remove data and containers
 
 ### vis.js Graph
 - Nodes: `{ id: "word:lang", label: "word", language: "lang", level: N }`
-- Edges: `{ from: "...", to: "...", label: "inh|bor|der|cog" }`
+- Edges: `{ from: "...", to: "...", label: "inh|bor|der|cog|component|mention" }`
 - Force-directed layout (forceAtlas2Based), continuously animated
 - Etymological root pinned at (0,0) as gravitational center, mass 5 with exponential decay per level
 - Negative levels = ancestors, 0 = searched word, positive = descendants
@@ -123,13 +123,17 @@ Key fields in Kaikki entries:
 - `senses[].glosses` — definitions
 - `sounds[].ipa` — pronunciation
 
-Etymology template types:
-- `inh` = inherited from (direct ancestor)
-- `bor` = borrowed from (loanword)
-- `der` = derived from
-- `cog` = cognate (related, not ancestor)
+Etymology template types (ancestry):
+- `inh` = inherited from (direct ancestor in same language lineage)
+- `bor` = borrowed from (loanword from another language)
+- `der` = derived from (general derivation)
+- `cog` = cognate (related word from same root, not ancestor)
 
-Important: Kaikki stores the **full** ancestry chain on each word (not just the immediate parent). The tree builder uses only the first ancestry template to determine the direct parent.
+Etymology template types (mentions, used when no ancestry exists):
+- `af`, `affix`, `suffix`, `prefix`, `compound`, `blend` = word formation templates showing morphological components
+- `m`, `m+`, `l` = mention/link templates referencing related words
+
+Important: Kaikki stores the **full** ancestry chain on each word (not just the immediate parent). The tree builder uses only the first ancestry template to determine the direct parent. For words without ancestry (often uncertain/disputed etymologies), the tree builder falls back to `af`/`m` templates to show related words.
 
 ## Code Review Process
 

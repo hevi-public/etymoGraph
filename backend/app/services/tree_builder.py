@@ -2,7 +2,7 @@
 
 from app.services import lang_cache
 from app.services.template_parser import extract_ancestry, extract_cognates, node_id
-from app.services.etymology_classifier import classify_etymology
+from app.services.etymology_classifier import classify_etymology, extract_word_mentions
 
 MAX_DESCENDANTS_PER_NODE = 50
 DEFAULT_MAX_COGNATE_ROUNDS = 2
@@ -67,6 +67,11 @@ class TreeBuilder:
             return
 
         chain = self._build_ancestor_chain(doc, word, lang, base_level)
+
+        # If no ancestry found, add edges for related mentions
+        if len(chain) == 1:
+            await self._add_mention_edges(doc, word, lang, base_level)
+
         await self._expand_descendants_from_chain(chain)
 
     def _build_ancestor_chain(self, doc: dict, word: str, lang: str,
@@ -85,6 +90,29 @@ class TreeBuilder:
             prev_id = aid
 
         return chain
+
+    async def _add_mention_edges(self, doc: dict, word: str, lang: str, level: int):
+        """Add edges for word mentions when no ancestry is available.
+
+        For words with uncertain/disputed etymologies that have no standard ancestry
+        templates (inh/bor/der), this adds edges for related mentions from af/m/m+/l
+        templates, giving users insight into possible word relationships.
+        """
+        mentions = extract_word_mentions(doc)
+        word_id = node_id(word, lang)
+
+        for mention in mentions:
+            # Check if the mentioned word exists in DB
+            mention_doc = await self.col.find_one(
+                {"word": mention.word, "lang": mention.lang},
+                {"_id": 0, "word": 1},
+            )
+            if not mention_doc:
+                continue
+
+            mention_id = self.add_node(mention.word, mention.lang, level - 1)
+            # Edge goes from mention → word (mention is a component/source)
+            self.add_edge(mention_id, word_id, mention.role)
 
     async def _expand_descendants_from_chain(self, chain: list[tuple]):
         """Find descendants from each node in the ancestor chain."""

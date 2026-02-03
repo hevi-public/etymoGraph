@@ -207,7 +207,10 @@ function getLangFamily(lang) {
     return classifyLang(lang).family;
 }
 
-const EDGE_LABELS = { inh: "inherited", bor: "borrowed", der: "derived", cog: "cognate" };
+const EDGE_LABELS = {
+    inh: "inherited", bor: "borrowed", der: "derived", cog: "cognate",
+    component: "component", mention: "related",
+};
 
 // --- Uncertainty styling constants ---
 
@@ -536,14 +539,19 @@ function findRootAndWordNodes(nodes) {
 }
 
 function buildVisEdges(edges) {
-    return edges.map((e) => ({
-        ...e,
-        rawType: e.label,
-        label: EDGE_LABELS[e.label] || e.label,
-        arrows: "to",
-        dashes: e.label === "bor" || e.label === "cog",
-        color: e.label === "cog" ? { color: "#F5C842", highlight: "#FFE066" } : undefined,
-    }));
+    return edges.map((e) => {
+        const isMention = e.label === "component" || e.label === "mention";
+        return {
+            ...e,
+            rawType: e.label,
+            label: EDGE_LABELS[e.label] || e.label,
+            arrows: "to",
+            dashes: e.label === "bor" || e.label === "cog" || isMention,
+            color: e.label === "cog" ? { color: "#F5C842", highlight: "#FFE066" }
+                 : isMention ? { color: "#888", highlight: "#aaa" }
+                 : undefined,
+        };
+    });
 }
 
 function updateGraph(data) {
@@ -659,6 +667,8 @@ function buildConnectionsPanel(nodeId) {
         bor: "Borrowed",
         der: "Derived",
         cog: "Cognate",
+        component: "Component",
+        mention: "Related",
     };
 
     const grouped = groupEdgesByType(edgesDataSet, nodeId);

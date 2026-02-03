@@ -73,6 +73,15 @@ Dropdown in the header ("Connections ▾") with checkboxes:
 
 Changing the filter re-fetches the tree immediately. Borrowed edges are shown with dashed lines. Cognate edges are shown with gold dashed lines.
 
+**Automatic edge types** (not user-selectable, shown when a word has no ancestry):
+
+| Type | Meaning | Source Templates | Style |
+|------|---------|------------------|-------|
+| `component` | Morphological component of the word (base word in a derivation) | `af`, `affix`, `suffix`, `prefix`, `compound`, `blend` | Gray dashed |
+| `mention` | Word mentioned in etymology text but not as an ancestor | `m`, `m+`, `l` | Gray dashed |
+
+These appear automatically for words with uncertain/disputed etymologies that lack standard ancestry templates. For example, "piros" (Hungarian) has no `inh`/`bor`/`der` ancestors, but the `af` template indicates it's formed from "pirít" + "-os", so a `component` edge connects them.
+
 ### 4. Language Family Colors
 
 Nodes are color-coded by language family:
@@ -224,6 +233,23 @@ Words with disputed, uncertain, or unknown etymologies are now detected and disp
 - "dog" (English) → `uncertain` (has `unc` template)
 - "piros" (Hungarian) → `disputed` (text mentions "two interpretations")
 
+### 12. Related Mention Edges
+
+For words that have no standard ancestry (inh/bor/der templates), the graph now shows edges to related words extracted from other etymology templates (`af`, `m`, `m+`, `l`). This is particularly useful for words with uncertain/disputed etymologies that still have known morphological components.
+
+**Edge types:**
+
+| Type | Meaning | Style |
+|------|---------|-------|
+| `component` | Word is a morphological component (from `af` template) | Gray dashed |
+| `mention` | Word is mentioned in etymology (from `m`/`m+`/`l` templates) | Gray dashed |
+
+**Example:**
+- "piros" (Hungarian) has a disputed etymology with no standard ancestry, but the `af` template shows it's derived from "pirít" + "-os" suffix. The graph now shows a gray dashed "component" edge from "pirít" to "piros".
+
+**Detail panel:**
+The connections panel shows "Component" and "Related" sections for these edge types.
+
 ---
 
 ## API Endpoints
@@ -309,6 +335,7 @@ Words with disputed, uncertain, or unknown etymologies are now detected and disp
 | Chain endpoint direction fix | Fixed `/chain` edge direction (now ancestor→descendant) and level signs (now negative for ancestors) |
 | Cognate-only filter fix | Fixed `?types=cog` requests being incorrectly ignored and defaulting to `inh` |
 | Uncertain etymology detection | Classify and display words with unknown, uncertain, or disputed etymologies |
+| Related mention edges | Words without ancestry show edges to related words from `af`/`m`/`m+`/`l` templates |
 
 ### Phase 2: Nice-to-Haves — IN PROGRESS
 
@@ -338,8 +365,6 @@ Words with disputed, uncertain, or unknown etymologies are now detected and disp
 5. **Edge labels overlap**: On dense graphs, "inherited"/"borrowed" labels can overlap and become hard to read.
 
 6. **Uncertainty detection is pattern-based**: The system detects uncertainty through template markers (`unk`, `unc`) and text patterns. Some uncertain etymologies may not be detected if they use unusual phrasing, and false positives are possible with text pattern matching.
-
-7. **Related mentions not linked in graph**: The `related_mentions` extracted from `m`/`m+`/`l` templates are included in API responses but not yet shown as edges in the graph visualization.
 
 ---
 
