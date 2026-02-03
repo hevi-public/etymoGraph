@@ -93,7 +93,7 @@ make clean    # Remove data and containers
 ### Git Commits
 - Format: `[TASK_ID]: Description`
 - Example: `P0.1: Basic Docker + vis.js setup`
-- **ALWAYS update `docs/FEATURES.md` before committing any feature or behavior change**
+- **Document first, commit second**: ALWAYS update `docs/FEATURES.md` before committing any feature or behavior change
 - Commit after each completed task
 
 ### Pull Requests

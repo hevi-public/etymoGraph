@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: February 1, 2026*
+*Last updated: February 3, 2026*
 
 ---
 
@@ -260,6 +260,8 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 | Zoom-scaled panning | Two-finger pan speed scales with zoom level for consistent feel |
 | Physics tuning | Softer repulsion (-80), weak central gravity (0.005), stiffer springs for horizontal stability within era bands |
 | Pluggable layout engine | Layout strategies as pluggable objects with registry, dropdown selector, localStorage persistence |
+| Chain endpoint direction fix | Fixed `/chain` edge direction (now ancestor→descendant) and level signs (now negative for ancestors) |
+| Cognate-only filter fix | Fixed `?types=cog` requests being incorrectly ignored and defaulting to `inh` |
 
 ### Phase 2: Nice-to-Haves — NOT STARTED
 

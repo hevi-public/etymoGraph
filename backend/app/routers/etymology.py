@@ -31,8 +31,8 @@ async def get_etymology_chain(word: str, lang: str = "English", max_depth: int =
             break
         aid = node_id(anc["word"], anc["lang"])
         if aid not in nodes:
-            nodes[aid] = {"id": aid, "label": anc["word"], "language": anc["lang"], "level": i + 1}
-        edges.append({"from": prev_id, "to": aid, "label": anc["type"]})
+            nodes[aid] = {"id": aid, "label": anc["word"], "language": anc["lang"], "level": -(i + 1)}
+        edges.append({"from": aid, "to": prev_id, "label": anc["type"]})
         prev_id = aid
 
     return {"nodes": list(nodes.values()), "edges": edges}
@@ -50,11 +50,12 @@ async def get_etymology_tree(
     col = get_words_collection()
     await lang_cache.ensure_loaded(col)
 
-    requested_types = set(types.split(","))
+    requested_types = set(types.split(",")) if types.strip() else set()
     include_cognates = COGNATE_TYPE in requested_types
     allowed_types = requested_types & ANCESTRY_TYPES
 
-    if not allowed_types:
+    # Only default to inh if nothing valid was requested at all
+    if not allowed_types and not include_cognates:
         allowed_types = {"inh"}
 
     builder = TreeBuilder(col, allowed_types, max_ancestor_depth, max_descendant_depth)
