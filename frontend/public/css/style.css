@@ -288,6 +288,44 @@ header h1 {
     color: #fff;
 }
 
+/* Uncertainty badge */
+.uncertainty-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.uncertainty-badge.unknown {
+    background: rgba(239, 91, 91, 0.2);
+    border: 1px dashed #EF5B5B;
+    color: #EF5B5B;
+}
+
+.uncertainty-badge.uncertain {
+    background: rgba(245, 200, 66, 0.15);
+    border: 1px dashed #F5C842;
+    color: #F5C842;
+}
+
+.uncertainty-badge.disputed {
+    background: rgba(206, 107, 240, 0.15);
+    border: 1px dashed #CE6BF0;
+    color: #CE6BF0;
+}
+
+.uncertainty-badge .confidence {
+    opacity: 0.7;
+    font-size: 0.65rem;
+    font-weight: normal;
+}
+
 #detail-panel .detail-meta {
     font-size: 0.85rem;
     color: #999;

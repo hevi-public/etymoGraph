@@ -209,6 +209,42 @@ function getLangFamily(lang) {
 
 const EDGE_LABELS = { inh: "inherited", bor: "borrowed", der: "derived", cog: "cognate" };
 
+// --- Uncertainty styling constants ---
+
+const UNCERTAINTY_BORDER_DASHES = [5, 5];
+const UNCERTAINTY_DESATURATION = 0.6;  // Multiply saturation by this factor
+
+// Desaturate a hex color for uncertain nodes
+function desaturateColor(hex, factor) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    // Simple desaturation: move toward gray
+    const gray = (r + g + b) / 3;
+    const nr = Math.round(r + (gray - r) * (1 - factor));
+    const ng = Math.round(g + (gray - g) * (1 - factor));
+    const nb = Math.round(b + (gray - b) * (1 - factor));
+    return `#${nr.toString(16).padStart(2, "0")}${ng.toString(16).padStart(2, "0")}${nb.toString(16).padStart(2, "0")}`;
+}
+
+// Build vis.js node style object for uncertainty
+function uncertaintyNodeStyle(baseColor, uncertainty) {
+    if (!uncertainty || !uncertainty.is_uncertain) {
+        return { color: baseColor };
+    }
+    const desaturated = desaturateColor(baseColor, UNCERTAINTY_DESATURATION);
+    return {
+        color: {
+            background: desaturated,
+            border: desaturated,
+            highlight: { background: desaturated, border: "#fff" },
+        },
+        borderWidth: 2,
+        borderDashes: UNCERTAINTY_BORDER_DASHES,
+        shapeProperties: { borderDashes: UNCERTAINTY_BORDER_DASHES },
+    };
+}
+
 const OPACITY_BY_HOP = [1.0, 0.9, 0.5, 0.1]; // 0 hops, 1 hop, 2 hops, 3+ hops
 
 function colorWithOpacity(hex, opacity) {
@@ -358,10 +394,11 @@ const LAYOUTS = {
                 const isRoot = n.id === rootId;
                 const color = langColor(n.language);
                 baseColors[n.id] = color;
+                const style = uncertaintyNodeStyle(color, n.uncertainty);
                 return {
                     ...n,
                     label: `${n.label}\n(${n.language})`,
-                    color,
+                    ...style,
                     mass: isRoot ? 5 : Math.max(1, 5 / Math.pow(2, Math.abs(n.level))),
                     ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
                 };
@@ -404,10 +441,11 @@ const LAYOUTS = {
                 baseColors[n.id] = color;
                 const tier = getEraTier(n.language);
                 const yPos = ERA_TIERS[tier].y;
+                const style = uncertaintyNodeStyle(color, n.uncertainty);
                 return {
                     ...n,
                     label: `${n.label}\n(${n.language})`,
-                    color,
+                    ...style,
                     mass: 1,
                     x: nodeXPositions[n.id] || 0,
                     y: yPos,
@@ -655,6 +693,29 @@ function buildConnectionsPanel(nodeId) {
 
 // --- showDetail ---
 
+function renderUncertaintyBadge(uncertainty) {
+    const badge = document.getElementById("detail-uncertainty");
+    if (!uncertainty || !uncertainty.is_uncertain) {
+        badge.hidden = true;
+        badge.className = "uncertainty-badge";
+        badge.innerHTML = "";
+        return;
+    }
+
+    const typeLabels = {
+        unknown: "Unknown origin",
+        uncertain: "Uncertain origin",
+        disputed: "Disputed etymology",
+    };
+
+    badge.hidden = false;
+    badge.className = `uncertainty-badge ${uncertainty.type || "uncertain"}`;
+    badge.innerHTML = `
+        <span>${typeLabels[uncertainty.type] || "Uncertain"}</span>
+        <span class="confidence">(${uncertainty.confidence} confidence)</span>
+    `;
+}
+
 async function showDetail(word, lang) {
     const panel = document.getElementById("detail-panel");
     const wordEl = document.getElementById("detail-word");
@@ -672,6 +733,7 @@ async function showDetail(word, lang) {
     ipaEl.textContent = "";
     defsEl.innerHTML = "";
     etymEl.textContent = "";
+    renderUncertaintyBadge(null);  // Clear until loaded
     panel.hidden = false;
 
     // Build connections from graph edges
@@ -682,6 +744,7 @@ async function showDetail(word, lang) {
         const data = await getWord(word, lang);
         posEl.textContent = data.pos || "";
         ipaEl.textContent = data.pronunciation || "";
+        renderUncertaintyBadge(data.etymology_uncertainty);
         defsEl.innerHTML = "";
         (data.definitions || []).forEach((d) => {
             const li = document.createElement("li");

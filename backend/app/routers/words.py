@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.database import get_words_collection
+from app.services.etymology_classifier import classify_etymology, extract_word_mentions
 
 router = APIRouter()
 
@@ -25,6 +26,9 @@ async def get_word(word: str, lang: str = "English"):
     if not doc:
         raise HTTPException(status_code=404, detail=f"Word '{word}' not found for language '{lang}'")
 
+    uncertainty = classify_etymology(doc)
+    mentions = extract_word_mentions(doc)
+
     return {
         "word": doc.get("word"),
         "lang": doc.get("lang"),
@@ -33,4 +37,6 @@ async def get_word(word: str, lang: str = "English"):
         "pronunciation": extract_first_ipa(doc),
         "etymology_text": doc.get("etymology_text"),
         "etymology_templates": doc.get("etymology_templates", []),
+        "etymology_uncertainty": uncertainty.to_dict(),
+        "related_mentions": [m.to_dict() for m in mentions],
     }

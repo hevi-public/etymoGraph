@@ -72,7 +72,7 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Era Layers family clustering (initial X positions group same-family nodes together per tier)
+**Last completed**: Uncertain etymology detection and display (dashed borders, uncertainty badges, API fields)
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
 ## Documentation

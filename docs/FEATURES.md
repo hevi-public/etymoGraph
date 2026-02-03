@@ -178,6 +178,52 @@ Both node background and text fade together. Clicking empty space resets all nod
 
 Clicking any node smoothly animates it to the center of the viewport (400ms easeInOutQuad).
 
+### 11. Uncertain Etymology Detection
+
+Words with disputed, uncertain, or unknown etymologies are now detected and displayed distinctly.
+
+**Detection methods:**
+
+| Source | Signal Type | Confidence |
+|--------|-------------|------------|
+| `unk` template | Unknown origin | High |
+| `unc` template | Uncertain origin | High |
+| Text: "disputed", "competing etymologies" | Disputed | Medium |
+| Text: "uncertain origin", "possibly from" | Uncertain | Medium |
+
+**Uncertainty types:**
+
+| Type | Description | Badge Color |
+|------|-------------|-------------|
+| `unknown` | Origin is completely unknown | Red |
+| `uncertain` | Origin is unclear or speculative | Yellow |
+| `disputed` | Multiple competing theories exist | Purple |
+
+**Visual indicators:**
+
+- **Graph nodes**: Dashed border (`borderDashes: [5, 5]`) and desaturated color for uncertain nodes
+- **Detail panel**: Colored badge showing uncertainty type and confidence level
+
+**API response** (from `/api/words/{word}`):
+```json
+{
+  "etymology_uncertainty": {
+    "is_uncertain": true,
+    "type": "disputed",
+    "source": "text:two interpretations",
+    "confidence": "medium"
+  },
+  "related_mentions": [
+    {"word": "pirít", "lang": "Hungarian", "lang_code": "hu", "source_template": "m", "role": "mention"}
+  ]
+}
+```
+
+**Examples:**
+- "girl" (English) → `unknown` (has `unk` template)
+- "dog" (English) → `uncertain` (has `unc` template)
+- "piros" (Hungarian) → `disputed` (text mentions "two interpretations")
+
 ---
 
 ## API Endpoints
@@ -185,9 +231,9 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 | Endpoint | Description |
 |----------|-------------|
 | `GET /health` | Health check |
-| `GET /api/words/{word}?lang=English` | Full word data (definitions, pronunciation, etymology) |
+| `GET /api/words/{word}?lang=English` | Full word data (definitions, pronunciation, etymology, uncertainty info, related mentions) |
 | `GET /api/etymology/{word}/chain?lang=English` | Linear ancestry chain (word → root) |
-| `GET /api/etymology/{word}/tree?lang=English&types=inh&max_descendant_depth=3` | Full family tree with branches |
+| `GET /api/etymology/{word}/tree?lang=English&types=inh&max_descendant_depth=3` | Full family tree with branches (nodes include uncertainty metadata) |
 | `GET /api/search?q=wine&limit=20` | Prefix search, deduplicated by word |
 | `GET /docs` | Swagger UI (auto-generated) |
 
@@ -262,8 +308,9 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 | Pluggable layout engine | Layout strategies as pluggable objects with registry, dropdown selector, localStorage persistence |
 | Chain endpoint direction fix | Fixed `/chain` edge direction (now ancestor→descendant) and level signs (now negative for ancestors) |
 | Cognate-only filter fix | Fixed `?types=cog` requests being incorrectly ignored and defaulting to `inh` |
+| Uncertain etymology detection | Classify and display words with unknown, uncertain, or disputed etymologies |
 
-### Phase 2: Nice-to-Haves — NOT STARTED
+### Phase 2: Nice-to-Haves — IN PROGRESS
 
 | Task | Description | Status |
 |------|-------------|--------|
@@ -289,6 +336,10 @@ Clicking any node smoothly animates it to the center of the viewport (400ms ease
 4. **No URL routing**: Refreshing the page always loads "wine". No browser back/forward support.
 
 5. **Edge labels overlap**: On dense graphs, "inherited"/"borrowed" labels can overlap and become hard to read.
+
+6. **Uncertainty detection is pattern-based**: The system detects uncertainty through template markers (`unk`, `unc`) and text patterns. Some uncertain etymologies may not be detected if they use unusual phrasing, and false positives are possible with text pattern matching.
+
+7. **Related mentions not linked in graph**: The `related_mentions` extracted from `m`/`m+`/`l` templates are included in API responses but not yet shown as edges in the graph visualization.
 
 ---
 

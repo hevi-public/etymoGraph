@@ -2,6 +2,7 @@
 
 from app.services import lang_cache
 from app.services.template_parser import extract_ancestry, extract_cognates, node_id
+from app.services.etymology_classifier import classify_etymology
 
 MAX_DESCENDANTS_PER_NODE = 50
 DEFAULT_MAX_COGNATE_ROUNDS = 2
@@ -18,10 +19,20 @@ class TreeBuilder:
         self.edges: list[dict] = []
         self.visited_edges: set[tuple] = set()
 
-    def add_node(self, word: str, lang: str, level: int) -> str:
+    def add_node(self, word: str, lang: str, level: int,
+                 uncertainty: dict | None = None) -> str:
         nid = node_id(word, lang)
         if nid not in self.nodes:
-            self.nodes[nid] = {"id": nid, "label": word, "language": lang, "level": level}
+            self.nodes[nid] = {
+                "id": nid,
+                "label": word,
+                "language": lang,
+                "level": level,
+                "uncertainty": uncertainty,
+            }
+        elif uncertainty and self.nodes[nid].get("uncertainty") is None:
+            # Update uncertainty if we have it now but didn't before
+            self.nodes[nid]["uncertainty"] = uncertainty
         return nid
 
     def add_edge(self, from_id: str, to_id: str, label: str) -> bool:
@@ -38,12 +49,20 @@ class TreeBuilder:
 
     async def expand_word(self, word: str, lang: str, base_level: int):
         """Trace ancestry upward and find descendants for a word."""
-        self.add_node(word, lang, base_level)
-
         doc = await self.col.find_one(
             {"word": word, "lang": lang},
-            {"_id": 0, "etymology_templates": 1},
+            {"_id": 0, "etymology_templates": 1, "etymology_text": 1},
         )
+
+        # Classify uncertainty for the word
+        uncertainty = None
+        if doc:
+            result = classify_etymology(doc)
+            if result.is_uncertain:
+                uncertainty = result.to_dict()
+
+        self.add_node(word, lang, base_level, uncertainty)
+
         if not doc:
             return
 
