@@ -116,6 +116,8 @@ The expanded 20-family palette is data-driven, based on actual database distribu
 
 The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layout names to strategy objects, each providing `getGraphOptions()`, `buildVisNodes()`, `buildExtraEdges()`, `getInitialView()`, and an optional `onBeforeDrawing` canvas hook. Shared vis.js options are extracted into `baseGraphOptions()` so each strategy only overrides what differs. Language family classification uses a single `LANG_FAMILIES` source of truth for both color and family name. A `<select>` dropdown in the header lets users switch layouts; the preference is persisted in `localStorage`.
 
+**Deterministic layout**: The graph uses a fixed random seed (`randomSeed: 42`) in the vis.js layout configuration, ensuring the physics simulation produces consistent, reproducible layouts every time for the same word and connection settings.
+
 **Built-in layouts:**
 
 #### Force-Directed
@@ -347,6 +349,7 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | Cognate-only filter fix | Fixed `?types=cog` requests being incorrectly ignored and defaulting to `inh` |
 | Uncertain etymology detection | Classify and display words with unknown, uncertain, or disputed etymologies |
 | Related mention edges | Words without ancestry show edges to related words from `af`/`m`/`m+`/`l` templates |
+| Deterministic layout | Fixed random seed for reproducible graph layouts |
 
 ### Phase 2: Nice-to-Haves — IN PROGRESS
 

@@ -369,7 +369,10 @@ function assignFamilyClusterPositions(tieredGroups, { familySpacing = 200, nodeS
 // Shared vis.js options; each layout overrides only what differs
 function baseGraphOptions(overrides) {
     const base = {
-        layout: { improvedLayout: true },
+        layout: {
+            randomSeed: 42,  // Fixed seed for deterministic layout
+            improvedLayout: true
+        },
         edges: {
             color: { color: "#555", highlight: "#aaa" },
             font: { color: "#999", size: 11, strokeWidth: 0 },
