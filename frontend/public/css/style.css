@@ -178,10 +178,13 @@ header h1 {
 /* Legend */
 .legend {
     display: flex;
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 8px 12px;
     margin-left: auto;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #999;
+    max-width: 60%;
+    justify-content: flex-end;
 }
 
 .legend-item {
@@ -207,6 +210,17 @@ header h1 {
 .dot.indoiranian { background: #FF6B9D; }
 .dot.semitic { background: #00BCD4; }
 .dot.uralic { background: #8BC34A; }
+.dot.baltic { background: #FFC107; }
+.dot.turkic { background: #673AB7; }
+.dot.sinotibetan { background: #9C27B0; }
+.dot.austronesian { background: #2196F3; }
+.dot.japonic { background: #E91E63; }
+.dot.koreanic { background: #607D8B; }
+.dot.bantu { background: #795548; }
+.dot.dravidian { background: #009688; }
+.dot.kartvelian { background: #4CAF50; }
+.dot.armenian { background: #FF5722; }
+.dot.albanian { background: #CDDC39; }
 .dot.other { background: #A0A0B8; }
 
 /* Main layout */

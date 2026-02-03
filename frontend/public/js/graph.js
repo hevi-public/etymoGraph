@@ -171,33 +171,69 @@ function formatEtymologyText(text, templates) {
 
 // --- Graph constants and utilities ---
 
-// Single source of truth for language family classification: [family, color, regex]
+// Single source of truth for language family classification: [family, displayName, color, regex]
+// Ordered by general frequency in etymology graphs (most common first)
 const LANG_FAMILIES = [
-    ["germanic",    "#5B8DEF", /english|german|norse|dutch|frisian|gothic|proto-germanic|proto-west germanic|saxon|scots|yiddish|afrikaans|plautdietsch|limburgish|luxembourgish|cimbrian|alemannic|bavarian|vilamovian|saterland/i],
-    ["romance",     "#EF5B5B", /latin|italic|french|spanish|portuguese|romanian|proto-italic|catalan|occitan|sardinian|galician|venetian|sicilian|neapolitan|asturian/i],
-    ["greek",       "#43D9A2", /greek/i],
-    ["pie",         "#F5C842", /proto-indo-european/i],
-    ["slavic",      "#CE6BF0", /russian|polish|czech|slovak|serbian|croatian|bulgarian|ukrainian|slovene|proto-slavic|old church slavonic|belarusian|macedonian|sorbian/i],
-    ["celtic",      "#FF8C42", /irish|welsh|scottish gaelic|breton|cornish|manx|proto-celtic|old irish/i],
-    ["indoiranian", "#FF6B9D", /sanskrit|hindi|persian|urdu|bengali|punjabi|avestan|pali|proto-indo-iranian/i],
-    ["semitic",     "#00BCD4", /arabic|hebrew|aramaic|akkadian|proto-semitic/i],
-    ["uralic",      "#8BC34A", /finnish|hungarian|estonian|proto-uralic|proto-finnic/i],
+    ["germanic",     "Germanic",     "#5B8DEF", /english|german|norse|dutch|frisian|gothic|proto-germanic|proto-west germanic|saxon|scots|yiddish|afrikaans|plautdietsch|limburgish|luxembourgish|cimbrian|alemannic|bavarian|vilamovian|saterland|icelandic|faroese|norwegian|swedish|danish/i],
+    ["romance",      "Romance",      "#EF5B5B", /latin|italic|french|spanish|portuguese|romanian|proto-italic|catalan|occitan|sardinian|galician|venetian|sicilian|neapolitan|asturian|aragonese|friulian|ladin|romansch|aromanian|dalmatian/i],
+    ["greek",        "Greek",        "#43D9A2", /greek/i],
+    ["pie",          "PIE",          "#F5C842", /proto-indo-european/i],
+    ["slavic",       "Slavic",       "#CE6BF0", /russian|polish|czech|slovak|serbian|croatian|bulgarian|ukrainian|slovene|proto-slavic|old church slavonic|belarusian|macedonian|sorbian|rusyn|kashubian/i],
+    ["celtic",       "Celtic",       "#FF8C42", /irish|welsh|scottish gaelic|breton|cornish|manx|proto-celtic|old irish|gaulish|celtiberian|galatian/i],
+    ["indoiranian",  "Indo-Iranian", "#FF6B9D", /sanskrit|hindi|persian|urdu|bengali|punjabi|avestan|pali|proto-indo-iranian|farsi|dari|tajik|pashto|kurdish|balochi|marathi|gujarati|nepali|sinhalese|romani|ossetian|sogdian|bactrian/i],
+    ["semitic",      "Semitic",      "#00BCD4", /arabic|hebrew|aramaic|akkadian|proto-semitic|amharic|tigrinya|maltese|phoenician|ugaritic|ge'ez|syriac/i],
+    ["uralic",       "Uralic",       "#8BC34A", /finnish|hungarian|estonian|proto-uralic|proto-finnic|sami|karelian|veps|mari|mordvin|udmurt|komi|mansi|khanty|nenets|selkup/i],
+    ["baltic",       "Baltic",       "#FFC107", /lithuanian|latvian|proto-baltic|proto-balto-slavic|old prussian|samogitian/i],
+    ["turkic",       "Turkic",       "#673AB7", /turkish|ottoman|azerbaijani|kazakh|uzbek|uyghur|turkmen|kyrgyz|tatar|bashkir|chuvash|proto-turkic|gagauz|crimean tatar|yakut/i],
+    ["sinotibetan",  "Sino-Tibetan", "#9C27B0", /chinese|mandarin|cantonese|tibetan|burmese|proto-sino-tibetan|middle chinese|old chinese|wu|min|hakka|shanghainese|hokkien/i],
+    ["austronesian", "Austronesian", "#2196F3", /indonesian|malay|tagalog|javanese|proto-austronesian|hawaiian|maori|samoan|tongan|fijian|cebuano|ilocano|sundanese|malagasy|chamorro|rapanui/i],
+    ["japonic",      "Japonic",      "#E91E63", /japanese|proto-japonic|okinawan|ryukyuan|old japanese/i],
+    ["koreanic",     "Koreanic",     "#607D8B", /korean|proto-koreanic|middle korean|old korean|jeju/i],
+    ["bantu",        "Bantu",        "#795548", /swahili|zulu|xhosa|yoruba|igbo|proto-bantu|lingala|shona|kikuyu|luganda|kinyarwanda|setswana|sesotho|chichewa/i],
+    ["dravidian",    "Dravidian",    "#009688", /tamil|telugu|malayalam|kannada|proto-dravidian|brahui|tulu|gondi/i],
+    ["kartvelian",   "Kartvelian",   "#4CAF50", /georgian|mingrelian|svan|laz|proto-kartvelian|old georgian/i],
+    ["armenian",     "Armenian",     "#FF5722", /armenian|proto-armenian|classical armenian|old armenian/i],
+    ["albanian",     "Albanian",     "#CDDC39", /albanian|proto-albanian|gheg|tosk/i],
 ];
 
 const DEFAULT_FAMILY_COLOR = "#A0A0B8";
 
 // Derive LANG_COLORS for use in legend CSS class mapping
 const LANG_COLORS = Object.fromEntries([
-    ...LANG_FAMILIES.map(([family, color]) => [family, color]),
+    ...LANG_FAMILIES.map(([family, , color]) => [family, color]),
     ["other", DEFAULT_FAMILY_COLOR],
 ]);
 
 function classifyLang(lang) {
-    for (const [family, color, regex] of LANG_FAMILIES) {
+    for (const [family, , color, regex] of LANG_FAMILIES) {
         if (regex.test(lang)) return { family, color };
     }
     return { family: "other", color: DEFAULT_FAMILY_COLOR };
 }
+
+// Render the legend dynamically based on LANG_FAMILIES
+function renderLegend() {
+    const container = document.getElementById("legend-container");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    for (const [family, displayName] of LANG_FAMILIES) {
+        const item = document.createElement("span");
+        item.className = "legend-item";
+        item.innerHTML = `<span class="dot ${family}"></span>${displayName}`;
+        container.appendChild(item);
+    }
+
+    // Add "Other" category
+    const otherItem = document.createElement("span");
+    otherItem.className = "legend-item";
+    otherItem.innerHTML = `<span class="dot other"></span>Other`;
+    container.appendChild(otherItem);
+}
+
+// Initialize legend on page load
+document.addEventListener("DOMContentLoaded", renderLegend);
 
 function langColor(lang) {
     return classifyLang(lang).color;

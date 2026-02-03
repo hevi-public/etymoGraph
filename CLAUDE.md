@@ -72,7 +72,7 @@ make clean    # Remove data and containers
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Related mention edges for words without ancestry (component/mention edge types)
+**Last completed**: Expanded language family colors (9→20 families) with dynamic legend
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
 ## Documentation

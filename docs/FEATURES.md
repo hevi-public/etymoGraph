@@ -84,22 +84,33 @@ These appear automatically for words with uncertain/disputed etymologies that la
 
 ### 4. Language Family Colors
 
-Nodes are color-coded by language family:
+Nodes are color-coded by language family. The legend is dynamically generated from a single source of truth in `graph.js`.
 
-| Family | Color | Languages |
-|--------|-------|-----------|
-| Germanic | Blue `#5B8DEF` | English, German, Norse, Dutch, Gothic, Yiddish, etc. |
-| Romance | Red `#EF5B5B` | Latin, French, Spanish, Portuguese, Italian, etc. |
+| Family | Color | Key Languages |
+|--------|-------|---------------|
+| Germanic | Blue `#5B8DEF` | English, German, Norse, Dutch, Gothic, Yiddish, Swedish, etc. |
+| Romance | Red `#EF5B5B` | Latin, French, Spanish, Portuguese, Italian, Romanian, etc. |
 | Greek | Teal `#43D9A2` | Ancient Greek, Modern Greek |
-| Slavic | Purple `#CE6BF0` | Russian, Polish, Czech, Serbian, etc. |
-| Celtic | Orange `#FF8C42` | Irish, Welsh, Breton, etc. |
-| Indo-Iranian | Pink `#FF6B9D` | Sanskrit, Hindi, Persian, etc. |
-| Semitic | Cyan `#00BCD4` | Arabic, Hebrew, Aramaic, etc. |
-| Uralic | Lime `#8BC34A` | Finnish, Hungarian, Estonian |
 | PIE | Gold `#F5C842` | Proto-Indo-European |
+| Slavic | Purple `#CE6BF0` | Russian, Polish, Czech, Serbian, Ukrainian, etc. |
+| Celtic | Orange `#FF8C42` | Irish, Welsh, Breton, Cornish, Gaulish, etc. |
+| Indo-Iranian | Pink `#FF6B9D` | Sanskrit, Hindi, Persian, Urdu, Kurdish, etc. |
+| Semitic | Cyan `#00BCD4` | Arabic, Hebrew, Aramaic, Akkadian, Amharic, etc. |
+| Uralic | Lime `#8BC34A` | Finnish, Hungarian, Estonian, Sami, etc. |
+| Baltic | Amber `#FFC107` | Lithuanian, Latvian, Old Prussian |
+| Turkic | Violet `#673AB7` | Turkish, Azerbaijani, Kazakh, Uzbek, etc. |
+| Sino-Tibetan | Deep Purple `#9C27B0` | Chinese, Mandarin, Cantonese, Tibetan, Burmese |
+| Austronesian | Bright Blue `#2196F3` | Indonesian, Malay, Tagalog, Hawaiian, Maori, etc. |
+| Japonic | Pink-Red `#E91E63` | Japanese, Okinawan, Ryukyuan |
+| Koreanic | Blue-Gray `#607D8B` | Korean, Jeju |
+| Bantu | Brown `#795548` | Swahili, Zulu, Xhosa, Yoruba, etc. |
+| Dravidian | Dark Teal `#009688` | Tamil, Telugu, Malayalam, Kannada |
+| Kartvelian | Green `#4CAF50` | Georgian, Mingrelian, Svan |
+| Armenian | Deep Orange `#FF5722` | Armenian, Classical Armenian |
+| Albanian | Yellow-Lime `#CDDC39` | Albanian, Gheg, Tosk |
 | Other | Gray `#A0A0B8` | Everything else |
 
-Legend displayed in the header.
+The expanded 20-family palette is data-driven, based on actual database distribution analysis showing 18K+ Proto-Turkic references, 16K+ Proto-Austronesian, 10K+ Sino-Tibetan, etc. Legend displayed in the header.
 
 ### 5. Pluggable Layout Engine
 
@@ -315,7 +326,7 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | Etymology tree with descendants | Reverse lookup to build full language family trees |
 | Connection type filter | Toggle inherited/borrowed/derived/cognate with checkboxes (all on by default) |
 | Direct-parent chain fix | Only link words to their immediate ancestor |
-| Extended language colors | 10 language families with vibrant palette |
+| Extended language colors | 20 language families with data-driven palette + dynamic legend |
 | macOS trackpad support | Pinch-to-zoom, two-finger pan with zoom-scaled panning speed |
 | Zoom controls | Panel toggle, focus word, focus root, fit-all buttons (top-right) |
 | Era-layered layout | Vertically layered by historical era with horizontal self-organization |
