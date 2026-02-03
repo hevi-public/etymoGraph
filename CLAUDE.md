@@ -89,6 +89,8 @@ make clean    # Remove data and containers
 - Use meaningful variable names
 - Add comments for non-obvious logic
 - Code style should follow general Clean Code principles with Functional Paradigm style. Such as: heavy use of small pure-functions, that are expressive in themselves (don't make a function call of an elementary operation for example). Consider code readability and understandability, maintainability from both human and LLM perspective
+- **Extract logic into small functions**: When implementing new features or modifying code, proactively separate logic into smaller, focused functions. This improves readability, testability, and makes the codebase easier to understand for both humans and LLMs.
+- **Add contextual comments**: When making changes, add brief comments explaining the *why* behind non-obvious decisions or the context that led to the change. These comments help future readers (including future LLM sessions) understand the reasoning without needing to re-derive it.
 
 ### Git Commits
 - Format: `[TASK_ID]: Description`
