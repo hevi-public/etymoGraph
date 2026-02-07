@@ -39,7 +39,7 @@ function linkifyEtymologyText(escaped, templateLookup) {
     if (!Object.keys(templateLookup).length) return escaped;
     // Sort by length descending to match longer words first
     const words = Object.keys(templateLookup).sort((a, b) => b.length - a.length);
-    const pattern = new RegExp("(?<![\\w*])(" + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join("|") + ")(?!\\w)", "g");
+    const pattern = new RegExp("(?<![\\w*])(" + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")(?!\\w)", "g");
     return escaped.replace(pattern, (match) => {
         const entry = templateLookup[match];
         if (!entry) return match;
@@ -103,14 +103,14 @@ function renderEtymologyChain(treeText, templateLookup) {
         }
         return escapeHtml(s);
     });
-    return '<div class="etym-chain">' + steps.join(' <span class="etym-arrow">→</span> ') + "</div>";
+    return "<div class=\"etym-chain\">" + steps.join(" <span class=\"etym-arrow\">→</span> ") + "</div>";
 }
 
 // Render cognates as a compact collapsible list.
 // Cognates are "Language word ("gloss")" e.g. 'Scots watter ("water")'.
 function renderEtymologyCognates(cognatesText, templateLookup) {
     const items = cognatesText.split("\n").map((c) => c.replace(/^\*\s*/, "").trim()).filter(Boolean);
-    let html = '<details class="etym-cognates"><summary>Cognates (' + items.length + ")</summary><p>";
+    let html = "<details class=\"etym-cognates\"><summary>Cognates (" + items.length + ")</summary><p>";
     html += items.map(c => {
         const glossMatch = c.match(/^(.+?)\s+(\(".+"\))$/);
         if (glossMatch) {
@@ -120,9 +120,9 @@ function renderEtymologyCognates(cognatesText, templateLookup) {
             if (ls > 0) {
                 const word = before.slice(ls + 1);
                 const lang = before.slice(0, ls);
-                return escapeHtml(lang) + " " + makeEtymLink(word, word, templateLookup) + " " + '<span class="etym-gloss">' + escapeHtml(gloss) + "</span>";
+                return escapeHtml(lang) + " " + makeEtymLink(word, word, templateLookup) + " " + "<span class=\"etym-gloss\">" + escapeHtml(gloss) + "</span>";
             }
-            return makeEtymLink(before, before, templateLookup) + " " + '<span class="etym-gloss">' + escapeHtml(gloss) + "</span>";
+            return makeEtymLink(before, before, templateLookup) + " " + "<span class=\"etym-gloss\">" + escapeHtml(gloss) + "</span>";
         }
         return linkifyEtymologyText(escapeHtml(c), templateLookup);
     }).join(", ");
@@ -141,7 +141,7 @@ function buildWiktionaryUrl(word, lang) {
 // --- formatEtymologyText orchestrator ---
 
 function formatEtymologyText(text, templates) {
-    if (!text) return '<span class="etym-empty">No etymology text available.</span>';
+    if (!text) return "<span class=\"etym-empty\">No etymology text available.</span>";
 
     const templateLookup = buildTemplateLookup(templates);
     const { tree, prose, cognates } = splitEtymologySections(text);
@@ -156,17 +156,17 @@ function formatEtymologyText(text, templates) {
     if (prose) {
         let escaped = escapeHtml(prose);
         escaped = escaped.replace(/\b(from|From|of)\s+((?:Proto-|Middle |Old |Late |Ancient |Medieval |Vulgar |Biblical |Classical )*[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b/g,
-            '$1 <strong>$2</strong>');
-        escaped = escaped.replace(/\(("[^"]*")\)/g, '<span class="etym-gloss">($1)</span>');
+            "$1 <strong>$2</strong>");
+        escaped = escaped.replace(/\(("[^"]*")\)/g, "<span class=\"etym-gloss\">($1)</span>");
         escaped = linkifyEtymologyText(escaped, templateLookup);
-        html += '<p class="etym-prose">' + escaped + "</p>";
+        html += "<p class=\"etym-prose\">" + escaped + "</p>";
     }
 
     if (cognates) {
         html += renderEtymologyCognates(cognates, templateLookup);
     }
 
-    return html || '<span class="etym-empty">No etymology text available.</span>';
+    return html || "<span class=\"etym-empty\">No etymology text available.</span>";
 }
 
 // --- Graph constants and utilities ---
@@ -228,7 +228,7 @@ function renderLegend() {
     // Add "Other" category
     const otherItem = document.createElement("span");
     otherItem.className = "legend-item";
-    otherItem.innerHTML = `<span class="dot other"></span>Other`;
+    otherItem.innerHTML = "<span class=\"dot other\"></span>Other";
     container.appendChild(otherItem);
 }
 
@@ -587,8 +587,8 @@ function buildVisEdges(edges) {
             arrows: "to",
             dashes: e.label === "bor" || e.label === "cog" || isMention,
             color: e.label === "cog" ? { color: "#F5C842", highlight: "#FFE066" }
-                 : isMention ? { color: "#888", highlight: "#aaa" }
-                 : undefined,
+                : isMention ? { color: "#888", highlight: "#aaa" }
+                    : undefined,
         };
     });
 }

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import words, etymology, search
+
+from app.routers import etymology, search, words
 
 app = FastAPI(title="Etymology Explorer API")
 

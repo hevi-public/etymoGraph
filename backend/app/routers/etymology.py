@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Query
+
 from app.database import get_words_collection
 from app.services import lang_cache
 from app.services.template_parser import ANCESTRY_TYPES, COGNATE_TYPE, extract_ancestry, node_id
@@ -31,7 +32,12 @@ async def get_etymology_chain(word: str, lang: str = "English", max_depth: int =
             break
         aid = node_id(anc["word"], anc["lang"])
         if aid not in nodes:
-            nodes[aid] = {"id": aid, "label": anc["word"], "language": anc["lang"], "level": -(i + 1)}
+            nodes[aid] = {
+                "id": aid,
+                "label": anc["word"],
+                "language": anc["lang"],
+                "level": -(i + 1),
+            }
         edges.append({"from": aid, "to": prev_id, "label": anc["type"]})
         prev_id = aid
 

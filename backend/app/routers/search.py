@@ -1,6 +1,7 @@
 import re
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Query
+
 from app.database import get_words_collection
 
 router = APIRouter()

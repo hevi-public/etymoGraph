@@ -1,16 +1,17 @@
 """TreeBuilder: holds shared graph state and exposes methods for building etymology trees."""
 
 from app.services import lang_cache
-from app.services.template_parser import extract_ancestry, extract_cognates, node_id
 from app.services.etymology_classifier import classify_etymology, extract_word_mentions
+from app.services.template_parser import extract_ancestry, extract_cognates, node_id
 
 MAX_DESCENDANTS_PER_NODE = 50
 DEFAULT_MAX_COGNATE_ROUNDS = 2
 
 
 class TreeBuilder:
-    def __init__(self, col, allowed_types: set[str],
-                 max_ancestor_depth: int, max_descendant_depth: int):
+    def __init__(
+        self, col, allowed_types: set[str], max_ancestor_depth: int, max_descendant_depth: int
+    ):
         self.col = col
         self.allowed_types = allowed_types
         self.max_ancestor_depth = max_ancestor_depth
@@ -19,8 +20,7 @@ class TreeBuilder:
         self.edges: list[dict] = []
         self.visited_edges: set[tuple] = set()
 
-    def add_node(self, word: str, lang: str, level: int,
-                 uncertainty: dict | None = None) -> str:
+    def add_node(self, word: str, lang: str, level: int, uncertainty: dict | None = None) -> str:
         nid = node_id(word, lang)
         if nid not in self.nodes:
             self.nodes[nid] = {
@@ -74,8 +74,9 @@ class TreeBuilder:
 
         await self._expand_descendants_from_chain(chain)
 
-    def _build_ancestor_chain(self, doc: dict, word: str, lang: str,
-                              base_level: int) -> list[tuple]:
+    def _build_ancestor_chain(
+        self, doc: dict, word: str, lang: str, base_level: int
+    ) -> list[tuple]:
         """Trace ancestry upward, adding nodes/edges. Returns chain of (word, lang, lang_code, level)."""
         ancestry = extract_ancestry(doc, self.allowed_types)
         chain = [(word, lang, lang_cache.name_to_code(lang), base_level)]
@@ -119,8 +120,9 @@ class TreeBuilder:
         for anc_word, anc_lang, anc_lc, anc_level in chain:
             await self.find_descendants(anc_word, anc_lang, anc_lc, anc_level)
 
-    async def find_descendants(self, word: str, lang: str, lc: str,
-                               parent_level: int, depth: int = 0):
+    async def find_descendants(
+        self, word: str, lang: str, lc: str, parent_level: int, depth: int = 0
+    ):
         """Find words that inherited/borrowed/derived from this word."""
         if depth >= self.max_descendant_depth:
             return
@@ -128,11 +130,15 @@ class TreeBuilder:
         parent_id = node_id(word, lang)
 
         cursor = self.col.find(
-            {"etymology_templates": {"$elemMatch": {
-                "name": {"$in": list(self.allowed_types)},
-                "args.2": lc,
-                "args.3": word,
-            }}},
+            {
+                "etymology_templates": {
+                    "$elemMatch": {
+                        "name": {"$in": list(self.allowed_types)},
+                        "args.2": lc,
+                        "args.3": word,
+                    }
+                }
+            },
             {"_id": 0, "word": 1, "lang": 1, "lang_code": 1, "etymology_templates": 1},
         ).limit(MAX_DESCENDANTS_PER_NODE)
 
@@ -150,7 +156,11 @@ class TreeBuilder:
 
             # Only include if this ancestor is the IMMEDIATE parent
             first_ancestry = extract_ancestry(doc, self.allowed_types)
-            if not first_ancestry or first_ancestry[0]["lang_code"] != lc or first_ancestry[0]["word"] != word:
+            if (
+                not first_ancestry
+                or first_ancestry[0]["lang_code"] != lc
+                or first_ancestry[0]["word"] != word
+            ):
                 continue
 
             edge_type = first_ancestry[0]["type"]
@@ -169,8 +179,9 @@ class TreeBuilder:
             new_cognate_nodes = []
 
             # Snapshot: expand_word below adds new nodes
-            unprocessed = [(nid, node) for nid, node in self.nodes.items()
-                           if nid not in processed_nids]
+            unprocessed = [
+                (nid, node) for nid, node in self.nodes.items() if nid not in processed_nids
+            ]
             for nid, node in unprocessed:
                 processed_nids.add(nid)
                 doc = await self.col.find_one(

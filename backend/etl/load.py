@@ -3,7 +3,8 @@
 import json
 import sys
 from pathlib import Path
-from pymongo import MongoClient, IndexModel, TEXT
+
+from pymongo import TEXT, IndexModel, MongoClient
 
 MONGO_URI = "mongodb://mongodb:27017/etymology"
 DATA_FILE = "/data/raw/raw-wiktextract-data.jsonl"
@@ -32,8 +33,8 @@ def main():
     count = 0
 
     with open(data_path) as f:
-        for line in f:
-            line = line.strip()
+        for raw_line in f:
+            line = raw_line.strip()
             if not line:
                 continue
             try:
@@ -56,13 +57,21 @@ def main():
     print(f"Loaded {count:,} documents.")
 
     print("Creating indexes...")
-    col.create_indexes([
-        IndexModel([("word", 1), ("lang", 1)]),
-        IndexModel([("word", 1)]),
-        IndexModel([("word", TEXT)]),
-        IndexModel([("etymology_templates.args.2", 1), ("etymology_templates.args.3", 1)]),
-        IndexModel([("etymology_templates.name", 1), ("etymology_templates.args.2", 1), ("etymology_templates.args.3", 1)]),
-    ])
+    col.create_indexes(
+        [
+            IndexModel([("word", 1), ("lang", 1)]),
+            IndexModel([("word", 1)]),
+            IndexModel([("word", TEXT)]),
+            IndexModel([("etymology_templates.args.2", 1), ("etymology_templates.args.3", 1)]),
+            IndexModel(
+                [
+                    ("etymology_templates.name", 1),
+                    ("etymology_templates.args.2", 1),
+                    ("etymology_templates.args.3", 1),
+                ]
+            ),
+        ]
+    )
 
     print("Building language code lookup table...")
     lang_col = db.languages

@@ -22,12 +22,14 @@ def extract_ancestry(doc: dict, allowed_types: set[str] | None = None) -> list[d
         ancestor_word = args.get("3", "")
         if not ancestor_word or not ancestor_lang_code:
             continue
-        ancestry.append({
-            "word": ancestor_word,
-            "lang": lang_cache.code_to_name(ancestor_lang_code),
-            "lang_code": ancestor_lang_code,
-            "type": tmpl["name"],
-        })
+        ancestry.append(
+            {
+                "word": ancestor_word,
+                "lang": lang_cache.code_to_name(ancestor_lang_code),
+                "lang_code": ancestor_lang_code,
+                "type": tmpl["name"],
+            }
+        )
     return ancestry
 
 
@@ -42,9 +44,11 @@ def extract_cognates(doc: dict) -> list[dict]:
         cog_word = args.get("2", "")
         if not cog_word or not cog_lang_code:
             continue
-        cognates.append({
-            "word": cog_word,
-            "lang": lang_cache.code_to_name(cog_lang_code),
-            "lang_code": cog_lang_code,
-        })
+        cognates.append(
+            {
+                "word": cog_word,
+                "lang": lang_cache.code_to_name(cog_lang_code),
+                "lang_code": cog_lang_code,
+            }
+        )
     return cognates

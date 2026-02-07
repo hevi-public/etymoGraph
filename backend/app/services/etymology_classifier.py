@@ -50,10 +50,11 @@ ANCESTRY_TEMPLATES = {"inh", "bor", "der"}
 @dataclass
 class UncertaintyResult:
     """Result of uncertainty classification."""
+
     is_uncertain: bool
     uncertainty_type: str | None  # "unknown", "uncertain", "disputed"
-    source: str | None            # e.g., "template:unk", "text:possibly from"
-    confidence: str               # "high" (template), "medium" (text pattern)
+    source: str | None  # e.g., "template:unk", "text:possibly from"
+    confidence: str  # "high" (template), "medium" (text pattern)
 
     def to_dict(self) -> dict:
         return {
@@ -67,11 +68,12 @@ class UncertaintyResult:
 @dataclass
 class WordMention:
     """A word mentioned in etymology templates."""
+
     word: str
     lang: str
     lang_code: str
     source_template: str  # "m", "af", "cog", etc.
-    role: str             # "component", "mention", "cognate"
+    role: str  # "component", "mention", "cognate"
 
     def to_dict(self) -> dict:
         return {
@@ -203,13 +205,15 @@ def extract_word_mentions(doc: dict) -> list[WordMention]:
             if key in seen or key in ancestry_words:
                 continue
             seen.add(key)
-            mentions.append(WordMention(
-                word=word,
-                lang=lang_cache.code_to_name(lang_code),
-                lang_code=lang_code,
-                source_template=name,
-                role="mention",
-            ))
+            mentions.append(
+                WordMention(
+                    word=word,
+                    lang=lang_cache.code_to_name(lang_code),
+                    lang_code=lang_code,
+                    source_template=name,
+                    role="mention",
+                )
+            )
 
         # Handle affix templates
         elif name in AFFIX_TEMPLATES:
@@ -227,12 +231,14 @@ def extract_word_mentions(doc: dict) -> list[WordMention]:
                 if mention_key in seen or mention_key in ancestry_words:
                     continue
                 seen.add(mention_key)
-                mentions.append(WordMention(
-                    word=word,
-                    lang=lang_cache.code_to_name(lang_code),
-                    lang_code=lang_code,
-                    source_template=name,
-                    role="component",
-                ))
+                mentions.append(
+                    WordMention(
+                        word=word,
+                        lang=lang_cache.code_to_name(lang_code),
+                        lang_code=lang_code,
+                        source_template=name,
+                        role="component",
+                    )
+                )
 
     return mentions
