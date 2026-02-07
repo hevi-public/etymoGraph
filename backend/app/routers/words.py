@@ -7,6 +7,7 @@ router = APIRouter()
 
 
 def extract_glosses(doc: dict) -> list[str]:
+    """Extract all gloss strings from a Kaikki document's senses."""
     glosses = []
     for sense in doc.get("senses", []):
         glosses.extend(sense.get("glosses", []))
@@ -14,6 +15,7 @@ def extract_glosses(doc: dict) -> list[str]:
 
 
 def extract_first_ipa(doc: dict) -> str | None:
+    """Return the first IPA pronunciation from a document's sounds, or None."""
     for sound in doc.get("sounds", []):
         if "ipa" in sound:
             return sound["ipa"]
@@ -21,7 +23,8 @@ def extract_first_ipa(doc: dict) -> str | None:
 
 
 @router.get("/words/{word}")
-async def get_word(word: str, lang: str = "English"):
+async def get_word(word: str, lang: str = "English") -> dict:
+    """Fetch a word entry with definitions, pronunciation, and etymology details."""
     col = get_words_collection()
     doc = await col.find_one({"word": word, "lang": lang}, {"_id": 0})
     if not doc:

@@ -6,9 +6,13 @@ function escapeHtml(s) {
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-// Build lookup from templates: word → {word, lang_code} for linkable terms.
-// Kaikki templates have args as dict with string keys: "1"=source_lang, "2"=target_lang, "3"=word
-// For cognates: "1"=lang_code, "2"=word
+/**
+ * Build lookup from etymology templates: word → {word, lang_code} for linkable terms.
+ * Processes cognates first, then ancestry types (inh/bor/der) so ancestry takes
+ * priority when the same word appears in both template types.
+ * @param {Array<{name: string, args: Object}>} templates - Kaikki etymology_templates array
+ * @returns {Object<string, {word: string, lang_code: string}>} Word-to-template-info lookup
+ */
 function buildTemplateLookup(templates) {
     const lookup = {};
     if (!templates || !templates.length) return lookup;
@@ -35,6 +39,14 @@ function makeEtymLink(displayText, word, templateLookup) {
     return `<a class="etym-link" href="#" data-word="${escapeHtml(entry.word)}" data-lang-code="${escapeHtml(entry.lang_code)}">${escapeHtml(displayText)}</a>`;
 }
 
+/**
+ * Replace known etymology words in pre-escaped HTML with clickable links.
+ * Builds a regex from all lookup keys sorted by length (longest first) to
+ * avoid partial matches, then replaces each occurrence with an anchor tag.
+ * @param {string} escaped - HTML-escaped etymology text
+ * @param {Object<string, {word: string, lang_code: string}>} templateLookup - Word lookup from buildTemplateLookup
+ * @returns {string} HTML string with linked etymology terms
+ */
 function linkifyEtymologyText(escaped, templateLookup) {
     if (!Object.keys(templateLookup).length) return escaped;
     // Sort by length descending to match longer words first
@@ -47,6 +59,14 @@ function linkifyEtymologyText(escaped, templateLookup) {
     });
 }
 
+/**
+ * Split etymology text into tree, prose, and cognate sections using a simple
+ * state machine. Starts in "auto" mode, transitions to "tree" on seeing
+ * "Etymology tree", to "cognates" on "Cognates", and to "prose" when a line
+ * matches common prose starters (From, Borrowed, etc.).
+ * @param {string} text - Raw etymology_text from Kaikki
+ * @returns {{tree: string, prose: string, cognates: string}} Separated sections
+ */
 function splitEtymologySections(text) {
     let tree = "";
     let prose = "";
@@ -366,7 +386,13 @@ function assignFamilyClusterPositions(tieredGroups, { familySpacing = 200, nodeS
     return positions;
 }
 
-// Shared vis.js options; each layout overrides only what differs
+/**
+ * Build vis.js graph options by deep-merging overrides into a base config.
+ * Supports two levels of nesting so layout-specific physics/edge/node settings
+ * cleanly override defaults without clobbering sibling keys.
+ * @param {Object} overrides - Partial vis.js options to merge (e.g. {physics: {solver: ...}})
+ * @returns {Object} Complete vis.js options object
+ */
 function baseGraphOptions(overrides) {
     const base = {
         layout: {

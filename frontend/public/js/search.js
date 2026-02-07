@@ -71,7 +71,7 @@ searchInput.addEventListener("keydown", async (e) => {
         try {
             const data = await searchWords(q);
             lastResults = data.results;
-        } catch (_) {}
+        } catch (e) { console.error("Search failed:", e); }
         const firstResult = findBestMatch(lastResults, q);
         if (firstResult) {
             selectWord(firstResult.word, firstResult.lang);

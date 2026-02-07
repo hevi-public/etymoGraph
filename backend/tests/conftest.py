@@ -1,10 +1,12 @@
 """Pytest configuration and fixtures."""
 
+from typing import Any
+
 import pytest
 
 
 @pytest.fixture
-async def test_db():
+async def test_db() -> None:
     """Provide test database connection.
 
     TODO: Implement test database fixture with isolated test data.
@@ -23,7 +25,7 @@ async def test_db():
 
 
 @pytest.fixture
-def sample_etymology_doc():
+def sample_etymology_doc() -> dict[str, Any]:
     """Provide sample etymology document for testing.
 
     Returns:

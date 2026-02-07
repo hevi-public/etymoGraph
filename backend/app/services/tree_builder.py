@@ -21,6 +21,7 @@ class TreeBuilder:
         self.visited_edges: set[tuple] = set()
 
     def add_node(self, word: str, lang: str, level: int, uncertainty: dict | None = None) -> str:
+        """Add or update a node in the graph, returning its ID."""
         nid = node_id(word, lang)
         if nid not in self.nodes:
             self.nodes[nid] = {
@@ -45,6 +46,7 @@ class TreeBuilder:
         return True
 
     def result(self) -> dict:
+        """Return the built graph as {nodes: [...], edges: [...]}."""
         return {"nodes": list(self.nodes.values()), "edges": self.edges}
 
     async def expand_word(self, word: str, lang: str, base_level: int):

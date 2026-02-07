@@ -8,7 +8,10 @@ router = APIRouter()
 
 
 @router.get("/search")
-async def search_words(q: str = Query(..., min_length=1), limit: int = Query(20, ge=1, le=100)):
+async def search_words(
+    q: str = Query(..., min_length=1), limit: int = Query(20, ge=1, le=100)
+) -> dict:
+    """Search words by exact match then prefix, deduplicated and merged."""
     col = get_words_collection()
     projection = {"_id": 0, "word": 1, "lang": 1, "pos": 1}
 
