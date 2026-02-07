@@ -5,3 +5,14 @@ __pycache__/
 .DS_Store
 node_modules/
 .idea/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Editor
+.vscode/
+*.swp
+*.swo

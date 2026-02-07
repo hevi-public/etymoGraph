@@ -191,9 +191,39 @@ This ensures the human is never left wondering "what now?" after an agent hands 
 
 ---
 
-## What to Look For
+## Review Criteria
 
-### Readability (Can I follow this?)
+The Review Agent should verify code against the following criteria:
+
+### 1. Coding Standards Compliance
+
+**MUST level**: Code must follow `docs/CODING_STANDARDS.md`.
+
+**Python**:
+- Type hints present for all function parameters and return values
+- Google-style docstrings present for all functions
+- Error handling present for database operations and system boundaries
+- Functions are appropriately sized (not monolithic)
+- Async/await used correctly
+
+**JavaScript**:
+- Functions are small and focused (<80 lines)
+- Meaningful names (verbs for functions, nouns for variables)
+- JSDoc present for complex functions
+- Error handling present for API calls
+
+**General**:
+- Contextual comments explain *why*, not *what*
+- No over-engineering (unnecessary abstractions, error handling for impossible scenarios)
+- FEATURES.md updated (if feature change)
+- No backwards-compatibility hacks
+
+**Example MUST findings**:
+- "Missing type hints for function parameters (see CODING_STANDARDS.md Python Standards)"
+- "Missing docstring for public function (see CODING_STANDARDS.md)"
+- "Function exceeds 80 lines - extract logic into smaller functions (see CODING_STANDARDS.md)"
+
+### 2. Readability (Can I follow this?)
 
 - **Naming**: Do variable/function names describe what they hold/do? Would a reader unfamiliar with the codebase guess correctly?
 - **Flow**: Can you read top-to-bottom without jumping around? Are there surprising control flow paths?
@@ -224,6 +254,7 @@ This ensures the human is never left wondering "what now?" after an agent hands 
 The reviewer works through this for every changed file:
 
 ```
+[ ] Coding standards compliance (type hints, docstrings, function size - see CODING_STANDARDS.md)
 [ ] I can describe what this file/function does without reading comments
 [ ] All names are accurate and descriptive
 [ ] No dead code, commented-out code, or TODOs without context
@@ -231,7 +262,9 @@ The reviewer works through this for every changed file:
 [ ] No security issues (injection, XSS, exposed secrets, etc.)
 [ ] Consistent with existing codebase patterns
 [ ] No unnecessary complexity (YAGNI)
+[ ] No over-engineering (unnecessary abstractions, premature optimization)
 [ ] Changes are documented where required (FEATURES.md, CLAUDE.md, etc.)
+[ ] Tests present for business logic (see CODING_STANDARDS.md Testing Standards)
 ```
 
 ---

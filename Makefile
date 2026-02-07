@@ -1,4 +1,4 @@
-.PHONY: setup run stop clean download load logs build update
+.PHONY: setup run stop clean download load logs build update setup-dev lint test format
 
 setup: build download load
 	@echo "Setup complete! Run 'make run' to start."
@@ -34,3 +34,26 @@ logs:
 clean:
 	docker compose down -v
 	rm -rf data/
+
+setup-dev:  ## Install development dependencies and pre-commit hooks
+	@echo "Installing Python development dependencies..."
+	pip install -r backend/requirements-dev.txt
+	@echo "Installing Node.js development dependencies..."
+	npm install
+	@echo "Installing pre-commit hooks..."
+	pre-commit install
+	@echo "Development setup complete!"
+
+lint:  ## Run linters on Python and JavaScript code
+	@echo "Running Ruff on Python code..."
+	cd backend && ruff check .
+	@echo "Running ESLint on JavaScript code..."
+	npx eslint frontend/public/js/**/*.js
+
+test:  ## Run Python tests
+	@echo "Running pytest..."
+	cd backend && pytest
+
+format:  ## Format Python code with Ruff
+	@echo "Formatting Python code with Ruff..."
+	cd backend && ruff format .

@@ -142,8 +142,15 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Expanded language family colors (9→20 families) with dynamic legend
+**Last completed**: Comprehensive coding standards implementation with automated enforcement
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
+
+**Recent**: Implemented coding standards with:
+- Comprehensive documentation (`docs/CODING_STANDARDS.md`)
+- Pre-commit hooks (Ruff + ESLint) blocking violations
+- Test framework with example tests (pytest + pytest-asyncio)
+- Updated review guidelines to enforce standards
+- Development commands (`make setup-dev`, `make lint`, `make test`, `make format`)
 
 ## Documentation
 
@@ -154,13 +161,31 @@ claude mcp get mongodb  # Shows details for specific server
 ## Conventions
 
 ### Code Style
-- Python: Use async/await with FastAPI
-- JavaScript: Vanilla ES6+, no frameworks
-- Use meaningful variable names
-- Add comments for non-obvious logic
-- Code style should follow general Clean Code principles with Functional Paradigm style. Such as: heavy use of small pure-functions, that are expressive in themselves (don't make a function call of an elementary operation for example). Consider code readability and understandability, maintainability from both human and LLM perspective
-- **Extract logic into small functions**: When implementing new features or modifying code, proactively separate logic into smaller, focused functions. This improves readability, testability, and makes the codebase easier to understand for both humans and LLMs.
-- **Add contextual comments**: When making changes, add brief comments explaining the *why* behind non-obvious decisions or the context that led to the change. These comments help future readers (including future LLM sessions) understand the reasoning without needing to re-derive it.
+
+**Follow the comprehensive coding standards defined in `docs/CODING_STANDARDS.md`.**
+
+**Key principles**:
+- Python: Type hints + Google-style docstrings for all functions
+- JavaScript: Small pure functions, JSDoc for complex functions
+- Extract logic into focused functions (<50 lines ideal)
+- Add contextual comments explaining *why*, not *what*
+- Error handling at system boundaries only
+- No over-engineering — keep it simple
+
+**Enforcement**:
+- Pre-commit hooks enforce linting (Ruff for Python, ESLint for JavaScript)
+- All new code must pass linting before commit
+- Review Agent enforces standards during PR review (MUST level violations)
+
+**Development commands**:
+```bash
+make setup-dev  # Install linters and pre-commit hooks
+make lint       # Run linters
+make format     # Format code
+make test       # Run tests
+```
+
+**Migration**: Standards apply to all new code immediately. Existing code is refactored opportunistically when touched (no mass refactoring required).
 
 ### Git Commits
 - Format: `[TASK_ID]: Description`

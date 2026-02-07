@@ -366,6 +366,46 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 
 ---
 
+## Development & Code Quality
+
+### Coding Standards
+
+**Status**: Comprehensive coding standards implemented with automated enforcement.
+
+**Documentation**: `docs/CODING_STANDARDS.md` defines all standards for Python, JavaScript, documentation, testing, and git workflow.
+
+**Key standards**:
+- **Python**: Type hints + Google-style docstrings for all functions, error handling at system boundaries, async/await patterns
+- **JavaScript**: Small pure functions (<80 lines), JSDoc for complex functions, error handling for API calls
+- **General**: Extract logic into focused functions, contextual comments explaining *why*, no over-engineering
+- **Testing**: pytest for services layer and utilities with complex logic
+- **Documentation**: Update FEATURES.md before committing feature changes
+
+**Enforcement**:
+- **Pre-commit hooks**: Ruff (Python linting + formatting) + ESLint (JavaScript) block commits with violations
+- **Code review**: Review Agent enforces standards during PR review (MUST level for violations)
+- **Migration strategy**: All new code follows standards immediately; existing code refactored opportunistically
+
+**Development commands**:
+```bash
+make setup-dev  # Install linters, pre-commit hooks, test dependencies
+make lint       # Run Ruff and ESLint
+make format     # Format Python code with Ruff
+make test       # Run pytest
+```
+
+**Test coverage**:
+- `test_tree_builder.py`: TreeBuilder service tests (some TODOs require test database)
+- `test_etymology_classifier.py`: Full coverage of uncertainty detection and word mention extraction
+- Future: tests for other services (template_parser, lang_cache) when touched
+
+**Linting configuration**:
+- `pyproject.toml`: Ruff configuration (line length 100, Python 3.11 target, comprehensive rule set)
+- `.eslintrc.json`: ESLint configuration (double quotes, 4-space indent, semicolons)
+- `.pre-commit-config.yaml`: Pre-commit hook configuration
+
+---
+
 ## Known Limitations
 
 1. **Ancestor word details**: Words in ancestor languages (Old English, Proto-Germanic, etc.) may not have full entries in the Kaikki dump. The detail panel shows an explanatory message for these.
