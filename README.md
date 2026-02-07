@@ -8,6 +8,7 @@ Trace words back through history — see how "wine" traveled from Proto-Indo-Eur
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - Git
+- (Optional) [Claude Code](https://code.claude.com/) — for MCP-enhanced development experience
 
 ## Quick Start
 
@@ -59,6 +60,21 @@ See [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md) for the full road
 - **Docker Compose** — Orchestration
 - **MongoDB** — Document store for Kaikki data (Phase 1)
 - **FastAPI** — Python async API (Phase 1)
+
+## Development with Claude Code
+
+This project includes MCP (Model Context Protocol) server configurations for enhanced development with [Claude Code](https://code.claude.com/):
+
+- **MongoDB MCP**: Direct database queries and data inspection
+- **Playwright MCP**: Automated frontend testing and screenshots
+- **GitHub MCP**: Enhanced PR and issue management
+
+MCP servers are automatically configured via `.mcp.json`. Start a new Claude Code session to load the tools, then try:
+- "List collections in the etymology database"
+- "Test the search functionality on localhost:8080"
+- "Take a screenshot of the graph"
+
+See `CLAUDE.md` for detailed MCP documentation.
 
 ## Troubleshooting
 

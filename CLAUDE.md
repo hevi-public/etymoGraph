@@ -9,6 +9,7 @@ A local, Dockerized tool for exploring word etymologies with interactive graph v
 - **Frontend**: Vanilla JS + vis.js (no build step)
 - **Data**: Kaikki.org full multilingual Wiktionary dump (10.4M documents)
 - **Orchestration**: Docker Compose
+- **MCP Servers**: MongoDB, Playwright, GitHub (for Claude Code integration)
 
 ## Project Structure
 
@@ -61,6 +62,75 @@ make update   # Force re-download data + reload
 make logs     # View logs
 make clean    # Remove data and containers
 ```
+
+## MCP Servers (Claude Code Integration)
+
+This project uses Model Context Protocol (MCP) servers to enhance Claude Code's capabilities:
+
+### Configured MCP Servers
+
+**MongoDB MCP** (`mongodb-mcp-server`)
+- Direct database queries without docker exec commands
+- Connected to: `mongodb://localhost:27017` (database: `etymology`)
+- Usage: "List collections", "Query for words with uncertain etymologies", "Count entries by language"
+- Requires: Docker containers running (`make run`)
+
+**Playwright MCP** (`@executeautomation/playwright-mcp-server`)
+- Browser automation for testing the frontend
+- Usage: "Test search on localhost:8080", "Take screenshot of graph", "Click on a node"
+- Can verify graph rendering, interactions, and visual regressions
+
+**GitHub MCP** (HTTP)
+- Enhanced PR and issue management beyond `gh` CLI
+- Requires: Authentication via `/mcp` command in Claude Code
+- Usage: Advanced PR reviews, issue tracking, repository insights
+
+### Setup & Configuration
+
+MCP servers are configured in `.mcp.json` (project-scoped, committed to repo). They are automatically loaded when Claude Code starts.
+
+**First-time setup:**
+1. Start a new Claude Code session in this project
+2. MCP tools will be automatically available
+3. For GitHub MCP: Run `/mcp` to authenticate via browser
+
+**Verifying MCP status:**
+```bash
+claude mcp list    # Shows all configured servers and connection status
+claude mcp get mongodb  # Shows details for specific server
+```
+
+**Important:** Always use MCP tools instead of bash workarounds:
+- ❌ `docker exec etymograph-mongodb-1 mongosh ...`
+- ✅ Ask Claude: "List collections in the etymology database"
+
+### Troubleshooting MCP
+
+**"Failed to connect" for MongoDB:**
+- Ensure Docker containers are running: `make run`
+- Check MongoDB is healthy: `docker ps` (should show "healthy" status)
+
+**MCP tools not appearing:**
+- Restart Claude Code session (MCP tools load at startup)
+- Check connection: `claude mcp list`
+
+**GitHub authentication:**
+- Use `/mcp` command in Claude Code
+- Follow browser OAuth flow
+
+### MongoDB MCP Best Practices
+
+**Querying efficiently:**
+- Large documents (100KB+) require projections to avoid context overflow
+- Use `aggregate` with `$project` instead of `find` for selective field retrieval
+- Example: `[{"$match": {...}}, {"$limit": 1}, {"$project": {"word": 1, "sounds": {"$slice": ["$sounds", 2]}}}]`
+- Set `responseBytesLimit` parameter to cap response size (default: 1MB, max: server-configured limit)
+
+**Query patterns:**
+- Existence checks: `{"sounds.ipa": {"$exists": true}}`
+- Nested field queries: `{"etymology_templates.name": "inh"}`
+- Use `count` for statistics before fetching full documents
+- Save large results to temp files when analyzing data patterns
 
 ## URLs (when running)
 
@@ -123,7 +193,27 @@ Key fields in Kaikki entries:
 - `etymology_text` — human-readable etymology
 - `etymology_templates` — structured relationships (builds the graph)
 - `senses[].glosses` — definitions
-- `sounds[].ipa` — pronunciation
+- `sounds[]` — pronunciation data (see structure below)
+
+### Sounds Field Structure
+
+The `sounds` array contains pronunciation information (available in ~31.7% of entries, 3.3M/10.4M documents):
+
+```json
+"sounds": [
+  {"enpr": "chēz"},                                    // English pronunciation respelling
+  {"ipa": "/t͡ʃiːz/"},                                  // IPA pronunciation
+  {"tags": ["General-American"], "ipa": "/t͡ʃiz/"},   // Regional IPA variants
+  {"audio": "file.ogg", "ogg_url": "...", "mp3_url": "..."}, // Audio files
+  {"rhymes": "-iːz"},                                  // Rhyme pattern
+  {"homophone": "qis"}                                 // Homophones
+]
+```
+
+**Best practices for querying sounds:**
+- Use MongoDB aggregation with `$project` to limit fields when querying documents with sounds (entries can be 100KB+)
+- Query pattern: `{"sounds.ipa": {"$exists": true}}` to find entries with IPA data
+- Use `responseBytesLimit` parameter in MCP queries to prevent context overflow
 
 Etymology template types (ancestry):
 - `inh` = inherited from (direct ancestor in same language lineage)
