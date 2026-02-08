@@ -3,7 +3,7 @@
  * Sibling view to the etymology graph, sharing vis.js + language family colors.
  */
 
-/* global vis, classifyLang, langColor, showDetail, selectWord, switchView, LANG_FAMILIES */
+/* global vis, classifyLang, langColor, showDetail, selectWord, switchView, LANG_FAMILIES, computeTreePositions */
 
 let conceptNetwork = null;
 let conceptNodesDS = null;
@@ -65,6 +65,29 @@ function updateConceptMap(data) {
     // Filter phonetic edges by current threshold
     const filteredEdges = filterPhoneticEdges(allPhoneticEdges, currentSimilarityThreshold);
     const visEdges = buildConceptEdges(filteredEdges, allEtymologyEdges);
+
+    // Tree-based initial positioning: pick highest-degree node as center
+    if (visEdges.length > 0) {
+        const degree = {};
+        for (const e of visEdges) {
+            degree[e.from] = (degree[e.from] || 0) + 1;
+            degree[e.to] = (degree[e.to] || 0) + 1;
+        }
+        const centerId = Object.entries(degree)
+            .reduce((best, [id, d]) => d > best[1] ? [id, d] : best, ["", 0])[0];
+        if (centerId) {
+            const positions = computeTreePositions(visNodes, visEdges, centerId);
+            // Center around (0,0) and scale down so physics expands rather than contracts
+            const allPos = Object.values(positions);
+            const cx = allPos.reduce((s, p) => s + p.x, 0) / allPos.length;
+            const cy = allPos.reduce((s, p) => s + p.y, 0) / allPos.length;
+            const scale = 0.3;
+            for (const vn of visNodes) {
+                const pos = positions[vn.id];
+                if (pos) { vn.x = (pos.x - cx) * scale; vn.y = (pos.y - cy) * scale; }
+            }
+        }
+    }
 
     conceptNodesDS = new vis.DataSet(visNodes);
     conceptEdgesDS = new vis.DataSet(visEdges);

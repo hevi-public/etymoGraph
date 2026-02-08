@@ -444,12 +444,13 @@ function computeTreePositions(nodes, edges, rootId) {
         if (adj[e.to]) adj[e.to].push(e.from);
     }
 
-    // BFS from root to discover parent-child tree
+    // BFS from root to discover parent-child tree and compute depths
     const children = {};  // parentId → [childIds]
-    const parent = {};    // childId → parentId
+    const bfsDepth = {};  // nodeId → BFS depth from root
     const visited = new Set();
     const queue = [rootId];
     visited.add(rootId);
+    bfsDepth[rootId] = 0;
 
     while (queue.length > 0) {
         const cur = queue.shift();
@@ -457,7 +458,7 @@ function computeTreePositions(nodes, edges, rootId) {
         for (const neighbor of (adj[cur] || [])) {
             if (visited.has(neighbor)) continue;
             visited.add(neighbor);
-            parent[neighbor] = cur;
+            bfsDepth[neighbor] = bfsDepth[cur] + 1;
             children[cur].push(neighbor);
             queue.push(neighbor);
         }
@@ -478,11 +479,11 @@ function computeTreePositions(nodes, edges, rootId) {
     }
     computeWidth(rootId);
 
-    // DFS position assignment: y from level, x fans out under parent
+    // DFS position assignment: y from node.level if available, else BFS depth
     const positions = {};
     function assignPositions(id, xCenter) {
         const node = nodeMap[id];
-        const level = node ? node.level : 0;
+        const level = node?.level ?? bfsDepth[id] ?? 0;
         positions[id] = { x: xCenter, y: level * TREE_LEVEL_SPACING };
 
         const kids = children[id] || [];
@@ -504,9 +505,10 @@ function computeTreePositions(nodes, edges, rootId) {
         const maxX = Math.max(...Object.values(positions).map(p => p.x));
         const offsetX = maxX + TREE_SIBLING_SPACING * 2;
         unvisited.forEach((n, i) => {
+            const level = n.level ?? 0;
             positions[n.id] = {
                 x: offsetX + i * TREE_SIBLING_SPACING,
-                y: n.level * TREE_LEVEL_SPACING,
+                y: level * TREE_LEVEL_SPACING,
             };
         });
     }
@@ -810,10 +812,12 @@ function updateGraph(data) {
     // Tree-based initial positioning for force-directed layout
     if (currentLayout === "force-directed" && data.edges.length > 0) {
         const positions = computeTreePositions(data.nodes, data.edges, rootNodeId);
+        // Scale down relative to root (0,0) so nodes start compact
+        const scale = 0.5;
         for (const vn of visNodes) {
             if (vn.fixed?.x && vn.fixed?.y) continue;
             const pos = positions[vn.id];
-            if (pos) { vn.x = pos.x; vn.y = pos.y; }
+            if (pos) { vn.x = pos.x * scale; vn.y = pos.y * scale; }
         }
     }
 
