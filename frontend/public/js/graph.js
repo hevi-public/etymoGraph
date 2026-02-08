@@ -417,8 +417,8 @@ function assignFamilyClusterPositions(tieredGroups, { familySpacing = 200, nodeS
     return positions;
 }
 
-const TREE_LEVEL_SPACING = 150;
-const TREE_SIBLING_SPACING = 120;
+const TREE_LEVEL_SPACING = 110;
+const TREE_SIBLING_SPACING = 90;
 
 /**
  * Compute tree-based initial positions for force-directed layout.
@@ -578,11 +578,11 @@ const LAYOUTS = {
             return baseGraphOptions({
                 physics: {
                     forceAtlas2Based: {
-                        gravitationalConstant: -200,
-                        centralGravity: 0.005,
-                        springLength: 200,
-                        springConstant: 0.04,
-                        damping: 0.6,
+                        gravitationalConstant: -350,
+                        centralGravity: 0.025,
+                        springLength: 120,
+                        springConstant: 0.06,
+                        damping: 0.5,
                         avoidOverlap: 0.5,
                     },
                 },
@@ -602,7 +602,7 @@ const LAYOUTS = {
                     label: `${n.label}\n(${n.language})`,
                     ...style,
                     ...root,
-                    mass: isRoot ? 5 : Math.max(1, 5 / Math.pow(2, Math.abs(n.level))),
+                    mass: isRoot ? 4 : Math.max(1, 4 / Math.pow(2, Math.abs(n.level))),
                     ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
                 };
             });
@@ -751,9 +751,9 @@ function buildVisEdges(edges) {
         degree[e.to] = (degree[e.to] || 0) + 1;
     }
 
-    const BASE_LENGTH = 180;
-    const LENGTH_SCALE = 80;
-    const BASE_SPRING = 0.08;
+    const BASE_LENGTH = 110;
+    const LENGTH_SCALE = 50;
+    const BASE_SPRING = 0.1;
 
     return edges.map((e) => {
         const isMention = e.label === "component" || e.label === "mention";
@@ -813,7 +813,7 @@ function updateGraph(data) {
     if (currentLayout === "force-directed" && data.edges.length > 0) {
         const positions = computeTreePositions(data.nodes, data.edges, rootNodeId);
         // Scale down relative to root (0,0) so nodes start compact
-        const scale = 0.5;
+        const scale = 0.35;
         for (const vn of visNodes) {
             if (vn.fixed?.x && vn.fixed?.y) continue;
             const pos = positions[vn.id];
