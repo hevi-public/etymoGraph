@@ -620,6 +620,7 @@ let nodesDataSet = null;
 let edgesDataSet = null;
 let currentNodes = [];
 let nodeBaseColors = {};  // id → hex color
+let edgeBaseColors = {};  // id → {color, highlight} original edge colors
 let rootNodeId = null;   // etymological root (deepest ancestor)
 let wordNodeId = null;   // searched word
 
@@ -668,8 +669,22 @@ function updateGraph(data) {
     nodesDataSet = new vis.DataSet(visNodes);
     const nodes = nodesDataSet;
     const extraEdges = layout.buildExtraEdges(data.nodes);
-    edgesDataSet = new vis.DataSet([...buildVisEdges(data.edges), ...extraEdges]);
+    const allEdges = [...buildVisEdges(data.edges), ...extraEdges];
+    edgesDataSet = new vis.DataSet(allEdges);
     const edges = edgesDataSet;
+
+    // Store base edge colors for brightness reset
+    edgeBaseColors = {};
+    edgesDataSet.forEach((e) => {
+        if (e.color) {
+            edgeBaseColors[e.id] = {
+                color: e.color.color || e.color,
+                highlight: e.color.highlight || e.color.color || e.color,
+            };
+        } else {
+            edgeBaseColors[e.id] = { color: "#555", highlight: "#aaa" };
+        }
+    });
     network = new vis.Network(graphContainer, { nodes, edges }, options);
 
     if (layout.onBeforeDrawing) {
@@ -916,10 +931,36 @@ function buildBrightnessUpdates(baseColors, hopDistances) {
     return updates;
 }
 
+function buildEdgeBrightnessUpdates(edgesDS, hopDistances) {
+    const updates = [];
+    edgesDS.forEach((e) => {
+        if (e.hidden) return;  // Skip invisible layout edges
+        const fromHops = hopDistances[e.from] ?? Infinity;
+        const toHops = hopDistances[e.to] ?? Infinity;
+        const opacity = opacityForHops(Math.min(fromHops, toHops));
+        const base = edgeBaseColors[e.id] || { color: "#555", highlight: "#aaa" };
+        const baseColor = base.color.startsWith("rgba") || base.color.startsWith("#") ? base.color : "#555";
+        const baseHighlight = base.highlight.startsWith("rgba") || base.highlight.startsWith("#") ? base.highlight : "#aaa";
+        // Extract hex from rgba or use directly if hex
+        const hexColor = baseColor.startsWith("#") ? baseColor : "#555";
+        const hexHighlight = baseHighlight.startsWith("#") ? baseHighlight : "#aaa";
+        updates.push({
+            id: e.id,
+            color: {
+                color: colorWithOpacity(hexColor, opacity),
+                highlight: colorWithOpacity(hexHighlight, Math.min(1, opacity + 0.2)),
+            },
+        });
+    });
+    return updates;
+}
+
 function applyBrightnessFromNode(startId, edgesDS) {
     const hopDistances = computeHopDistances(edgesDS, startId);
     const updates = buildBrightnessUpdates(nodeBaseColors, hopDistances);
     nodesDataSet.update(updates);
+    const edgeUpdates = buildEdgeBrightnessUpdates(edgesDS, hopDistances);
+    edgesDS.update(edgeUpdates);
 }
 
 function resetBrightness() {
@@ -934,6 +975,19 @@ function resetBrightness() {
         });
     }
     nodesDataSet.update(updates);
+
+    // Restore edges to base colors
+    if (edgesDataSet) {
+        const edgeUpdates = [];
+        for (const id in edgeBaseColors) {
+            const base = edgeBaseColors[id];
+            edgeUpdates.push({
+                id,
+                color: { color: base.color, highlight: base.highlight },
+            });
+        }
+        edgesDataSet.update(edgeUpdates);
+    }
 }
 
 document.getElementById("close-panel").addEventListener("click", () => {
