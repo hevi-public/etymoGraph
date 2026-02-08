@@ -144,6 +144,13 @@ function updateConceptMap(data) {
         options
     );
 
+    // Show word count status
+    const statusEl = document.getElementById("concept-status");
+    if (statusEl) {
+        statusEl.textContent = `${uniqueWords.length} words with pronunciation data`;
+        statusEl.hidden = false;
+    }
+
     conceptNetwork.on("click", (params) => {
         if (params.nodes.length > 0) {
             const clickedId = params.nodes[0];
@@ -390,4 +397,6 @@ function destroyConceptMap() {
     allEtymologyEdges = [];
     conceptWords = [];
     conceptEdgeBaseColors = {};
+    const statusEl = document.getElementById("concept-status");
+    if (statusEl) statusEl.hidden = true;
 }

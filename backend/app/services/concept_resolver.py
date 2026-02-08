@@ -86,7 +86,9 @@ async def _resolve_via_hub(
     if pos:
         query["pos"] = pos
 
-    cursor = col.find(query, _WORD_PROJECTION).limit(max_words + 50)
+    cursor = col.find(query, _WORD_PROJECTION)
+    if max_words:
+        cursor = cursor.limit(max_words + 50)
     seen: set[tuple[str, str]] = set()
     results: list[dict] = []
     async for doc in cursor:
@@ -94,7 +96,7 @@ async def _resolve_via_hub(
         if key not in seen:
             seen.add(key)
             results.append(doc)
-            if len(results) >= max_words:
+            if max_words and len(results) >= max_words:
                 break
     return results, "translation_hub"
 
@@ -116,15 +118,17 @@ async def _augment_via_gloss(
         query["pos"] = pos
 
     existing_keys = {(r["word"], r["lang"]) for r in existing}
-    remaining = max_words - len(existing)
 
-    cursor = col.find(query, _WORD_PROJECTION).limit(remaining + 50)
+    cursor = col.find(query, _WORD_PROJECTION)
+    if max_words:
+        remaining = max_words - len(existing)
+        cursor = cursor.limit(remaining + 50)
     async for doc in cursor:
         key = (doc["word"], doc["lang"])
         if key not in existing_keys:
             existing.append(doc)
             existing_keys.add(key)
-            if len(existing) >= max_words:
+            if max_words and len(existing) >= max_words:
                 break
 
     return existing

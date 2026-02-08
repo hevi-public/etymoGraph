@@ -18,7 +18,7 @@ router = APIRouter()
 async def get_concept_map(
     concept: str = Query(..., description="The concept to map (e.g. 'fire')"),
     pos: str | None = Query(None, description="Part of speech filter"),
-    max_words: int = Query(200, ge=1, le=500, description="Max words to include"),
+    max_words: int = Query(0, ge=0, description="Max words to include (0 = unlimited)"),
     include_etymology_edges: bool = Query(
         True, description="Include known etymological connections"
     ),

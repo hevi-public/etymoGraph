@@ -582,6 +582,20 @@ a.etym-link:hover {
     height: 100%;
 }
 
+/* Concept map status line */
+#concept-status {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    font-size: 0.75rem;
+    color: #888;
+    background: rgba(22, 33, 62, 0.85);
+    border: 1px solid rgba(15, 52, 96, 0.5);
+    border-radius: 4px;
+    padding: 4px 10px;
+    z-index: 5;
+}
+
 /* Concept map controls (inside popover) */
 .slider-label {
     display: flex;

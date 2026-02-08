@@ -91,7 +91,7 @@ let conceptDebounceTimer = null;
 async function loadConceptMap(concept, pos) {
     currentConcept = concept;
     try {
-        const data = await getConceptMap(concept, pos || null, 200);
+        const data = await getConceptMap(concept, pos || null);
         updateConceptMap(data);
     } catch (e) {
         console.error("Failed to load concept map:", e);
@@ -110,7 +110,7 @@ function renderConceptSuggestions(matches) {
         li.textContent = item.concept + " ";
         const countSpan = document.createElement("span");
         countSpan.className = "lang-hint";
-        countSpan.textContent = `${item.translation_count} translations`;
+        countSpan.textContent = `${item.translation_count} languages`;
         li.appendChild(countSpan);
         li.addEventListener("click", () => {
             document.getElementById("concept-search-input").value = item.concept;

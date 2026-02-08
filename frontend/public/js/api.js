@@ -24,8 +24,8 @@ async function getEtymologyTree(word, lang = "English", types = "inh") {
     return res.json();
 }
 
-async function getConceptMap(concept, pos = null, maxWords = 200) {
-    let url = `${API_BASE}/concept-map?concept=${encodeURIComponent(concept)}&max_words=${maxWords}`;
+async function getConceptMap(concept, pos = null) {
+    let url = `${API_BASE}/concept-map?concept=${encodeURIComponent(concept)}`;
     if (pos) url += `&pos=${encodeURIComponent(pos)}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Concept map failed (${res.status})`);
