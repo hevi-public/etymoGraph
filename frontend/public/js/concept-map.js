@@ -12,7 +12,7 @@ let allPhoneticEdges = [];
 let allEtymologyEdges = [];
 let conceptEdgeBaseColors = {};  // id → {color, highlight} original edge colors
 let conceptWords = [];
-let currentSimilarityThreshold = 0.6;
+let currentSimilarityThreshold = 1.0;
 
 const conceptContainer = document.getElementById("concept-graph");
 
