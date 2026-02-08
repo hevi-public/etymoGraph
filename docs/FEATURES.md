@@ -127,6 +127,10 @@ The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layou
 - No extra edges, no canvas drawing
 - Initial view at (0,0) scale 1
 
+**Radial initial positioning:** Etymology graphs start in a radial fan layout (concentric rings from root) instead of a linear tree, matching the shape that forceAtlas2Based converges to. This reduces physics stabilization time from 2-5 seconds of rearranging to a quick fine-tune. The radial layout assigns angular spans proportional to subtree size, normalized to a full 2π circle.
+
+**Barycentric refinement:** After the initial tree-based layout (radial or linear), 3 passes of barycentric refinement shift each non-root node 50% toward the average position of all its neighbors across ALL edges (not just the spanning tree). This accounts for the ~30-50% of edges (cognates, borrowings, mentions) that the BFS spanning tree ignores.
+
 #### Era Layers
 - Fixed Y positions per era tier; initial X positions cluster nodes by language family, then physics fine-tunes
 - 8 horizontal era bands from oldest (bottom) to newest (top):

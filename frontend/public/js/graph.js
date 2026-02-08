@@ -421,9 +421,163 @@ const TREE_LEVEL_SPACING = 110;
 const TREE_SIBLING_SPACING = 90;
 
 /**
+ * Compute linear tree positions: siblings fan out horizontally under their parent.
+ * Used for concept maps (no level data) where a top-down tree shape is appropriate.
+ * @param {Object} children - parentId → [childIds] from BFS spanning tree
+ * @param {Object} nodeMap - nodeId → node object
+ * @param {Object} bfsDepth - nodeId → BFS depth from root
+ * @param {string} rootId - ID of the root node
+ * @returns {Object<string, {x: number, y: number}>} Node ID to position mapping
+ */
+function computeLinearTreePositions(children, nodeMap, bfsDepth, rootId) {
+    const subtreeWidth = {};
+    function computeWidth(id) {
+        const kids = children[id] || [];
+        if (kids.length === 0) {
+            subtreeWidth[id] = TREE_SIBLING_SPACING;
+            return subtreeWidth[id];
+        }
+        let total = 0;
+        for (const kid of kids) total += computeWidth(kid);
+        subtreeWidth[id] = total;
+        return total;
+    }
+    computeWidth(rootId);
+
+    const positions = {};
+    function assignPositions(id, xCenter) {
+        const node = nodeMap[id];
+        const level = node?.level ?? bfsDepth[id] ?? 0;
+        positions[id] = { x: xCenter, y: level * TREE_LEVEL_SPACING };
+
+        const kids = children[id] || [];
+        if (kids.length === 0) return;
+
+        const totalWidth = subtreeWidth[id];
+        let xStart = xCenter - totalWidth / 2;
+        for (const kid of kids) {
+            const kidWidth = subtreeWidth[kid];
+            assignPositions(kid, xStart + kidWidth / 2);
+            xStart += kidWidth;
+        }
+    }
+    assignPositions(rootId, 0);
+    return positions;
+}
+
+const RADIAL_MIN_ANGLE = 0.1;  // Minimum angular span per leaf (radians)
+const RADIAL_RING_SPACING = 110;  // Pixels between concentric rings
+
+/**
+ * Compute radial tree positions: nodes fan in concentric rings from root.
+ * Matches the radial shape that forceAtlas2Based converges to, so physics
+ * only fine-tunes rather than rearranges.
+ * @param {Object} children - parentId → [childIds] from BFS spanning tree
+ * @param {Object} nodeMap - nodeId → node object
+ * @param {Object} bfsDepth - nodeId → BFS depth from root
+ * @param {string} rootId - ID of the root node
+ * @returns {Object<string, {x: number, y: number}>} Node ID to position mapping
+ */
+function computeRadialPositions(children, nodeMap, bfsDepth, rootId) {
+    // Bottom-up: compute angular span per subtree
+    const angularSpan = {};
+    function computeSpan(id) {
+        const kids = children[id] || [];
+        if (kids.length === 0) {
+            angularSpan[id] = RADIAL_MIN_ANGLE;
+            return RADIAL_MIN_ANGLE;
+        }
+        let total = 0;
+        for (const kid of kids) total += computeSpan(kid);
+        angularSpan[id] = total;
+        return total;
+    }
+    computeSpan(rootId);
+
+    // Normalize root's total span to 2π so children share the full circle
+    const rootSpan = angularSpan[rootId] || 1;
+    const normalizeRatio = (2 * Math.PI) / rootSpan;
+
+    // Top-down: assign polar coordinates then convert to cartesian
+    const positions = {};
+    positions[rootId] = { x: 0, y: 0 };
+
+    function assignRadial(id, angleStart, angleEnd) {
+        const kids = children[id] || [];
+        if (kids.length === 0) return;
+
+        const parentSpan = angularSpan[id];
+        let cursor = angleStart;
+
+        for (const kid of kids) {
+            const kidFraction = angularSpan[kid] / parentSpan;
+            const kidAngleStart = cursor;
+            const kidAngleEnd = cursor + (angleEnd - angleStart) * kidFraction;
+            const kidAngle = (kidAngleStart + kidAngleEnd) / 2;
+
+            const depth = bfsDepth[kid] || 1;
+            const radius = depth * RADIAL_RING_SPACING;
+            positions[kid] = {
+                x: radius * Math.cos(kidAngle),
+                y: radius * Math.sin(kidAngle),
+            };
+
+            assignRadial(kid, kidAngleStart, kidAngleEnd);
+            cursor = kidAngleEnd;
+        }
+    }
+    assignRadial(rootId, 0, 2 * Math.PI);
+    return positions;
+}
+
+/**
+ * Shift non-fixed nodes toward the barycenter (average position) of their
+ * neighbors across ALL edges, not just the spanning tree. This accounts for
+ * cognates, borrowings, and mentions that the tree layout ignores.
+ * @param {Object<string, {x: number, y: number}>} positions - Mutable position map
+ * @param {Array} nodes - Node array
+ * @param {Array} edges - Full edge array (all relationship types)
+ * @param {string} rootId - Fixed root node ID
+ * @param {number} [iterations=3] - Number of refinement passes
+ */
+function applyBarycentricRefinement(positions, nodes, edges, rootId, iterations = 3) {
+    // Build full adjacency list from ALL edges
+    const adj = {};
+    for (const n of nodes) adj[n.id] = [];
+    for (const e of edges) {
+        if (adj[e.from]) adj[e.from].push(e.to);
+        if (adj[e.to]) adj[e.to].push(e.from);
+    }
+
+    const damping = 0.5;
+
+    for (let iter = 0; iter < iterations; iter++) {
+        for (const n of nodes) {
+            if (n.id === rootId) continue;  // Root stays fixed at (0,0)
+            const neighbors = adj[n.id] || [];
+            if (neighbors.length === 0) continue;
+
+            let sumX = 0, sumY = 0, count = 0;
+            for (const nid of neighbors) {
+                const pos = positions[nid];
+                if (pos) { sumX += pos.x; sumY += pos.y; count++; }
+            }
+            if (count === 0) continue;
+
+            const cur = positions[n.id];
+            if (!cur) continue;
+            cur.x += (sumX / count - cur.x) * damping;
+            cur.y += (sumY / count - cur.y) * damping;
+        }
+    }
+}
+
+/**
  * Compute tree-based initial positions for force-directed layout.
- * BFS from root discovers parent-child relationships, then DFS assigns
- * x/y coordinates so siblings fan out horizontally under their parent.
+ * BFS from root discovers parent-child relationships. Then:
+ * - Etymology graphs (nodes have levels) → radial ring layout
+ * - Concept maps (no levels) → linear top-down tree layout
+ * Both get barycentric refinement to account for non-tree edges.
  * @param {Array} nodes - Array of node objects with id and level
  * @param {Array} edges - Array of edge objects with from and to
  * @param {string} rootId - ID of the root node
@@ -444,9 +598,9 @@ function computeTreePositions(nodes, edges, rootId) {
         if (adj[e.to]) adj[e.to].push(e.from);
     }
 
-    // BFS from root to discover parent-child tree and compute depths
-    const children = {};  // parentId → [childIds]
-    const bfsDepth = {};  // nodeId → BFS depth from root
+    // BFS from root to discover parent-child spanning tree
+    const children = {};
+    const bfsDepth = {};
     const visited = new Set();
     const queue = [rootId];
     visited.add(rootId);
@@ -464,54 +618,36 @@ function computeTreePositions(nodes, edges, rootId) {
         }
     }
 
-    // Compute subtree widths bottom-up
-    const subtreeWidth = {};
-    function computeWidth(id) {
-        const kids = children[id] || [];
-        if (kids.length === 0) {
-            subtreeWidth[id] = TREE_SIBLING_SPACING;
-            return subtreeWidth[id];
-        }
-        let total = 0;
-        for (const kid of kids) total += computeWidth(kid);
-        subtreeWidth[id] = total;
-        return total;
+    // Detect graph type: etymology graphs always have level data
+    const hasLevels = nodes.some(n => n.level != null);
+
+    let positions;
+    if (hasLevels) {
+        positions = computeRadialPositions(children, nodeMap, bfsDepth, rootId);
+    } else {
+        positions = computeLinearTreePositions(children, nodeMap, bfsDepth, rootId);
     }
-    computeWidth(rootId);
 
-    // DFS position assignment: y from node.level if available, else BFS depth
-    const positions = {};
-    function assignPositions(id, xCenter) {
-        const node = nodeMap[id];
-        const level = node?.level ?? bfsDepth[id] ?? 0;
-        positions[id] = { x: xCenter, y: level * TREE_LEVEL_SPACING };
-
-        const kids = children[id] || [];
-        if (kids.length === 0) return;
-
-        const totalWidth = subtreeWidth[id];
-        let xStart = xCenter - totalWidth / 2;
-        for (const kid of kids) {
-            const kidWidth = subtreeWidth[kid];
-            assignPositions(kid, xStart + kidWidth / 2);
-            xStart += kidWidth;
-        }
-    }
-    assignPositions(rootId, 0);
-
-    // Place disconnected nodes to the right of the main tree
+    // Place disconnected nodes in a fan beyond the positioned nodes
     const unvisited = nodes.filter(n => !visited.has(n.id));
     if (unvisited.length > 0) {
-        const maxX = Math.max(...Object.values(positions).map(p => p.x));
-        const offsetX = maxX + TREE_SIBLING_SPACING * 2;
+        const allPos = Object.values(positions);
+        const maxR = allPos.length > 0
+            ? Math.max(...allPos.map(p => Math.sqrt(p.x * p.x + p.y * p.y)))
+            : 0;
+        const fanRadius = maxR + TREE_SIBLING_SPACING * 2;
+        const angleStep = (2 * Math.PI) / Math.max(unvisited.length, 1);
         unvisited.forEach((n, i) => {
-            const level = n.level ?? 0;
+            const angle = i * angleStep;
             positions[n.id] = {
-                x: offsetX + i * TREE_SIBLING_SPACING,
-                y: level * TREE_LEVEL_SPACING,
+                x: fanRadius * Math.cos(angle),
+                y: fanRadius * Math.sin(angle),
             };
         });
     }
+
+    // Barycentric refinement: shift nodes toward neighbors across ALL edges
+    applyBarycentricRefinement(positions, nodes, edges, rootId);
 
     return positions;
 }
