@@ -62,7 +62,7 @@ The core feature. Builds a full family tree for any word:
 
 ### 3. Connection Type Filter
 
-Dropdown in the header ("Connections ▾") with checkboxes:
+Checkboxes in the Filters popover (click "Filters ▾" button in header):
 
 | Type | Meaning | Default |
 |------|---------|---------|
@@ -110,11 +110,11 @@ Nodes are color-coded by language family. The legend is dynamically generated fr
 | Albanian | Yellow-Lime `#CDDC39` | Albanian, Gheg, Tosk |
 | Other | Gray `#A0A0B8` | Everything else |
 
-The expanded 20-family palette is data-driven, based on actual database distribution analysis showing 18K+ Proto-Turkic references, 16K+ Proto-Austronesian, 10K+ Sino-Tibetan, etc. Legend displayed in the header.
+The expanded 20-family palette is data-driven, based on actual database distribution analysis showing 18K+ Proto-Turkic references, 16K+ Proto-Austronesian, 10K+ Sino-Tibetan, etc. Legend is displayed as a semi-transparent overlay in the bottom-left corner of the graph canvas (fades to full opacity on hover).
 
 ### 5. Pluggable Layout Engine
 
-The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layout names to strategy objects, each providing `getGraphOptions()`, `buildVisNodes()`, `buildExtraEdges()`, `getInitialView()`, and an optional `onBeforeDrawing` canvas hook. Shared vis.js options are extracted into `baseGraphOptions()` so each strategy only overrides what differs. Language family classification uses a single `LANG_FAMILIES` source of truth for both color and family name. A `<select>` dropdown in the header lets users switch layouts; the preference is persisted in `localStorage`.
+The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layout names to strategy objects, each providing `getGraphOptions()`, `buildVisNodes()`, `buildExtraEdges()`, `getInitialView()`, and an optional `onBeforeDrawing` canvas hook. Shared vis.js options are extracted into `baseGraphOptions()` so each strategy only overrides what differs. Language family classification uses a single `LANG_FAMILIES` source of truth for both color and family name. A `<select>` dropdown in the Filters popover lets users switch layouts; the preference is persisted in `localStorage`.
 
 **Deterministic layout**: The graph uses a fixed random seed (`randomSeed: 42`) in the vis.js layout configuration, ensuring the physics simulation produces consistent, reproducible layouts every time for the same word and connection settings.
 
@@ -278,11 +278,11 @@ A sibling view to the etymology graph that answers: "What do languages call this
 - Example: "fire" produces K-N group (ignis, agni, ugnis), P-R group (fire, Feuer, vuur, pyr), T-S group (tuz, tuli)
 
 **Frontend controls:**
-- **View toggle**: Tab-like buttons switch between Etymology Graph and Concept Map
-- **Concept search**: Debounced autocomplete with translation count hints
-- **Similarity slider**: Adjusts the similarity threshold (0.0–1.0); filters edges client-side without re-calling API
-- **Etymology edges checkbox**: Toggles overlay of known etymological connections (solid arrows vs dashed phonetic edges)
-- **POS filter**: Radio buttons for All / Noun / Verb / Adj
+- **View toggle**: Tab-like buttons in header switch between Etymology Graph and Concept Map
+- **Concept search**: Debounced autocomplete with translation count hints (in header)
+- **Similarity slider**: In Filters popover; adjusts the similarity threshold (0.0–1.0); filters edges client-side without re-calling API
+- **Etymology edges checkbox**: In Filters popover; toggles overlay of known etymological connections (solid arrows vs dashed phonetic edges)
+- **POS filter**: In Filters popover; radio buttons for All / Noun / Verb / Adj
 
 **Graph physics:**
 - Uses `barnesHut` solver (separate from etymology graph's `forceAtlas2Based`)
@@ -411,6 +411,7 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | Related mention edges | Words without ancestry show edges to related words from `af`/`m`/`m+`/`l` templates |
 | Deterministic layout | Fixed random seed for reproducible graph layouts |
 | Concept Map | Phonetic similarity visualization for semantic fields using Dolgopolsky classes |
+| Compact header | Slimmed to single row: title, view toggle, search, filters popover. Legend moved to graph overlay. |
 
 ### Concept Map (Phonetic Similarity Visualization)
 

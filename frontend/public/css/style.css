@@ -17,12 +17,13 @@ body {
 }
 
 header {
-    padding: 12px 20px;
+    padding: 8px 20px;
     background: #16213e;
     border-bottom: 1px solid #0f3460;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+    position: relative;
 }
 
 header h1 {
@@ -107,24 +108,71 @@ header h1 {
     margin-left: 4px;
 }
 
-/* Filter dropdown */
-.filter-container {
-    position: relative;
-}
-
-#filter-btn {
+/* Filters button */
+#filters-btn {
+    margin-left: auto;
     padding: 6px 12px;
     border: 1px solid #0f3460;
     border-radius: 4px;
     background: #1a1a2e;
-    color: #e0e0e0;
-    font-size: 0.9rem;
+    color: #999;
+    font-size: 0.85rem;
     cursor: pointer;
     white-space: nowrap;
 }
 
-#filter-btn:hover {
+#filters-btn:hover {
     border-color: #4a90d9;
+    color: #ccc;
+}
+
+/* Filters popover */
+#filters-popover {
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    margin-top: 4px;
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    padding: 12px 16px;
+    z-index: 20;
+    min-width: 200px;
+}
+
+#filters-popover[hidden] {
+    display: none;
+}
+
+.filter-group[hidden] {
+    display: none;
+}
+
+.filter-group-label {
+    font-size: 0.7rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 8px 0 4px;
+}
+
+.filter-group-label:first-child {
+    margin-top: 0;
+}
+
+.filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #ccc;
+    cursor: pointer;
+    padding: 2px 0;
+}
+
+.filter-group input[type="checkbox"],
+.filter-group input[type="radio"] {
+    accent-color: #4a90d9;
 }
 
 #layout-select {
@@ -133,58 +181,38 @@ header h1 {
     border-radius: 4px;
     background: #1a1a2e;
     color: #e0e0e0;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     cursor: pointer;
     outline: none;
+    width: 100%;
+    margin-top: 4px;
 }
 
 #layout-select:hover {
     border-color: #4a90d9;
 }
 
-#filter-dropdown {
+/* Legend overlay (on graph canvas) */
+.legend-overlay {
     position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 4px;
-    background: #16213e;
-    border: 1px solid #0f3460;
+    bottom: 16px;
+    left: 16px;
+    background: rgba(22, 33, 62, 0.85);
+    border: 1px solid rgba(15, 52, 96, 0.5);
     border-radius: 4px;
     padding: 8px 12px;
-    z-index: 10;
-    flex-direction: column;
-    gap: 6px;
-    white-space: nowrap;
-    display: none;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 3px 14px;
+    font-size: 0.7rem;
+    color: #888;
+    z-index: 5;
+    opacity: 0.4;
+    transition: opacity 0.2s;
 }
 
-#filter-dropdown.open {
-    display: flex;
-}
-
-#filter-dropdown label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    color: #ccc;
-}
-
-#filter-dropdown input[type="checkbox"] {
-    accent-color: #4a90d9;
-}
-
-/* Legend */
-.legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 12px;
-    margin-left: auto;
-    font-size: 0.75rem;
-    color: #999;
-    max-width: 60%;
-    justify-content: flex-end;
+.legend-overlay:hover {
+    opacity: 1;
 }
 
 .legend-item {
@@ -554,13 +582,7 @@ a.etym-link:hover {
     height: 100%;
 }
 
-/* Concept map controls */
-.concept-filters {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
+/* Concept map controls (inside popover) */
 .slider-label {
     display: flex;
     align-items: center;
@@ -571,7 +593,7 @@ a.etym-link:hover {
 }
 
 #similarity-slider {
-    width: 100px;
+    width: 120px;
     accent-color: #4a90d9;
     cursor: pointer;
 }
@@ -598,8 +620,9 @@ a.etym-link:hover {
 
 .pos-filter {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 4px 10px;
     font-size: 0.8rem;
     color: #999;
 }

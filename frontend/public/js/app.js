@@ -13,7 +13,7 @@ let currentConcept = "";
 // --- Etymology view functions ---
 
 function getSelectedTypes() {
-    const checkboxes = document.querySelectorAll("#filter-dropdown input[type=checkbox]:checked");
+    const checkboxes = document.querySelectorAll("#ety-filters input[type=checkbox]:checked");
     const types = Array.from(checkboxes).map((cb) => cb.value);
     return types.length > 0 ? types.join(",") : "inh";
 }
@@ -61,6 +61,10 @@ function switchView(view) {
     document.querySelectorAll(".view-btn").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.view === view);
     });
+
+    // Toggle filter groups inside popover
+    document.getElementById("ety-filters").hidden = view !== "etymology";
+    document.getElementById("concept-filters").hidden = view !== "concept";
 
     if (view === "etymology") {
         etymControls.hidden = false;
@@ -130,23 +134,25 @@ document.querySelectorAll(".view-btn").forEach((btn) => {
     btn.addEventListener("click", () => switchView(btn.dataset.view));
 });
 
-// Etymology filter dropdown toggle
-const filterBtn = document.getElementById("filter-btn");
-const filterDropdown = document.getElementById("filter-dropdown");
+// Filters popover toggle
+const filtersBtn = document.getElementById("filters-btn");
+const filtersPopover = document.getElementById("filters-popover");
 
-filterBtn.addEventListener("click", () => {
-    filterDropdown.classList.toggle("open");
+filtersBtn.addEventListener("click", () => {
+    filtersPopover.hidden = !filtersPopover.hidden;
 });
 
 document.addEventListener("click", (e) => {
-    if (!e.target.closest(".filter-container")) {
-        filterDropdown.classList.remove("open");
+    if (!e.target.closest("#filters-btn") && !e.target.closest("#filters-popover")) {
+        filtersPopover.hidden = true;
     }
 });
 
-// Re-fetch when filter changes
-filterDropdown.addEventListener("change", () => {
-    selectWord(currentWord, currentLang);
+// Re-fetch etymology when connection filter changes
+document.getElementById("ety-filters").addEventListener("change", (e) => {
+    if (e.target.matches("input[type=checkbox]")) {
+        selectWord(currentWord, currentLang);
+    }
 });
 
 // Layout selector: populate from LAYOUTS registry and wire change handler
