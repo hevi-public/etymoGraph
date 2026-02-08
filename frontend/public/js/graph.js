@@ -304,6 +304,30 @@ function uncertaintyNodeStyle(baseColor, uncertainty) {
     };
 }
 
+// Build vis.js node style overrides for the root (deepest ancestor) node.
+// The border color must be set in all vis.js color states (default, highlight, hover)
+// otherwise it only appears on interaction.
+function rootNodeStyle(bgColor) {
+    return {
+        font: { size: 16, multi: true, color: "#fff", bold: { size: 18 } },
+        margin: 14,
+        borderWidth: 3,
+        color: {
+            background: bgColor,
+            border: "#FFD700",
+            highlight: { background: bgColor, border: "#FFD700" },
+            hover: { background: bgColor, border: "#FFD700" },
+        },
+        shadow: {
+            enabled: true,
+            color: "rgba(255, 215, 0, 0.5)",
+            size: 20,
+            x: 0,
+            y: 0,
+        },
+    };
+}
+
 const OPACITY_BY_HOP = [1.0, 0.9, 0.5, 0.1]; // 0 hops, 1 hop, 2 hops, 3+ hops
 
 function colorWithOpacity(hex, opacity) {
@@ -463,10 +487,13 @@ const LAYOUTS = {
                 const color = langColor(n.language);
                 baseColors[n.id] = color;
                 const style = uncertaintyNodeStyle(color, n.uncertainty);
+                const bgColor = style.color?.background || color;
+                const root = isRoot ? rootNodeStyle(bgColor) : {};
                 return {
                     ...n,
                     label: `${n.label}\n(${n.language})`,
                     ...style,
+                    ...root,
                     mass: isRoot ? 5 : Math.max(1, 5 / Math.pow(2, Math.abs(n.level))),
                     ...(isRoot ? { x: 0, y: 0, fixed: { x: true, y: true } } : {}),
                 };
@@ -500,20 +527,24 @@ const LAYOUTS = {
                 },
             });
         },
-        buildVisNodes(nodes) {
+        buildVisNodes(nodes, rootId) {
             const baseColors = {};
             const tierFamilyGroups = groupNodesByTierAndFamily(nodes);
             const nodeXPositions = assignFamilyClusterPositions(tierFamilyGroups);
             const visNodes = nodes.map((n) => {
+                const isRoot = n.id === rootId;
                 const color = langColor(n.language);
                 baseColors[n.id] = color;
                 const tier = getEraTier(n.language);
                 const yPos = ERA_TIERS[tier].y;
                 const style = uncertaintyNodeStyle(color, n.uncertainty);
+                const bgColor = style.color?.background || color;
+                const root = isRoot ? rootNodeStyle(bgColor) : {};
                 return {
                     ...n,
                     label: `${n.label}\n(${n.language})`,
                     ...style,
+                    ...root,
                     mass: 1,
                     x: nodeXPositions[n.id] || 0,
                     y: yPos,
@@ -870,9 +901,15 @@ function buildBrightnessUpdates(baseColors, hopDistances) {
         const opacity = hops === Infinity ? OPACITY_BY_HOP[OPACITY_BY_HOP.length - 1] : opacityForHops(hops);
         const rgba = colorWithOpacity(baseColors[id], opacity);
         const fontOpacity = opacity;
+        const isRoot = id === rootNodeId;
+        const borderColor = isRoot ? colorWithOpacity("#FFD700", opacity) : rgba;
         updates.push({
             id,
-            color: { background: rgba, border: rgba, highlight: { background: rgba, border: rgba } },
+            color: {
+                background: rgba, border: borderColor,
+                highlight: { background: rgba, border: borderColor },
+                hover: { background: rgba, border: borderColor },
+            },
             font: { color: `rgba(255,255,255,${fontOpacity})` },
         });
     }
@@ -888,7 +925,13 @@ function applyBrightnessFromNode(startId, edgesDS) {
 function resetBrightness() {
     const updates = [];
     for (const id in nodeBaseColors) {
-        updates.push({ id, color: nodeBaseColors[id], font: { color: "#fff" } });
+        const color = nodeBaseColors[id];
+        const isRoot = id === rootNodeId;
+        updates.push({
+            id,
+            color: isRoot ? rootNodeStyle(color).color : color,
+            font: { color: "#fff" },
+        });
     }
     nodesDataSet.update(updates);
 }

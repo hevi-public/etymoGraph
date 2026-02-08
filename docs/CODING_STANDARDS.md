@@ -225,7 +225,7 @@ async function loadGraph(word, lang) {
 - **Semicolons**: Always use `;` at end of statements
 - **Quotes**: Double quotes `"`
 - **Indentation**: 4 spaces
-- **Line length**: ~100 characters (not strictly enforced)
+- **Line length**: ~120 characters (ESLint warning)
 - **File size**: Split files over 500 lines into focused modules
 
 ---

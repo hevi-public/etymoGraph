@@ -224,6 +224,7 @@ Words with disputed, uncertain, or unknown etymologies are now detected and disp
 **Visual indicators:**
 
 - **Graph nodes**: Dashed border (`borderDashes: [5, 5]`) and desaturated color for uncertain nodes
+- **Root node**: The deepest ancestor (etymological root) is visually prominent with a gold border, gold glow shadow, and larger text/padding — identifiable at a glance in both layouts
 - **Detail panel**: Colored badge showing uncertainty type and confidence level
 
 **API response** (from `/api/words/{word}`):
@@ -333,6 +334,7 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | Zoom controls | Panel toggle, focus word, focus root, fit-all buttons (top-right) |
 | Era-layered layout | Vertically layered by historical era with horizontal self-organization |
 | Cognate view | Cognate edges as gold dashed lines, toggleable via filter, recursive expansion |
+| Root node prominence | Gold border, glow shadow, and larger text on the etymological root node |
 | Distance-based opacity | Clicked node at full opacity, fading by hop distance |
 | Click-to-center | Clicked nodes animate to viewport center |
 | Clickable connections panel | Detail panel shows connections grouped by type with clickable links |
