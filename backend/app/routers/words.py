@@ -35,6 +35,8 @@ async def get_word(word: str, lang: str = "English") -> dict:
     uncertainty = classify_etymology(doc)
     mentions = extract_word_mentions(doc)
 
+    phonetic = doc.get("phonetic", {})
+
     return {
         "word": doc.get("word"),
         "lang": doc.get("lang"),
@@ -45,4 +47,7 @@ async def get_word(word: str, lang: str = "English") -> dict:
         "etymology_templates": doc.get("etymology_templates", []),
         "etymology_uncertainty": uncertainty.to_dict(),
         "related_mentions": [m.to_dict() for m in mentions],
+        "phonetic_ipa": phonetic.get("ipa"),
+        "dolgo_classes": phonetic.get("dolgo_classes"),
+        "dolgo_consonants": phonetic.get("dolgo_consonants"),
     }

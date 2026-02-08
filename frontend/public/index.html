@@ -10,31 +10,64 @@
 <body>
     <header>
         <h1>Etymology Explorer</h1>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search a word..." autocomplete="off">
-            <button id="clear-btn" hidden type="button">&times;</button>
-            <ul id="suggestions" hidden></ul>
+        <div class="view-toggle">
+            <button class="view-btn active" data-view="etymology">Etymology Graph</button>
+            <button class="view-btn" data-view="concept">Concept Map</button>
         </div>
-        <div class="filter-container">
-            <button id="filter-btn" type="button">Connections ▾</button>
-            <div id="filter-dropdown">
-                <label><input type="checkbox" value="inh" checked> Inherited</label>
-                <label><input type="checkbox" value="bor" checked> Borrowed</label>
-                <label><input type="checkbox" value="der" checked> Derived</label>
-                <label><input type="checkbox" value="cog"> Cognate</label>
+        <!-- Etymology controls -->
+        <div id="etymology-controls" class="view-controls">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search a word..." autocomplete="off">
+                <button id="clear-btn" hidden type="button">&times;</button>
+                <ul id="suggestions" hidden></ul>
+            </div>
+            <div class="filter-container">
+                <button id="filter-btn" type="button">Connections ▾</button>
+                <div id="filter-dropdown">
+                    <label><input type="checkbox" value="inh" checked> Inherited</label>
+                    <label><input type="checkbox" value="bor" checked> Borrowed</label>
+                    <label><input type="checkbox" value="der" checked> Derived</label>
+                    <label><input type="checkbox" value="cog"> Cognate</label>
+                </div>
+            </div>
+            <select id="layout-select" title="Graph layout"></select>
+        </div>
+        <!-- Concept map controls -->
+        <div id="concept-controls" class="view-controls" hidden>
+            <div class="search-container">
+                <input type="text" id="concept-search-input" placeholder="Search a concept (e.g. fire)..." autocomplete="off">
+                <button id="concept-clear-btn" hidden type="button">&times;</button>
+                <ul id="concept-suggestions" hidden></ul>
+            </div>
+            <div class="concept-filters">
+                <label class="slider-label">
+                    Similarity
+                    <input type="range" id="similarity-slider" min="0" max="100" value="60" step="5">
+                    <span id="similarity-value">0.60</span>
+                </label>
+                <label class="concept-checkbox">
+                    <input type="checkbox" id="show-etymology-edges" checked>
+                    Etymology edges
+                </label>
+                <div class="pos-filter">
+                    <label><input type="radio" name="concept-pos" value="" checked> All</label>
+                    <label><input type="radio" name="concept-pos" value="noun"> Noun</label>
+                    <label><input type="radio" name="concept-pos" value="verb"> Verb</label>
+                    <label><input type="radio" name="concept-pos" value="adj"> Adj</label>
+                </div>
             </div>
         </div>
-        <select id="layout-select" title="Graph layout"></select>
         <div class="legend" id="legend-container"></div>
     </header>
     <div id="main">
         <div id="graph-wrapper">
             <div id="graph"></div>
+            <div id="concept-graph" hidden></div>
             <div id="zoom-controls">
-                <button id="toggle-panel" type="button" title="Toggle detail panel">☰</button>
-                <button id="zoom-word" type="button" title="Focus on searched word">☆</button>
-                <button id="zoom-root" type="button" title="Focus on etymological root">⊙</button>
-                <button id="zoom-fit" type="button" title="Fit all">⊞</button>
+                <button id="toggle-panel" type="button" title="Toggle detail panel">&#9776;</button>
+                <button id="zoom-word" type="button" title="Focus on searched word">&#9734;</button>
+                <button id="zoom-root" type="button" title="Focus on etymological root">&#8857;</button>
+                <button id="zoom-fit" type="button" title="Fit all">&#8862;</button>
             </div>
         </div>
         <aside id="detail-panel" hidden>
@@ -60,6 +93,7 @@
     </div>
     <script src="js/api.js"></script>
     <script src="js/graph.js"></script>
+    <script src="js/concept-map.js"></script>
     <script src="js/search.js"></script>
     <script src="js/app.js"></script>
 </body>

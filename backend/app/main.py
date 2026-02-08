@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import etymology, search, words
+from app.routers import concept_map, etymology, search, words
 
 app = FastAPI(title="Etymology Explorer API")
 
@@ -15,6 +15,7 @@ app.add_middleware(
 app.include_router(words.router, prefix="/api")
 app.include_router(etymology.router, prefix="/api")
 app.include_router(search.router, prefix="/api")
+app.include_router(concept_map.router, prefix="/api")
 
 
 @app.get("/health")

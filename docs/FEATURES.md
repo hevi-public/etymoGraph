@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: February 3, 2026*
+*Last updated: February 8, 2026*
 
 ---
 
@@ -247,7 +247,55 @@ Words with disputed, uncertain, or unknown etymologies are now detected and disp
 - "dog" (English) → `uncertain` (has `unc` template)
 - "piros" (Hungarian) → `disputed` (text mentions "two interpretations")
 
-### 12. Related Mention Edges
+### 12. Concept Map (Phonetic Similarity Visualization)
+
+A sibling view to the etymology graph that answers: "What do languages call this concept, and which ones sound similar?"
+
+**How it works:**
+1. User enters a concept (e.g., "fire", "water", "hand")
+2. The system finds all words across languages that express that concept (via Wiktionary translation hubs + gloss fallback)
+3. Pairwise phonetic similarity is computed using Dolgopolsky consonant sound classes
+4. Words are displayed as a force-directed graph where proximity = phonetic similarity
+
+**Data pipeline:**
+- **Precomputation**: `make precompute-phonetic` runs a batch script that enriches all entries with IPA data with a `phonetic` subdocument containing Dolgopolsky classes (requires `lingpy` + `pymongo` installed locally)
+- **Phonetic subdocument structure**: `{ipa, dolgo_classes, dolgo_consonants, dolgo_first2, tokens}`
+- **LingPy is only needed for precomputation** — runtime similarity is pure string comparison
+
+**Concept resolution strategies:**
+- **Strategy A (Translation Hub)**: Queries the English entry's `translations` array, then batch-looks up each translated word in the database for phonetic data. Most reliable.
+- **Strategy B (Gloss Search)**: Searches `senses.glosses` for exact concept match across all entries. Noisier, used as fallback when hub gives < 10 results.
+- **Combined**: When hub is sparse, merges both strategies. Resolution method is returned in the API response.
+
+**Phonetic similarity:**
+- Uses **Dolgopolsky consonant classes** — IPA is tokenized into sound classes, vowels are stripped, leaving a consonant skeleton
+- **Distance metric**: Normalized Levenshtein distance on consonant class strings (0.0 = identical, 1.0 = completely different)
+- **Turchin match**: Binary check — do the first two consonant classes match? Classic cognate detection method.
+- **Edges**: All pairs with similarity >= 0.3 (floor) or Turchin match are returned; frontend filters further via slider
+
+**Clustering:**
+- Words are grouped by their first two Dolgopolsky consonant classes (Turchin clusters)
+- Example: "fire" produces K-N group (ignis, agni, ugnis), P-R group (fire, Feuer, vuur, pyr), T-S group (tuz, tuli)
+
+**Frontend controls:**
+- **View toggle**: Tab-like buttons switch between Etymology Graph and Concept Map
+- **Concept search**: Debounced autocomplete with translation count hints
+- **Similarity slider**: Adjusts the similarity threshold (0.0–1.0); filters edges client-side without re-calling API
+- **Etymology edges checkbox**: Toggles overlay of known etymological connections (solid arrows vs dashed phonetic edges)
+- **POS filter**: Radio buttons for All / Noun / Verb / Adj
+
+**Node styling:**
+- Colored by language family (same 20-family palette as etymology graph)
+- Dashed grey edges = phonetic similarity (width + opacity proportional to score)
+- Solid dark edges = etymological connections (arrows)
+- Click a node to show detail panel + "View in Etymology Graph" button
+
+**API endpoints:**
+- `GET /api/concept-map?concept=fire&pos=noun&max_words=200` — returns words, phonetic_edges, etymology_edges, clusters
+- `GET /api/concepts/suggest?q=fi&limit=10` — autocomplete for concept search
+- `GET /api/words/{word}?lang=English` — now includes `phonetic_ipa`, `dolgo_classes`, `dolgo_consonants`
+
+### 13. Related Mention Edges
 
 For words that have no standard ancestry (inh/bor/der templates), the graph now shows edges to related words extracted from other etymology templates (`af`, `m`, `m+`, `l`). This is particularly useful for words with uncertain/disputed etymologies that still have known morphological components.
 
@@ -275,6 +323,8 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | `GET /api/etymology/{word}/chain?lang=English` | Linear ancestry chain (word → root) |
 | `GET /api/etymology/{word}/tree?lang=English&types=inh&max_descendant_depth=3` | Full family tree with branches (nodes include uncertainty metadata) |
 | `GET /api/search?q=wine&limit=20` | Prefix search, deduplicated by word |
+| `GET /api/concept-map?concept=fire&pos=noun&max_words=200` | Concept map with phonetic similarity edges, etymology edges, and clusters |
+| `GET /api/concepts/suggest?q=fi&limit=10` | Concept autocomplete (English entries with translations) |
 | `GET /docs` | Swagger UI (auto-generated) |
 
 ---
@@ -289,6 +339,7 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | `make update` | Force re-download data + reload into MongoDB |
 | `make download` | Download data (skip if exists) |
 | `make load` | Load data into MongoDB |
+| `make precompute-phonetic` | Precompute Dolgopolsky sound classes for concept map (requires `lingpy` + `pymongo`) |
 | `make logs` | Tail all service logs |
 | `make clean` | Remove containers and data |
 | `./scripts/init.sh` | Check prerequisites, create dirs, build images |
@@ -352,6 +403,22 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | Uncertain etymology detection | Classify and display words with unknown, uncertain, or disputed etymologies |
 | Related mention edges | Words without ancestry show edges to related words from `af`/`m`/`m+`/`l` templates |
 | Deterministic layout | Fixed random seed for reproducible graph layouts |
+| Concept Map | Phonetic similarity visualization for semantic fields using Dolgopolsky classes |
+
+### Concept Map (Phonetic Similarity Visualization)
+
+| Task | Description | Status |
+|------|-------------|--------|
+| CM.1 | Precompute Dolgopolsky sound classes for IPA entries | Done (backend/etl/precompute_phonetic.py) |
+| CM.2 | Phonetic similarity service (distance, edges, clusters) | Done |
+| CM.3 | Concept resolver service (translation hub + gloss fallback) | Done |
+| CM.4 | Concept map API endpoints (/api/concept-map, /api/concepts/suggest) | Done |
+| CM.5 | Augment /api/words/{word} with phonetic fields | Done |
+| CM.6 | Frontend: view toggle, concept search, concept-map.js | Done |
+| CM.7 | Frontend: similarity slider, etymology edges toggle, POS filter | Done |
+| CM.8 | Unit tests for phonetic similarity and concept resolver | Done |
+| CM.9 | Cluster convex hulls (Phase 3) | Not started |
+| CM.10 | "Highlight unknown origins" toggle (Phase 3) | Not started |
 
 ### Phase 2: Nice-to-Haves — IN PROGRESS
 
@@ -421,6 +488,12 @@ make test       # Run pytest
 5. **Edge labels overlap**: On dense graphs, "inherited"/"borrowed" labels can overlap and become hard to read.
 
 6. **Uncertainty detection is pattern-based**: The system detects uncertainty through template markers (`unk`, `unc`) and text patterns. Some uncertain etymologies may not be detected if they use unusual phrasing, and false positives are possible with text pattern matching.
+
+7. **Concept map requires precomputation**: The `phonetic` subdocument must be precomputed before the concept map works. Run `make precompute-phonetic` (requires `lingpy` and `pymongo` installed locally, outside Docker).
+
+8. **Concept map coverage**: Only ~31.7% of entries have IPA data. Translation hub entries without IPA pronunciation in the database won't appear on the concept map.
+
+9. **Pairwise similarity is O(N^2)**: For concepts with many translations (200+ words), the similarity computation involves up to 20K comparisons. This is fast for short strings but could be slow for very large concept maps.
 
 ---
 

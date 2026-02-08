@@ -498,3 +498,205 @@ a.etym-link:hover {
     color: #8BB4F5;
     text-decoration: underline;
 }
+
+/* View toggle */
+.view-toggle {
+    display: flex;
+    gap: 0;
+    flex-shrink: 0;
+}
+
+.view-btn {
+    padding: 6px 14px;
+    border: 1px solid #0f3460;
+    background: #1a1a2e;
+    color: #999;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.view-btn:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+.view-btn:last-child {
+    border-radius: 0 4px 4px 0;
+    border-left: none;
+}
+
+.view-btn.active {
+    color: #e0e0e0;
+    border-color: #4a90d9;
+    background: #16213e;
+}
+
+.view-btn:hover:not(.active) {
+    color: #ccc;
+    border-color: #335;
+}
+
+/* View controls container */
+.view-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.view-controls[hidden] {
+    display: none;
+}
+
+/* Concept graph container */
+#concept-graph {
+    width: 100%;
+    height: 100%;
+}
+
+/* Concept map controls */
+.concept-filters {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.slider-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: #999;
+    white-space: nowrap;
+}
+
+#similarity-slider {
+    width: 100px;
+    accent-color: #4a90d9;
+    cursor: pointer;
+}
+
+#similarity-value {
+    font-size: 0.8rem;
+    color: #ccc;
+    min-width: 30px;
+}
+
+.concept-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    color: #999;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.concept-checkbox input[type="checkbox"] {
+    accent-color: #4a90d9;
+}
+
+.pos-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.pos-filter label {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.pos-filter input[type="radio"] {
+    accent-color: #4a90d9;
+}
+
+/* Concept search suggestions (reuse existing styles) */
+#concept-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    list-style: none;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#concept-suggestions li {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+#concept-suggestions li:hover {
+    background: #0f3460;
+}
+
+/* Concept search input (reuse search-input styles) */
+#concept-search-input {
+    width: 100%;
+    padding: 6px 12px;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    outline: none;
+    padding-right: 28px;
+}
+
+#concept-search-input:focus {
+    border-color: #4a90d9;
+}
+
+#concept-search-input::placeholder {
+    color: #666;
+}
+
+#concept-clear-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+#concept-clear-btn:hover {
+    color: #e0e0e0;
+}
+
+/* View in Etymology Graph button */
+.view-etymology-btn {
+    display: block;
+    margin-top: 12px;
+    padding: 8px 14px;
+    border: 1px solid #4a90d9;
+    border-radius: 4px;
+    background: rgba(74, 144, 217, 0.1);
+    color: #4a90d9;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+}
+
+.view-etymology-btn:hover {
+    background: rgba(74, 144, 217, 0.2);
+    color: #6bb0f5;
+}

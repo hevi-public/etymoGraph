@@ -23,3 +23,17 @@ async function getEtymologyTree(word, lang = "English", types = "inh") {
     if (!res.ok) throw new Error(`Etymology tree failed (${res.status})`);
     return res.json();
 }
+
+async function getConceptMap(concept, pos = null, maxWords = 200) {
+    let url = `${API_BASE}/concept-map?concept=${encodeURIComponent(concept)}&max_words=${maxWords}`;
+    if (pos) url += `&pos=${encodeURIComponent(pos)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Concept map failed (${res.status})`);
+    return res.json();
+}
+
+async function getConceptSuggestions(query) {
+    const res = await fetch(`${API_BASE}/concepts/suggest?q=${encodeURIComponent(query)}&limit=10`);
+    if (!res.ok) throw new Error(`Concept suggestions failed (${res.status})`);
+    return res.json();
+}

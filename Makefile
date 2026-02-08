@@ -1,4 +1,4 @@
-.PHONY: setup run stop clean download load logs build update setup-dev lint test format
+.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic
 
 setup: build download load
 	@echo "Setup complete! Run 'make run' to start."
@@ -57,3 +57,7 @@ test:  ## Run Python tests
 format:  ## Format Python code with Ruff
 	@echo "Formatting Python code with Ruff..."
 	cd backend && ruff format .
+
+precompute-phonetic:  ## Precompute Dolgopolsky sound classes for concept map
+	@echo "Precomputing phonetic data (requires lingpy + pymongo)..."
+	cd backend && python -m etl.precompute_phonetic
