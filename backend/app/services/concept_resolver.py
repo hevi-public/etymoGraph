@@ -130,15 +130,25 @@ async def _augment_via_gloss(
     return existing
 
 
+_SUGGEST_COLLATION = {"locale": "en", "strength": 2}
+
+
 async def suggest_concepts(col: AsyncIOMotorCollection, query: str, limit: int = 10) -> list[dict]:
-    """Suggest concepts that have translation hubs, matching a prefix query."""
-    escaped = re.escape(query)
+    """Suggest concepts that have translation hubs, matching a prefix query.
+
+    Uses a range query with case-insensitive collation to leverage the
+    lang_word_ci_translations index instead of scanning the full index with regex.
+    """
+    prefix = query.lower()
+    # Build exclusive upper bound: "fire" -> "firs" + 1 = "firt" (conceptually)
+    next_prefix = prefix[:-1] + chr(ord(prefix[-1]) + 1)
+
     pipeline = [
         {
             "$match": {
-                "word": {"$regex": f"^{escaped}", "$options": "i"},
                 "lang": "English",
-                "translations": {"$exists": True, "$not": {"$size": 0}},
+                "word": {"$gte": prefix, "$lt": next_prefix},
+                "translations.0": {"$exists": True},
             }
         },
         {
@@ -152,7 +162,7 @@ async def suggest_concepts(col: AsyncIOMotorCollection, query: str, limit: int =
         {"$limit": limit},
     ]
     results = []
-    async for doc in col.aggregate(pipeline):
+    async for doc in col.aggregate(pipeline, collation=_SUGGEST_COLLATION):
         results.append(
             {
                 "concept": doc["concept"],

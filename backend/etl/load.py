@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 from pymongo import TEXT, IndexModel, MongoClient
+from pymongo.collation import Collation
 from pymongo.collection import Collection
 from pymongo.database import Database
 
@@ -63,6 +64,12 @@ def create_indexes(col: Collection) -> None:
                     ("etymology_templates.args.2", 1),
                     ("etymology_templates.args.3", 1),
                 ]
+            ),
+            IndexModel(
+                [("lang", 1), ("word", 1)],
+                name="lang_word_ci_translations",
+                collation=Collation(locale="en", strength=2),
+                partialFilterExpression={"translations.0": {"$exists": True}},
             ),
         ]
     )
