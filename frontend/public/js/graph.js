@@ -533,7 +533,7 @@ function baseGraphOptions(overrides) {
             color: { color: "#555", highlight: "#aaa" },
             font: { color: "#999", size: 11, strokeWidth: 0 },
             smooth: { type: "continuous" },
-            width: 0.35,
+            width: 3,
             length: 200,
         },
         nodes: {
