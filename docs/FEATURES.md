@@ -122,7 +122,8 @@ The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layou
 
 #### Force-Directed
 - Root node pinned at (0,0) with mass 5, exponential mass decay per level
-- `centralGravity: 0.01`, `springLength: 200`, `damping: 0.7`
+- Global fallback: `gravitationalConstant: -200`, `centralGravity: 0.005`, `springConstant: 0.04`, `damping: 0.6`, `avoidOverlap: 0.5`
+- Per-edge `length` and `springConstant` override globals via log-degree scaling
 - No extra edges, no canvas drawing
 - Initial view at (0,0) scale 1
 
@@ -147,6 +148,19 @@ The graph layout is a pluggable strategy system. A `LAYOUTS` registry maps layou
 - Initial view centered on the searched word's era tier
 
 **Adding a new layout:** Add an entry to the `LAYOUTS` object in `graph.js` conforming to the strategy interface. It will automatically appear in the dropdown.
+
+**Connection-based edge length/strength:** Edge rest length and spring constant are computed per-edge based on endpoint node degree (number of connections), using a log2 scaling:
+
+```
+length        = BASE_LENGTH + LENGTH_SCALE * log2(1 + dFrom + dTo)    // BASE_LENGTH=180, LENGTH_SCALE=80
+springConstant = BASE_SPRING / log2(1 + maxDeg)                        // BASE_SPRING=0.08
+```
+
+This spreads dense clusters apart (more connections → longer, weaker springs) while pulling peripheral nodes closer (fewer connections → shorter, stronger springs). The logarithmic curve ensures diminishing returns — going from 1 to 5 connections has more visual impact than going from 20 to 25. Applied to both the etymology graph (`buildVisEdges`) and concept map (`buildConceptEdges`).
+
+**Degree-based edge opacity:** Edges between high-degree nodes fade to reduce visual clutter in dense areas, while peripheral edges stay vivid. Opacity is computed as `max(0.2, 1.0 / log2(2 + maxDeg))`, giving hub edges ~20% opacity and peripheral edges ~63%. On node click, hop-based brightness multiplies with degree opacity for compound fading. Highlight colors remain bright.
+
+**Dense-area label hiding:** When both endpoints of an edge have degree > 5, the edge label is hidden (they overlap and are unreadable in dense clusters). Edge type is still conveyed by line style (solid vs dashed) and color (gold for cognate, grey for mention).
 
 ### 6. macOS Trackpad Support
 
@@ -412,6 +426,8 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | Deterministic layout | Fixed random seed for reproducible graph layouts |
 | Concept Map | Phonetic similarity visualization for semantic fields using Dolgopolsky classes |
 | Compact header | Slimmed to single row: title, view toggle, search, filters popover. Legend moved to graph overlay. |
+| Connection-based edge length | Per-edge length and spring constant scaled by log2(degree) of endpoint nodes — dense clusters spread out, peripheral nodes pull closer |
+| Dense cluster readability | Stronger physics separation (repulsion -200, avoidOverlap 0.5), degree-based edge opacity fading, label hiding in dense areas |
 
 ### Concept Map (Phonetic Similarity Visualization)
 
@@ -493,7 +509,7 @@ make test       # Run pytest
 
 4. **No URL routing**: Refreshing the page always loads "wine". No browser back/forward support.
 
-5. **Edge labels overlap**: On dense graphs, "inherited"/"borrowed" labels can overlap and become hard to read.
+5. **Edge labels hidden in dense areas**: When both endpoints have degree > 5, edge labels are auto-hidden. Edge type is still conveyed by line style and color.
 
 6. **Uncertainty detection is pattern-based**: The system detects uncertainty through template markers (`unk`, `unc`) and text patterns. Some uncertain etymologies may not be detected if they use unusual phrasing, and false positives are possible with text pattern matching.
 

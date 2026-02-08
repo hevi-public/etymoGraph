@@ -330,11 +330,18 @@ function rootNodeStyle(bgColor) {
 
 const OPACITY_BY_HOP = [1.0, 0.9, 0.5, 0.1]; // 0 hops, 1 hop, 2 hops, 3+ hops
 
-function colorWithOpacity(hex, opacity) {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
+function colorWithOpacity(color, opacity) {
+    const rgbaMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (rgbaMatch) return `rgba(${rgbaMatch[1]},${rgbaMatch[2]},${rgbaMatch[3]},${opacity})`;
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
     return `rgba(${r},${g},${b},${opacity})`;
+}
+
+function extractOpacity(colorStr) {
+    const m = colorStr.match(/,\s*([\d.]+)\)$/);
+    return m ? parseFloat(m[1]) : 1.0;
 }
 
 function opacityForHops(hops) {
@@ -427,6 +434,7 @@ function baseGraphOptions(overrides) {
             color: { color: "#555", highlight: "#aaa" },
             font: { color: "#999", size: 11, strokeWidth: 0 },
             smooth: { type: "continuous" },
+            width: 0.35,
             length: 200,
         },
         nodes: {
@@ -471,11 +479,12 @@ const LAYOUTS = {
             return baseGraphOptions({
                 physics: {
                     forceAtlas2Based: {
-                        gravitationalConstant: -120,
-                        centralGravity: 0.01,
+                        gravitationalConstant: -200,
+                        centralGravity: 0.005,
                         springLength: 200,
-                        springConstant: 0.05,
-                        damping: 0.7,
+                        springConstant: 0.04,
+                        damping: 0.6,
+                        avoidOverlap: 0.5,
                     },
                 },
             });
@@ -636,17 +645,52 @@ function findRootAndWordNodes(nodes) {
 }
 
 function buildVisEdges(edges) {
+    // Compute degree (number of connections) per node
+    const degree = {};
+    for (const e of edges) {
+        degree[e.from] = (degree[e.from] || 0) + 1;
+        degree[e.to] = (degree[e.to] || 0) + 1;
+    }
+
+    const BASE_LENGTH = 180;
+    const LENGTH_SCALE = 80;
+    const BASE_SPRING = 0.08;
+
     return edges.map((e) => {
         const isMention = e.label === "component" || e.label === "mention";
+        const dFrom = degree[e.from] || 1;
+        const dTo = degree[e.to] || 1;
+        const combined = dFrom + dTo;
+        const maxDeg = Math.max(dFrom, dTo);
+
+        // Degree-based edge opacity: hub edges fade, peripheral edges stay vivid
+        const edgeOpacity = Math.max(0.2, 1.0 / Math.log2(2 + maxDeg));
+
+        // Hide labels in dense areas where they overlap and are unreadable
+        const hideLabel = dFrom > 5 && dTo > 5;
+
+        // Base colors with degree-based opacity
+        let baseColor, highlightColor;
+        if (e.label === "cog") {
+            baseColor = colorWithOpacity("#F5C842", edgeOpacity);
+            highlightColor = "#FFE066";
+        } else if (isMention) {
+            baseColor = colorWithOpacity("#888888", edgeOpacity);
+            highlightColor = "#aaaaaa";
+        } else {
+            baseColor = colorWithOpacity("#555555", edgeOpacity);
+            highlightColor = "#aaaaaa";
+        }
+
         return {
             ...e,
             rawType: e.label,
-            label: EDGE_LABELS[e.label] || e.label,
+            label: hideLabel ? "" : (EDGE_LABELS[e.label] || e.label),
             arrows: "to",
             dashes: e.label === "bor" || e.label === "cog" || isMention,
-            color: e.label === "cog" ? { color: "#F5C842", highlight: "#FFE066" }
-                : isMention ? { color: "#888", highlight: "#aaa" }
-                    : undefined,
+            color: { color: baseColor, highlight: highlightColor },
+            length: BASE_LENGTH + LENGTH_SCALE * Math.log2(1 + combined),
+            springConstant: BASE_SPRING / Math.log2(1 + maxDeg),
         };
     });
 }
@@ -937,18 +981,16 @@ function buildEdgeBrightnessUpdates(edgesDS, hopDistances) {
         if (e.hidden) return;  // Skip invisible layout edges
         const fromHops = hopDistances[e.from] ?? Infinity;
         const toHops = hopDistances[e.to] ?? Infinity;
-        const opacity = opacityForHops(Math.min(fromHops, toHops));
-        const base = edgeBaseColors[e.id] || { color: "#555", highlight: "#aaa" };
-        const baseColor = base.color.startsWith("rgba") || base.color.startsWith("#") ? base.color : "#555";
-        const baseHighlight = base.highlight.startsWith("rgba") || base.highlight.startsWith("#") ? base.highlight : "#aaa";
-        // Extract hex from rgba or use directly if hex
-        const hexColor = baseColor.startsWith("#") ? baseColor : "#555";
-        const hexHighlight = baseHighlight.startsWith("#") ? baseHighlight : "#aaa";
+        const hopOpacity = opacityForHops(Math.min(fromHops, toHops));
+        const base = edgeBaseColors[e.id] || { color: "rgba(85,85,85,1)", highlight: "rgba(170,170,170,1)" };
+        // Multiply degree-based base opacity with hop-based opacity
+        const baseOpacity = extractOpacity(base.color);
+        const baseHighOpacity = extractOpacity(base.highlight);
         updates.push({
             id: e.id,
             color: {
-                color: colorWithOpacity(hexColor, opacity),
-                highlight: colorWithOpacity(hexHighlight, Math.min(1, opacity + 0.2)),
+                color: colorWithOpacity(base.color, baseOpacity * hopOpacity),
+                highlight: colorWithOpacity(base.highlight, Math.min(1, baseHighOpacity * (hopOpacity + 0.2))),
             },
         });
     });
