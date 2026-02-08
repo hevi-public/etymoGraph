@@ -10,5 +10,8 @@
   "scripts": {
     "lint": "eslint frontend/public/js/**/*.js",
     "lint:fix": "eslint frontend/public/js/**/*.js --fix"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.58.2"
   }
 }
