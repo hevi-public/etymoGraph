@@ -417,6 +417,103 @@ function assignFamilyClusterPositions(tieredGroups, { familySpacing = 200, nodeS
     return positions;
 }
 
+const TREE_LEVEL_SPACING = 150;
+const TREE_SIBLING_SPACING = 120;
+
+/**
+ * Compute tree-based initial positions for force-directed layout.
+ * BFS from root discovers parent-child relationships, then DFS assigns
+ * x/y coordinates so siblings fan out horizontally under their parent.
+ * @param {Array} nodes - Array of node objects with id and level
+ * @param {Array} edges - Array of edge objects with from and to
+ * @param {string} rootId - ID of the root node
+ * @returns {Object<string, {x: number, y: number}>} Node ID to position mapping
+ */
+function computeTreePositions(nodes, edges, rootId) {
+    if (!nodes.length || !rootId) return {};
+    if (!edges.length) return { [rootId]: { x: 0, y: 0 } };
+
+    const nodeMap = {};
+    for (const n of nodes) nodeMap[n.id] = n;
+
+    // Build undirected adjacency list
+    const adj = {};
+    for (const n of nodes) adj[n.id] = [];
+    for (const e of edges) {
+        if (adj[e.from]) adj[e.from].push(e.to);
+        if (adj[e.to]) adj[e.to].push(e.from);
+    }
+
+    // BFS from root to discover parent-child tree
+    const children = {};  // parentId → [childIds]
+    const parent = {};    // childId → parentId
+    const visited = new Set();
+    const queue = [rootId];
+    visited.add(rootId);
+
+    while (queue.length > 0) {
+        const cur = queue.shift();
+        if (!children[cur]) children[cur] = [];
+        for (const neighbor of (adj[cur] || [])) {
+            if (visited.has(neighbor)) continue;
+            visited.add(neighbor);
+            parent[neighbor] = cur;
+            children[cur].push(neighbor);
+            queue.push(neighbor);
+        }
+    }
+
+    // Compute subtree widths bottom-up
+    const subtreeWidth = {};
+    function computeWidth(id) {
+        const kids = children[id] || [];
+        if (kids.length === 0) {
+            subtreeWidth[id] = TREE_SIBLING_SPACING;
+            return subtreeWidth[id];
+        }
+        let total = 0;
+        for (const kid of kids) total += computeWidth(kid);
+        subtreeWidth[id] = total;
+        return total;
+    }
+    computeWidth(rootId);
+
+    // DFS position assignment: y from level, x fans out under parent
+    const positions = {};
+    function assignPositions(id, xCenter) {
+        const node = nodeMap[id];
+        const level = node ? node.level : 0;
+        positions[id] = { x: xCenter, y: level * TREE_LEVEL_SPACING };
+
+        const kids = children[id] || [];
+        if (kids.length === 0) return;
+
+        const totalWidth = subtreeWidth[id];
+        let xStart = xCenter - totalWidth / 2;
+        for (const kid of kids) {
+            const kidWidth = subtreeWidth[kid];
+            assignPositions(kid, xStart + kidWidth / 2);
+            xStart += kidWidth;
+        }
+    }
+    assignPositions(rootId, 0);
+
+    // Place disconnected nodes to the right of the main tree
+    const unvisited = nodes.filter(n => !visited.has(n.id));
+    if (unvisited.length > 0) {
+        const maxX = Math.max(...Object.values(positions).map(p => p.x));
+        const offsetX = maxX + TREE_SIBLING_SPACING * 2;
+        unvisited.forEach((n, i) => {
+            positions[n.id] = {
+                x: offsetX + i * TREE_SIBLING_SPACING,
+                y: n.level * TREE_LEVEL_SPACING,
+            };
+        });
+    }
+
+    return positions;
+}
+
 /**
  * Build vis.js graph options by deep-merging overrides into a base config.
  * Supports two levels of nesting so layout-specific physics/edge/node settings
@@ -709,6 +806,16 @@ function updateGraph(data) {
     const options = layout.getGraphOptions();
     const { visNodes, nodeBaseColors: colors } = layout.buildVisNodes(data.nodes, rootNodeId);
     nodeBaseColors = colors;
+
+    // Tree-based initial positioning for force-directed layout
+    if (currentLayout === "force-directed" && data.edges.length > 0) {
+        const positions = computeTreePositions(data.nodes, data.edges, rootNodeId);
+        for (const vn of visNodes) {
+            if (vn.fixed?.x && vn.fixed?.y) continue;
+            const pos = positions[vn.id];
+            if (pos) { vn.x = pos.x; vn.y = pos.y; }
+        }
+    }
 
     nodesDataSet = new vis.DataSet(visNodes);
     const nodes = nodesDataSet;

@@ -7,7 +7,48 @@
       "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph add CLAUDE.md docker-compose.yml frontend/nginx.conf Makefile backend/ scripts/download-data.sh)",
       "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph commit -m \"$\\(cat <<''EOF''\nM1.1-M1.7: Add MongoDB, FastAPI backend, ETL pipeline, and API endpoints\n\n- MongoDB container with health check and persistent volume\n- Download script for Kaikki English dump\n- ETL loader: batch insert 1.4M documents with indexes\n- FastAPI app with CORS, word lookup, etymology chain, and search endpoints\n- Nginx reverse proxy for /api/ to backend\n- Makefile for setup/run/stop/clean automation\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph add frontend/public/js/api.js frontend/public/js/search.js frontend/public/js/graph.js frontend/public/js/app.js frontend/public/index.html)",
-      "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph commit -m \"$\\(cat <<''EOF''\nM1.8: Connect frontend to real API\n\nReplace hardcoded etymology data with live API calls. Search uses\ndebounced API queries, graph renders real etymology chains from MongoDB.\nLanguage-based coloring applied from API response.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git -C /Users/hevi/Projects/claude_code/etymo_graph commit -m \"$\\(cat <<''EOF''\nM1.8: Connect frontend to real API\n\nReplace hardcoded etymology data with live API calls. Search uses\ndebounced API queries, graph renders real etymology chains from MongoDB.\nLanguage-based coloring applied from API response.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(make setup:*)",
+      "Bash(make run:*)",
+      "mcp__mongodb__find",
+      "mcp__mongodb__connect",
+      "mcp__mongodb__count",
+      "Bash(docker exec:*)",
+      "Bash(wc:*)",
+      "Bash(cat:*)",
+      "Bash(make setup-dev:*)",
+      "Bash(ruff check:*)",
+      "Bash(make test:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(make lint:*)",
+      "Bash(make format:*)",
+      "Bash(pre-commit:*)",
+      "Bash(pre-commit run:*)",
+      "Bash(pytest:*)",
+      "Bash(git -C /Users/hevi/Projects/claude_code/etymoGraph log --oneline -5)",
+      "Bash(npx eslint:*)",
+      "mcp__mongodb__list-databases",
+      "mcp__mongodb__list-collections",
+      "mcp__mongodb__collection-schema",
+      "mcp__mongodb__aggregate",
+      "mcp__mongodb__collection-indexes",
+      "Bash(python -m pytest:*)",
+      "Bash(python -u backend/etl/precompute_phonetic.py:*)",
+      "Bash(curl:*)",
+      "Bash(/Users/hevi/Projects/claude_code/etymoGraph/scripts/measure_concept_search.sh:*)",
+      "WebFetch(domain:visjs.github.io)",
+      "WebSearch",
+      "mcp__playwright__playwright_screenshot"
     ]
+  },
+  "enabledMcpjsonServers": [
+    "mongodb",
+    "playwright",
+    "github"
+  ],
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
   }
 }
