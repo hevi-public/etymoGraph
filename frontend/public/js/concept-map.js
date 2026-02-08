@@ -85,19 +85,18 @@ function updateConceptMap(data) {
             margin: 10,
         },
         physics: {
-            solver: "forceAtlas2Based",
-            forceAtlas2Based: {
-                gravitationalConstant: -30,
-                centralGravity: 0.005,
-                springLength: 150,
-                springConstant: 0.08,
-                damping: 0.4,
+            solver: "barnesHut",
+            barnesHut: {
+                gravitationalConstant: -8000,
+                centralGravity: 0.08,
+                springLength: 250,
+                springConstant: 0.005,
+                damping: 0.5,
                 avoidOverlap: 0.5,
             },
-            stabilization: {
-                iterations: 300,
-                updateInterval: 25,
-            },
+            stabilization: false,
+            minVelocity: 0.75,
+            maxVelocity: 30,
         },
         interaction: {
             zoomView: false,

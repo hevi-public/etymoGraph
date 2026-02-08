@@ -284,6 +284,13 @@ A sibling view to the etymology graph that answers: "What do languages call this
 - **Etymology edges checkbox**: Toggles overlay of known etymological connections (solid arrows vs dashed phonetic edges)
 - **POS filter**: Radio buttons for All / Noun / Verb / Adj
 
+**Graph physics:**
+- Uses `barnesHut` solver (separate from etymology graph's `forceAtlas2Based`)
+- High repulsion (`gravitationalConstant: -8000`) to spread nodes apart despite dense edge network
+- Very weak spring pull (`springConstant: 0.005`) so edges suggest proximity without forcing tight clusters
+- Physics disables automatically after the graph settles (`stabilized` event), producing a static layout
+- Etymology graph keeps its own continuous `forceAtlas2Based` physics — the two views have independent configurations
+
 **Node styling:**
 - Colored by language family (same 20-family palette as etymology graph)
 - Dashed grey edges = phonetic similarity (width + opacity proportional to score)
