@@ -155,9 +155,10 @@ claude mcp get mongodb  # Shows details for specific server
 
 ## Documentation
 
+- `README.md` — User-facing guide: what the app does, feature overview, walkthrough examples, setup instructions.
 - `docs/FEATURES.md` — Detailed feature documentation, API reference, implementation status, known limitations. **Keep this up to date when adding or changing features.**
 - `docs/IMPLEMENTATION_PLAN.md` — Original implementation plan with task breakdowns.
-- `README.md` — User-facing setup and usage guide.
+- `docs/CODING_STANDARDS.md` — Python and JavaScript coding standards with enforcement details.
 - `specs/` — Feature specifications. **Read below for conventions.**
 
 ## Specs
