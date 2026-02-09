@@ -7,9 +7,10 @@ test.describe("Direct URL Loading", () => {
         await waitForGraph(page);
         const input = page.locator("#search-input");
         await expect(input).toHaveValue("wine");
-        // URL should stay clean (no query params)
+        // URL should have full default params
         const params = await getSearchParams(page);
-        expect(Object.keys(params).length).toBe(0);
+        expect(params.word).toBe("wine");
+        expect(params.lang).toBe("English");
     });
 
     test("/?word=fire&lang=Latin loads fire", async ({ page }) => {
@@ -65,7 +66,8 @@ test.describe("History Navigation", () => {
         await waitForGraph(page);
 
         const params = await getSearchParams(page);
-        expect(Object.keys(params).length).toBe(0); // clean URL = wine defaults
+        expect(params.word).toBe("wine");
+        expect(params.lang).toBe("English");
         const input = page.locator("#search-input");
         await expect(input).toHaveValue("wine");
     });
@@ -89,7 +91,8 @@ test.describe("History Navigation", () => {
         await page.goBack();
         await waitForGraph(page);
         params = await getSearchParams(page);
-        expect(Object.keys(params).length).toBe(0);
+        expect(params.word).toBe("wine");
+        expect(params.lang).toBe("English");
     });
 
     test("cross-view nav creates single history entry", async ({ page }) => {

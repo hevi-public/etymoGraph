@@ -82,6 +82,7 @@
         });
     }
 
+    /** Register popstate callback. Single-consumer: replaces any previous callback. */
     function onNavigate(cb) {
         _navigateCallback = cb;
     }
@@ -104,7 +105,7 @@
     }
 
     function state() {
-        return _currentState;
+        return Object.assign({}, _currentState);
     }
 
     /** Merge partial params with current state. On view change, fill new view's defaults. */
