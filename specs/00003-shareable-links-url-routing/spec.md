@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Status** | approved |
+| **Status** | implemented |
 | **Created** | 2026-02-09 |
 | **Modifies** | SPC-00002 (adds URL routing for concept map state) |
 | **Modified-by** | — |
