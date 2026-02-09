@@ -2,7 +2,8 @@
    getSelectedTypes, getEtymologyTree, updateGraph, LAYOUTS, currentLayout,
    searchWords, selectNodeById,
    getConceptMap, getConceptSuggestions, updateConceptMap, updateConceptEdges,
-   destroyConceptMap, currentSimilarityThreshold
+   destroyConceptMap, currentSimilarityThreshold,
+   router
 */
 
 let currentWord = "wine";
@@ -28,7 +29,7 @@ async function resolveLanguage(word) {
     }
 }
 
-async function selectWord(word, lang) {
+async function selectWord(word, lang, skipRoute = false) {
     if (!lang) {
         lang = await resolveLanguage(word);
     }
@@ -41,6 +42,9 @@ async function selectWord(word, lang) {
             data.nodes = [{ id: `${word}:${lang}`, label: word, language: lang, level: 0 }];
         }
         updateGraph(data);
+        if (!skipRoute) {
+            router.push({ view: "etymology", word, lang });
+        }
     } catch (e) {
         console.error("Failed to load etymology:", e);
     }
@@ -48,7 +52,7 @@ async function selectWord(word, lang) {
 
 // --- View switching ---
 
-function switchView(view) {
+function switchView(view, skipRoute = false) {
     if (view === activeView) return;
     activeView = view;
 
@@ -82,17 +86,24 @@ function switchView(view) {
         conceptGraphDiv.hidden = false;
         document.getElementById("detail-panel").hidden = true;
     }
+
+    if (!skipRoute) {
+        router.push({ view });
+    }
 }
 
 // --- Concept map functions ---
 
 let conceptDebounceTimer = null;
 
-async function loadConceptMap(concept, pos) {
+async function loadConceptMap(concept, pos, skipRoute = false) {
     currentConcept = concept;
     try {
         const data = await getConceptMap(concept, pos || null);
         updateConceptMap(data);
+        if (!skipRoute) {
+            router.push({ view: "concept", concept, pos: pos || "" });
+        }
     } catch (e) {
         console.error("Failed to load concept map:", e);
     }
@@ -151,7 +162,8 @@ document.addEventListener("click", (e) => {
 // Re-fetch etymology when connection filter changes
 document.getElementById("ety-filters").addEventListener("change", (e) => {
     if (e.target.matches("input[type=checkbox]")) {
-        selectWord(currentWord, currentLang);
+        selectWord(currentWord, currentLang, true);
+        router.replace({ types: getSelectedTypes() });
     }
 });
 
@@ -168,7 +180,8 @@ layoutSelect.value = currentLayout;
 layoutSelect.addEventListener("change", () => {
     currentLayout = layoutSelect.value;
     localStorage.setItem("graphLayout", currentLayout);
-    selectWord(currentWord, currentLang);
+    selectWord(currentWord, currentLang, true);
+    router.replace({ layout: layoutSelect.value });
 });
 
 // --- Concept search autocomplete ---
@@ -227,21 +240,92 @@ similaritySlider.addEventListener("input", () => {
     similarityValue.textContent = val.toFixed(2);
     currentSimilarityThreshold = val;
     updateConceptEdges();
+    router.replace({ similarity: parseInt(similaritySlider.value) });
 });
 
 // Etymology edges checkbox
-document.getElementById("show-etymology-edges").addEventListener("change", () => {
+document.getElementById("show-etymology-edges").addEventListener("change", (e) => {
     updateConceptEdges();
+    router.replace({ etymEdges: e.target.checked });
 });
 
 // POS filter radio
 document.querySelectorAll("input[name='concept-pos']").forEach((radio) => {
     radio.addEventListener("change", () => {
         if (currentConcept) {
-            loadConceptMap(currentConcept, getSelectedPos());
+            const pos = getSelectedPos();
+            loadConceptMap(currentConcept, pos, true);
+            router.replace({ pos });
         }
     });
 });
 
-// Load default word on startup
-selectWord("wine", "English");
+// --- URL-driven state restore ---
+
+function updateDOMFromState(state) {
+    // Connection type checkboxes
+    const typeSet = new Set((state.types || "inh,bor,der").split(","));
+    document.querySelectorAll("#ety-filters input[type=checkbox]").forEach((cb) => {
+        cb.checked = typeSet.has(cb.value);
+    });
+
+    // Layout dropdown + global
+    document.getElementById("layout-select").value = state.layout || "era-layered";
+    currentLayout = state.layout || "era-layered";
+
+    // Similarity slider + display + global
+    const sim = state.similarity != null ? state.similarity : 100;
+    document.getElementById("similarity-slider").value = sim;
+    document.getElementById("similarity-value").textContent = (sim / 100).toFixed(2);
+    currentSimilarityThreshold = sim / 100;
+
+    // POS radio buttons
+    const posRadio = document.querySelector(
+        `input[name="concept-pos"][value="${state.pos || ""}"]`
+    );
+    if (posRadio) posRadio.checked = true;
+
+    // Etymology edges checkbox
+    document.getElementById("show-etymology-edges").checked =
+        state.etymEdges != null ? state.etymEdges : true;
+
+    // Search input values
+    if (state.view === "etymology" && state.word) {
+        document.getElementById("search-input").value = state.word;
+    }
+    if (state.view === "concept" && state.concept) {
+        document.getElementById("concept-search-input").value = state.concept;
+    }
+}
+
+// Register popstate handler for back/forward
+router.onNavigate((state) => {
+    activeView = ""; // reset so switchView's early-return guard doesn't skip
+    updateDOMFromState(state);
+    switchView(state.view, true);
+    if (state.view === "etymology") {
+        selectWord(state.word, state.lang, true);
+    } else if (state.view === "concept") {
+        loadConceptMap(state.concept, state.pos, true);
+    }
+});
+
+// Capture original URL before router.initialize() modifies it via replaceState.
+const originalParams = new URLSearchParams(window.location.search);
+
+// Initialize router (parses URL, normalizes, attaches popstate listener)
+router.initialize();
+
+// If the original URL didn't explicitly set layout, respect localStorage preference (set by graph.js).
+const initial = router.state();
+if (!originalParams.has("layout")) {
+    initial.layout = currentLayout;
+}
+router.replace(initial);
+updateDOMFromState(initial);
+if (initial.view === "concept") {
+    switchView("concept", true);
+    loadConceptMap(initial.concept, initial.pos, true);
+} else {
+    selectWord(initial.word, initial.lang, true);
+}

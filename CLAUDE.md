@@ -18,6 +18,9 @@ etymo_graph/
 ├── docker-compose.yml
 ├── Makefile
 ├── .env.example
+├── vitest.config.js          # Vitest unit test config (jsdom)
+├── playwright.config.js      # Playwright E2E test config
+├── eslint.config.js          # ESLint flat config (app + test blocks)
 ├── backend/
 │   ├── Dockerfile
 │   ├── requirements.txt
@@ -34,14 +37,23 @@ etymo_graph/
 ├── frontend/
 │   ├── Dockerfile
 │   ├── nginx.conf            # Static files + /api/ proxy to backend
-│   └── public/
-│       ├── index.html
-│       ├── css/style.css
-│       └── js/
-│           ├── app.js       # Main application, filter wiring
-│           ├── graph.js     # vis.js graph, zoom, trackpad, detail panel
-│           ├── search.js    # Search autocomplete
-│           └── api.js       # API client
+│   ├── public/
+│   │   ├── index.html
+│   │   ├── css/style.css
+│   │   └── js/
+│   │       ├── app.js       # Main application, filter wiring, router init
+│   │       ├── router.js    # URL router — view-scoped params, History API
+│   │       ├── graph.js     # vis.js graph, zoom, trackpad, detail panel
+│   │       ├── search.js    # Search autocomplete
+│   │       ├── concept-map.js # Concept map view
+│   │       └── api.js       # API client
+│   └── tests/
+│       └── router.test.js   # Vitest unit tests for router.js
+├── tests/
+│   └── e2e/
+│       ├── helpers.js        # Shared E2E utilities
+│       └── shareable-links.spec.js  # Playwright E2E tests
+├── specs/                   # Feature specifications (see Specs section below)
 ├── data/                    # Gitignored
 │   └── raw/                 # Downloaded dumps
 ├── scripts/
@@ -61,6 +73,11 @@ make stop     # Stop all services
 make update   # Force re-download data + reload
 make logs     # View logs
 make clean    # Remove data and containers
+
+# Testing
+make test-frontend  # Run Vitest unit tests (router, etc.)
+make test-e2e       # Run Playwright E2E tests (requires make run)
+make test-all       # Run all tests (pytest + Vitest + Playwright)
 ```
 
 ## MCP Servers (Claude Code Integration)
@@ -79,6 +96,7 @@ This project uses Model Context Protocol (MCP) servers to enhance Claude Code's 
 - Browser automation for testing the frontend
 - Usage: "Test search on localhost:8080", "Take screenshot of graph", "Click on a node"
 - Can verify graph rendering, interactions, and visual regressions
+- **Screenshots**: Save to `docs/screenshots/` (within the working directory, where Claude has read access)
 
 **GitHub MCP** (HTTP)
 - Enhanced PR and issue management beyond `gh` CLI
@@ -142,21 +160,85 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Comprehensive coding standards implementation with automated enforcement
+**Last completed**: Shareable links with History API URL routing (SPC-00003)
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
-**Recent**: Implemented coding standards with:
-- Comprehensive documentation (`docs/CODING_STANDARDS.md`)
-- Pre-commit hooks (Ruff + ESLint) blocking violations
-- Test framework with example tests (pytest + pytest-asyncio)
-- Updated review guidelines to enforce standards
-- Development commands (`make setup-dev`, `make lint`, `make test`, `make format`)
+**Recent**: Implemented shareable links (SPC-00003) with:
+- `router.js` — view-scoped URL parameter registry with History API integration
+- URL reflects current state (word, language, filters, view, concept map settings)
+- Browser back/forward navigates between word searches and view switches
+- Page refresh restores full state from URL
+- Vitest unit tests (17 tests) + Playwright E2E tests (10 tests)
 
 ## Documentation
 
+- `README.md` — User-facing guide: what the app does, feature overview, walkthrough examples, setup instructions.
 - `docs/FEATURES.md` — Detailed feature documentation, API reference, implementation status, known limitations. **Keep this up to date when adding or changing features.**
 - `docs/IMPLEMENTATION_PLAN.md` — Original implementation plan with task breakdowns.
-- `README.md` — User-facing setup and usage guide.
+- `docs/CODING_STANDARDS.md` — Python and JavaScript coding standards with enforcement details.
+- `specs/` — Feature specifications. **Read below for conventions.**
+
+## Specs
+
+Every feature or significant change must have a spec before implementation. Specs live in `specs/` as numbered folders.
+
+### Structure
+
+```
+specs/
+  00001-connection-based-edges/
+    spec.md              # The specification (always named spec.md)
+    (optional resources)  # Diagrams, mockups, sample data, etc.
+  00002-phonetic-similarity-concept-map/
+    spec.md
+  00003-shareable-links-url-routing/
+    spec.md
+```
+
+### Naming Convention
+
+- **Folder**: `NNNNN-short-kebab-description/` — 5-digit zero-padded incrementing prefix
+- **Main file**: always `spec.md` inside the folder
+- **Resources**: any supporting files (diagrams, JSON examples, test fixtures) sit alongside `spec.md`
+- **Next number**: look at the highest existing folder number and increment by 1
+
+### Spec Header
+
+Every `spec.md` starts with this header:
+
+```markdown
+# SPC-NNNNN: Title
+
+| Field | Value |
+|---|---|
+| **Status** | draft / approved / implemented / deprecated |
+| **Created** | YYYY-MM-DD |
+| **Modifies** | SPC-NNNNN (brief reason), or — if none |
+| **Modified-by** | SPC-NNNNN (brief reason), or — if none |
+```
+
+**Status values:**
+- `draft` — being written, not ready for implementation
+- `approved` — reviewed and ready for implementation
+- `implemented` — code has been written and merged
+- `deprecated` — superseded by a later spec
+
+### Cross-Referencing
+
+When a new spec modifies behavior defined in an earlier spec:
+
+1. **New spec** gets `Modifies: SPC-NNNNN (brief reason)` in its header
+2. **Old spec** gets `Modified-by: SPC-NNNNN (brief reason)` appended to its header
+3. **Commit messages** reference the spec ID (see Git Commits below)
+
+This gives bidirectional traceability: from any spec you can see what it changed and what later changed it. `git log --grep="SPC-00003"` finds all commits related to a spec.
+
+### When to Create a Spec
+
+- New features (UI views, API endpoints, data pipeline changes)
+- Significant behavioral changes to existing features
+- Architecture or design decisions with multiple approaches considered
+- NOT needed for: bug fixes, typo corrections, dependency updates, minor refactors
 
 ## Conventions
 
@@ -179,17 +261,22 @@ claude mcp get mongodb  # Shows details for specific server
 
 **Development commands**:
 ```bash
-make setup-dev  # Install linters and pre-commit hooks
-make lint       # Run linters
-make format     # Format code
-make test       # Run tests
+make setup-dev      # Install linters and pre-commit hooks
+make lint           # Run linters
+make format         # Format code
+make test           # Run Python tests
+make test-frontend  # Run Vitest unit tests
+make test-e2e       # Run Playwright E2E tests (requires make run)
 ```
 
 **Migration**: Standards apply to all new code immediately. Existing code is refactored opportunistically when touched (no mass refactoring required).
 
 ### Git Commits
-- Format: `[TASK_ID]: Description`
-- Example: `P0.1: Basic Docker + vis.js setup`
+
+- Format: `SPC-NNNNN: Description` when implementing a spec
+- Example: `SPC-00003: Add router.js with view-scoped parameter registry`
+- Example: `SPC-00003: Wire up popstate handler in app.js`
+- For non-spec work (bug fixes, chores): `fix: Description` or `chore: Description`
 - **Document first, commit second**: ALWAYS update `docs/FEATURES.md` before committing any feature or behavior change
 - Commit after each completed task
 
@@ -275,3 +362,4 @@ Key files:
 - **Automate everything**: Every repeatable action should be scriptable. Use `scripts/`, `Makefile`, and Docker Compose so nothing requires manual steps.
 - **Document everything important**: Keep README, CLAUDE.md, FEATURES.md, and IMPLEMENTATION_PLAN.md up to date. Update current status after completing tasks. Add troubleshooting notes when issues are encountered.
 - **Update feature docs**: When adding or changing features, always update `docs/FEATURES.md` with the current state, and note any new known limitations.
+- **Spec before code**: Every significant feature or change gets a spec in `specs/` before implementation begins. This ensures design decisions are captured and traceable.

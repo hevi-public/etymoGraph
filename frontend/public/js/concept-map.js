@@ -378,9 +378,9 @@ function showViewInEtymologyButton(word, lang) {
     btn.hidden = false;
     btn.onclick = (e) => {
         e.preventDefault();
-        // Switch to etymology view and load this word
+        // Switch to etymology view and load this word (single history entry)
         if (typeof switchView === "function") {
-            switchView("etymology");
+            switchView("etymology", true);
             selectWord(word, lang);
         }
     };

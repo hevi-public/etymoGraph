@@ -1,10 +1,11 @@
-# Concept Map: Phonetic Similarity Visualization by Semantic Field
+# SPC-00002: Concept Map — Phonetic Similarity Visualization by Semantic Field
 
-## Specification for Implementation
-
-**Version:** 1.0
-**Date:** 2026-02-07
-**Context:** This is a new view for an existing Etymology Explorer tool that visualizes Wiktionary etymological data. The existing tool uses a Python backend, MongoDB (loaded from kaikki.org Wiktionary dump), and a vis.js force-directed graph frontend.
+| Field | Value |
+|---|---|
+| **Status** | implemented |
+| **Created** | 2026-02-07 |
+| **Modifies** | — |
+| **Modified-by** | SPC-00003 (adds URL routing for concept map state) |
 
 ---
 
@@ -196,7 +197,7 @@ def dolgopolsky_distance(cc1: str, cc2: str) -> float:
                 dp[i][j-1] + 1,      # insertion
                 dp[i-1][j-1] + cost  # substitution
             )
-    
+
     max_len = max(n, m)
     return dp[n][m] / max_len if max_len > 0 else 0.0
 ```
@@ -586,11 +587,11 @@ def resolve_concept(concept: str, db, pos: str = None, max_words: int = 200) -> 
 
     if hub and hub.get("translations"):
         method = "translation_hub"
-        
+
         # Collect unique (word, lang) pairs from translations
         seen = set()
         lookup_pairs = []
-        
+
         for t in hub["translations"]:
             key = (t.get("word", ""), t.get("lang", ""))
             if key[0] and key[1] and key not in seen:
@@ -608,7 +609,7 @@ def resolve_concept(concept: str, db, pos: str = None, max_words: int = 200) -> 
             }
             if pos:
                 query["pos"] = pos
-            
+
             results = list(db.entries.find(query).limit(max_words))
 
     # Strategy B: Gloss search fallback
@@ -620,9 +621,9 @@ def resolve_concept(concept: str, db, pos: str = None, max_words: int = 200) -> 
         }
         if pos:
             gloss_query["pos"] = pos
-        
+
         existing_keys = {(r["word"], r["lang"]) for r in results}
-        
+
         for doc in db.entries.find(gloss_query).limit(max_words - len(results)):
             key = (doc["word"], doc["lang"])
             if key not in existing_keys:
@@ -644,29 +645,29 @@ def build_similarity_matrix(
     Returns list of edges above threshold.
     """
     edges = []
-    
+
     for i in range(len(words)):
         cc_i = words[i].get("phonetic", {}).get("dolgo_consonants", "")
         f2_i = words[i].get("phonetic", {}).get("dolgo_first2", "")
-        
+
         for j in range(i + 1, len(words)):
             cc_j = words[j].get("phonetic", {}).get("dolgo_consonants", "")
             f2_j = words[j].get("phonetic", {}).get("dolgo_first2", "")
-            
+
             # Skip if either has no consonant data
             if not cc_i or not cc_j:
                 continue
-            
+
             sim = 1.0 - dolgopolsky_distance(cc_i, cc_j)
             turchin = (
                 len(f2_i) >= 2 and len(f2_j) >= 2 and f2_i == f2_j
             )
-            
+
             # Include if above threshold OR if Turchin match
             if sim >= threshold or turchin:
                 id_i = f"{words[i]['word']}_{words[i].get('lang_code', words[i]['lang'][:2].lower())}"
                 id_j = f"{words[j]['word']}_{words[j].get('lang_code', words[j]['lang'][:2].lower())}"
-                
+
                 edges.append({
                     "source": id_i,
                     "target": id_j,
@@ -674,7 +675,7 @@ def build_similarity_matrix(
                     "turchin_match": turchin,
                     "shared_classes": _shared_prefix(cc_i, cc_j)
                 })
-    
+
     return edges
 
 
@@ -696,13 +697,13 @@ def extract_etymology_edges(words: list[dict], db) -> list[dict]:
     """
     For the set of words on the concept map, find any known
     etymological connections between them.
-    
+
     Checks the etymology_templates and descendants fields
     in the Wiktionary data.
     """
     edges = []
     word_set = {(w["word"], w["lang"]) for w in words}
-    
+
     for w in words:
         # Check etymology_templates for "from" relationships
         for tmpl in w.get("etymology_templates", []):
@@ -712,7 +713,7 @@ def extract_etymology_edges(words: list[dict], db) -> list[dict]:
                 # Try to match against words in our set
                 # (This requires language code → name mapping)
                 pass
-        
+
         # Check descendants
         for desc in w.get("descendants", []):
             desc_key = (desc.get("word", ""), desc.get("lang", ""))
@@ -722,7 +723,7 @@ def extract_etymology_edges(words: list[dict], db) -> list[dict]:
                     "target": _make_id_from_tuple(desc_key),
                     "relationship": "parent→descendant"
                 })
-    
+
     return edges
 ```
 
@@ -737,7 +738,7 @@ You'll need a language → family mapping for node coloring. The kaikki.org dump
 LANG_FAMILIES = {
     "Germanic": ["English", "German", "Dutch", "Swedish", "Norwegian",
                   "Danish", "Icelandic", "Afrikaans", "Yiddish",
-                  "Old English", "Old Norse", "Gothic", 
+                  "Old English", "Old Norse", "Gothic",
                   "Proto-Germanic", "Proto-West Germanic"],
     "Romance": ["French", "Spanish", "Italian", "Portuguese", "Romanian",
                 "Catalan", "Occitan", "Galician", "Sardinian",

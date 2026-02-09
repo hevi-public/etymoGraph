@@ -1,4 +1,13 @@
-# Connection-Based Edge Length & Strength
+# SPC-00001: Connection-Based Edge Length & Strength
+
+| Field | Value |
+|---|---|
+| **Status** | implemented |
+| **Created** | 2026-02-08 |
+| **Modifies** | — |
+| **Modified-by** | — |
+
+---
 
 ## Problem
 

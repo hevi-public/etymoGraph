@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: February 8, 2026*
+*Last updated: February 9, 2026*
 
 ---
 
@@ -337,6 +337,45 @@ For words that have no standard ancestry (inh/bor/der templates), the graph now 
 **Detail panel:**
 The connections panel shows "Component" and "Related" sections for these edge types.
 
+### 14. Shareable Links / URL Routing (SPC-00003)
+
+The browser URL reflects the current view state. Users can share, bookmark, and navigate with back/forward.
+
+**URL format:** Query parameters on root path. All parameters are always included in the URL for full explicitness — navigating to `/` redirects to the full default URL. Each view's params are scoped: etymology params don't appear in concept URLs and vice versa.
+
+| Parameter | View | Default | Description |
+|-----------|------|---------|-------------|
+| `view` | both | `etymology` | Active view (`etymology` or `concept`) |
+| `word` | etymology | `wine` | Searched word |
+| `lang` | etymology | `English` | Word language |
+| `types` | etymology | `inh,bor,der` | Connection type filter |
+| `layout` | etymology | `era-layered` | Graph layout |
+| `concept` | concept | `""` | Searched concept |
+| `pos` | concept | `""` | POS filter |
+| `similarity` | concept | `100` | Similarity threshold (0-100) |
+| `etymEdges` | concept | `true` | Show etymology edges |
+
+**URL examples:**
+```
+/?view=etymology&word=wine&lang=English&types=inh,bor,der&layout=force-directed
+/?view=etymology&word=fire&lang=Latin&types=inh,bor,der&layout=era-layered
+/?view=concept&concept=water&pos=&similarity=100&etymEdges=true
+/?view=concept&concept=fire&pos=noun&similarity=75&etymEdges=true
+```
+
+**History behavior:**
+- **pushState** (creates history entry): searching a new word, switching views, loading a new concept
+- **replaceState** (updates URL without history entry): changing filters (types, layout, similarity slider, POS, etymology edges)
+- Back/forward navigates between "places" (words, concepts, views), not through filter adjustments
+- Cross-view navigation ("View in Etymology Graph" button) creates a single history entry
+
+**State restoration:**
+- All DOM controls (checkboxes, dropdowns, sliders, radio buttons, search inputs) are synced to URL state on load and on popstate
+- On initial load without explicit URL layout param, localStorage layout preference is respected; explicit URL layout takes precedence
+- Refreshing the page at any URL fully restores the view
+
+**Implementation:** `router.js` (~130 lines) provides a view-scoped parameter registry (`VIEW_PARAMS`) with typed defaults and parsers. Adding a new view or parameter requires only adding an entry to the registry — no router core changes needed.
+
 ---
 
 ## API Endpoints
@@ -365,6 +404,9 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | `make download` | Download data (skip if exists) |
 | `make load` | Load data into MongoDB |
 | `make precompute-phonetic` | Precompute Dolgopolsky sound classes for concept map (requires `lingpy` + `pymongo`) |
+| `make test-frontend` | Run Vitest unit tests (router, etc.) |
+| `make test-e2e` | Run Playwright E2E tests (requires `make run`) |
+| `make test-all` | Run all tests (pytest + Vitest + Playwright) |
 | `make logs` | Tail all service logs |
 | `make clean` | Remove containers and data |
 | `./scripts/init.sh` | Check prerequisites, create dirs, build images |
@@ -432,6 +474,7 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | Compact header | Slimmed to single row: title, view toggle, search, filters popover. Legend moved to graph overlay. |
 | Connection-based edge length | Per-edge length and spring constant scaled by log2(degree) of endpoint nodes — dense clusters spread out, peripheral nodes pull closer |
 | Dense cluster readability | Stronger physics separation (repulsion -200, avoidOverlap 0.5), degree-based edge opacity fading, label hiding in dense areas |
+| Shareable links (SPC-00003) | History API URL routing — shareable URLs, back/forward, page refresh preserves state |
 
 ### Concept Map (Phonetic Similarity Visualization)
 
@@ -455,7 +498,7 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 | N2.1 | Cognate view (same PIE root) | Done |
 | N2.2 | Language family filter (show only Germanic, etc.) | Not started |
 | N2.3 | Dark mode toggle | Not needed (app is already dark) |
-| N2.4 | Shareable URLs (`/#/wine`) | Not started |
+| N2.4 | Shareable URLs (SPC-00003) | Done |
 | N2.5 | Static export for GitHub Pages | Not started |
 | N2.6 | Bulk export (top 1000 words) | Not started |
 | N2.7 | Richer word details panel | Done (connections, definitions, etymology) |
@@ -494,12 +537,16 @@ make test       # Run pytest
 **Test coverage**:
 - `test_tree_builder.py`: TreeBuilder service tests (some TODOs require test database)
 - `test_etymology_classifier.py`: Full coverage of uncertainty detection and word mention extraction
+- `frontend/tests/router.test.js`: 17 unit tests for URL router (parseURL, buildURL, push/replace, roundtrip)
+- `tests/e2e/shareable-links.spec.js`: 10 E2E tests for URL routing (direct load, history, DOM consistency)
 - Future: tests for other services (template_parser, lang_cache) when touched
 
 **Linting configuration**:
 - `pyproject.toml`: Ruff configuration (line length 100, Python 3.11 target, comprehensive rule set)
-- `.eslintrc.json`: ESLint configuration (double quotes, 4-space indent, semicolons)
+- `eslint.config.js`: ESLint flat config (double quotes, 4-space indent, semicolons; separate blocks for app, unit tests, E2E tests)
 - `.pre-commit-config.yaml`: Pre-commit hook configuration
+- `vitest.config.js`: Vitest configuration (jsdom environment, frontend/tests)
+- `playwright.config.js`: Playwright configuration (chromium, localhost:8080)
 
 ---
 
@@ -511,17 +558,17 @@ make test       # Run pytest
 
 3. **Search prefix matching**: Search uses case-sensitive prefix regex for performance. Lowercase queries won't match capitalized words (use exact match for that).
 
-4. **No URL routing**: Refreshing the page always loads "wine". No browser back/forward support.
+4. **Edge labels hidden in dense areas**: When both endpoints have degree > 5, edge labels are auto-hidden. Edge type is still conveyed by line style and color.
 
-5. **Edge labels hidden in dense areas**: When both endpoints have degree > 5, edge labels are auto-hidden. Edge type is still conveyed by line style and color.
+5. **Uncertainty detection is pattern-based**: The system detects uncertainty through template markers (`unk`, `unc`) and text patterns. Some uncertain etymologies may not be detected if they use unusual phrasing, and false positives are possible with text pattern matching.
 
-6. **Uncertainty detection is pattern-based**: The system detects uncertainty through template markers (`unk`, `unc`) and text patterns. Some uncertain etymologies may not be detected if they use unusual phrasing, and false positives are possible with text pattern matching.
+6. **Concept map requires precomputation**: The `phonetic` subdocument must be precomputed before the concept map works. Run `make precompute-phonetic` (requires `lingpy` and `pymongo` installed locally, outside Docker).
 
-7. **Concept map requires precomputation**: The `phonetic` subdocument must be precomputed before the concept map works. Run `make precompute-phonetic` (requires `lingpy` and `pymongo` installed locally, outside Docker).
+7. **Concept map coverage**: Only ~31.7% of entries have IPA data. Translation hub entries without IPA pronunciation in the database won't appear on the concept map.
 
-8. **Concept map coverage**: Only ~31.7% of entries have IPA data. Translation hub entries without IPA pronunciation in the database won't appear on the concept map.
+8. **Pairwise similarity is O(N^2)**: For concepts with many translations (200+ words), the similarity computation involves up to 20K comparisons. This is fast for short strings but could be slow for very large concept maps.
 
-9. **Pairwise similarity is O(N^2)**: For concepts with many translations (200+ words), the similarity computation involves up to 20K comparisons. This is fast for short strings but could be slow for very large concept maps.
+9. **Rapid back/forward**: The popstate handler does not debounce, so rapid back/forward button presses may trigger multiple concurrent API calls. Each resolves independently but intermediate states may flash briefly.
 
 ---
 

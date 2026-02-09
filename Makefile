@@ -1,4 +1,4 @@
-.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic
+.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic test-frontend test-e2e test-all
 
 setup: build download load
 	@echo "Setup complete! Run 'make run' to start."
@@ -61,3 +61,14 @@ format:  ## Format Python code with Ruff
 precompute-phonetic:  ## Precompute Dolgopolsky sound classes for concept map
 	@echo "Precomputing phonetic data (requires lingpy + pymongo)..."
 	cd backend && python -m etl.precompute_phonetic
+
+test-frontend:  ## Run Vitest unit tests
+	npx vitest run
+
+test-e2e:  ## Run Playwright E2E tests (requires make run)
+	npx playwright test
+
+test-all:  ## Run all tests
+	$(MAKE) test
+	$(MAKE) test-frontend
+	$(MAKE) test-e2e

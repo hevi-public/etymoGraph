@@ -14,6 +14,7 @@ export default [
                 localStorage: "readonly",
                 setTimeout: "readonly",
                 clearTimeout: "readonly",
+                URLSearchParams: "readonly",
                 // vis.js globals
                 vis: "readonly",
                 // App-specific globals from other files
@@ -33,6 +34,7 @@ export default [
                 LAYOUTS: "readonly",
                 currentLayout: "writable",
                 selectWord: "readonly",
+                router: "readonly",
             },
         },
         rules: {
@@ -41,6 +43,62 @@ export default [
             "indent": ["error", 4],
             "no-unused-vars": "warn",
             "no-undef": "error",
+            "no-console": "off",
+            "max-len": ["warn", {
+                "code": 120,
+                "ignoreUrls": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true,
+            }],
+        },
+    },
+    {
+        files: ["frontend/tests/**/*.js"],
+        languageOptions: {
+            ecmaVersion: "latest",
+            sourceType: "module",
+            globals: {
+                window: "readonly",
+                document: "readonly",
+                console: "readonly",
+                URLSearchParams: "readonly",
+                __dirname: "readonly",
+                // Vitest globals
+                describe: "readonly",
+                it: "readonly",
+                expect: "readonly",
+                vi: "readonly",
+                beforeEach: "readonly",
+                afterEach: "readonly",
+            },
+        },
+        rules: {
+            "semi": ["error", "always"],
+            "quotes": ["error", "double"],
+            "indent": ["error", 4],
+            "no-unused-vars": "warn",
+            "no-undef": "error",
+            "no-console": "off",
+            "max-len": ["warn", {
+                "code": 120,
+                "ignoreUrls": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true,
+            }],
+        },
+    },
+    {
+        files: ["tests/e2e/**/*.js"],
+        languageOptions: {
+            ecmaVersion: "latest",
+            sourceType: "module",
+        },
+        rules: {
+            "semi": ["error", "always"],
+            "quotes": ["error", "double"],
+            "indent": ["error", 4],
+            "no-unused-vars": "warn",
+            "no-undef": "off",
             "no-console": "off",
             "max-len": ["warn", {
                 "code": 120,
