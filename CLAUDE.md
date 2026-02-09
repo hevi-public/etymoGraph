@@ -42,6 +42,7 @@ etymo_graph/
 │           ├── graph.js     # vis.js graph, zoom, trackpad, detail panel
 │           ├── search.js    # Search autocomplete
 │           └── api.js       # API client
+├── specs/                   # Feature specifications (see Specs section below)
 ├── data/                    # Gitignored
 │   └── raw/                 # Downloaded dumps
 ├── scripts/
@@ -157,6 +158,69 @@ claude mcp get mongodb  # Shows details for specific server
 - `docs/FEATURES.md` — Detailed feature documentation, API reference, implementation status, known limitations. **Keep this up to date when adding or changing features.**
 - `docs/IMPLEMENTATION_PLAN.md` — Original implementation plan with task breakdowns.
 - `README.md` — User-facing setup and usage guide.
+- `specs/` — Feature specifications. **Read below for conventions.**
+
+## Specs
+
+Every feature or significant change must have a spec before implementation. Specs live in `specs/` as numbered folders.
+
+### Structure
+
+```
+specs/
+  00001-connection-based-edges/
+    spec.md              # The specification (always named spec.md)
+    (optional resources)  # Diagrams, mockups, sample data, etc.
+  00002-phonetic-similarity-concept-map/
+    spec.md
+  00003-shareable-links-url-routing/
+    spec.md
+```
+
+### Naming Convention
+
+- **Folder**: `NNNNN-short-kebab-description/` — 5-digit zero-padded incrementing prefix
+- **Main file**: always `spec.md` inside the folder
+- **Resources**: any supporting files (diagrams, JSON examples, test fixtures) sit alongside `spec.md`
+- **Next number**: look at the highest existing folder number and increment by 1
+
+### Spec Header
+
+Every `spec.md` starts with this header:
+
+```markdown
+# SPC-NNNNN: Title
+
+| Field | Value |
+|---|---|
+| **Status** | draft / approved / implemented / deprecated |
+| **Created** | YYYY-MM-DD |
+| **Modifies** | SPC-NNNNN (brief reason), or — if none |
+| **Modified-by** | SPC-NNNNN (brief reason), or — if none |
+```
+
+**Status values:**
+- `draft` — being written, not ready for implementation
+- `approved` — reviewed and ready for implementation
+- `implemented` — code has been written and merged
+- `deprecated` — superseded by a later spec
+
+### Cross-Referencing
+
+When a new spec modifies behavior defined in an earlier spec:
+
+1. **New spec** gets `Modifies: SPC-NNNNN (brief reason)` in its header
+2. **Old spec** gets `Modified-by: SPC-NNNNN (brief reason)` appended to its header
+3. **Commit messages** reference the spec ID (see Git Commits below)
+
+This gives bidirectional traceability: from any spec you can see what it changed and what later changed it. `git log --grep="SPC-00003"` finds all commits related to a spec.
+
+### When to Create a Spec
+
+- New features (UI views, API endpoints, data pipeline changes)
+- Significant behavioral changes to existing features
+- Architecture or design decisions with multiple approaches considered
+- NOT needed for: bug fixes, typo corrections, dependency updates, minor refactors
 
 ## Conventions
 
@@ -188,8 +252,11 @@ make test       # Run tests
 **Migration**: Standards apply to all new code immediately. Existing code is refactored opportunistically when touched (no mass refactoring required).
 
 ### Git Commits
-- Format: `[TASK_ID]: Description`
-- Example: `P0.1: Basic Docker + vis.js setup`
+
+- Format: `SPC-NNNNN: Description` when implementing a spec
+- Example: `SPC-00003: Add router.js with view-scoped parameter registry`
+- Example: `SPC-00003: Wire up popstate handler in app.js`
+- For non-spec work (bug fixes, chores): `fix: Description` or `chore: Description`
 - **Document first, commit second**: ALWAYS update `docs/FEATURES.md` before committing any feature or behavior change
 - Commit after each completed task
 
@@ -275,3 +342,4 @@ Key files:
 - **Automate everything**: Every repeatable action should be scriptable. Use `scripts/`, `Makefile`, and Docker Compose so nothing requires manual steps.
 - **Document everything important**: Keep README, CLAUDE.md, FEATURES.md, and IMPLEMENTATION_PLAN.md up to date. Update current status after completing tasks. Add troubleshooting notes when issues are encountered.
 - **Update feature docs**: When adding or changing features, always update `docs/FEATURES.md` with the current state, and note any new known limitations.
+- **Spec before code**: Every significant feature or change gets a spec in `specs/` before implementation begins. This ensures design decisions are captured and traceable.
