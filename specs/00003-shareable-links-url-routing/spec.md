@@ -56,17 +56,15 @@ The router is a **pure state↔URL sync layer**. It does not call app functions 
 
 ## 3. URL Format
 
-Query parameters on root path. Each view's params are **scoped** — etymology params don't appear in concept URLs and vice versa. Default values are omitted for clean URLs.
+Query parameters on root path. Each view's params are **scoped** — etymology params don't appear in concept URLs and vice versa. All parameters are always included in the URL for full explicitness (implementation deviates from original "omit defaults" design — navigating to `/` redirects to the full default URL).
 
 **Examples:**
 
 ```
-/                                              → wine, English, etymology (all defaults)
-/?word=fire&lang=Latin                         → etymology: fire in Latin
-/?view=concept&concept=water                   → concept map: "water"
-/?view=concept&concept=fire&similarity=75      → concept map: 75% similarity
-/?word=dog&types=inh,bor&layout=force-directed → etymology: custom filters
-/?view=concept&concept=water&highlight=víz:Hungarian  → concept map with node highlighted (future)
+/?view=etymology&word=wine&lang=English&types=inh,bor,der&layout=force-directed
+/?view=etymology&word=fire&lang=Latin&types=inh,bor,der&layout=era-layered
+/?view=concept&concept=water&pos=&similarity=100&etymEdges=true
+/?view=concept&concept=fire&pos=noun&similarity=75&etymEdges=true
 ```
 
 ---

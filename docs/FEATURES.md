@@ -341,15 +341,15 @@ The connections panel shows "Component" and "Related" sections for these edge ty
 
 The browser URL reflects the current view state. Users can share, bookmark, and navigate with back/forward.
 
-**URL format:** Query parameters on root path. Default values are omitted for clean URLs.
+**URL format:** Query parameters on root path. All parameters are always included in the URL for full explicitness — navigating to `/` redirects to the full default URL. Each view's params are scoped: etymology params don't appear in concept URLs and vice versa.
 
 | Parameter | View | Default | Description |
 |-----------|------|---------|-------------|
+| `view` | both | `etymology` | Active view (`etymology` or `concept`) |
 | `word` | etymology | `wine` | Searched word |
 | `lang` | etymology | `English` | Word language |
 | `types` | etymology | `inh,bor,der` | Connection type filter |
 | `layout` | etymology | `era-layered` | Graph layout |
-| `view` | both | `etymology` | Active view (`etymology` or `concept`) |
 | `concept` | concept | `""` | Searched concept |
 | `pos` | concept | `""` | POS filter |
 | `similarity` | concept | `100` | Similarity threshold (0-100) |
@@ -357,11 +357,10 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 
 **URL examples:**
 ```
-/                                              → wine, English (all defaults)
-/?word=fire&lang=Latin                         → etymology: fire in Latin
-/?view=concept&concept=water                   → concept map: "water"
-/?view=concept&concept=fire&similarity=75      → concept map: 75% similarity
-/?word=dog&types=inh,bor&layout=force-directed → etymology: custom filters
+/?view=etymology&word=wine&lang=English&types=inh,bor,der&layout=force-directed
+/?view=etymology&word=fire&lang=Latin&types=inh,bor,der&layout=era-layered
+/?view=concept&concept=water&pos=&similarity=100&etymEdges=true
+/?view=concept&concept=fire&pos=noun&similarity=75&etymEdges=true
 ```
 
 **History behavior:**
@@ -372,7 +371,7 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 
 **State restoration:**
 - All DOM controls (checkboxes, dropdowns, sliders, radio buttons, search inputs) are synced to URL state on load and on popstate
-- URL takes precedence over localStorage for layout on page load
+- On initial load without explicit URL layout param, localStorage layout preference is respected; explicit URL layout takes precedence
 - Refreshing the page at any URL fully restores the view
 
 **Implementation:** `router.js` (~130 lines) provides a view-scoped parameter registry (`VIEW_PARAMS`) with typed defaults and parsers. Adding a new view or parameter requires only adding an entry to the registry — no router core changes needed.
