@@ -1298,7 +1298,7 @@ async function showDetail(word, lang) {
             defsEl.appendChild(li);
         });
         etymEl.innerHTML = formatEtymologyText(data.etymology_text, data.etymology_templates);
-    } catch (_e) {
+    } catch {
         const errSpan = document.createElement("span");
         errSpan.className = "etym-empty";
         errSpan.textContent = `Not in database (${lang} words are not in the English-only Kaikki dump).`;

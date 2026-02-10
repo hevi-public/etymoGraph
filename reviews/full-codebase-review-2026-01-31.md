@@ -7,6 +7,32 @@
 | Scope    | Full codebase          |
 | Status   | Complete               |
 
+## Review Status (as of 2026-02-10)
+
+All MUST findings have been fixed. SHOULD and CONSIDER findings are resolved, accepted as by-design, or documented as known limitations.
+
+| Finding | Description | Status | Notes |
+|---------|-------------|--------|-------|
+| **M1** | Etymology link broken for words with `:` | **Fixed** | Uses `n.label === word` now |
+| **M2** | Empty `types` silently defaults to `inh` | **Fixed** | Validation added |
+| **M3** | Module-level cache race condition | **Fixed** | Benign race documented |
+| **M4** | Edge label overwrites raw type | **Fixed** | `rawType` field stored on edges |
+| **S1** | Wheel listener leak | **Fixed** | Listener added once outside `updateGraph()` |
+| **S2** | Cognate query inefficiency | **Fixed** | Only new nodes queried per round |
+| **S3** | Single POS return | **Known limitation** | Documented in FEATURES.md |
+| **S4** | CORS wildcard | **By design** | Local dev tool only |
+| **S5** | Silent JSON errors in ETL | **By design** | ETL is one-time batch load |
+| **S6** | Unpinned dependencies | **Fixed** | Major versions pinned |
+| **S7** | Global DB client at import | **By design** | Motor is lazy; works correctly |
+| **S8** | XSS in search suggestions | **Fixed** | Uses `textContent` + DOM APIs |
+| **C1** | graph.js too large | **Accepted** | Pragmatic for no-build vanilla JS |
+| **C2** | Swallowed exception in selectWord | **Accepted** | Fallback to English is intentional |
+| **C3** | No cache headers for static assets | **Accepted** | Local dev tool |
+| **C4** | MongoDB port exposed to host | **Accepted** | Required for MCP server access |
+| **C5** | vis-network CDN without integrity | **Accepted** | Trade-off for simplicity |
+
+---
+
 ## Summary
 
 The codebase is clean, well-organized, and impressively lean for its feature set. The architecture choices (vanilla JS, FastAPI, MongoDB) are appropriate and well-executed. Most issues are SHOULD/CONSIDER level — there are a few MUST-level bugs worth fixing.
