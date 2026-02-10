@@ -1,15 +1,54 @@
 /* global
    getSelectedTypes, getEtymologyTree, updateGraph, LAYOUTS, currentLayout,
-   searchWords, selectNodeById,
+   searchWords, selectNodeById, graphContainer,
    getConceptMap, getConceptSuggestions, updateConceptMap, updateConceptEdges,
    destroyConceptMap, currentSimilarityThreshold,
-   router
+   router, createRenderer
 */
 
 let currentWord = "wine";
 let currentLang = "English";
 let activeView = "etymology"; // "etymology" | "concept"
 let currentConcept = "";
+let currentRendererType = "vis";
+let activeRenderer = null;
+
+// --- Renderer management ---
+
+function initRenderer(type) {
+    if (activeRenderer) {
+        activeRenderer.destroy();
+    }
+    currentRendererType = type;
+    activeRenderer = createRenderer(type, graphContainer);
+    updateLayoutOptions();
+}
+
+/** Rebuild layout dropdown based on current renderer's available layouts. */
+function updateLayoutOptions() {
+    const layoutSelect = document.getElementById("layout-select");
+    const available = activeRenderer ? activeRenderer.getAvailableLayouts() : Object.keys(LAYOUTS);
+    const currentVal = layoutSelect.value;
+
+    layoutSelect.innerHTML = "";
+    for (const key of available) {
+        const layout = LAYOUTS[key];
+        if (!layout) continue;
+        const opt = document.createElement("option");
+        opt.value = key;
+        opt.textContent = layout.label;
+        layoutSelect.appendChild(opt);
+    }
+
+    // Preserve current selection if available, otherwise pick first
+    if (available.includes(currentVal)) {
+        layoutSelect.value = currentVal;
+    } else {
+        layoutSelect.value = available[0] || "force-directed";
+        currentLayout = layoutSelect.value;
+        localStorage.setItem("graphLayout", currentLayout);
+    }
+}
 
 // --- Etymology view functions ---
 
@@ -41,13 +80,33 @@ async function selectWord(word, lang, skipRoute = false) {
         if (data.nodes.length === 0) {
             data.nodes = [{ id: `${word}:${lang}`, label: word, language: lang, level: 0 }];
         }
-        updateGraph(data);
+        // Use renderer abstraction, fall back to direct vis.js call
+        if (activeRenderer && currentRendererType !== "vis") {
+            try {
+                await activeRenderer.render(data);
+            } catch (err) {
+                console.warn("G6 render failed, falling back to vis.js:", err);
+                switchRenderer("vis");
+                updateGraph(data);
+            }
+        } else {
+            updateGraph(data);
+        }
         if (!skipRoute) {
             router.push({ view: "etymology", word, lang });
         }
     } catch (e) {
         console.error("Failed to load etymology:", e);
     }
+}
+
+// --- Renderer switching ---
+
+function switchRenderer(type) {
+    if (type === currentRendererType && activeRenderer) return;
+    const rendererSelect = document.getElementById("renderer-select");
+    rendererSelect.value = type;
+    initRenderer(type);
 }
 
 // --- View switching ---
@@ -184,6 +243,15 @@ layoutSelect.addEventListener("change", () => {
     router.replace({ layout: layoutSelect.value });
 });
 
+// Renderer selector
+const rendererSelect = document.getElementById("renderer-select");
+rendererSelect.addEventListener("change", () => {
+    const type = rendererSelect.value;
+    switchRenderer(type);
+    selectWord(currentWord, currentLang, true);
+    router.replace({ renderer: type });
+});
+
 // --- Concept search autocomplete ---
 
 const conceptSearchInput = document.getElementById("concept-search-input");
@@ -273,6 +341,13 @@ function updateDOMFromState(state) {
     document.getElementById("layout-select").value = state.layout || "era-layered";
     currentLayout = state.layout || "era-layered";
 
+    // Renderer dropdown
+    const rendererVal = state.renderer || "vis";
+    document.getElementById("renderer-select").value = rendererVal;
+    if (rendererVal !== currentRendererType) {
+        switchRenderer(rendererVal);
+    }
+
     // Similarity slider + display + global
     const sim = state.similarity != null ? state.similarity : 100;
     document.getElementById("similarity-slider").value = sim;
@@ -316,10 +391,17 @@ const originalParams = new URLSearchParams(window.location.search);
 // Initialize router (parses URL, normalizes, attaches popstate listener)
 router.initialize();
 
-// If the original URL didn't explicitly set layout, respect localStorage preference (set by graph.js).
+// Initialize renderer from URL or default
 const initial = router.state();
+const initialRenderer = originalParams.get("renderer") || "vis";
+initRenderer(initialRenderer);
+
+// If the original URL didn't explicitly set layout, respect localStorage preference (set by graph.js).
 if (!originalParams.has("layout")) {
     initial.layout = currentLayout;
+}
+if (!originalParams.has("renderer")) {
+    initial.renderer = "vis";
 }
 router.replace(initial);
 updateDOMFromState(initial);

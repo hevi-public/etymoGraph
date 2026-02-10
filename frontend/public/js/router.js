@@ -8,10 +8,11 @@
 
     var VIEW_PARAMS = {
         etymology: {
-            word:   { "default": "wine" },
-            lang:   { "default": "English" },
-            types:  { "default": "inh,bor,der" },
-            layout: { "default": "era-layered" },
+            word:     { "default": "wine" },
+            lang:     { "default": "English" },
+            types:    { "default": "inh,bor,der" },
+            layout:   { "default": "era-layered" },
+            renderer: { "default": "vis" },
         },
         concept: {
             concept:    { "default": "" },

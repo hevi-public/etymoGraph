@@ -42,6 +42,11 @@
                 <label><input type="checkbox" value="cog"> Cognate</label>
                 <div class="filter-group-label">Layout</div>
                 <select id="layout-select" title="Graph layout"></select>
+                <div class="filter-group-label">Renderer</div>
+                <select id="renderer-select" title="Graph renderer">
+                    <option value="vis">vis.js (stable)</option>
+                    <option value="g6">G6 v5 (experimental)</option>
+                </select>
             </div>
             <!-- Concept-specific filters -->
             <div id="concept-filters" class="filter-group" hidden>
@@ -99,7 +104,11 @@
         </aside>
     </div>
     <script src="js/api.js"></script>
+    <script src="js/graph-common.js"></script>
     <script src="js/graph.js"></script>
+    <script src="js/vis-adapter.js"></script>
+    <script src="js/g6-adapter.js"></script>
+    <script src="js/graph-renderer.js"></script>
     <script src="js/concept-map.js"></script>
     <script src="js/search.js"></script>
     <script src="js/router.js"></script>

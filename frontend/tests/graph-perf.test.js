@@ -2,6 +2,10 @@
 import { readFileSync } from "fs";
 import { resolve } from "path";
 
+const graphCommonSource = readFileSync(
+    resolve(__dirname, "../public/js/graph-common.js"),
+    "utf-8"
+);
 const graphSource = readFileSync(
     resolve(__dirname, "../public/js/graph.js"),
     "utf-8"
@@ -46,7 +50,9 @@ function loadGraph() {
         window.localStorage.setItem("graphLayout", "era-layered");
     }
 
-    eval(graphSource);
+    // Combine into single eval so both files share one scope
+    // (mimics browser where all <script> tags run at global scope)
+    eval(graphCommonSource + "\n" + graphSource);
 }
 
 beforeAll(() => {
