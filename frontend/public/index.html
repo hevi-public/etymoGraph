@@ -30,6 +30,11 @@
                 <ul id="concept-suggestions" hidden></ul>
             </div>
         </div>
+        <!-- Renderer selector (header-level) -->
+        <select id="renderer-select" title="Graph renderer">
+            <option value="vis">vis.js (stable)</option>
+            <option value="g6">G6 v5 (experimental)</option>
+        </select>
         <!-- Unified filters button + popover -->
         <button id="filters-btn" type="button" title="Filters">Filters &#x25BE;</button>
         <div id="filters-popover" hidden>
@@ -42,11 +47,6 @@
                 <label><input type="checkbox" value="cog"> Cognate</label>
                 <div class="filter-group-label">Layout</div>
                 <select id="layout-select" title="Graph layout"></select>
-                <div class="filter-group-label">Renderer</div>
-                <select id="renderer-select" title="Graph renderer">
-                    <option value="vis">vis.js (stable)</option>
-                    <option value="g6">G6 v5 (experimental)</option>
-                </select>
             </div>
             <!-- Concept-specific filters -->
             <div id="concept-filters" class="filter-group" hidden>

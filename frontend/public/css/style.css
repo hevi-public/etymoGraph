@@ -194,7 +194,7 @@ header h1 {
 }
 
 #renderer-select {
-    padding: 6px 12px;
+    padding: 6px 10px;
     border: 1px solid #0f3460;
     border-radius: 4px;
     background: #1a1a2e;
@@ -202,8 +202,6 @@ header h1 {
     font-size: 0.85rem;
     cursor: pointer;
     outline: none;
-    width: 100%;
-    margin-top: 4px;
 }
 
 /* Legend overlay (on graph canvas) */
