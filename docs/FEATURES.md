@@ -355,6 +355,7 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 | `lang` | etymology | `English` | Word language |
 | `types` | etymology | `inh,bor,der` | Connection type filter |
 | `layout` | etymology | `era-layered` | Graph layout |
+| `renderer` | etymology | `vis` | Graph renderer (`vis` or `g6`) |
 | `concept` | concept | `""` | Searched concept |
 | `pos` | concept | `""` | POS filter |
 | `similarity` | concept | `100` | Similarity threshold (0-100) |
@@ -362,8 +363,8 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 
 **URL examples:**
 ```
-/?view=etymology&word=wine&lang=English&types=inh,bor,der&layout=force-directed
-/?view=etymology&word=fire&lang=Latin&types=inh,bor,der&layout=era-layered
+/?view=etymology&word=wine&lang=English&types=inh,bor,der&layout=force-directed&renderer=vis
+/?view=etymology&word=fire&lang=Latin&types=inh,bor,der&layout=era-layered&renderer=g6
 /?view=concept&concept=water&pos=&similarity=100&etymEdges=true
 /?view=concept&concept=fire&pos=noun&similarity=75&etymEdges=true
 ```
@@ -414,6 +415,62 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 - Hysteresis gap (0.10 between cluster/decluster thresholds) prevents flicker during continuous zoom
 
 **Implementation:** All changes scoped to `graph.js`. Pure predicate function `applyPerformanceOverrides()` is extracted and unit-testable without vis.js. LOD and clustering are handled by `handleZoomLOD()` and `handleZoomClustering()`, called from the wheel handler.
+
+### 16. G6 v5 Experimental Renderer (SPC-00005)
+
+An alternative graph renderer using [G6 v5 by AntV](https://g6.antv.antgroup.com/), a WebGL-capable graph visualization library. Added alongside vis.js as an opt-in experimental option — vis.js remains the default and is unmodified.
+
+**Architecture:**
+```
+app.js → graph-renderer.js (factory) → vis-adapter.js | g6-adapter.js
+                                              ↓               ↓
+                                          graph.js         G6 library (CDN)
+                                              ↓
+                                      graph-common.js (shared constants)
+```
+
+- `graph-common.js` — Shared constants extracted from graph.js: LANG_FAMILIES, classifyLang, EDGE_LABELS, color utilities, era tiers, tree position computation
+- `graph-renderer.js` — Factory function: `createRenderer(type, container)` returns the appropriate adapter
+- `vis-adapter.js` — Thin wrapper delegating to existing `updateGraph()` and `selectNodeById()`
+- `g6-adapter.js` — Full G6 v5 implementation with lazy CDN loading
+
+**Adapter interface** (every renderer must implement):
+```javascript
+{
+    type: string,                        // "vis" or "g6"
+    render(data): Promise<void>,         // Render graph data { nodes, edges }
+    destroy(): void,                     // Clean up renderer resources
+    selectNode(nodeId): void,            // Select and animate to a node
+    getAvailableLayouts(): string[],     // Layout keys this renderer supports
+}
+```
+
+**G6 features (Phase 1):**
+- Force-directed layout (`d3-force` with charge repulsion, collision prevention)
+- Nodes colored by language family (same 20-family palette as vis.js)
+- Root node highlighted with gold border and glow shadow
+- Edge styling: dashed for borrowed/cognate/mention, arrows for direction
+- Edge labels showing relationship type
+- Click node to open detail panel + animate focus
+- Click canvas background to close detail panel
+
+**Lazy loading:** G6 script (~400KB) is only downloaded from CDN when the user first selects the G6 renderer. Default vis.js users never download it.
+
+**CDN fallback:** If the G6 CDN is unavailable, the adapter catches the error, logs a warning, and falls back to vis.js automatically.
+
+**UI:** Renderer dropdown in Filters popover (below Layout select). Switching renderers destroys the current graph, creates the new renderer, re-renders the current word, and updates the layout dropdown to show only available layouts.
+
+**Phase 1 limitations:**
+- G6 only supports force-directed layout (era-layered is vis.js only)
+- No hop-based opacity on node selection
+- No zoom-based clustering
+- No LOD label hiding
+- Detail panel connections section empty when using G6 (reads from vis.js DataSet)
+
+**Future phases** (see SPC-00005 spec for details):
+- Phase 2: Era-layered custom layout, LOD, root glow, hop-based opacity
+- Phase 3: Zoom-based dynamic clustering by language family
+- Phase 4: Apply G6 adapter to concept map
 
 ---
 
@@ -518,6 +575,7 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | Concept map Web Worker | O(n^2) phonetic similarity moved to Web Worker — nodes render instantly, edges compute in background |
 | Concept resolver cache | In-memory cache for resolved concept word lists — repeat queries instant |
 | Dict-based etymology edges | Cognate matching uses dict lookup instead of O(n) scan |
+| G6 v5 experimental renderer (SPC-00005) | WebGL-capable alternative renderer with lazy CDN loading, renderer abstraction layer |
 
 ### Concept Map (Phonetic Similarity Visualization)
 
@@ -617,4 +675,8 @@ make test       # Run pytest
 
 ---
 
-*Stack: MongoDB + FastAPI + vis.js + Docker Compose*
+10. **G6 renderer is Phase 1 only**: The experimental G6 renderer supports force-directed layout only. Era-layered layout, hop-based opacity, LOD label hiding, and clustering are vis.js only. The detail panel connections section is empty when using G6.
+
+---
+
+*Stack: MongoDB + FastAPI + vis.js / G6 v5 + Docker Compose*

@@ -23,6 +23,9 @@ The core view. Type any word into the search bar, and you'll see a tree of that 
   - *Cognate* — a related word from the same root in a different language (gold lines)
 - **Click any node for details.** A side panel shows definitions, pronunciation (IPA), part of speech, a full etymology narrative, and a link to Wiktionary. Words mentioned in the etymology text are clickable — follow them to explore further.
 - **Choose a layout.** Force-Directed (physics-based, words pull toward each other naturally) or Era Layers (horizontal bands by historical period, Proto-Indo-European at the bottom, modern languages at the top).
+- **Switch renderers.** Two graph renderers are available in the Filters panel:
+  - *vis.js (stable)* — the default Canvas 2D renderer, full-featured with era layers, clustering, and LOD
+  - *G6 v5 (experimental)* — a WebGL-capable renderer by AntV for larger graphs, with force-directed layout and family-colored nodes. G6 loads on demand — no extra download until you select it.
 - **Visual cues.** Nodes are colored by language family (20 families — Germanic is blue, Romance is red, Uralic is lime, etc.). Words with uncertain etymologies have dashed borders. The root ancestor has a gold glow.
 - **Navigate easily.** Trackpad pinch to zoom, two-finger scroll to pan. Buttons to jump to the searched word, jump to the root, or fit the whole graph in view.
 
@@ -36,6 +39,14 @@ The core view. Type any word into the search bar, and you'll see a tree of that 
     <td><img src="docs/screenshots/final/era-layers.png" alt="The same graph arranged by historical era — Ancient Greek at the bottom, modern languages at the top." width="450"></td>
   </tr>
 </table>
+
+#### G6 Renderer (experimental)
+
+Switch to the G6 v5 renderer via **Filters > Renderer** for a WebGL-accelerated force-directed view. Useful for exploring larger etymology trees where vis.js starts to slow down.
+
+<p align="center">
+  <img src="docs/screenshots/g6-renderer.png" alt="G6 v5 renderer showing the etymology of 'wine' with force-directed layout — nodes colored by language family" width="800">
+</p>
 
 ### Concept Map
 
@@ -106,7 +117,7 @@ open http://localhost:8080
 
 - **MongoDB** — stores the 10.4 million word entries from Wiktionary
 - **FastAPI** (Python) — async API for search, etymology trees, and concept maps
-- **Vanilla JavaScript + vis.js** — interactive graph rendering, no build step
+- **Vanilla JavaScript + vis.js / G6 v5** — interactive graph rendering, no build step. vis.js is the default; G6 is an experimental alternative for larger graphs.
 - **Docker Compose** — runs everything with one command
 
 ## Development
@@ -149,5 +160,7 @@ MCP servers are automatically configured via `.mcp.json`. See `CLAUDE.md` for de
 **Port conflict on 8080**: Another service is using the port. Stop it or change the port in `docker-compose.yml`.
 
 **Blank page**: Check browser console for errors. Ensure vis.js CDN is accessible.
+
+**G6 renderer not loading**: G6 is loaded from a CDN on first use. If your network blocks `unpkg.com`, the app will fall back to vis.js automatically.
 
 **Concept map shows no results**: The phonetic data must be precomputed first. Run `make precompute-phonetic` (requires `lingpy` and `pymongo` installed locally).
