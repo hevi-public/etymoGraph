@@ -218,12 +218,6 @@ const LANG_FAMILIES = [
 
 const DEFAULT_FAMILY_COLOR = "#A0A0B8";
 
-// Derive LANG_COLORS for use in legend CSS class mapping
-const LANG_COLORS = Object.fromEntries([
-    ...LANG_FAMILIES.map(([family, , color]) => [family, color]),
-    ["other", DEFAULT_FAMILY_COLOR],
-]);
-
 function classifyLang(lang) {
     for (const [family, , color, regex] of LANG_FAMILIES) {
         if (regex.test(lang)) return { family, color };
@@ -255,6 +249,7 @@ function renderLegend() {
 // Initialize legend on page load
 document.addEventListener("DOMContentLoaded", renderLegend);
 
+// eslint-disable-next-line no-unused-vars
 function langColor(lang) {
     return classifyLang(lang).color;
 }
@@ -493,10 +488,6 @@ function computeRadialPositions(children, nodeMap, bfsDepth, rootId) {
         return total;
     }
     computeSpan(rootId);
-
-    // Normalize root's total span to 2π so children share the full circle
-    const rootSpan = angularSpan[rootId] || 1;
-    const normalizeRatio = (2 * Math.PI) / rootSpan;
 
     // Top-down: assign polar coordinates then convert to cartesian
     const positions = {};
@@ -1038,6 +1029,7 @@ function buildVisEdges(edges) {
     });
 }
 
+// eslint-disable-next-line no-unused-vars
 function updateGraph(data) {
     if (network) {
         network.destroy();
@@ -1306,7 +1298,7 @@ async function showDetail(word, lang) {
             defsEl.appendChild(li);
         });
         etymEl.innerHTML = formatEtymologyText(data.etymology_text, data.etymology_templates);
-    } catch (e) {
+    } catch (_e) {
         const errSpan = document.createElement("span");
         errSpan.className = "etym-empty";
         errSpan.textContent = `Not in database (${lang} words are not in the English-only Kaikki dump).`;
