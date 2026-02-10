@@ -188,11 +188,14 @@ Every feature or significant change must have a spec before implementation. Spec
 specs/
   00001-connection-based-edges/
     spec.md              # The specification (always named spec.md)
+    decision-log.md      # How and why decisions were made
     (optional resources)  # Diagrams, mockups, sample data, etc.
   00002-phonetic-similarity-concept-map/
     spec.md
+    decision-log.md
   00003-shareable-links-url-routing/
     spec.md
+    decision-log.md
 ```
 
 ### Naming Convention
@@ -201,6 +204,19 @@ specs/
 - **Main file**: always `spec.md` inside the folder
 - **Resources**: any supporting files (diagrams, JSON examples, test fixtures) sit alongside `spec.md`
 - **Next number**: look at the highest existing folder number and increment by 1
+
+### Decision Log
+
+Every spec folder **must** include a `decision-log.md` alongside `spec.md`. The decision log documents the conversation journey from initial question to final decision — capturing the *why* behind the spec, not the *what* (that's `spec.md`'s job).
+
+**Required sections:**
+
+1. **Starting Question** — what prompted the investigation or feature
+2. **Alternatives Considered** — options evaluated, with pros/cons for each
+3. **Decision & Rationale** — what was chosen and why alternatives were eliminated
+4. **Participants** — who contributed to the decision (human, agents, roles)
+
+See `specs/00005-g6-experimental-renderer/decision-log.md` for the canonical example.
 
 ### Spec Header
 
