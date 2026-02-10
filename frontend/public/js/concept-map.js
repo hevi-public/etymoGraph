@@ -13,6 +13,10 @@ let allEtymologyEdges = [];
 let conceptEdgeBaseColors = {};  // id → {color, highlight} original edge colors
 let conceptWords = [];
 let currentSimilarityThreshold = 1.0;
+let conceptLodActive = false;
+let similarityWorker = null;
+
+const CONCEPT_LOD_THRESHOLD = 0.4;
 
 const conceptContainer = document.getElementById("concept-graph");
 
@@ -43,7 +47,7 @@ function updateConceptMap(data) {
     }
 
     conceptWords = uniqueWords;
-    allPhoneticEdges = data.phonetic_edges;
+    allPhoneticEdges = [];  // populated async by Web Worker
     allEtymologyEdges = data.etymology_edges || [];
 
     // Build nodes
@@ -62,9 +66,8 @@ function updateConceptMap(data) {
         };
     });
 
-    // Filter phonetic edges by current threshold
-    const filteredEdges = filterPhoneticEdges(allPhoneticEdges, currentSimilarityThreshold);
-    const visEdges = buildConceptEdges(filteredEdges, allEtymologyEdges);
+    // Render etymology edges immediately; phonetic edges arrive from worker
+    const visEdges = buildConceptEdges([], allEtymologyEdges);
 
     // Tree-based initial positioning: pick highest-degree node as center
     if (visEdges.length > 0) {
@@ -129,7 +132,7 @@ function updateConceptMap(data) {
             },
             stabilization: false,
             minVelocity: 0.75,
-            maxVelocity: 30,
+            maxVelocity: 50,
         },
         interaction: {
             zoomView: false,
@@ -174,6 +177,40 @@ function updateConceptMap(data) {
 
     // Trackpad: pinch zoom + pan
     conceptContainer.addEventListener("wheel", handleConceptWheel, { passive: false });
+
+    // Spawn Web Worker for O(n^2) phonetic similarity (non-blocking)
+    if (similarityWorker) similarityWorker.terminate();
+    similarityWorker = new Worker("js/similarity-worker.js");
+    similarityWorker.onmessage = (msg) => {
+        allPhoneticEdges = msg.data.edges;
+        updateConceptEdges();
+        similarityWorker = null;
+    };
+    similarityWorker.postMessage({
+        words: uniqueWords.map((w) => ({
+            id: w.id,
+            dolgo_consonants: w.dolgo_consonants || "",
+            dolgo_first2: w.dolgo_first2 || "",
+        })),
+        threshold: 0.3,
+    });
+}
+
+function handleConceptZoomLOD(scale) {
+    if (!conceptNetwork) return;
+    if (scale < CONCEPT_LOD_THRESHOLD && !conceptLodActive) {
+        conceptNetwork.setOptions({
+            nodes: { font: { color: "transparent" } },
+            edges: { font: { color: "transparent" } },
+        });
+        conceptLodActive = true;
+    } else if (scale >= CONCEPT_LOD_THRESHOLD && conceptLodActive) {
+        conceptNetwork.setOptions({
+            nodes: { font: { color: "#fff" } },
+            edges: { font: { color: "#999" } },
+        });
+        conceptLodActive = false;
+    }
 }
 
 function handleConceptWheel(e) {
@@ -182,7 +219,9 @@ function handleConceptWheel(e) {
     if (e.ctrlKey) {
         const scale = conceptNetwork.getScale();
         const newScale = scale * (1 - e.deltaY * 0.01);
-        conceptNetwork.moveTo({ scale: Math.max(0.1, Math.min(5, newScale)), animation: false });
+        const clampedScale = Math.max(0.1, Math.min(5, newScale));
+        conceptNetwork.moveTo({ scale: clampedScale, animation: false });
+        handleConceptZoomLOD(clampedScale);
     } else {
         const pos = conceptNetwork.getViewPosition();
         const scale = conceptNetwork.getScale();
@@ -278,6 +317,12 @@ function updateConceptEdges() {
             highlight: e.color?.highlight || "#aaa",
         };
     });
+
+    // Re-enable physics and stabilize so layout settles with new edges
+    if (conceptNetwork) {
+        conceptNetwork.setOptions({ physics: { enabled: true } });
+        conceptNetwork.stabilize(100);
+    }
 }
 
 function applyRgbaOpacity(rgbaStr, factor) {
@@ -387,6 +432,10 @@ function showViewInEtymologyButton(word, lang) {
 }
 
 function destroyConceptMap() {
+    if (similarityWorker) {
+        similarityWorker.terminate();
+        similarityWorker = null;
+    }
     if (conceptNetwork) {
         conceptNetwork.destroy();
         conceptNetwork = null;
@@ -397,6 +446,7 @@ function destroyConceptMap() {
     allEtymologyEdges = [];
     conceptWords = [];
     conceptEdgeBaseColors = {};
+    conceptLodActive = false;
     const statusEl = document.getElementById("concept-status");
     if (statusEl) statusEl.hidden = true;
 }

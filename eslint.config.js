@@ -2,6 +2,7 @@
 export default [
     {
         files: ["frontend/public/js/**/*.js"],
+        ignores: ["frontend/public/js/similarity-worker.js"],
         languageOptions: {
             ecmaVersion: "latest",
             sourceType: "script",
@@ -15,6 +16,7 @@ export default [
                 setTimeout: "readonly",
                 clearTimeout: "readonly",
                 URLSearchParams: "readonly",
+                Worker: "readonly",
                 // vis.js globals
                 vis: "readonly",
                 // App-specific globals from other files
@@ -35,6 +37,31 @@ export default [
                 currentLayout: "writable",
                 selectWord: "readonly",
                 router: "readonly",
+            },
+        },
+        rules: {
+            "semi": ["error", "always"],
+            "quotes": ["error", "double"],
+            "indent": ["error", 4],
+            "no-unused-vars": "warn",
+            "no-undef": "error",
+            "no-console": "off",
+            "max-len": ["warn", {
+                "code": 120,
+                "ignoreUrls": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true,
+            }],
+        },
+    },
+    {
+        files: ["frontend/public/js/similarity-worker.js"],
+        languageOptions: {
+            ecmaVersion: "latest",
+            sourceType: "script",
+            globals: {
+                self: "readonly",
+                Math: "readonly",
             },
         },
         rules: {

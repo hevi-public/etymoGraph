@@ -96,7 +96,7 @@ This project uses Model Context Protocol (MCP) servers to enhance Claude Code's 
 - Browser automation for testing the frontend
 - Usage: "Test search on localhost:8080", "Take screenshot of graph", "Click on a node"
 - Can verify graph rendering, interactions, and visual regressions
-- **Screenshots**: Save to `docs/screenshots/` (within the working directory, where Claude has read access)
+- **Screenshots**: ALWAYS save to `docs/screenshots/` (within the working directory). NEVER save to ~/Downloads or any path outside the project. Use `savePng: true` with `downloadsDir: "docs/screenshots/"` or equivalent.
 
 **GitHub MCP** (HTTP)
 - Enhanced PR and issue management beyond `gh` CLI

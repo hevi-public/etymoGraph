@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: February 9, 2026*
+*Last updated: February 10, 2026*
 
 ---
 
@@ -285,11 +285,12 @@ A sibling view to the etymology graph that answers: "What do languages call this
 - **Strategy B (Gloss Search)**: Searches `senses.glosses` for exact concept match across all entries. Noisier, used as fallback when hub gives < 10 results.
 - **Combined**: When hub is sparse, merges both strategies. Resolution method is returned in the API response.
 
-**Phonetic similarity:**
+**Phonetic similarity (Web Worker):**
 - Uses **Dolgopolsky consonant classes** — IPA is tokenized into sound classes, vowels are stripped, leaving a consonant skeleton
 - **Distance metric**: Normalized Levenshtein distance on consonant class strings (0.0 = identical, 1.0 = completely different)
 - **Turchin match**: Binary check — do the first two consonant classes match? Classic cognate detection method.
-- **Edges**: All pairs with similarity >= 0.3 (floor) or Turchin match are returned; frontend filters further via slider
+- **Computed client-side**: The O(n^2) pairwise comparison runs in a **Web Worker** (`similarity-worker.js`) off the main thread. Nodes appear instantly while edges compute in the background (~60ms for 350 words). The API returns an empty `phonetic_edges` array; all similarity is computed from `dolgo_consonants`/`dolgo_first2` data already present on each word.
+- **Edges**: All pairs with similarity >= 0.3 (floor) or Turchin match are computed; frontend filters further via slider
 
 **Clustering:**
 - Words are grouped by their first two Dolgopolsky consonant classes (Turchin clusters)
@@ -302,12 +303,16 @@ A sibling view to the etymology graph that answers: "What do languages call this
 - **Etymology edges checkbox**: In Filters popover; toggles overlay of known etymological connections (solid arrows vs dashed phonetic edges)
 - **POS filter**: In Filters popover; radio buttons for All / Noun / Verb / Adj
 
-**Graph physics:**
+**Graph physics & performance:**
 - Uses `barnesHut` solver (separate from etymology graph's `forceAtlas2Based`)
 - High repulsion (`gravitationalConstant: -8000`) to spread nodes apart despite dense edge network
 - Very weak spring pull (`springConstant: 0.005`) so edges suggest proximity without forcing tight clusters
-- Physics disables automatically after the graph settles (`stabilized` event), producing a static layout
-- Etymology graph keeps its own continuous `forceAtlas2Based` physics — the two views have independent configurations
+- **Curved edges**: Edges use `smooth: { type: "continuous" }` — curved lines are significantly more visible than straight lines, especially in dense graphs with dashed phonetic edges
+- **Kamada-Kawai pre-layout**: `improvedLayout: true` — provides even initial node placement before physics takes over
+- **Physics convergence**: `minVelocity: 0.75` — allows physics to settle properly before stabilization fires
+- **Continuous physics**: Physics remains enabled throughout the session (no freeze-on-stabilization). The concept map needs continuous physics to handle async edge addition from the Web Worker. When the Worker completes, `stabilize(100)` triggers a brief rearrangement pass to account for newly added phonetic edges.
+- **LOD labels**: At zoom scale < 0.4, all labels are hidden (transparent) to reduce per-frame draw cost. Labels restore when zooming back in.
+- Etymology graph keeps its own `forceAtlas2Based` physics with separate performance optimizations (SPC-00004) — the two views have independent configurations
 
 **Node styling:**
 - Colored by language family (same 20-family palette as etymology graph)
@@ -316,7 +321,7 @@ A sibling view to the etymology graph that answers: "What do languages call this
 - Click a node to show detail panel + "View in Etymology Graph" button
 
 **API endpoints:**
-- `GET /api/concept-map?concept=fire&pos=noun&max_words=200` — returns words, phonetic_edges, etymology_edges, clusters
+- `GET /api/concept-map?concept=fire&pos=noun` — returns words, phonetic_edges (empty, computed client-side), etymology_edges, clusters
 - `GET /api/concepts/suggest?q=fi&limit=10` — autocomplete for concept search
 - `GET /api/words/{word}?lang=English` — now includes `phonetic_ipa`, `dolgo_classes`, `dolgo_consonants`
 
@@ -376,6 +381,40 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 
 **Implementation:** `router.js` (~130 lines) provides a view-scoped parameter registry (`VIEW_PARAMS`) with typed defaults and parsers. Adding a new view or parameter requires only adding an entry to the registry — no router core changes needed.
 
+### 15. Large-Graph Performance (SPC-00004)
+
+Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small graphs (< 200 nodes) are unaffected — all existing behavior preserved.
+
+**Node count thresholds:**
+
+| Threshold | Nodes | Optimizations |
+|-----------|-------|---------------|
+| Small | <= 200 | No changes — curved edges, full labels, improvedLayout |
+| Large | > 200 | Straight edges, improvedLayout disabled |
+| Very Large | > 1000 | Barnes-Hut solver replaces forceAtlas2Based |
+
+**Zoom-based optimizations:**
+
+| Scale | Behavior |
+|-------|----------|
+| >= 0.4 | Full labels on nodes and edges (normal) |
+| < 0.4 | Labels hidden (transparent) — reduces per-frame draw cost |
+| < 0.25 | Nodes cluster by language family (500+ node graphs only) |
+| > 0.35 | Clusters open, individual nodes visible (hysteresis gap prevents flicker) |
+
+**Physics freeze (R5):** After the graph layout stabilizes, physics simulation is automatically disabled to eliminate per-frame force calculations. Dragging a node temporarily re-enables physics, which freezes again 500ms after drag ends.
+
+**Convergence tuning (R6):** `minVelocity: 2.0` and `maxVelocity: 50` make the physics simulation settle faster by raising the velocity floor for stabilization.
+
+**Clustering details:**
+- Clusters are grouped by language family (same 20 families as the color palette)
+- Cluster nodes show as dots with family color, sized by `sqrt(count) * 5`
+- Clicking a cluster node opens it (shows individual nodes)
+- Searching a new word while clustered resets everything cleanly
+- Hysteresis gap (0.10 between cluster/decluster thresholds) prevents flicker during continuous zoom
+
+**Implementation:** All changes scoped to `graph.js`. Pure predicate function `applyPerformanceOverrides()` is extracted and unit-testable without vis.js. LOD and clustering are handled by `handleZoomLOD()` and `handleZoomClustering()`, called from the wheel handler.
+
 ---
 
 ## API Endpoints
@@ -387,7 +426,7 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 | `GET /api/etymology/{word}/chain?lang=English` | Linear ancestry chain (word → root) |
 | `GET /api/etymology/{word}/tree?lang=English&types=inh&max_descendant_depth=3` | Full family tree with branches (nodes include uncertainty metadata) |
 | `GET /api/search?q=wine&limit=20` | Prefix search, deduplicated by word |
-| `GET /api/concept-map?concept=fire&pos=noun&max_words=200` | Concept map with phonetic similarity edges, etymology edges, and clusters |
+| `GET /api/concept-map?concept=fire&pos=noun` | Concept map with phonetic similarity edges, etymology edges, and clusters |
 | `GET /api/concepts/suggest?q=fi&limit=10` | Concept autocomplete (English entries with translations) |
 | `GET /docs` | Swagger UI (auto-generated) |
 
@@ -475,6 +514,10 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 | Connection-based edge length | Per-edge length and spring constant scaled by log2(degree) of endpoint nodes — dense clusters spread out, peripheral nodes pull closer |
 | Dense cluster readability | Stronger physics separation (repulsion -200, avoidOverlap 0.5), degree-based edge opacity fading, label hiding in dense areas |
 | Shareable links (SPC-00003) | History API URL routing — shareable URLs, back/forward, page refresh preserves state |
+| Large-graph performance (SPC-00004) | Adaptive rendering, physics freeze, zoom-based clustering for 200+ node graphs |
+| Concept map Web Worker | O(n^2) phonetic similarity moved to Web Worker — nodes render instantly, edges compute in background |
+| Concept resolver cache | In-memory cache for resolved concept word lists — repeat queries instant |
+| Dict-based etymology edges | Cognate matching uses dict lookup instead of O(n) scan |
 
 ### Concept Map (Phonetic Similarity Visualization)
 
@@ -502,7 +545,7 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 | N2.5 | Static export for GitHub Pages | Not started |
 | N2.6 | Bulk export (top 1000 words) | Not started |
 | N2.7 | Richer word details panel | Done (connections, definitions, etymology) |
-| N2.8 | Performance (lazy-load, large graphs) | Partially done (descendant cap at 50) |
+| N2.8 | Performance (lazy-load, large graphs) | Done (SPC-00004: adaptive rendering + physics) |
 
 ---
 
@@ -538,7 +581,9 @@ make test       # Run pytest
 - `test_tree_builder.py`: TreeBuilder service tests (some TODOs require test database)
 - `test_etymology_classifier.py`: Full coverage of uncertainty detection and word mention extraction
 - `frontend/tests/router.test.js`: 17 unit tests for URL router (parseURL, buildURL, push/replace, roundtrip)
+- `frontend/tests/graph-perf.test.js`: 13 unit tests for performance thresholds, LOD, clustering, family property
 - `tests/e2e/shareable-links.spec.js`: 10 E2E tests for URL routing (direct load, history, DOM consistency)
+- `tests/e2e/large-graph-perf.spec.js`: 9 E2E tests for large-graph performance (R1-R7, interaction integrity)
 - Future: tests for other services (template_parser, lang_cache) when touched
 
 **Linting configuration**:
@@ -566,7 +611,7 @@ make test       # Run pytest
 
 7. **Concept map coverage**: Only ~31.7% of entries have IPA data. Translation hub entries without IPA pronunciation in the database won't appear on the concept map.
 
-8. **Pairwise similarity is O(N^2)**: For concepts with many translations (200+ words), the similarity computation involves up to 20K comparisons. This is fast for short strings but could be slow for very large concept maps.
+8. **Pairwise similarity is O(N^2)**: Runs in a Web Worker off the main thread. For ~350 words (~61K pairs), computation takes ~60ms in the browser and does not block the UI. Nodes render immediately; edges fade in when the worker finishes.
 
 9. **Rapid back/forward**: The popstate handler does not debounce, so rapid back/forward button presses may trigger multiple concurrent API calls. Each resolves independently but intermediate states may flash briefly.
 

@@ -8,6 +8,10 @@ import re
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
+# In-memory cache for resolved concepts. Wiktionary data is static,
+# so caching is safe for a single-user local tool.
+_concept_cache: dict[tuple[str, str | None], tuple[list[dict], str]] = {}
+
 _WORD_PROJECTION = {
     "_id": 0,
     "word": 1,
@@ -25,7 +29,6 @@ async def resolve_concept(
     col: AsyncIOMotorCollection,
     concept: str,
     pos: str | None = None,
-    max_words: int = 200,
 ) -> tuple[list[dict], str]:
     """Find all words across languages that express the given concept.
 
@@ -34,13 +37,18 @@ async def resolve_concept(
 
     Returns (list of word documents, resolution_method string).
     """
-    results, method = await _resolve_via_hub(col, concept, pos, max_words)
+    cache_key = (concept.lower(), pos)
+    if cache_key in _concept_cache:
+        return _concept_cache[cache_key]
+
+    results, method = await _resolve_via_hub(col, concept, pos)
 
     # Strategy B: Gloss search fallback (when < 10 results from hub)
     if len(results) < 10:
         method = "gloss_search" if not method else "combined"
-        results = await _augment_via_gloss(col, concept, pos, max_words, results)
+        results = await _augment_via_gloss(col, concept, pos, results)
 
+    _concept_cache[cache_key] = (results, method)
     return results, method
 
 
@@ -48,7 +56,6 @@ async def _resolve_via_hub(
     col: AsyncIOMotorCollection,
     concept: str,
     pos: str | None,
-    max_words: int,
 ) -> tuple[list[dict], str]:
     """Strategy A: resolve concept via Wiktionary translation hub."""
     hub = await col.find_one(
@@ -87,8 +94,6 @@ async def _resolve_via_hub(
         query["pos"] = pos
 
     cursor = col.find(query, _WORD_PROJECTION)
-    if max_words:
-        cursor = cursor.limit(max_words + 50)
     seen: set[tuple[str, str]] = set()
     results: list[dict] = []
     async for doc in cursor:
@@ -96,8 +101,6 @@ async def _resolve_via_hub(
         if key not in seen:
             seen.add(key)
             results.append(doc)
-            if max_words and len(results) >= max_words:
-                break
     return results, "translation_hub"
 
 
@@ -105,7 +108,6 @@ async def _augment_via_gloss(
     col: AsyncIOMotorCollection,
     concept: str,
     pos: str | None,
-    max_words: int,
     existing: list[dict],
 ) -> list[dict]:
     """Strategy B: augment results via gloss search."""
@@ -120,16 +122,11 @@ async def _augment_via_gloss(
     existing_keys = {(r["word"], r["lang"]) for r in existing}
 
     cursor = col.find(query, _WORD_PROJECTION)
-    if max_words:
-        remaining = max_words - len(existing)
-        cursor = cursor.limit(remaining + 50)
     async for doc in cursor:
         key = (doc["word"], doc["lang"])
         if key not in existing_keys:
             existing.append(doc)
             existing_keys.add(key)
-            if max_words and len(existing) >= max_words:
-                break
 
     return existing
 

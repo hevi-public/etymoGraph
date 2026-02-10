@@ -682,6 +682,8 @@ function baseGraphOptions(overrides) {
             solver: "forceAtlas2Based",
             forceAtlas2Based: {},
             stabilization: false,
+            minVelocity: 2.0,
+            maxVelocity: 50,
         },
         interaction: {
             zoomView: false,
@@ -728,13 +730,14 @@ const LAYOUTS = {
             const baseColors = {};
             const visNodes = nodes.map((n) => {
                 const isRoot = n.id === rootId;
-                const color = langColor(n.language);
+                const { family, color } = classifyLang(n.language);
                 baseColors[n.id] = color;
                 const style = uncertaintyNodeStyle(color, n.uncertainty);
                 const bgColor = style.color?.background || color;
                 const root = isRoot ? rootNodeStyle(bgColor) : {};
                 return {
                     ...n,
+                    family,
                     label: `${n.label}\n(${n.language})`,
                     ...style,
                     ...root,
@@ -777,7 +780,7 @@ const LAYOUTS = {
             const nodeXPositions = assignFamilyClusterPositions(tierFamilyGroups);
             const visNodes = nodes.map((n) => {
                 const isRoot = n.id === rootId;
-                const color = langColor(n.language);
+                const { family, color } = classifyLang(n.language);
                 baseColors[n.id] = color;
                 const tier = getEraTier(n.language);
                 const yPos = ERA_TIERS[tier].y;
@@ -786,6 +789,7 @@ const LAYOUTS = {
                 const root = isRoot ? rootNodeStyle(bgColor) : {};
                 return {
                     ...n,
+                    family,
                     label: `${n.label}\n(${n.language})`,
                     ...style,
                     ...root,
@@ -868,6 +872,110 @@ let edgeBaseColors = {};  // id → {color, highlight} original edge colors
 let rootNodeId = null;   // etymological root (deepest ancestor)
 let wordNodeId = null;   // searched word
 
+// --- Performance thresholds (SPC-00004) ---
+const LARGE_GRAPH_THRESHOLD = 200;
+const VERY_LARGE_GRAPH_THRESHOLD = 1000;
+const LOD_SCALE_THRESHOLD = 0.4;
+const CLUSTER_THRESHOLD = 0.25;
+const DECLUSTER_THRESHOLD = 0.35;
+const CLUSTER_MIN_NODES = 500;
+
+let lodActive = false;
+let activeClusters = [];
+
+/**
+ * Mutate vis.js options for large-graph performance (R1, R4, R7).
+ * - >200 nodes: straight edges, disable improvedLayout
+ * - >1000 nodes: switch to barnesHut solver
+ * Pure in the sense that it only reads nodeCount — side-effect is mutating options.
+ * @param {Object} options - vis.js options object (mutated in place)
+ * @param {number} nodeCount - number of nodes in the graph
+ */
+function applyPerformanceOverrides(options, nodeCount) {
+    if (nodeCount > LARGE_GRAPH_THRESHOLD) {
+        options.edges.smooth = false;
+        options.layout.improvedLayout = false;
+    }
+    if (nodeCount > VERY_LARGE_GRAPH_THRESHOLD) {
+        options.physics.solver = "barnesHut";
+        options.physics.barnesHut = { theta: 0.8 };
+    }
+}
+
+/**
+ * Handle level-of-detail label visibility based on zoom scale (R2).
+ * Hides labels when zoomed out past threshold, restores when zoomed in.
+ * Only fires setOptions on threshold crossings to avoid thrashing.
+ * @param {number} scale - current zoom scale from network.getScale()
+ */
+function handleZoomLOD(scale) {
+    if (!network) return;
+    if (scale < LOD_SCALE_THRESHOLD && !lodActive) {
+        network.setOptions({
+            nodes: { font: { color: "transparent" } },
+            edges: { font: { color: "transparent" } },
+        });
+        lodActive = true;
+    } else if (scale >= LOD_SCALE_THRESHOLD && lodActive) {
+        network.setOptions({
+            nodes: { font: { color: "#fff" } },
+            edges: { font: { color: "#999" } },
+        });
+        lodActive = false;
+    }
+}
+
+/**
+ * Handle zoom-based clustering by language family (R3).
+ * Clusters nodes when zoomed out, declusters when zoomed in.
+ * Hysteresis gap (0.10) prevents flicker around boundaries.
+ * @param {number} scale - current zoom scale from network.getScale()
+ */
+function handleZoomClustering(scale) {
+    if (!network || currentNodes.length < CLUSTER_MIN_NODES) return;
+
+    if (scale < CLUSTER_THRESHOLD && activeClusters.length === 0) {
+        // Cluster by language family
+        const familyCounts = {};
+        nodesDataSet.forEach((n) => {
+            const family = n.family || "other";
+            familyCounts[family] = (familyCounts[family] || 0) + 1;
+        });
+
+        for (const [family, count] of Object.entries(familyCounts)) {
+            if (count < 2) continue;
+            const clusterId = `cluster:${family}`;
+            // Look up display name and color from LANG_FAMILIES
+            const familyEntry = LANG_FAMILIES.find(([f]) => f === family);
+            const displayName = familyEntry ? familyEntry[1] : "Other";
+            const familyColor = familyEntry ? familyEntry[2] : DEFAULT_FAMILY_COLOR;
+
+            network.cluster({
+                joinCondition: (nodeOptions) => (nodeOptions.family || "other") === family,
+                clusterNodeProperties: {
+                    id: clusterId,
+                    label: `${displayName} (${count})`,
+                    shape: "dot",
+                    size: Math.sqrt(count) * 5,
+                    color: familyColor,
+                    font: { color: "#fff" },
+                },
+            });
+            activeClusters.push(clusterId);
+        }
+    } else if (scale > DECLUSTER_THRESHOLD && activeClusters.length > 0) {
+        // Decluster all
+        for (const id of activeClusters) {
+            try {
+                network.openCluster(id);
+            } catch {
+                // Cluster may already be gone
+            }
+        }
+        activeClusters = [];
+    }
+}
+
 // --- updateGraph helpers ---
 
 function findRootAndWordNodes(nodes) {
@@ -935,6 +1043,8 @@ function updateGraph(data) {
         network.destroy();
     }
     currentNodes = data.nodes;
+    lodActive = false;
+    activeClusters = [];
 
     const found = findRootAndWordNodes(data.nodes);
     rootNodeId = found.rootNodeId;
@@ -942,6 +1052,7 @@ function updateGraph(data) {
 
     const layout = LAYOUTS[currentLayout];
     const options = layout.getGraphOptions();
+    applyPerformanceOverrides(options, data.nodes.length);
     const { visNodes, nodeBaseColors: colors } = layout.buildVisNodes(data.nodes, rootNodeId);
     nodeBaseColors = colors;
 
@@ -978,6 +1089,10 @@ function updateGraph(data) {
     });
     network = new vis.Network(graphContainer, { nodes, edges }, options);
 
+    // Expose network instance for E2E tests and zoom controls
+    window.__etymoNetwork = network;
+    window.__etymoNodesDS = nodesDataSet;
+
     if (layout.onBeforeDrawing) {
         network.on("beforeDrawing", (ctx) => layout.onBeforeDrawing(network, ctx));
     }
@@ -988,6 +1103,18 @@ function updateGraph(data) {
     network.on("click", (params) => {
         if (params.nodes.length > 0) {
             const clickedId = params.nodes[0];
+
+            // Cluster click — open the cluster instead of showing detail panel
+            if (network.isCluster(clickedId)) {
+                try {
+                    network.openCluster(clickedId);
+                } catch {
+                    // Cluster may already be gone
+                }
+                activeClusters = activeClusters.filter((id) => id !== clickedId);
+                return;
+            }
+
             const node = currentNodes.find((n) => n.id === clickedId);
             if (node) {
                 showDetail(node.label, node.language);
@@ -1005,6 +1132,19 @@ function updateGraph(data) {
             resetBrightness();
         }
     });
+
+    // R5: Freeze physics after stabilization to reduce CPU usage
+    network.on("stabilized", () => {
+        network.setOptions({ physics: { enabled: false } });
+    });
+    network.on("dragStart", () => {
+        network.setOptions({ physics: { enabled: true } });
+    });
+    network.on("dragEnd", () => {
+        setTimeout(() => {
+            if (network) network.setOptions({ physics: { enabled: false } });
+        }, 500);
+    });
 }
 
 // Trackpad: pinch zooms (ctrlKey), two-finger scroll pans
@@ -1014,8 +1154,10 @@ graphContainer.addEventListener("wheel", (e) => {
     e.preventDefault();
     if (e.ctrlKey) {
         const scale = network.getScale();
-        const newScale = scale * (1 - e.deltaY * 0.01);
-        network.moveTo({ scale: Math.max(0.1, Math.min(5, newScale)), animation: false });
+        const newScale = Math.max(0.1, Math.min(5, scale * (1 - e.deltaY * 0.01)));
+        network.moveTo({ scale: newScale, animation: false });
+        handleZoomLOD(newScale);
+        handleZoomClustering(newScale);
     } else {
         const pos = network.getViewPosition();
         const scale = network.getScale();
@@ -1340,3 +1482,19 @@ document.getElementById("detail-etym").addEventListener("click", (e) => {
         }
     }
 });
+
+// Expose internals for unit testing (SPC-00004)
+if (typeof window !== "undefined") {
+    window.applyPerformanceOverrides = applyPerformanceOverrides;
+    window.handleZoomLOD = handleZoomLOD;
+    window.handleZoomClustering = handleZoomClustering;
+    window.classifyLang = classifyLang;
+    window.baseGraphOptions = baseGraphOptions;
+    window.LAYOUTS = LAYOUTS;
+    window.LOD_SCALE_THRESHOLD = LOD_SCALE_THRESHOLD;
+    window.CLUSTER_THRESHOLD = CLUSTER_THRESHOLD;
+    window.DECLUSTER_THRESHOLD = DECLUSTER_THRESHOLD;
+    window.CLUSTER_MIN_NODES = CLUSTER_MIN_NODES;
+    window.LARGE_GRAPH_THRESHOLD = LARGE_GRAPH_THRESHOLD;
+    window.VERY_LARGE_GRAPH_THRESHOLD = VERY_LARGE_GRAPH_THRESHOLD;
+}
