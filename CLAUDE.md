@@ -160,7 +160,7 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Shareable links with History API URL routing (SPC-00003)
+**Last completed**: G6 renderer fixes — physics animation, force spacing, trackpad interaction (SPC-00006)
 **Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
 
 **Recent**: Implemented shareable links (SPC-00003) with:

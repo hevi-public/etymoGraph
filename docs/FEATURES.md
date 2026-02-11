@@ -449,8 +449,12 @@ app.js → graph-renderer.js (factory) → vis-adapter.js | g6-adapter.js       
 }
 ```
 
-**G6 features (Phase 1):**
+**G6 features (Phase 1 + SPC-00006 fixes):**
 - Force-directed layout (`d3-force` with charge repulsion, collision prevention)
+- Animated physics simulation — nodes settle over ~2 seconds (not instant placement)
+- Tuned force parameters for well-spread graphs with readable labels
+- Drag-element-force: dragging a node triggers real-time force recalculation
+- macOS trackpad: two-finger scroll pans, pinch gesture zooms (matches vis.js behavior)
 - Nodes colored by language family (same 20-family palette as vis.js)
 - Root node highlighted with gold border and glow shadow
 - Edge styling: dashed for borrowed/cognate/mention, arrows for direction

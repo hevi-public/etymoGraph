@@ -42,10 +42,10 @@ The core view. Type any word into the search bar, and you'll see a tree of that 
 
 #### G6 Renderer (experimental)
 
-Switch to the G6 v5 renderer via **Filters > Renderer** for a WebGL-accelerated force-directed view. Useful for exploring larger etymology trees where vis.js starts to slow down.
+Switch to the G6 v5 renderer via **Filters > Renderer** for a WebGL-accelerated force-directed view. Nodes animate into position with a physics simulation that settles over a couple of seconds — drag any node and watch the others react in real-time. Trackpad gestures work the same as vis.js: two-finger scroll to pan, pinch to zoom.
 
 <p align="center">
-  <img src="docs/screenshots/g6-renderer.png" alt="G6 v5 renderer showing the etymology of 'wine' with force-directed layout — nodes colored by language family" width="800">
+  <img src="docs/screenshots/g6-renderer.png" alt="G6 v5 renderer showing the etymology of 'wine' with animated force-directed layout — nodes colored by language family, well-spaced with readable labels" width="800">
 </p>
 
 ### Concept Map

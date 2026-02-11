@@ -153,29 +153,43 @@ function createG6Adapter(container) {
 
             layout: {
                 type: "d3-force",
+                animate: true,
+                iterations: 300,
                 preventOverlap: true,
-                nodeSize: 40,
+                nodeSize: 50,
                 link: {
-                    distance: 150,
+                    distance: 200,
                 },
                 charge: {
-                    strength: -300,
-                    distanceMax: 600,
+                    strength: -500,
+                    distanceMax: 800,
                 },
                 collide: {
-                    radius: 30,
-                    strength: 0.7,
+                    radius: 50,
+                    strength: 0.8,
                 },
             },
 
             behaviors: [
                 "drag-canvas",
-                "zoom-canvas",
-                "drag-element",
+                "drag-element-force",
+                "scroll-canvas",
             ],
         });
 
         await graph.render();
+
+        // Pinch-to-zoom on macOS trackpads.
+        // "scroll-canvas" handles two-finger pan (ctrlKey=false wheel events).
+        // Pinch gestures fire wheel events with ctrlKey=true — intercept those for zoom.
+        container.addEventListener("wheel", function (e) {
+            if (!e.ctrlKey) return;
+            e.preventDefault();
+            var zoom = graph.getZoom();
+            var factor = 1 - e.deltaY * 0.01;
+            var newZoom = Math.max(0.1, Math.min(5, zoom * factor));
+            graph.zoomTo(newZoom, { duration: 0 });
+        }, { passive: false });
 
         // Click handler: show detail panel on node click
         graph.on("node:click", function (event) {
