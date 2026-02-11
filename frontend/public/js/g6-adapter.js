@@ -213,10 +213,30 @@ function createG6Adapter(container) {
         graph.focusElement(nodeId, { duration: 400, easing: "ease-in-out" });
     }
 
+    /** Stop layout animation without destroying the graph (preserves canvas state). */
+    function stopLayout() {
+        if (graph) {
+            try { graph.stopLayout(); } catch (_) { /* layout may already be stopped */ }
+        }
+    }
+
+    /** Resize graph to match container dimensions (call after container becomes visible). */
+    function resize() {
+        if (graph) {
+            var w = container.clientWidth;
+            var h = container.clientHeight;
+            if (w > 0 && h > 0) {
+                graph.resize(w, h);
+            }
+        }
+    }
+
     return {
         type: "g6",
         render: render,
         destroy: destroy,
+        stopLayout: stopLayout,
+        resize: resize,
         selectNode: selectNode,
         getAvailableLayouts: function () { return ["force-directed"]; },
         getCurrentLayout: function () { return "force-directed"; },

@@ -281,6 +281,16 @@ header h1 {
     height: 100%;
 }
 
+/* G6 sets inline display:grid on its container, overriding the hidden attribute.
+   This ensures hidden wins regardless of inline styles. */
+#graph[hidden] {
+    display: none !important;
+}
+
+#concept-graph[hidden] {
+    display: none !important;
+}
+
 #zoom-controls {
     position: absolute;
     top: 16px;

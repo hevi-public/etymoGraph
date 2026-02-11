@@ -19,6 +19,7 @@
             pos:        { "default": "" },
             similarity: { "default": 100, parse: Number },
             etymEdges:  { "default": true, parse: function (v) { return v !== "false"; } },
+            renderer:   { "default": "vis" },
         },
     };
     var DEFAULT_VIEW = "etymology";

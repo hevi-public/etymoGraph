@@ -226,6 +226,7 @@ describe("roundtrip", () => {
             pos: "noun",
             similarity: 75,
             etymEdges: false,
+            renderer: "vis",
         };
         const url = buildURL(original);
         const parsed = parseURL(url.replace("/", ""));

@@ -3,9 +3,10 @@
  * Sibling view to the etymology graph, sharing vis.js + language family colors.
  */
 
-/* global vis, classifyLang, langColor, showDetail, selectWord, switchView, LANG_FAMILIES, computeTreePositions */
+/* global vis, classifyLang, langColor, showDetail, selectWord, switchView, LANG_FAMILIES, computeTreePositions, createG6ConceptAdapter */
 
 let conceptNetwork = null;
+let g6ConceptAdapter = null;
 let conceptNodesDS = null;
 let conceptEdgesDS = null;
 let allPhoneticEdges = [];
@@ -33,7 +34,13 @@ function initConceptMap() {
     }
 }
 
-function updateConceptMap(data) {
+function updateConceptMap(data, rendererType) {
+    // Dispatch to G6 if renderer is selected
+    if (rendererType === "g6") {
+        updateConceptMapG6(data);
+        return;
+    }
+
     initConceptMap();
 
     // Deduplicate words by ID (same word+lang may appear with different POS)
@@ -196,6 +203,64 @@ function updateConceptMap(data) {
     });
 }
 
+async function updateConceptMapG6(data) {
+    // Destroy any existing vis.js concept network
+    if (conceptNetwork) {
+        conceptNetwork.destroy();
+        conceptNetwork = null;
+    }
+    conceptNodesDS = null;
+    conceptEdgesDS = null;
+
+    // Deduplicate words
+    const seenIds = new Set();
+    const uniqueWords = [];
+    for (const w of data.words) {
+        if (!seenIds.has(w.id)) {
+            seenIds.add(w.id);
+            uniqueWords.push(w);
+        }
+    }
+
+    conceptWords = uniqueWords;
+    allPhoneticEdges = [];
+    allEtymologyEdges = data.etymology_edges || [];
+
+    // Create or reuse G6 adapter
+    if (!g6ConceptAdapter) {
+        g6ConceptAdapter = createG6ConceptAdapter(conceptContainer);
+    }
+
+    await g6ConceptAdapter.render(uniqueWords, allEtymologyEdges);
+
+    // Show word count status
+    const statusEl = document.getElementById("concept-status");
+    if (statusEl) {
+        statusEl.textContent = `${uniqueWords.length} words with pronunciation data`;
+        statusEl.hidden = false;
+    }
+
+    // Spawn Web Worker for phonetic similarity
+    if (similarityWorker) similarityWorker.terminate();
+    similarityWorker = new Worker("js/similarity-worker.js");
+    similarityWorker.onmessage = (msg) => {
+        allPhoneticEdges = msg.data.edges;
+        const filtered = filterPhoneticEdges(allPhoneticEdges, currentSimilarityThreshold);
+        if (g6ConceptAdapter) {
+            g6ConceptAdapter.addPhoneticEdges(filtered);
+        }
+        similarityWorker = null;
+    };
+    similarityWorker.postMessage({
+        words: uniqueWords.map((w) => ({
+            id: w.id,
+            dolgo_consonants: w.dolgo_consonants || "",
+            dolgo_first2: w.dolgo_first2 || "",
+        })),
+        threshold: 0.3,
+    });
+}
+
 function handleConceptZoomLOD(scale) {
     if (!conceptNetwork) return;
     if (scale < CONCEPT_LOD_THRESHOLD && !conceptLodActive) {
@@ -303,6 +368,15 @@ function buildConceptEdges(phoneticEdges, etymEdges) {
 }
 
 function updateConceptEdges() {
+    // G6 path: dispatch to adapter
+    if (g6ConceptAdapter) {
+        const filtered = filterPhoneticEdges(allPhoneticEdges, currentSimilarityThreshold);
+        const showEtym = document.getElementById("show-etymology-edges");
+        const includeEtym = showEtym && showEtym.checked;
+        g6ConceptAdapter.updateEdges(filtered, includeEtym ? allEtymologyEdges : []);
+        return;
+    }
+
     if (!conceptEdgesDS) return;
     const filtered = filterPhoneticEdges(allPhoneticEdges, currentSimilarityThreshold);
     const visEdges = buildConceptEdges(filtered, allEtymologyEdges);
@@ -435,6 +509,10 @@ function destroyConceptMap() {
     if (similarityWorker) {
         similarityWorker.terminate();
         similarityWorker = null;
+    }
+    if (g6ConceptAdapter) {
+        g6ConceptAdapter.destroy();
+        g6ConceptAdapter = null;
     }
     if (conceptNetwork) {
         conceptNetwork.destroy();

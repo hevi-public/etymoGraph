@@ -138,12 +138,28 @@ function switchView(view, skipRoute = false) {
         // Hide "View in Etymology Graph" button if present
         const etymBtn = document.getElementById("view-in-etymology-btn");
         if (etymBtn) etymBtn.hidden = true;
+        // Resize G6 graph to match container after it becomes visible again
+        if (activeRenderer && typeof activeRenderer.resize === "function") {
+            activeRenderer.resize();
+        }
+        // Reload etymology graph (may have been emptied by renderer switch in concept view)
+        if (!skipRoute && currentWord) {
+            selectWord(currentWord, currentLang, true);
+        }
     } else {
         etymControls.hidden = true;
         conceptControls.hidden = false;
         graphDiv.hidden = true;
         conceptGraphDiv.hidden = false;
         document.getElementById("detail-panel").hidden = true;
+        // Stop G6 layout animation to free CPU while concept map is active
+        if (activeRenderer && typeof activeRenderer.stopLayout === "function") {
+            activeRenderer.stopLayout();
+        }
+        // Reload concept map (destroyed when switching to etymology view)
+        if (!skipRoute && currentConcept) {
+            loadConceptMap(currentConcept, getSelectedPos(), true);
+        }
     }
 
     if (!skipRoute) {
@@ -159,7 +175,7 @@ async function loadConceptMap(concept, pos, skipRoute = false) {
     currentConcept = concept;
     try {
         const data = await getConceptMap(concept, pos || null);
-        updateConceptMap(data);
+        updateConceptMap(data, currentRendererType);
         if (!skipRoute) {
             router.push({ view: "concept", concept, pos: pos || "" });
         }
@@ -248,7 +264,11 @@ const rendererSelect = document.getElementById("renderer-select");
 rendererSelect.addEventListener("change", () => {
     const type = rendererSelect.value;
     switchRenderer(type);
-    selectWord(currentWord, currentLang, true);
+    if (activeView === "concept" && currentConcept) {
+        loadConceptMap(currentConcept, getSelectedPos(), true);
+    } else {
+        selectWord(currentWord, currentLang, true);
+    }
     router.replace({ renderer: type });
 });
 
