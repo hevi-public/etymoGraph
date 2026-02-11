@@ -5,7 +5,7 @@
 | **Status** | approved |
 | **Created** | 2026-02-10 |
 | **Modifies** | SPC-00004 (adds renderer abstraction layer around performance optimizations) |
-| **Modified-by** | — |
+| **Modified-by** | SPC-00006 (fixes physics animation, force spacing, trackpad interaction) |
 
 ## Summary
 
