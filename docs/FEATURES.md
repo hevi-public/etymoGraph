@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: February 10, 2026*
+*Last updated: February 11, 2026*
 
 ---
 
@@ -314,9 +314,13 @@ A sibling view to the etymology graph that answers: "What do languages call this
 - **LOD labels**: At zoom scale < 0.4, all labels are hidden (transparent) to reduce per-frame draw cost. Labels restore when zooming back in.
 - Etymology graph keeps its own `forceAtlas2Based` physics with separate performance optimizations (SPC-00004) — the two views have independent configurations
 
+**Renderer support:**
+- **vis.js (default)**: Full-featured concept map with similarity-scaled edge width/opacity, highlight dimming, zoom LOD, tree-based initial positioning
+- **G6 v5 (experimental)**: Basic concept map with uniform edge styling, d3-force layout, node click interaction. Selected via renderer dropdown in header. See Feature 16 for details.
+
 **Node styling:**
 - Colored by language family (same 20-family palette as etymology graph)
-- Dashed grey edges = phonetic similarity (width + opacity proportional to score)
+- Dashed grey edges = phonetic similarity (width + opacity proportional to score in vis.js; uniform in G6)
 - Solid dark edges = etymological connections (arrows)
 - Click a node to show detail panel + "View in Etymology Graph" button
 
@@ -355,7 +359,7 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 | `lang` | etymology | `English` | Word language |
 | `types` | etymology | `inh,bor,der` | Connection type filter |
 | `layout` | etymology | `era-layered` | Graph layout |
-| `renderer` | etymology | `vis` | Graph renderer (`vis` or `g6`) |
+| `renderer` | both | `vis` | Graph renderer (`vis` or `g6`) |
 | `concept` | concept | `""` | Searched concept |
 | `pos` | concept | `""` | POS filter |
 | `similarity` | concept | `100` | Similarity threshold (0-100) |
@@ -365,8 +369,8 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 ```
 /?view=etymology&word=wine&lang=English&types=inh,bor,der&layout=force-directed&renderer=vis
 /?view=etymology&word=fire&lang=Latin&types=inh,bor,der&layout=era-layered&renderer=g6
-/?view=concept&concept=water&pos=&similarity=100&etymEdges=true
-/?view=concept&concept=fire&pos=noun&similarity=75&etymEdges=true
+/?view=concept&concept=water&pos=&similarity=100&etymEdges=true&renderer=vis
+/?view=concept&concept=fire&pos=noun&similarity=75&etymEdges=true&renderer=g6
 ```
 
 **History behavior:**
@@ -422,17 +426,17 @@ An alternative graph renderer using [G6 v5 by AntV](https://g6.antv.antgroup.com
 
 **Architecture:**
 ```
-app.js → graph-renderer.js (factory) → vis-adapter.js | g6-adapter.js
+app.js → graph-renderer.js (factory) → vis-adapter.js | g6-adapter.js       (etymology graph)
+     └→ concept-map.js ────────────→ vis.js (direct) | g6-concept-adapter.js (concept map)
                                               ↓               ↓
-                                          graph.js         G6 library (CDN)
-                                              ↓
-                                      graph-common.js (shared constants)
+                                      graph-common.js    G6 library (CDN)
 ```
 
 - `graph-common.js` — Shared constants extracted from graph.js: LANG_FAMILIES, classifyLang, EDGE_LABELS, color utilities, era tiers, tree position computation
 - `graph-renderer.js` — Factory function: `createRenderer(type, container)` returns the appropriate adapter
 - `vis-adapter.js` — Thin wrapper delegating to existing `updateGraph()` and `selectNodeById()`
-- `g6-adapter.js` — Full G6 v5 implementation with lazy CDN loading
+- `g6-adapter.js` — Full G6 v5 implementation for etymology graph with lazy CDN loading
+- `g6-concept-adapter.js` — G6 v5 implementation for concept map, reuses `_loadG6Script()` from g6-adapter.js
 
 **Adapter interface** (every renderer must implement):
 ```javascript
@@ -458,9 +462,23 @@ app.js → graph-renderer.js (factory) → vis-adapter.js | g6-adapter.js
 
 **CDN fallback:** If the G6 CDN is unavailable, the adapter catches the error, logs a warning, and falls back to vis.js automatically.
 
-**UI:** Renderer dropdown in Filters popover (below Layout select). Switching renderers destroys the current graph, creates the new renderer, re-renders the current word, and updates the layout dropdown to show only available layouts.
+**UI:** Renderer dropdown in the header bar (between search and Filters button). Applies to both Etymology Graph and Concept Map views. Switching renderers re-renders the current view with the selected renderer and updates the layout dropdown to show only available layouts. The renderer choice is persisted in the URL for both views.
 
-**Phase 1 limitations:**
+**G6 concept map features:**
+- Force-directed layout (`d3-force` with charge -500, link distance 250, collision prevention)
+- Nodes colored by language family (same palette as vis.js)
+- Phonetic edges (dashed) and etymology edges (solid with arrows)
+- Similarity slider and etymology edges checkbox update edges without re-running layout (uses `removeData`/`addData`/`draw`)
+- Node click shows detail panel + "View in Etymology Graph" button
+- macOS trackpad: pinch-to-zoom + two-finger pan
+
+**G6 concept map limitations (basic implementation):**
+- Uniform phonetic edge width (no similarity-scaled styling)
+- No highlight dimming on node selection
+- No zoom LOD (label hiding at low scale)
+- Full edge set rebuild on slider change (acceptable for basic; incremental updates deferred)
+
+**Etymology graph limitations:**
 - G6 only supports force-directed layout (era-layered is vis.js only)
 - No hop-based opacity on node selection
 - No zoom-based clustering
@@ -470,7 +488,7 @@ app.js → graph-renderer.js (factory) → vis-adapter.js | g6-adapter.js
 **Future phases** (see SPC-00005 spec for details):
 - Phase 2: Era-layered custom layout, LOD, root glow, hop-based opacity
 - Phase 3: Zoom-based dynamic clustering by language family
-- Phase 4: Apply G6 adapter to concept map
+- Concept map enhancements: similarity-scaled edge width/opacity, highlight dimming, zoom LOD
 
 ---
 
@@ -576,6 +594,7 @@ app.js → graph-renderer.js (factory) → vis-adapter.js | g6-adapter.js
 | Concept resolver cache | In-memory cache for resolved concept word lists — repeat queries instant |
 | Dict-based etymology edges | Cognate matching uses dict lookup instead of O(n) scan |
 | G6 v5 experimental renderer (SPC-00005) | WebGL-capable alternative renderer with lazy CDN loading, renderer abstraction layer |
+| G6 concept map (SPC-00005) | G6 renderer support for concept map — both views respect the renderer dropdown |
 
 ### Concept Map (Phonetic Similarity Visualization)
 
@@ -675,7 +694,7 @@ make test       # Run pytest
 
 ---
 
-10. **G6 renderer is Phase 1 only**: The experimental G6 renderer supports force-directed layout only. Era-layered layout, hop-based opacity, LOD label hiding, and clustering are vis.js only. The detail panel connections section is empty when using G6.
+10. **G6 renderer limitations**: The experimental G6 renderer supports force-directed layout only for both etymology graph and concept map. Era-layered layout, hop-based opacity, LOD label hiding, and clustering are vis.js only. The concept map G6 mode uses uniform edge styling (no similarity-scaled width/opacity) and full re-render on slider changes. The detail panel connections section is empty when using G6 for the etymology graph.
 
 ---
 
