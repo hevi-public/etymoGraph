@@ -1,13 +1,14 @@
 """Precompute Dolgopolsky sound classes for all entries with IPA data.
 
 Standalone batch script using sync pymongo + lingpy.
-Run outside Docker against localhost:27017.
+Runs inside Docker via `make precompute-phonetic`.
 
 Usage:
-    pip install lingpy pymongo
-    python -m etl.precompute_phonetic
+    make precompute-phonetic          # Docker (default)
+    MONGO_URI=mongodb://localhost:27017/etymology python -m etl.precompute_phonetic  # host
 """
 
+import os
 import re
 import sys
 import time
@@ -15,7 +16,7 @@ import time
 from lingpy import ipa2tokens, tokens2class
 from pymongo import MongoClient, UpdateOne
 
-MONGO_URI = "mongodb://localhost:27017/etymology"
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://mongodb:27017/etymology")
 BATCH_SIZE = 5000
 
 

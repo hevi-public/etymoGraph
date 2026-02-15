@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: February 11, 2026*
+*Last updated: February 15, 2026*
 
 ---
 
@@ -276,7 +276,7 @@ A sibling view to the etymology graph that answers: "What do languages call this
 4. Words are displayed as a force-directed graph where proximity = phonetic similarity
 
 **Data pipeline:**
-- **Precomputation**: `make precompute-phonetic` runs a batch script that enriches all entries with IPA data with a `phonetic` subdocument containing Dolgopolsky classes (requires `lingpy` + `pymongo` installed locally)
+- **Precomputation**: `make precompute-phonetic` runs a Dockerized batch script that enriches all entries with IPA data with a `phonetic` subdocument containing Dolgopolsky classes. Runs automatically as part of `make setup` and `make update`.
 - **Phonetic subdocument structure**: `{ipa, dolgo_classes, dolgo_consonants, dolgo_first2, tokens}`
 - **LingPy is only needed for precomputation** — runtime similarity is pure string comparison
 
@@ -515,13 +515,13 @@ app.js → graph-renderer.js (factory) → vis-adapter.js | g6-adapter.js       
 
 | Command | Action |
 |---------|--------|
-| `make setup` | Build + download + load (first time) |
+| `make setup` | Build + download + load + precompute phonetic (first time) |
 | `make run` | Start all services |
 | `make stop` | Stop all services |
 | `make update` | Force re-download data + reload into MongoDB |
 | `make download` | Download data (skip if exists) |
 | `make load` | Load data into MongoDB |
-| `make precompute-phonetic` | Precompute Dolgopolsky sound classes for concept map (requires `lingpy` + `pymongo`) |
+| `make precompute-phonetic` | Precompute Dolgopolsky sound classes for concept map (Dockerized, runs automatically in setup/update) |
 | `make test-frontend` | Run Vitest unit tests (router, etc.) |
 | `make test-e2e` | Run Playwright E2E tests (requires `make run`) |
 | `make test-all` | Run all tests (pytest + Vitest + Playwright) |
@@ -688,7 +688,7 @@ make test       # Run pytest
 
 5. **Uncertainty detection is pattern-based**: The system detects uncertainty through template markers (`unk`, `unc`) and text patterns. Some uncertain etymologies may not be detected if they use unusual phrasing, and false positives are possible with text pattern matching.
 
-6. **Concept map requires precomputation**: The `phonetic` subdocument must be precomputed before the concept map works. Run `make precompute-phonetic` (requires `lingpy` and `pymongo` installed locally, outside Docker).
+6. **Concept map requires precomputation**: The `phonetic` subdocument must be precomputed before the concept map works. This runs automatically as part of `make setup` and `make update`. To re-run manually: `make precompute-phonetic`.
 
 7. **Concept map coverage**: Only ~31.7% of entries have IPA data. Translation hub entries without IPA pronunciation in the database won't appear on the concept map.
 

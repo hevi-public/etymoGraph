@@ -1,6 +1,6 @@
 .PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic test-frontend test-e2e test-all
 
-setup: build download load
+setup: build download load precompute-phonetic
 	@echo "Setup complete! Run 'make run' to start."
 
 build:
@@ -18,6 +18,7 @@ load:
 update: build
 	./scripts/download-data.sh --force
 	$(MAKE) load
+	$(MAKE) precompute-phonetic
 	@echo "Update complete!"
 
 run:
@@ -59,8 +60,11 @@ format:  ## Format Python code with Ruff
 	cd backend && ruff format .
 
 precompute-phonetic:  ## Precompute Dolgopolsky sound classes for concept map
-	@echo "Precomputing phonetic data (requires lingpy + pymongo)..."
-	cd backend && python -m etl.precompute_phonetic
+	docker compose up -d mongodb
+	@echo "Waiting for MongoDB to be healthy..."
+	@until docker compose exec mongodb mongosh --eval "db.adminCommand('ping')" --quiet > /dev/null 2>&1; do sleep 1; done
+	@echo "Precomputing phonetic data..."
+	docker compose run --rm backend python -m etl.precompute_phonetic
 
 test-frontend:  ## Run Vitest unit tests
 	npx vitest run
