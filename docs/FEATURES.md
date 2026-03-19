@@ -172,7 +172,7 @@ Custom wheel event handling for natural trackpad behavior:
 
 - **Two-finger scroll** → pans the graph (natural scroll direction), speed scaled by zoom level so panning feels consistent when zoomed in
 - **Pinch** → zooms in/out (macOS sends `ctrlKey` for pinch gestures)
-- **Tablet/iPad touch** → two-finger pinch-to-zoom with center tracking, single-finger pan via vis.js `dragView`
+- **Tablet/iPad touch** → two-finger pinch-to-zoom toward pinch center with 1:1 finger-tracking pan, single-finger pan via vis.js `dragView`
 - vis.js built-in zoom is disabled to prevent conflicts
 - CSS `touch-action: none` on graph containers prevents iOS Safari from intercepting pinch gestures for native page zoom
 
@@ -489,7 +489,7 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | Connection type filter | Toggle inherited/borrowed/derived/cognate with checkboxes (all on by default) |
 | Direct-parent chain fix | Only link words to their immediate ancestor |
 | Extended language colors | 20 language families with data-driven palette + dynamic legend |
-| Trackpad & tablet touch support | Pinch-to-zoom, two-finger pan with zoom-scaled panning speed; iPad/tablet touch pinch-to-zoom on both graph views |
+| Trackpad & tablet touch support | Pinch-to-zoom, two-finger pan with zoom-scaled panning speed; iPad/tablet pinch-to-zoom toward pinch center with 1:1 pan tracking on both graph views |
 | Zoom controls | Panel toggle, focus word, focus root, fit-all buttons (top-right) |
 | Era-layered layout | Vertically layered by historical era with horizontal self-organization |
 | Cognate view | Cognate edges as gold dashed lines, toggleable via filter, recursive expansion |

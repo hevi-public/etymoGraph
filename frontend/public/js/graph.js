@@ -1189,23 +1189,35 @@ graphContainer.addEventListener("touchmove", (e) => {
     if (!network || !touchState || e.touches.length !== 2) return;
     e.preventDefault();
 
+    const center = getTouchCenter(e.touches[0], e.touches[1]);
+    const oldScale = network.getScale();
+    const oldPos = network.getViewPosition();
+
+    // Compute new scale from pinch distance
     const dist = getTouchDistance(e.touches[0], e.touches[1]);
     const ratio = dist / touchState.startDist;
     const newScale = Math.max(0.1, Math.min(5, touchState.startScale * ratio));
-    network.moveTo({ scale: newScale, animation: false });
+
+    // Convert pinch screen center to world coords
+    const rect = graphContainer.getBoundingClientRect();
+    const pinchWorld = network.DOMtoCanvas({
+        x: center.x - rect.left,
+        y: center.y - rect.top,
+    });
+
+    // Zoom toward pinch center: keep the world point under fingers fixed
+    const newPos = {
+        x: pinchWorld.x - (pinchWorld.x - oldPos.x) * (oldScale / newScale),
+        y: pinchWorld.y - (pinchWorld.y - oldPos.y) * (oldScale / newScale),
+    };
+
+    // Add finger pan delta (convert screen px to world units at new scale)
+    newPos.x += (touchState.lastCenter.x - center.x) / newScale;
+    newPos.y += (touchState.lastCenter.y - center.y) / newScale;
+
+    network.moveTo({ scale: newScale, position: newPos, animation: false });
     handleZoomLOD(newScale);
     handleZoomClustering(newScale);
-
-    // Also pan to follow the pinch center
-    const center = getTouchCenter(e.touches[0], e.touches[1]);
-    const scale = network.getScale();
-    const pos = network.getViewPosition();
-    const dx = (touchState.lastCenter.x - center.x) / scale;
-    const dy = (touchState.lastCenter.y - center.y) / scale;
-    network.moveTo({
-        position: { x: pos.x + dx, y: pos.y + dy },
-        animation: false,
-    });
     touchState.lastCenter = center;
 }, { passive: false });
 

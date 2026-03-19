@@ -195,21 +195,34 @@ function updateConceptMap(data) {
         if (!conceptNetwork || !conceptTouchState || e.touches.length !== 2) return;
         e.preventDefault();
 
+        const center = getTouchCenter(e.touches[0], e.touches[1]);
+        const oldScale = conceptNetwork.getScale();
+        const oldPos = conceptNetwork.getViewPosition();
+
+        // Compute new scale from pinch distance
         const dist = getTouchDistance(e.touches[0], e.touches[1]);
         const ratio = dist / conceptTouchState.startDist;
         const newScale = Math.max(0.1, Math.min(5, conceptTouchState.startScale * ratio));
-        conceptNetwork.moveTo({ scale: newScale, animation: false });
-        handleConceptZoomLOD(newScale);
 
-        const center = getTouchCenter(e.touches[0], e.touches[1]);
-        const scale = conceptNetwork.getScale();
-        const pos = conceptNetwork.getViewPosition();
-        const dx = (conceptTouchState.lastCenter.x - center.x) / scale;
-        const dy = (conceptTouchState.lastCenter.y - center.y) / scale;
-        conceptNetwork.moveTo({
-            position: { x: pos.x + dx, y: pos.y + dy },
-            animation: false,
+        // Convert pinch screen center to world coords
+        const rect = conceptContainer.getBoundingClientRect();
+        const pinchWorld = conceptNetwork.DOMtoCanvas({
+            x: center.x - rect.left,
+            y: center.y - rect.top,
         });
+
+        // Zoom toward pinch center: keep the world point under fingers fixed
+        const newPos = {
+            x: pinchWorld.x - (pinchWorld.x - oldPos.x) * (oldScale / newScale),
+            y: pinchWorld.y - (pinchWorld.y - oldPos.y) * (oldScale / newScale),
+        };
+
+        // Add finger pan delta (convert screen px to world units at new scale)
+        newPos.x += (conceptTouchState.lastCenter.x - center.x) / newScale;
+        newPos.y += (conceptTouchState.lastCenter.y - center.y) / newScale;
+
+        conceptNetwork.moveTo({ scale: newScale, position: newPos, animation: false });
+        handleConceptZoomLOD(newScale);
         conceptTouchState.lastCenter = center;
     }, { passive: false });
 
