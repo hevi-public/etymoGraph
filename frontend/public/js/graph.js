@@ -1160,6 +1160,61 @@ graphContainer.addEventListener("wheel", (e) => {
     }
 }, { passive: false });
 
+// Touch: pinch-to-zoom and single-finger pan for tablets
+let touchState = null;
+
+function getTouchDistance(t1, t2) {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+function getTouchCenter(t1, t2) {
+    return { x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 };
+}
+
+graphContainer.addEventListener("touchstart", (e) => {
+    if (!network) return;
+    if (e.touches.length === 2) {
+        e.preventDefault();
+        touchState = {
+            startDist: getTouchDistance(e.touches[0], e.touches[1]),
+            startScale: network.getScale(),
+            lastCenter: getTouchCenter(e.touches[0], e.touches[1]),
+        };
+    }
+}, { passive: false });
+
+graphContainer.addEventListener("touchmove", (e) => {
+    if (!network || !touchState || e.touches.length !== 2) return;
+    e.preventDefault();
+
+    const dist = getTouchDistance(e.touches[0], e.touches[1]);
+    const ratio = dist / touchState.startDist;
+    const newScale = Math.max(0.1, Math.min(5, touchState.startScale * ratio));
+    network.moveTo({ scale: newScale, animation: false });
+    handleZoomLOD(newScale);
+    handleZoomClustering(newScale);
+
+    // Also pan to follow the pinch center
+    const center = getTouchCenter(e.touches[0], e.touches[1]);
+    const scale = network.getScale();
+    const pos = network.getViewPosition();
+    const dx = (touchState.lastCenter.x - center.x) / scale;
+    const dy = (touchState.lastCenter.y - center.y) / scale;
+    network.moveTo({
+        position: { x: pos.x + dx, y: pos.y + dy },
+        animation: false,
+    });
+    touchState.lastCenter = center;
+}, { passive: false });
+
+graphContainer.addEventListener("touchend", (e) => {
+    if (e.touches.length < 2) {
+        touchState = null;
+    }
+}, { passive: true });
+
 function selectNodeById(nodeId) {
     if (!network) return;
     network.selectNodes([nodeId]);

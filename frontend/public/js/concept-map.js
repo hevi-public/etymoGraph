@@ -3,7 +3,7 @@
  * Sibling view to the etymology graph, sharing vis.js + language family colors.
  */
 
-/* global vis, classifyLang, langColor, showDetail, selectWord, switchView, LANG_FAMILIES, computeTreePositions */
+/* global vis, classifyLang, langColor, showDetail, selectWord, switchView, LANG_FAMILIES, computeTreePositions, getTouchDistance, getTouchCenter */
 
 let conceptNetwork = null;
 let conceptNodesDS = null;
@@ -177,6 +177,45 @@ function updateConceptMap(data) {
 
     // Trackpad: pinch zoom + pan
     conceptContainer.addEventListener("wheel", handleConceptWheel, { passive: false });
+
+    // Touch: pinch-to-zoom for tablets
+    let conceptTouchState = null;
+
+    conceptContainer.addEventListener("touchstart", (e) => {
+        if (!conceptNetwork || e.touches.length !== 2) return;
+        e.preventDefault();
+        conceptTouchState = {
+            startDist: getTouchDistance(e.touches[0], e.touches[1]),
+            startScale: conceptNetwork.getScale(),
+            lastCenter: getTouchCenter(e.touches[0], e.touches[1]),
+        };
+    }, { passive: false });
+
+    conceptContainer.addEventListener("touchmove", (e) => {
+        if (!conceptNetwork || !conceptTouchState || e.touches.length !== 2) return;
+        e.preventDefault();
+
+        const dist = getTouchDistance(e.touches[0], e.touches[1]);
+        const ratio = dist / conceptTouchState.startDist;
+        const newScale = Math.max(0.1, Math.min(5, conceptTouchState.startScale * ratio));
+        conceptNetwork.moveTo({ scale: newScale, animation: false });
+        handleConceptZoomLOD(newScale);
+
+        const center = getTouchCenter(e.touches[0], e.touches[1]);
+        const scale = conceptNetwork.getScale();
+        const pos = conceptNetwork.getViewPosition();
+        const dx = (conceptTouchState.lastCenter.x - center.x) / scale;
+        const dy = (conceptTouchState.lastCenter.y - center.y) / scale;
+        conceptNetwork.moveTo({
+            position: { x: pos.x + dx, y: pos.y + dy },
+            animation: false,
+        });
+        conceptTouchState.lastCenter = center;
+    }, { passive: false });
+
+    conceptContainer.addEventListener("touchend", (e) => {
+        if (e.touches.length < 2) conceptTouchState = null;
+    }, { passive: true });
 
     // Spawn Web Worker for O(n^2) phonetic similarity (non-blocking)
     if (similarityWorker) similarityWorker.terminate();
