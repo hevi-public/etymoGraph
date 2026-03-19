@@ -22,6 +22,22 @@ def extract_first_ipa(doc: dict) -> str | None:
     return None
 
 
+def extract_audio_urls(doc: dict) -> list[dict]:
+    """Extract audio entries with ogg/mp3 URLs from a document's sounds."""
+    audio = []
+    for sound in doc.get("sounds", []):
+        if "ogg_url" in sound or "mp3_url" in sound:
+            entry = {}
+            if "ogg_url" in sound:
+                entry["ogg_url"] = sound["ogg_url"]
+            if "mp3_url" in sound:
+                entry["mp3_url"] = sound["mp3_url"]
+            if "tags" in sound:
+                entry["tags"] = sound["tags"]
+            audio.append(entry)
+    return audio
+
+
 @router.get("/words/{word}")
 async def get_word(word: str, lang: str = "English") -> dict:
     """Fetch a word entry with definitions, pronunciation, and etymology details."""
@@ -47,6 +63,7 @@ async def get_word(word: str, lang: str = "English") -> dict:
         "etymology_templates": doc.get("etymology_templates", []),
         "etymology_uncertainty": uncertainty.to_dict(),
         "related_mentions": [m.to_dict() for m in mentions],
+        "audio": extract_audio_urls(doc),
         "phonetic_ipa": phonetic.get("ipa"),
         "dolgo_classes": phonetic.get("dolgo_classes"),
         "dolgo_consonants": phonetic.get("dolgo_consonants"),

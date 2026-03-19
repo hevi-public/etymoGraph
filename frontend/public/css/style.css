@@ -388,6 +388,33 @@ header h1 {
     opacity: 1;
 }
 
+#detail-audio {
+    margin: 6px 0;
+}
+
+#detail-audio[hidden] {
+    display: none;
+}
+
+.audio-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.audio-row audio {
+    height: 28px;
+    flex: 1;
+    min-width: 0;
+}
+
+.audio-tag {
+    font-size: 0.75rem;
+    color: #999;
+    white-space: nowrap;
+}
+
 #detail-panel h3 {
     font-size: 0.9rem;
     color: #aaa;

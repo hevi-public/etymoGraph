@@ -196,6 +196,7 @@ Click any node in the graph to open a side panel showing:
 - **Word** and **language**
 - **Part of speech** (noun, verb, etc.)
 - **IPA pronunciation**
+- **Audio playback** — when the Kaikki entry has audio files (ogg/mp3), compact audio players appear below the IPA line. Each variant shows dialect/accent tags (e.g., "General-American") when available. Uses `preload="none"` so audio only loads on play. Hidden for words without audio data.
 - **Wiktionary link** — opens the word's Wiktionary page in a new tab. Uses `Reconstruction:` prefix for proto-languages (e.g., Proto-Italic/wīnom) and `#Language` anchors for regular words
 - **Definitions** (all glosses from all senses)
 - **Etymology text** (human-readable narrative) — words mentioned in the etymology chain, prose, and cognates are clickable links when they match known `etymology_templates`. A link-mode toggle next to the "Etymology" heading lets users choose between **In-app** (loads the word in the graph via `selectWord()`) and **Wiktionary** (opens a new tab). Preference is persisted in `localStorage`.
@@ -424,7 +425,7 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | Endpoint | Description |
 |----------|-------------|
 | `GET /health` | Health check |
-| `GET /api/words/{word}?lang=English` | Full word data (definitions, pronunciation, etymology, uncertainty info, related mentions) |
+| `GET /api/words/{word}?lang=English` | Full word data (definitions, pronunciation, audio URLs, etymology, uncertainty info, related mentions) |
 | `GET /api/etymology/{word}/chain?lang=English` | Linear ancestry chain (word → root) |
 | `GET /api/etymology/{word}/tree?lang=English&types=inh&max_descendant_depth=3` | Full family tree with branches (nodes include uncertainty metadata) |
 | `GET /api/search?q=wine&limit=20` | Prefix search, deduplicated by word |

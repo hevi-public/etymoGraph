@@ -1306,6 +1306,45 @@ function buildConnectionsPanel(nodeId) {
 
 // --- showDetail ---
 
+function renderAudioPlayer(audioEntries) {
+    const container = document.getElementById("detail-audio");
+    container.innerHTML = "";
+    if (!audioEntries.length) {
+        container.hidden = true;
+        return;
+    }
+    container.hidden = false;
+    for (const entry of audioEntries) {
+        const row = document.createElement("div");
+        row.className = "audio-row";
+
+        const audio = document.createElement("audio");
+        audio.controls = true;
+        audio.preload = "none";
+        if (entry.mp3_url) {
+            const src = document.createElement("source");
+            src.src = entry.mp3_url;
+            src.type = "audio/mpeg";
+            audio.appendChild(src);
+        }
+        if (entry.ogg_url) {
+            const src = document.createElement("source");
+            src.src = entry.ogg_url;
+            src.type = "audio/ogg";
+            audio.appendChild(src);
+        }
+        row.appendChild(audio);
+
+        if (entry.tags && entry.tags.length) {
+            const label = document.createElement("span");
+            label.className = "audio-tag";
+            label.textContent = entry.tags.join(", ");
+            row.appendChild(label);
+        }
+        container.appendChild(row);
+    }
+}
+
 function renderUncertaintyBadge(uncertainty) {
     const badge = document.getElementById("detail-uncertainty");
     if (!uncertainty || !uncertainty.is_uncertain) {
@@ -1344,6 +1383,7 @@ async function showDetail(word, lang) {
     langEl.textContent = lang;
     posEl.textContent = "";
     ipaEl.textContent = "";
+    renderAudioPlayer([]);
     defsEl.innerHTML = "";
     etymEl.textContent = "";
     renderUncertaintyBadge(null);  // Clear until loaded
@@ -1357,6 +1397,7 @@ async function showDetail(word, lang) {
         const data = await getWord(word, lang);
         posEl.textContent = data.pos || "";
         ipaEl.textContent = data.pronunciation || "";
+        renderAudioPlayer(data.audio || []);
         renderUncertaintyBadge(data.etymology_uncertainty);
         defsEl.innerHTML = "";
         (data.definitions || []).forEach((d) => {
