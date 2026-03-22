@@ -52,7 +52,56 @@ Latin "vinum" traces to PIE `*wéyh₁ō`, while English "wine" (via its templat
 
 **Rationale**: Wiktionary is the upstream source. Their API may reveal redirect/alias patterns that explain how template forms map to headwords. WebFetch got 403 on page scraping, but the MediaWiki API may work.
 
+### Decision 4: Normalization is the clear Sprint 2 winner (from Sprint 1 data)
+
+**Finding**: 90.4% of broken links are resolvable by two simple normalizations:
+1. Strip leading `*` (46.2% of all refs — reconstructed language convention)
+2. Unicode NFKD decomposition + strip combining marks (11.2% — macrons in OE, Latin)
+
+**Implication**: Option A (query-time normalization) is strongly favored. No ETL re-run needed, fixes the vast majority of cases immediately. Option B/C are overkill for the measured problem.
+
+**Open question for Sprint 2**: What to do about the 9.6% "missing entirely" — these are mostly PIE alternate forms. Options:
+- Accept as phantom nodes (display-only, no clickable document)
+- Try fuzzy matching against same lang_code with edit distance
+- Create synthetic stub documents at ETL time from template data
+
+### Decision 5: `etymology_number` solves polysemy
+
+**Finding**: Kaikki includes `etymology_number` on every document. "bank" has entries numbered 1 (financial institution), 2 (river bank), 3 (row/panel). This is the Wiktionary section number.
+
+**Implication**: Sprint 3 (polysemy) has a straightforward solution — use `etymology_number` as part of the document identity. Changes needed in `find_one` queries and potentially the node_id function.
+
+### Decision 6: Centralized fallback lookup helper over scattered normalization
+
+**Alternatives considered:**
+1. Normalize at the API boundary (router level) — word arrives pre-normalized, all downstream code uses normalized form
+2. Normalize inside each `find_one` call site independently
+3. Centralized `_find_word_doc` helper on TreeBuilder + standalone function for routers
+
+**Chosen**: Option 3.
+
+**Rationale**:
+- Option 1 loses the original template spelling for display (nodes would show `win` instead of `wīn`). Template labels are linguistically correct and should be preserved in the graph.
+- Option 2 duplicates the exact-then-fallback logic in 5 places.
+- Option 3 keeps one implementation of the fallback logic, preserves template-form labels for display, and only normalizes at the DB lookup boundary.
+
+### Decision 7: Accept phantom nodes for the 9.6% "missing entirely"
+
+**Alternatives considered:**
+1. Fuzzy matching with edit distance against same `lang_code`
+2. Synthetic stub documents created at ETL time from template data
+3. Accept as display-only phantom nodes (no clickable document)
+
+**Chosen**: Option 3.
+
+**Rationale**:
+- Fuzzy matching risks false positives (PIE words share many similar forms) and adds query complexity
+- Synthetic stubs require ETL changes and create fake documents that could mislead users
+- The frontend already handles 404s gracefully — "No details available" is accurate for these cases
+- Most missing words are PIE alternate ablaut grades where no authoritative document exists
+- Can revisit with synthetic stubs later if user demand warrants it
+
 ## Participants
 
 - Human: identified the top-down linking issue, requested research
-- Claude (DA): investigated codebase + database, traced chain breakage patterns
+- Claude (DA): investigated codebase + database, traced chain breakage patterns, ran Sprint 1 audit

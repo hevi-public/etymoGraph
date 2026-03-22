@@ -66,53 +66,147 @@ Each sprint is independently valuable. Findings from each sprint inform the next
 
 ---
 
-### Sprint 1: Quantify the Problem
+### Sprint 1: Quantify the Problem — COMPLETED
 
 **Goal**: Measure chain breakage rates and categorize mismatch types.
 
-**Tasks**:
-1. Sample 50 common English words, trace their full ancestry chains
-2. For each ancestor node, check if a matching document exists in the DB
-3. Categorize mismatches:
-   - Macron stripping (ī→i, ā→a, ū→u, ē→e, ō→o)
-   - Asterisk prefix (`*word` in template, `word` in DB)
-   - Different word form (ablaut, alternate spelling)
-   - Document missing entirely (no entry under any spelling)
-4. Check raw Kaikki JSONL for unused fields: `forms`, `redirects`, `etymology_number`, `etymology_id`
-5. Cross-reference with Wiktionary API: `https://en.wiktionary.org/w/api.php?action=parse&page={word}&prop=wikitext&format=json`
+#### Results (50 words, 251 ancestor references)
 
-**Output**: Breakage rate statistics, mismatch category distribution, list of potentially useful Kaikki fields.
+| Category | Count | % | Resolution |
+|---|---|---|---|
+| Exact match | 83 | 33.1% | No action needed |
+| Asterisk prefix (`*word` → `word`) | 116 | 46.2% | Strip leading `*` |
+| Macron/diacritics (`wīn` → `win`) | 28 | 11.2% | Unicode NFKD decomposition, strip combining marks |
+| Missing entirely | 24 | 9.6% | No simple fix — mostly PIE alternate forms |
+
+**Simple normalization (strip `*` + strip diacritics) resolves 90.4% of all lookups.**
+
+The remaining 9.6% "missing entirely" are mostly:
+- PIE alternate ablaut grades (e.g., `*wóyh₁nom` — no doc exists under any normalization)
+- A few Proto-West Germanic gaps (`*hwehwl`, `*sterrō`, `*kilþ`)
+- PIE root forms with parentheses: `*(s)kews-`
+
+#### Kaikki Field Audit
+
+| Field | Exists? | Useful? |
+|---|---|---|
+| `etymology_number` | YES | YES — disambiguates polysemy (bank: 1=financial, 2=river, 3=row) |
+| `forms` | YES | NO — only inflections (e.g., "wines" plural), not alternate spellings |
+| `redirects` | NO | N/A |
+| `etymology_id` | NO | N/A |
+
+#### Wiktionary API Cross-Reference
+
+Confirmed via MediaWiki API (`action=parse&prop=wikitext`):
+- Template forms in Kaikki match Wiktionary source exactly: `{{inh|en|ang|wīn}}` uses macrons
+- Wiktionary Reconstruction pages use headwords WITHOUT `*` prefix (e.g., page title `Reconstruction:Proto-Germanic/wīną`, not `*/wīną`)
+- This confirms: `*` is a display convention added by templates, NOT part of the stored headword
+- Descendants sections use `{{desctree|gmw-pro|*wīn}}` — asterisk in template, stripped in page title
+
+#### Audit Script
+
+`scripts/chain_audit.py` — traces ancestry chains and checks document existence with normalization fallbacks. Re-runnable.
 
 ---
 
-### Sprint 2: Design Resolution Strategy
+### Sprint 2: Design Resolution Strategy — COMPLETED
 
 **Goal**: Choose and design the linking fix based on Sprint 1 data.
 
-**Candidate approaches** (evaluate based on Sprint 1 findings):
+**Chosen**: Option A — Query-time normalization (see Decision Log, Decision 4).
 
-**Option A — Query-time normalization**:
-- On document lookup failure, retry with normalized form (strip macrons, strip `*`)
-- Add normalization function to `template_parser.py`
-- Pros: No ETL changes, immediate fix
-- Cons: Runtime cost per lookup, potential false positives
+#### Candidate Approaches Evaluated
 
-**Option B — ETL-time edge collection**:
-- During `load.py`, extract all template references into an `edges` collection:
-  ```
-  {from_word, from_lang_code, to_word, to_lang_code, type, template_word}
-  ```
-- Separate graph structure from word documents
-- Pros: Clean, pre-computed, no spelling issues
-- Cons: Requires ETL re-run, estimated ~50M+ edge docs
+| Option | Approach | Fixes | ETL change? | Verdict |
+|---|---|---|---|---|
+| **A** | Query-time normalization | 90.4% | No | **Selected** |
+| B | ETL-time edge collection | 100% | Yes (~50M+ docs) | Overkill |
+| C | Alias/mapping table | 90.4% | Yes | Unnecessary complexity |
 
-**Option C — Alias/mapping table**:
-- Build `word_aliases` collection at ETL time: `{template_form, headword_form, lang_code}`
-- Query alias table when exact match fails
-- Pros: Small collection, fast lookups
-- Cons: Still requires ETL change
+Option A resolves 90.4% of broken links with zero ETL changes. Options B/C add ETL complexity for marginal gain — the remaining 9.6% are mostly PIE alternate ablaut grades that don't exist in the DB under any spelling.
 
-**Output**: Chosen approach with implementation design.
+#### Implementation Design
+
+**1. Normalization function** — `template_parser.py`
+
+```python
+import unicodedata
+
+def normalize_word(word: str) -> str:
+    """Normalize template-form word to DB headword form.
+
+    Handles two systematic mismatches (90.4% of broken links):
+    - Strip leading '*' (reconstructed language convention): *wīną → wīną
+    - NFKD decomposition + strip combining marks (macrons/diacritics): wīną → winą
+    """
+    # Strip reconstructed-form asterisk prefix
+    if word.startswith("*"):
+        word = word[1:]
+    # NFKD decomposition, then strip combining marks (category Mn)
+    decomposed = unicodedata.normalize("NFKD", word)
+    return "".join(c for c in decomposed if unicodedata.category(c) != "Mn")
+```
+
+**2. Fallback lookup helper** — `tree_builder.py` (private method)
+
+```python
+async def _find_word_doc(self, word: str, lang: str, projection: dict) -> dict | None:
+    """Look up a word document, falling back to normalized form on miss."""
+    doc = await self.col.find_one({"word": word, "lang": lang}, projection)
+    if doc:
+        return doc
+    normalized = normalize_word(word)
+    if normalized != word:
+        return await self.col.find_one({"word": normalized, "lang": lang}, projection)
+    return None
+```
+
+**3. Affected call sites** — replace `find_one` with `_find_word_doc`:
+
+| File | Line | Method | Current query |
+|---|---|---|---|
+| `tree_builder.py` | 54 | `expand_word()` | `find_one({"word": word, "lang": lang})` |
+| `tree_builder.py` | 109 | `_add_mention_edges()` | `find_one({"word": mention.word, "lang": mention.lang})` |
+| `tree_builder.py` | 189 | `expand_cognates()` | `find_one({"word": node["label"], "lang": node["language"]})` |
+| `etymology.py` | 19 | `get_etymology_chain()` | `find_one({"word": word, "lang": lang})` |
+| `words.py` | 45 | `get_word()` | `find_one({"word": word, "lang": lang})` |
+
+**Not affected**: `find_descendants()` (line 134) — queries `args.3` which is template-to-template matching. No normalization needed.
+
+**4. Router-level normalization** — `etymology.py` and `words.py`
+
+These endpoints receive words from frontend node clicks (template-form labels like `wīn`). Apply the same fallback pattern: exact match first, then normalized.
+
+For `words.py`, a standalone `find_word_doc()` function (not on TreeBuilder) handles the same logic.
+
+**5. Handling the remaining 9.6% ("missing entirely")**
+
+Accept as **phantom nodes**: they display in the graph with template labels but have no clickable document. The frontend detail panel already handles `getWord` 404s gracefully (shows "No details available"). No change needed.
+
+These are mostly:
+- PIE alternate ablaut grades (`*wóyh₁nom` — no doc exists under any normalization)
+- A few Proto-West Germanic gaps (`*hwehwl`, `*sterrō`, `*kilþ`)
+- PIE root forms with special syntax: `*(s)kews-`
+
+Future option: synthetic stub documents at ETL time, but out of scope.
+
+**6. False positive risk assessment**
+
+Normalization could theoretically collide distinct words (e.g., stripping diacritics from `résumé` → `resume`). Mitigated by:
+- Always matching on `(word, lang)` pair — collisions require same language
+- Exact match tried first — normalization only fires on miss
+- Sprint 1 audit found zero false positive cases across 251 ancestor references
+
+**7. Performance impact**
+
+- Extra DB query only on miss (exact match succeeds for 33.1% of lookups)
+- Normalized query hits the existing `{word: 1, lang: 1}` compound index
+- No new indexes needed
+- Negligible latency impact
+
+**8. No ETL changes required**
+
+The fix is pure runtime. No re-import, no new collections, no schema changes.
 
 ---
 
