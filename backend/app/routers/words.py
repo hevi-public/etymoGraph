@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 
 from app.database import get_words_collection
 from app.services.etymology_classifier import classify_etymology, extract_word_mentions
@@ -40,14 +40,20 @@ def extract_audio_urls(doc: dict) -> list[dict]:
 
 
 @router.get("/words/{word}")
-async def get_word(word: str, lang: str = "English") -> dict:
+async def get_word(word: str, lang: str = "English", etym: int | None = Query(None)) -> dict:
     """Fetch a word entry with definitions, pronunciation, and etymology details."""
     col = get_words_collection()
-    doc = await col.find_one({"word": word, "lang": lang}, {"_id": 0})
+    query = {"word": word, "lang": lang}
+    if etym is not None:
+        query["etymology_number"] = etym
+    doc = await col.find_one(query, {"_id": 0})
     if not doc:
         normalized = normalize_word(word)
         if normalized != word:
-            doc = await col.find_one({"word": normalized, "lang": lang}, {"_id": 0})
+            nquery = {"word": normalized, "lang": lang}
+            if etym is not None:
+                nquery["etymology_number"] = etym
+            doc = await col.find_one(nquery, {"_id": 0})
     if not doc:
         raise HTTPException(
             status_code=404, detail=f"Word '{word}' not found for language '{lang}'"

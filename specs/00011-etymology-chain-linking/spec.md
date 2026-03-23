@@ -210,16 +210,29 @@ The fix is pure runtime. No re-import, no new collections, no schema changes.
 
 ---
 
-### Sprint 3: Handle Polysemy
+### Sprint 3: Handle Polysemy — COMPLETED
 
 **Goal**: Disambiguate multiple etymologies for the same word+lang.
 
-**Investigation**:
-- Does Kaikki include `etymology_number` or `etymology_id` fields?
-- Can we use POS + first gloss as disambiguator?
-- UI: should users pick which meaning, or show all etymologies merged?
+**Investigation findings**:
+- `etymology_number` exists in Kaikki (~3% of English entries, 42,428 docs) — groups entries by shared Wiktionary etymology section
+- `etymology_id` does not exist
+- POS + first gloss work as disambiguator labels in search suggestions
+- 97% of multi-entry words share one etymology (different POS only) — no disambiguation needed for these
 
-**Output**: Disambiguation strategy for the chosen Sprint 2 approach.
+**Chosen approach**: Disambiguate at search entry point via expanded suggestions with gloss hints. Thread optional `etym` parameter through API endpoints, tree builder, and URL state.
+
+**Changes made**:
+
+1. **`search.py`** — Added `_expand_polysemous()`: for exact-match polysemous words, expands single search result into one per etymology group with `etymology_number`, joined POS list, and `first_gloss`
+2. **`words.py`** — Added optional `etym` query param to `get_word()`
+3. **`etymology.py`** — Added optional `etym` query param to `get_etymology_chain()` and `get_etymology_tree()`
+4. **`tree_builder.py`** — Added optional `etym` param to `expand_word()` for initial document lookup; `skip_descendant_ids` set prevents descendant expansion for the searched word when `etym` is set (templates don't carry etymology_number, so descendants of polysemous words mix all senses)
+5. **`api.js`** — Added `etym` param to `getWord()`, `getEtymologyTree()`, `getEtymologyChain()`
+6. **`search.js`** — Renders `first_gloss` as `.etym-gloss-hint` in suggestions, passes `etymology_number` to `selectWord()`
+7. **`app.js`** — Threads `etym` through `selectWord()`, stores as `currentEtym`, includes in router push/replace
+8. **`router.js`** — Added `etym` to etymology view params for URL persistence
+9. **`style.css`** — Added `.etym-gloss-hint` styling (truncated, muted)
 
 ---
 

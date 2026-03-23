@@ -51,7 +51,9 @@
       "Bash(for word:*)",
       "Bash(do echo:*)",
       "Bash(python3 -c \"import sys, json; d=json.load\\(sys.stdin\\); nodes=d[''''nodes'''']; levels=[n[''''level''''] for n in nodes]; print\\(f''''{len\\(nodes\\)} nodes, depth {min\\(levels\\)} to {max\\(levels\\)}''''\\)\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(npx vitest:*)",
+      "Bash(docker ps:*)"
     ]
   },
   "enabledMcpjsonServers": [

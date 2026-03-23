@@ -108,6 +108,17 @@ header h1 {
     margin-left: 4px;
 }
 
+#suggestions .etym-gloss-hint {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 320px;
+    margin-top: 2px;
+}
+
 /* Filters button */
 #filters-btn {
     margin-left: auto;

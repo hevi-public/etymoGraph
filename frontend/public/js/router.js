@@ -12,6 +12,7 @@
             lang:   { "default": "English" },
             types:  { "default": "inh,bor,der" },
             layout: { "default": "era-layered" },
+            etym:   { "default": "" },
         },
         concept: {
             concept:    { "default": "" },

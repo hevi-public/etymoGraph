@@ -24,10 +24,16 @@ function renderSuggestions(matches) {
         langSpan.className = "lang-hint";
         langSpan.textContent = item.lang;
         li.appendChild(langSpan);
+        if (item.first_gloss) {
+            const glossSpan = document.createElement("span");
+            glossSpan.className = "etym-gloss-hint";
+            glossSpan.textContent = item.first_gloss;
+            li.appendChild(glossSpan);
+        }
         li.addEventListener("click", () => {
             searchInput.value = item.word;
             suggestions.hidden = true;
-            selectWord(item.word, item.lang);
+            selectWord(item.word, item.lang, false, item.etymology_number || null);
         });
         suggestions.appendChild(li);
     });
@@ -74,7 +80,7 @@ searchInput.addEventListener("keydown", async (e) => {
         } catch (e) { console.error("Search failed:", e); }
         const firstResult = findBestMatch(lastResults, q);
         if (firstResult) {
-            selectWord(firstResult.word, firstResult.lang);
+            selectWord(firstResult.word, firstResult.lang, false, firstResult.etymology_number || null);
         } else {
             selectWord(q);
         }

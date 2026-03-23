@@ -39,6 +39,7 @@ describe("parseURL", () => {
             lang: "English",
             types: "inh,bor,der",
             layout: "era-layered",
+            etym: "",
         });
     });
 
@@ -232,7 +233,7 @@ describe("roundtrip", () => {
     });
 
     it("parseURL → buildURL produces identical URL", () => {
-        const url = "?view=etymology&word=fire&lang=Latin&types=inh,bor&layout=force-directed";
+        const url = "?view=etymology&word=fire&lang=Latin&types=inh,bor&layout=force-directed&etym=";
         const state = parseURL(url);
         const rebuilt = buildURL(state);
         const originalParams = new URLSearchParams(url);

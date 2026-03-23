@@ -24,6 +24,7 @@ class TreeBuilder:
         self.nodes: dict[str, dict] = {}
         self.edges: list[dict] = []
         self.visited_edges: set[tuple] = set()
+        self.skip_descendant_ids: set[str] = set()
 
     def add_node(self, word: str, lang: str, level: int, uncertainty: dict | None = None) -> str:
         """Add or update a node in the graph, returning its ID."""
@@ -64,11 +65,17 @@ class TreeBuilder:
             return await self.col.find_one({"word": normalized, "lang": lang}, projection)
         return None
 
-    async def expand_word(self, word: str, lang: str, base_level: int):
+    async def expand_word(self, word: str, lang: str, base_level: int, etym: int | None = None):
         """Trace ancestry upward and find descendants for a word."""
-        doc = await self._find_word_doc(
-            word, lang, {"_id": 0, "etymology_templates": 1, "etymology_text": 1}
-        )
+        proj = {"_id": 0, "etymology_templates": 1, "etymology_text": 1}
+        if etym is not None:
+            doc = await self.col.find_one(
+                {"word": word, "lang": lang, "etymology_number": etym}, proj
+            )
+            if not doc:
+                doc = await self._find_word_doc(word, lang, proj)
+        else:
+            doc = await self._find_word_doc(word, lang, proj)
 
         # Classify uncertainty for the word
         uncertainty = None
@@ -78,6 +85,12 @@ class TreeBuilder:
                 uncertainty = result.to_dict()
 
         self.add_node(word, lang, base_level, uncertainty)
+
+        # When a specific etymology is selected, skip descendant expansion for
+        # the searched word — templates don't carry etymology_number, so
+        # descendants of a polysemous word would mix all senses.
+        if etym is not None:
+            self.skip_descendant_ids.add(node_id(word, lang))
 
         if not doc:
             return
@@ -133,6 +146,8 @@ class TreeBuilder:
     async def _expand_descendants_from_chain(self, chain: list[tuple]):
         """Find descendants from each node in the ancestor chain."""
         for anc_word, anc_lang, anc_lc, anc_level in chain:
+            if node_id(anc_word, anc_lang) in self.skip_descendant_ids:
+                continue
             await self.find_descendants(anc_word, anc_lang, anc_lc, anc_level)
 
     async def find_descendants(
@@ -185,7 +200,8 @@ class TreeBuilder:
                 continue
 
             self.add_node(dw, dl, parent_level + 1)
-            await self.find_descendants(dw, dl, dlc, parent_level + 1, depth + 1)
+            if did not in self.skip_descendant_ids:
+                await self.find_descendants(dw, dl, dlc, parent_level + 1, depth + 1)
 
     async def expand_cognates(self, max_rounds: int = DEFAULT_MAX_COGNATE_ROUNDS):
         """Expand cognates from all current nodes, recursively up to max_rounds."""

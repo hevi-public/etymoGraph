@@ -8,6 +8,7 @@
 
 let currentWord = "wine";
 let currentLang = "English";
+let currentEtym = null;
 let activeView = "etymology"; // "etymology" | "concept"
 let currentConcept = "";
 
@@ -29,21 +30,22 @@ async function resolveLanguage(word) {
     }
 }
 
-async function selectWord(word, lang, skipRoute = false) {
+async function selectWord(word, lang, skipRoute = false, etym = null) {
     if (!lang) {
         lang = await resolveLanguage(word);
     }
     currentWord = word;
     currentLang = lang;
+    currentEtym = etym;
     try {
         const types = getSelectedTypes();
-        const data = await getEtymologyTree(word, lang, types);
+        const data = await getEtymologyTree(word, lang, types, etym);
         if (data.nodes.length === 0) {
             data.nodes = [{ id: `${word}:${lang}`, label: word, language: lang, level: 0 }];
         }
         updateGraph(data);
         if (!skipRoute) {
-            router.push({ view: "etymology", word, lang });
+            router.push({ view: "etymology", word, lang, etym: etym || "" });
         }
     } catch (e) {
         console.error("Failed to load etymology:", e);
@@ -162,7 +164,7 @@ document.addEventListener("click", (e) => {
 // Re-fetch etymology when connection filter changes
 document.getElementById("ety-filters").addEventListener("change", (e) => {
     if (e.target.matches("input[type=checkbox]")) {
-        selectWord(currentWord, currentLang, true);
+        selectWord(currentWord, currentLang, true, currentEtym);
         router.replace({ types: getSelectedTypes() });
     }
 });
@@ -180,7 +182,7 @@ layoutSelect.value = currentLayout;
 layoutSelect.addEventListener("change", () => {
     currentLayout = layoutSelect.value;
     localStorage.setItem("graphLayout", currentLayout);
-    selectWord(currentWord, currentLang, true);
+    selectWord(currentWord, currentLang, true, currentEtym);
     router.replace({ layout: layoutSelect.value });
 });
 
@@ -304,7 +306,7 @@ router.onNavigate((state) => {
     updateDOMFromState(state);
     switchView(state.view, true);
     if (state.view === "etymology") {
-        selectWord(state.word, state.lang, true);
+        selectWord(state.word, state.lang, true, state.etym || null);
     } else if (state.view === "concept") {
         loadConceptMap(state.concept, state.pos, true);
     }
@@ -327,5 +329,5 @@ if (initial.view === "concept") {
     switchView("concept", true);
     loadConceptMap(initial.concept, initial.pos, true);
 } else {
-    selectWord(initial.word, initial.lang, true);
+    selectWord(initial.word, initial.lang, true, initial.etym || null);
 }

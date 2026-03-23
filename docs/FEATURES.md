@@ -522,6 +522,7 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | Concept resolver cache | In-memory cache for resolved concept word lists — repeat queries instant |
 | Dict-based etymology edges | Cognate matching uses dict lookup instead of O(n) scan |
 | Etymology chain normalization (SPC-00011) | Query-time word normalization fixes 90.4% of broken chain links — strips `*` prefix and diacritics to match DB headwords |
+| Polysemy disambiguation (SPC-00011) | Search shows distinct etymology groups for polysemous words (e.g., "bank" → 4 etymologies with gloss hints). `etym` param threads through URL, API, and tree builder. Descendant expansion skipped for the searched word when `etym` is set to avoid mixing senses |
 
 ### Concept Map (Phonetic Similarity Visualization)
 
