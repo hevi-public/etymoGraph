@@ -101,6 +101,9 @@ class TreeBuilder:
         if len(chain) == 1:
             await self._add_mention_edges(doc, word, lang, base_level)
 
+        # Expand precomputed compound/affix edges for all nodes in the chain
+        await self._expand_compound_edges(chain)
+
         await self._expand_descendants_from_chain(chain)
 
     def _build_ancestor_chain(
@@ -142,6 +145,45 @@ class TreeBuilder:
             mention_id = self.add_node(mention.word, mention.lang, level - 1)
             # Edge goes from mention → word (mention is a component/source)
             self.add_edge(mention_id, word_id, mention.role)
+
+    async def _expand_compound_edges(
+        self, chain: list[tuple], max_compound_depth: int = 2
+    ):
+        """Expand precomputed compound/affix edges for each node in the ancestor chain.
+
+        For each node, queries the etymology_edges collection for compound components.
+        When a component is found, also traces its ancestry chain upward so the graph
+        shows the full lineage through compound parts (e.g., vindauga → vindr → *windaz → PIE).
+        """
+        edges_col = self.col.database["etymology_edges"]
+        components_to_trace: list[tuple[str, str, int]] = []
+
+        for word, lang, _lang_code, level in chain:
+            cursor = edges_col.find(
+                {"to_word": word, "to_lang": lang, "from_exists": True}
+            )
+            async for edge_doc in cursor:
+                comp_word = edge_doc["from_word"]
+                comp_lang = edge_doc["from_lang"]
+                comp_id = self.add_node(comp_word, comp_lang, level - 1)
+                word_id = node_id(word, lang)
+                if self.add_edge(comp_id, word_id, edge_doc["edge_type"]):
+                    # Only trace ancestry for newly added components
+                    components_to_trace.append((comp_word, comp_lang, level - 1))
+
+        # Trace ancestry upward for each component (depth-limited)
+        if max_compound_depth > 0:
+            for comp_word, comp_lang, comp_level in components_to_trace:
+                doc = await self._find_word_doc(
+                    comp_word, comp_lang, {"_id": 0, "etymology_templates": 1}
+                )
+                if not doc:
+                    continue
+                comp_chain = self._build_ancestor_chain(
+                    doc, comp_word, comp_lang, comp_level
+                )
+                # Recursively expand compound edges on the component's ancestors
+                await self._expand_compound_edges(comp_chain, max_compound_depth - 1)
 
     async def _expand_descendants_from_chain(self, chain: list[tuple]):
         """Find descendants from each node in the ancestor chain."""

@@ -33,7 +33,8 @@ etymo_graph/
 │   │       ├── etymology.py # GET /api/etymology/{word}/chain + /tree
 │   │       └── search.py    # GET /api/search?q=
 │   └── etl/
-│       └── load.py          # Load Kaikki into MongoDB
+│       ├── load.py          # Load Kaikki into MongoDB
+│       └── precompute_edges.py  # Precompute compound/affix edges
 ├── frontend/
 │   ├── Dockerfile
 │   ├── nginx.conf            # Static files + /api/ proxy to backend
@@ -73,6 +74,9 @@ make stop     # Stop all services
 make update   # Force re-download data + reload
 make logs     # View logs
 make clean    # Remove data and containers
+
+# Precomputation (run after make load)
+make precompute-edges     # Precompute compound/affix etymology edges
 
 # Testing
 make test-frontend  # Run Vitest unit tests (router, etc.)

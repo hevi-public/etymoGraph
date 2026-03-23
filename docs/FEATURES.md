@@ -21,6 +21,7 @@ The app is a fully functional local etymology explorer with interactive graph vi
   - `(etymology_templates.name, etymology_templates.args.2, etymology_templates.args.3)` — typed descendant lookups
 - **Auxiliary collections**:
   - `languages` — precomputed lang_code ↔ lang name mapping (~4,760 entries), built at ETL time
+  - `etymology_edges` — precomputed compound/affix component edges, built by `make precompute-edges`. Indexed on `(to_word, to_lang)` and `(from_word, from_lang)` for bidirectional lookup
 
 ---
 
@@ -73,14 +74,16 @@ Checkboxes in the Filters popover (click "Filters ▾" button in header):
 
 Changing the filter re-fetches the tree immediately. Borrowed edges are shown with dashed lines. Cognate edges are shown with gold dashed lines.
 
-**Automatic edge types** (not user-selectable, shown when a word has no ancestry):
+**Automatic edge types** (not user-selectable):
 
 | Type | Meaning | Source Templates | Style |
 |------|---------|------------------|-------|
 | `component` | Morphological component of the word (base word in a derivation) | `af`, `affix`, `suffix`, `prefix`, `compound`, `blend` | Gray dashed |
 | `mention` | Word mentioned in etymology text but not as an ancestor | `m`, `m+`, `l` | Gray dashed |
 
-These appear automatically for words with uncertain/disputed etymologies that lack standard ancestry templates. For example, "piros" (Hungarian) has no `inh`/`bor`/`der` ancestors, but the `af` template indicates it's formed from "pirít" + "-os", so a `component` edge connects them.
+**Compound decomposition** — When a word in the ancestry chain is a compound (e.g., Old Norse "vindauga" = "vindr" + "auga"), its components are shown as branching nodes with `component` edges. Each component's own ancestry is traced upward, revealing parallel lineage branches (e.g., "vindr" → Proto-Germanic *windaz → PIE). This uses precomputed edges from the `etymology_edges` collection (see ETL section). Compound expansion recurses up to 2 levels deep to handle compounds-of-compounds.
+
+For words with no ancestry templates at all (uncertain/disputed etymologies), `component` and `mention` edges are still shown via the fallback mention extraction. For example, "piros" (Hungarian) has no `inh`/`bor`/`der` ancestors, but the `af` template indicates it's formed from "pirít" + "-os", so a `component` edge connects them.
 
 ### 4. Language Family Colors
 
@@ -446,6 +449,7 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | `make download` | Download data (skip if exists) |
 | `make load` | Load data into MongoDB |
 | `make precompute-phonetic` | Precompute Dolgopolsky sound classes for concept map (requires `lingpy` + `pymongo`) |
+| `make precompute-edges` | Precompute compound/affix etymology edges (requires `pymongo`) |
 | `make test-frontend` | Run Vitest unit tests (router, etc.) |
 | `make test-e2e` | Run Playwright E2E tests (requires `make run`) |
 | `make test-all` | Run all tests (pytest + Vitest + Playwright) |
