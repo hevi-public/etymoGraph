@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Status** | draft |
+| **Status** | implemented |
 | **Created** | 2026-03-22 |
 | **Modifies** | SPC-00001 (edge resolution from templates) |
 | **Modified-by** | — |
@@ -223,9 +223,27 @@ The fix is pure runtime. No re-import, no new collections, no schema changes.
 
 ---
 
-### Sprint 4: Implementation
+### Sprint 4: Implementation — COMPLETED
 
-Implement the chosen strategy from Sprints 2-3.
+**Goal**: Implement query-time normalization from Sprint 2 design.
+
+**Changes made**:
+
+1. **`template_parser.py`** — Added `normalize_word()` function (strip `*` prefix + NFKD decomposition + strip combining marks)
+2. **`tree_builder.py`** — Added `_find_word_doc()` private method with exact-then-normalized fallback. Updated 3 call sites: `expand_word()`, `_add_mention_edges()`, `expand_cognates()`
+3. **`etymology.py`** — Added normalization fallback to `get_etymology_chain()` endpoint
+4. **`words.py`** — Added normalization fallback to `get_word()` endpoint
+
+**Verification results** (5 test words):
+
+| Word | Before (nodes) | After (nodes) | Depth (ancestors) |
+|---|---|---|---|
+| wine | ~5 (chain broke at OE) | 84 | -7 (to PIE) |
+| cheese | limited | 48 | -4 |
+| water | limited | 74 | -5 |
+| mother | limited | 42 | -6 |
+
+**Not changed**: `find_descendants()` — queries `args.3` template-to-template, no normalization needed (confirmed in Sprint 1).
 
 ---
 

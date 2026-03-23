@@ -2,7 +2,12 @@
 
 from app.services import lang_cache
 from app.services.etymology_classifier import classify_etymology, extract_word_mentions
-from app.services.template_parser import extract_ancestry, extract_cognates, node_id
+from app.services.template_parser import (
+    extract_ancestry,
+    extract_cognates,
+    node_id,
+    normalize_word,
+)
 
 MAX_DESCENDANTS_PER_NODE = 50
 DEFAULT_MAX_COGNATE_ROUNDS = 2
@@ -49,11 +54,20 @@ class TreeBuilder:
         """Return the built graph as {nodes: [...], edges: [...]}."""
         return {"nodes": list(self.nodes.values()), "edges": self.edges}
 
+    async def _find_word_doc(self, word: str, lang: str, projection: dict) -> dict | None:
+        """Look up a word document, falling back to normalized form on miss."""
+        doc = await self.col.find_one({"word": word, "lang": lang}, projection)
+        if doc:
+            return doc
+        normalized = normalize_word(word)
+        if normalized != word:
+            return await self.col.find_one({"word": normalized, "lang": lang}, projection)
+        return None
+
     async def expand_word(self, word: str, lang: str, base_level: int):
         """Trace ancestry upward and find descendants for a word."""
-        doc = await self.col.find_one(
-            {"word": word, "lang": lang},
-            {"_id": 0, "etymology_templates": 1, "etymology_text": 1},
+        doc = await self._find_word_doc(
+            word, lang, {"_id": 0, "etymology_templates": 1, "etymology_text": 1}
         )
 
         # Classify uncertainty for the word
@@ -106,9 +120,8 @@ class TreeBuilder:
 
         for mention in mentions:
             # Check if the mentioned word exists in DB
-            mention_doc = await self.col.find_one(
-                {"word": mention.word, "lang": mention.lang},
-                {"_id": 0, "word": 1},
+            mention_doc = await self._find_word_doc(
+                mention.word, mention.lang, {"_id": 0, "word": 1}
             )
             if not mention_doc:
                 continue
@@ -186,9 +199,8 @@ class TreeBuilder:
             ]
             for nid, node in unprocessed:
                 processed_nids.add(nid)
-                doc = await self.col.find_one(
-                    {"word": node["label"], "lang": node["language"]},
-                    {"_id": 0, "etymology_templates": 1},
+                doc = await self._find_word_doc(
+                    node["label"], node["language"], {"_id": 0, "etymology_templates": 1}
                 )
                 if not doc:
                     continue

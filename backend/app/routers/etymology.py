@@ -2,7 +2,13 @@ from fastapi import APIRouter, Query
 
 from app.database import get_words_collection
 from app.services import lang_cache
-from app.services.template_parser import ANCESTRY_TYPES, COGNATE_TYPE, extract_ancestry, node_id
+from app.services.template_parser import (
+    ANCESTRY_TYPES,
+    COGNATE_TYPE,
+    extract_ancestry,
+    node_id,
+    normalize_word,
+)
 from app.services.tree_builder import TreeBuilder
 
 router = APIRouter()
@@ -17,6 +23,12 @@ async def get_etymology_chain(word: str, lang: str = "English", max_depth: int =
     edges = []
 
     doc = await col.find_one({"word": word, "lang": lang}, {"_id": 0, "etymology_templates": 1})
+    if not doc:
+        normalized = normalize_word(word)
+        if normalized != word:
+            doc = await col.find_one(
+                {"word": normalized, "lang": lang}, {"_id": 0, "etymology_templates": 1}
+            )
 
     root_id = node_id(word, lang)
     nodes[root_id] = {"id": root_id, "label": word, "language": lang, "level": 0}

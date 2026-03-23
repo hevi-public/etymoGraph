@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: February 10, 2026*
+*Last updated: March 22, 2026*
 
 ---
 
@@ -521,6 +521,7 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | Concept map Web Worker | O(n^2) phonetic similarity moved to Web Worker — nodes render instantly, edges compute in background |
 | Concept resolver cache | In-memory cache for resolved concept word lists — repeat queries instant |
 | Dict-based etymology edges | Cognate matching uses dict lookup instead of O(n) scan |
+| Etymology chain normalization (SPC-00011) | Query-time word normalization fixes 90.4% of broken chain links — strips `*` prefix and diacritics to match DB headwords |
 
 ### Concept Map (Phonetic Similarity Visualization)
 
@@ -600,7 +601,7 @@ make test       # Run pytest
 
 ## Known Limitations
 
-1. **Ancestor word details**: Words in ancestor languages (Old English, Proto-Germanic, etc.) may not have full entries in the Kaikki dump. The detail panel shows an explanatory message for these.
+1. **Ancestor word details**: Words in ancestor languages (Old English, Proto-Germanic, etc.) are now resolved via query-time normalization (SPC-00011), which handles ~90.4% of template-to-headword mismatches (macrons, `*` prefix). The remaining ~9.6% (mostly PIE alternate ablaut grades) display as phantom nodes with "No details available" in the detail panel.
 
 2. **Descendant cap**: Each node is limited to 50 descendants to prevent graph explosion. Some PIE roots have hundreds of descendants across all languages.
 

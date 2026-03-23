@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.database import get_words_collection
 from app.services.etymology_classifier import classify_etymology, extract_word_mentions
+from app.services.template_parser import normalize_word
 
 router = APIRouter()
 
@@ -43,6 +44,10 @@ async def get_word(word: str, lang: str = "English") -> dict:
     """Fetch a word entry with definitions, pronunciation, and etymology details."""
     col = get_words_collection()
     doc = await col.find_one({"word": word, "lang": lang}, {"_id": 0})
+    if not doc:
+        normalized = normalize_word(word)
+        if normalized != word:
+            doc = await col.find_one({"word": normalized, "lang": lang}, {"_id": 0})
     if not doc:
         raise HTTPException(
             status_code=404, detail=f"Word '{word}' not found for language '{lang}'"
