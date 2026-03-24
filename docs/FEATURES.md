@@ -302,12 +302,20 @@ A sibling view to the etymology graph that answers: "What do languages call this
 - Words are grouped by their first two Dolgopolsky consonant classes (Turchin clusters)
 - Example: "fire" produces K-N group (ignis, agni, ugnis), P-R group (fire, Feuer, vuur, pyr), T-S group (tuz, tuli)
 
+**Multi-concept selection:**
+- Users can load multiple concepts simultaneously (e.g., "circle" + "wheel") to reveal cross-concept phonetic patterns
+- **Chip/tag input**: Each submitted concept appears as a removable chip with a distinct accent color. The search input clears after each addition, ready for the next concept
+- **Merge logic**: One API call per concept, fetched in parallel. Words are deduplicated by ID; words appearing under multiple concepts are tagged with all their concept memberships
+- **Visual differentiation**: Each concept gets a unique accent color from an 8-color palette. When multiple concepts are loaded, graph nodes get colored borders matching their concept. Multi-concept words get thicker borders. Node fill color still represents language family
+- **Concept legend**: When 2+ concepts are loaded, a legend overlay appears in the top-left showing each concept's accent color
+- **URL format**: Concepts stored as comma-separated values: `?concepts=circle,wheel`. Old single-concept URLs (`?concept=fire`) are supported via backward-compat shim
+
 **Frontend controls:**
 - **View toggle**: Tab-like buttons in header switch between Etymology Graph and Concept Map
-- **Concept search**: Debounced autocomplete with translation count hints (in header)
+- **Concept search**: Debounced autocomplete with translation count hints (in header). Submitting adds a chip; click "x" on chip to remove
 - **Similarity slider**: In Filters popover; adjusts the similarity threshold (0.0–1.0); filters edges client-side without re-calling API
 - **Etymology edges checkbox**: In Filters popover; toggles overlay of known etymological connections (solid arrows vs dashed phonetic edges)
-- **POS filter**: In Filters popover; radio buttons for All / Noun / Verb / Adj
+- **POS filter**: In Filters popover; radio buttons for All / Noun / Verb / Adj (applies to all loaded concepts)
 
 **Graph physics & performance:**
 - Uses `barnesHut` solver (separate from etymology graph's `forceAtlas2Based`)
@@ -361,7 +369,7 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 | `lang` | etymology | `English` | Word language |
 | `types` | etymology | `inh,bor,der` | Connection type filter |
 | `layout` | etymology | `era-layered` | Graph layout |
-| `concept` | concept | `""` | Searched concept |
+| `concepts` | concept | `""` | Searched concepts (comma-separated for multi-concept) |
 | `pos` | concept | `""` | POS filter |
 | `similarity` | concept | `100` | Similarity threshold (0-100) |
 | `etymEdges` | concept | `true` | Show etymology edges |
@@ -370,8 +378,9 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 ```
 /?view=etymology&word=wine&lang=English&types=inh,bor,der&layout=force-directed
 /?view=etymology&word=fire&lang=Latin&types=inh,bor,der&layout=era-layered
-/?view=concept&concept=water&pos=&similarity=100&etymEdges=true
-/?view=concept&concept=fire&pos=noun&similarity=75&etymEdges=true
+/?view=concept&concepts=water&pos=&similarity=100&etymEdges=true
+/?view=concept&concepts=fire&pos=noun&similarity=75&etymEdges=true
+/?view=concept&concepts=circle,wheel&pos=&similarity=100&etymEdges=true
 ```
 
 **History behavior:**
@@ -540,8 +549,9 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | CM.6 | Frontend: view toggle, concept search, concept-map.js | Done |
 | CM.7 | Frontend: similarity slider, etymology edges toggle, POS filter | Done |
 | CM.8 | Unit tests for phonetic similarity and concept resolver | Done |
-| CM.9 | Cluster convex hulls (Phase 3) | Not started |
-| CM.10 | "Highlight unknown origins" toggle (Phase 3) | Not started |
+| CM.9 | Multi-concept selection (chip/tag input, merge, concept-colored borders) | Done |
+| CM.10 | Cluster convex hulls (Phase 3) | Not started |
+| CM.11 | "Highlight unknown origins" toggle (Phase 3) | Not started |
 
 ### Phase 2: Nice-to-Haves — IN PROGRESS
 

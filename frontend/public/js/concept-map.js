@@ -12,11 +12,19 @@ let allPhoneticEdges = [];
 let allEtymologyEdges = [];
 let conceptEdgeBaseColors = {};  // id → {color, highlight} original edge colors
 let conceptWords = [];
+let conceptColorMap = {};  // concept name → accent color
 let currentSimilarityThreshold = 1.0;
 let conceptLodActive = false;
 let similarityWorker = null;
 
 const CONCEPT_LOD_THRESHOLD = 0.4;
+
+function conceptBorderColor(bgColor, borderColor) {
+    return {
+        background: bgColor, border: borderColor,
+        highlight: { background: bgColor, border: borderColor },
+    };
+}
 
 const conceptContainer = document.getElementById("concept-graph");
 
@@ -47,22 +55,37 @@ function updateConceptMap(data) {
     }
 
     conceptWords = uniqueWords;
+    conceptColorMap = data._conceptColorMap || {};
     allPhoneticEdges = [];  // populated async by Web Worker
     allEtymologyEdges = data.etymology_edges || [];
+
+    const hasMultipleConcepts = Object.keys(conceptColorMap).length > 1;
 
     // Build nodes
     const visNodes = uniqueWords.map((w) => {
         const color = langColor(w.lang);
         const label = `${w.word}\n(${w.lang})`;
+        // Concept-colored border when multiple concepts are loaded
+        let borderWidth = 0;
+        let borderColor = undefined;
+        if (hasMultipleConcepts && w._concepts && w._concepts.length > 0) {
+            borderWidth = w._concepts.length > 1 ? 4 : 3;
+            borderColor = conceptColorMap[w._concepts[0]] || "#5B8DEF";
+        }
         return {
             id: w.id,
             label,
-            color,
+            color: borderColor
+                ? conceptBorderColor(color, borderColor)
+                : color,
             shape: "box",
             font: { size: 13, multi: true, color: "#fff" },
             margin: 10,
-            borderWidth: 0,
-            title: `${w.word} (${w.lang})\nIPA: ${w.ipa || "—"}\nDolgo: ${w.dolgo_consonants || "—"}`,
+            borderWidth,
+            title: `${w.word} (${w.lang})\nIPA: ${w.ipa || "—"}`
+                + `\nDolgo: ${w.dolgo_consonants || "—"}`
+                + (w._concepts?.length > 1
+                    ? `\nConcepts: ${w._concepts.join(", ")}` : ""),
         };
     });
 
@@ -116,7 +139,6 @@ function updateConceptMap(data) {
         },
         nodes: {
             shape: "box",
-            borderWidth: 0,
             font: { size: 13, multi: true, color: "#fff" },
             margin: 10,
         },
@@ -150,7 +172,10 @@ function updateConceptMap(data) {
     // Show word count status
     const statusEl = document.getElementById("concept-status");
     if (statusEl) {
-        statusEl.textContent = `${uniqueWords.length} words with pronunciation data`;
+        const conceptCount = Object.keys(conceptColorMap).length;
+        statusEl.textContent = conceptCount > 1
+            ? `${uniqueWords.length} words across ${conceptCount} concepts`
+            : `${uniqueWords.length} words with pronunciation data`;
         statusEl.hidden = false;
     }
 
@@ -406,15 +431,26 @@ function highlightConnected(nodeId) {
         connectedEdgeIds.add(e.id);
     }
 
+    const hasMultipleConcepts = Object.keys(conceptColorMap).length > 1;
     const updates = [];
     conceptNodesDS.forEach((n) => {
         const connected = connectedNodeIds.has(n.id);
-        const baseColor = langColor(conceptWords.find((w) => w.id === n.id)?.lang || "");
-        updates.push({
-            id: n.id,
-            color: connected ? baseColor : "rgba(100,100,120,0.2)",
-            font: { color: connected ? "#fff" : "rgba(255,255,255,0.2)" },
-        });
+        const w = conceptWords.find((w) => w.id === n.id);
+        const baseColor = langColor(w?.lang || "");
+        if (connected) {
+            let nodeColor = baseColor;
+            if (hasMultipleConcepts && w?._concepts?.length > 0) {
+                const borderColor = conceptColorMap[w._concepts[0]] || "#5B8DEF";
+                nodeColor = conceptBorderColor(baseColor, borderColor);
+            }
+            updates.push({ id: n.id, color: nodeColor, font: { color: "#fff" } });
+        } else {
+            updates.push({
+                id: n.id,
+                color: { background: "rgba(100,100,120,0.2)", border: "rgba(100,100,120,0.1)" },
+                font: { color: "rgba(255,255,255,0.2)" },
+            });
+        }
     });
     conceptNodesDS.update(updates);
 
@@ -440,14 +476,17 @@ function highlightConnected(nodeId) {
 
 function resetConceptHighlight() {
     if (!conceptNodesDS) return;
+    const hasMultipleConcepts = Object.keys(conceptColorMap).length > 1;
     const updates = [];
     conceptNodesDS.forEach((n) => {
         const w = conceptWords.find((w) => w.id === n.id);
-        updates.push({
-            id: n.id,
-            color: langColor(w?.lang || ""),
-            font: { color: "#fff" },
-        });
+        const baseColor = langColor(w?.lang || "");
+        let nodeColor = baseColor;
+        if (hasMultipleConcepts && w?._concepts?.length > 0) {
+            const borderColor = conceptColorMap[w._concepts[0]] || "#5B8DEF";
+            nodeColor = conceptBorderColor(baseColor, borderColor);
+        }
+        updates.push({ id: n.id, color: nodeColor, font: { color: "#fff" } });
     });
     conceptNodesDS.update(updates);
 
@@ -497,6 +536,7 @@ function destroyConceptMap() {
     allPhoneticEdges = [];
     allEtymologyEdges = [];
     conceptWords = [];
+    conceptColorMap = {};
     conceptEdgeBaseColors = {};
     conceptLodActive = false;
     const statusEl = document.getElementById("concept-status");
