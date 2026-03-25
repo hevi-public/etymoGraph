@@ -354,19 +354,23 @@ function buildConceptEdges(phoneticEdges, etymEdges) {
         });
     }
 
-    // Etymology edges: solid dark with arrows
+    // Etymology edges: solid, color-coded by relationship type
     if (includeEtym) {
         for (const e of etymEdges) {
             const dFrom = degree[e.source] || 1;
             const dTo = degree[e.target] || 1;
             const combined = dFrom + dTo;
             const maxDeg = Math.max(dFrom, dTo);
+            const isCognate = e.relationship === "cognate";
+            const edgeColor = isCognate
+                ? { color: "rgba(245,200,66,0.7)", highlight: "rgba(245,200,66,1)" }
+                : { color: "rgba(180,180,200,0.25)", highlight: "rgba(220,220,240,0.5)" };
             visEdges.push({
                 from: e.source,
                 to: e.target,
                 dashes: false,
-                color: { color: "rgba(220,220,240,0.5)", highlight: "rgba(255,255,255,0.7)" },
-                width: 1,
+                color: edgeColor,
+                width: isCognate ? 2.5 : 0.8,
                 arrows: "to",
                 length: 120 + 40 * Math.log2(1 + combined),
                 springConstant: BASE_SPRING / Math.log2(1 + maxDeg),

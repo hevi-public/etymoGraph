@@ -331,7 +331,9 @@ A sibling view to the etymology graph that answers: "What do languages call this
 **Node styling:**
 - Colored by language family (same 20-family palette as etymology graph)
 - Dashed grey edges = phonetic similarity (width + opacity proportional to score)
-- Solid dark edges = etymological connections (arrows)
+- Solid etymology edges, color-coded by relationship type:
+  - **Cognate**: gold (`#F5C842`), width 2.5, opacity 0.7 — prominent, matching etymology graph convention
+  - **Mentioned**: faint grey, width 0.8, opacity 0.25 — de-emphasized as noisy/less informative
 - Click a node to show detail panel + "View in Etymology Graph" button
 
 **API endpoints:**
