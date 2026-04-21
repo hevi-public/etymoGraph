@@ -301,6 +301,7 @@ A sibling view to the etymology graph that answers: "What do languages call this
 - **Concept search**: Debounced autocomplete with translation count hints (in header)
 - **Similarity slider**: In Filters popover; adjusts the similarity threshold (0.0–1.0); filters edges client-side without re-calling API
 - **Etymology edges checkbox**: In Filters popover; toggles overlay of known etymological connections (solid arrows vs dashed phonetic edges)
+- **Cognate edges checkbox**: In Filters popover; when unchecked, hides cognate-relationship etymology edges while leaving other etymology edges (e.g. mentions) visible
 - **POS filter**: In Filters popover; radio buttons for All / Noun / Verb / Adj
 
 **Graph physics & performance:**
@@ -359,6 +360,7 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 | `pos` | concept | `""` | POS filter |
 | `similarity` | concept | `100` | Similarity threshold (0-100) |
 | `etymEdges` | concept | `true` | Show etymology edges |
+| `cognateEdges` | concept | `true` | Show cognate etymology edges (subset of `etymEdges`) |
 
 **URL examples:**
 ```
@@ -370,7 +372,7 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 
 **History behavior:**
 - **pushState** (creates history entry): searching a new word, switching views, loading a new concept
-- **replaceState** (updates URL without history entry): changing filters (types, layout, similarity slider, POS, etymology edges)
+- **replaceState** (updates URL without history entry): changing filters (types, layout, similarity slider, POS, etymology edges, cognate edges)
 - Back/forward navigates between "places" (words, concepts, views), not through filter adjustments
 - Cross-view navigation ("View in Etymology Graph" button) creates a single history entry
 

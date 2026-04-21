@@ -62,13 +62,17 @@ describe("parseURL", () => {
         expect(state.concept).toBe("water");
         expect(state.similarity).toBe(100);
         expect(state.etymEdges).toBe(true);
+        expect(state.cognateEdges).toBe(true);
         expect(state.pos).toBe("");
     });
 
     it("applies Number and Boolean parsers to concept params", () => {
-        const state = parseURL("?view=concept&concept=fire&similarity=75&etymEdges=false");
+        const state = parseURL(
+            "?view=concept&concept=fire&similarity=75&etymEdges=false&cognateEdges=false"
+        );
         expect(state.similarity).toBe(75);
         expect(state.etymEdges).toBe(false);
+        expect(state.cognateEdges).toBe(false);
     });
 
     it("falls back to etymology defaults for unknown view", () => {
@@ -122,12 +126,14 @@ describe("buildURL", () => {
             pos: "",
             similarity: 100,
             etymEdges: true,
+            cognateEdges: true,
         });
         const qs = parseQS(url);
         expect(qs.view).toBe("concept");
         expect(qs.concept).toBe("water");
         expect(qs.similarity).toBe("100");
         expect(qs.etymEdges).toBe("true");
+        expect(qs.cognateEdges).toBe("true");
     });
 
     it("reflects non-default similarity", () => {
@@ -225,6 +231,7 @@ describe("roundtrip", () => {
             pos: "noun",
             similarity: 75,
             etymEdges: false,
+            cognateEdges: false,
         };
         const url = buildURL(original);
         const parsed = parseURL(url.replace("/", ""));

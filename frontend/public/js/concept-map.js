@@ -241,15 +241,18 @@ function buildConceptEdges(phoneticEdges, etymEdges) {
     const degree = {};
     const showEtym = document.getElementById("show-etymology-edges");
     const includeEtym = showEtym && showEtym.checked;
+    const showCognate = document.getElementById("show-cognate-edges");
+    const includeCognate = !showCognate || showCognate.checked;
+    const visibleEtymEdges = includeEtym
+        ? etymEdges.filter((e) => includeCognate || e.relationship !== "cognate")
+        : [];
     for (const e of phoneticEdges) {
         degree[e.source] = (degree[e.source] || 0) + 1;
         degree[e.target] = (degree[e.target] || 0) + 1;
     }
-    if (includeEtym) {
-        for (const e of etymEdges) {
-            degree[e.source] = (degree[e.source] || 0) + 1;
-            degree[e.target] = (degree[e.target] || 0) + 1;
-        }
+    for (const e of visibleEtymEdges) {
+        degree[e.source] = (degree[e.source] || 0) + 1;
+        degree[e.target] = (degree[e.target] || 0) + 1;
     }
 
     const BASE_SPRING = 0.008;
@@ -278,25 +281,23 @@ function buildConceptEdges(phoneticEdges, etymEdges) {
     }
 
     // Etymology edges: solid dark with arrows
-    if (includeEtym) {
-        for (const e of etymEdges) {
-            const dFrom = degree[e.source] || 1;
-            const dTo = degree[e.target] || 1;
-            const combined = dFrom + dTo;
-            const maxDeg = Math.max(dFrom, dTo);
-            visEdges.push({
-                from: e.source,
-                to: e.target,
-                dashes: false,
-                color: { color: "rgba(220,220,240,0.5)", highlight: "rgba(255,255,255,0.7)" },
-                width: 1,
-                arrows: "to",
-                length: 120 + 40 * Math.log2(1 + combined),
-                springConstant: BASE_SPRING / Math.log2(1 + maxDeg),
-                title: e.relationship || "etymological",
-                edgeType: "etymology",
-            });
-        }
+    for (const e of visibleEtymEdges) {
+        const dFrom = degree[e.source] || 1;
+        const dTo = degree[e.target] || 1;
+        const combined = dFrom + dTo;
+        const maxDeg = Math.max(dFrom, dTo);
+        visEdges.push({
+            from: e.source,
+            to: e.target,
+            dashes: false,
+            color: { color: "rgba(220,220,240,0.5)", highlight: "rgba(255,255,255,0.7)" },
+            width: 1,
+            arrows: "to",
+            length: 120 + 40 * Math.log2(1 + combined),
+            springConstant: BASE_SPRING / Math.log2(1 + maxDeg),
+            title: e.relationship || "etymological",
+            edgeType: "etymology",
+        });
     }
 
     return visEdges;

@@ -249,6 +249,12 @@ document.getElementById("show-etymology-edges").addEventListener("change", (e) =
     router.replace({ etymEdges: e.target.checked });
 });
 
+// Cognate edges checkbox
+document.getElementById("show-cognate-edges").addEventListener("change", (e) => {
+    updateConceptEdges();
+    router.replace({ cognateEdges: e.target.checked });
+});
+
 // POS filter radio
 document.querySelectorAll("input[name='concept-pos']").forEach((radio) => {
     radio.addEventListener("change", () => {
@@ -288,6 +294,10 @@ function updateDOMFromState(state) {
     // Etymology edges checkbox
     document.getElementById("show-etymology-edges").checked =
         state.etymEdges != null ? state.etymEdges : true;
+
+    // Cognate edges checkbox
+    document.getElementById("show-cognate-edges").checked =
+        state.cognateEdges != null ? state.cognateEdges : true;
 
     // Search input values
     if (state.view === "etymology" && state.word) {

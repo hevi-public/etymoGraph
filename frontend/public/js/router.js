@@ -14,10 +14,11 @@
             layout: { "default": "era-layered" },
         },
         concept: {
-            concept:    { "default": "" },
-            pos:        { "default": "" },
-            similarity: { "default": 100, parse: Number },
-            etymEdges:  { "default": true, parse: function (v) { return v !== "false"; } },
+            concept:      { "default": "" },
+            pos:          { "default": "" },
+            similarity:   { "default": 100, parse: Number },
+            etymEdges:    { "default": true, parse: function (v) { return v !== "false"; } },
+            cognateEdges: { "default": true, parse: function (v) { return v !== "false"; } },
         },
     };
     var DEFAULT_VIEW = "etymology";
