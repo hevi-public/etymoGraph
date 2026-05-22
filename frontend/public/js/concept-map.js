@@ -19,11 +19,16 @@ let similarityWorker = null;
 
 const CONCEPT_LOD_THRESHOLD = 0.4;
 
-function conceptBorderColor(bgColor, borderColor) {
-    return {
-        background: bgColor, border: borderColor,
-        highlight: { background: bgColor, border: borderColor },
-    };
+function blendHexColors(baseHex, accentHex, ratio) {
+    const parse = (hex) => [
+        parseInt(hex.slice(1, 3), 16),
+        parseInt(hex.slice(3, 5), 16),
+        parseInt(hex.slice(5, 7), 16),
+    ];
+    const b = parse(baseHex);
+    const a = parse(accentHex);
+    const r = b.map((v, i) => Math.round(v * (1 - ratio) + a[i] * ratio));
+    return `rgb(${r[0]},${r[1]},${r[2]})`;
 }
 
 const conceptContainer = document.getElementById("concept-graph");
@@ -63,25 +68,22 @@ function updateConceptMap(data) {
 
     // Build nodes
     const visNodes = uniqueWords.map((w) => {
-        const color = langColor(w.lang);
+        const baseColor = langColor(w.lang);
         const label = `${w.word}\n(${w.lang})`;
-        // Concept-colored border when multiple concepts are loaded
-        let borderWidth = 0;
-        let borderColor = undefined;
+        // Tint background toward concept accent when multiple concepts loaded
+        let color = baseColor;
         if (hasMultipleConcepts && w._concepts && w._concepts.length > 0) {
-            borderWidth = w._concepts.length > 1 ? 4 : 3;
-            borderColor = conceptColorMap[w._concepts[0]] || "#5B8DEF";
+            const accent = conceptColorMap[w._concepts[0]] || "#5B8DEF";
+            color = blendHexColors(baseColor, accent, 0.2);
         }
         return {
             id: w.id,
             label,
-            color: borderColor
-                ? conceptBorderColor(color, borderColor)
-                : color,
+            color,
             shape: "box",
             font: { size: 13, multi: true, color: "#fff" },
             margin: 10,
-            borderWidth,
+            borderWidth: 0,
             title: `${w.word} (${w.lang})\nIPA: ${w.ipa || "—"}`
                 + `\nDolgo: ${w.dolgo_consonants || "—"}`
                 + (w._concepts?.length > 1
@@ -440,18 +442,17 @@ function highlightConnected(nodeId) {
     conceptNodesDS.forEach((n) => {
         const connected = connectedNodeIds.has(n.id);
         const w = conceptWords.find((w) => w.id === n.id);
-        const baseColor = langColor(w?.lang || "");
         if (connected) {
-            let nodeColor = baseColor;
+            let nodeColor = langColor(w?.lang || "");
             if (hasMultipleConcepts && w?._concepts?.length > 0) {
-                const borderColor = conceptColorMap[w._concepts[0]] || "#5B8DEF";
-                nodeColor = conceptBorderColor(baseColor, borderColor);
+                const accent = conceptColorMap[w._concepts[0]] || "#5B8DEF";
+                nodeColor = blendHexColors(nodeColor, accent, 0.2);
             }
             updates.push({ id: n.id, color: nodeColor, font: { color: "#fff" } });
         } else {
             updates.push({
                 id: n.id,
-                color: { background: "rgba(100,100,120,0.2)", border: "rgba(100,100,120,0.1)" },
+                color: "rgba(100,100,120,0.2)",
                 font: { color: "rgba(255,255,255,0.2)" },
             });
         }
@@ -484,11 +485,10 @@ function resetConceptHighlight() {
     const updates = [];
     conceptNodesDS.forEach((n) => {
         const w = conceptWords.find((w) => w.id === n.id);
-        const baseColor = langColor(w?.lang || "");
-        let nodeColor = baseColor;
+        let nodeColor = langColor(w?.lang || "");
         if (hasMultipleConcepts && w?._concepts?.length > 0) {
-            const borderColor = conceptColorMap[w._concepts[0]] || "#5B8DEF";
-            nodeColor = conceptBorderColor(baseColor, borderColor);
+            const accent = conceptColorMap[w._concepts[0]] || "#5B8DEF";
+            nodeColor = blendHexColors(nodeColor, accent, 0.2);
         }
         updates.push({ id: n.id, color: nodeColor, font: { color: "#fff" } });
     });
