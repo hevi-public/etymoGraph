@@ -39,7 +39,8 @@
       "Bash(/Users/hevi/Projects/claude_code/etymoGraph/scripts/measure_concept_search.sh:*)",
       "WebFetch(domain:visjs.github.io)",
       "WebSearch",
-      "mcp__playwright__playwright_screenshot"
+      "mcp__playwright__playwright_screenshot",
+      "mcp__playwright__playwright_navigate"
     ]
   },
   "enabledMcpjsonServers": [

@@ -1,4 +1,4 @@
-.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic test-frontend test-e2e test-all
+.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic test-frontend test-e2e test-all collect-fixtures
 
 setup: build download load
 	@echo "Setup complete! Run 'make run' to start."
@@ -72,3 +72,6 @@ test-all:  ## Run all tests
 	$(MAKE) test
 	$(MAKE) test-frontend
 	$(MAKE) test-e2e
+
+collect-fixtures:  ## Regenerate Wiktionary example fixtures (SPC-00011, requires make run)
+	python scripts/collect_wiktionary_examples.py --all $(FLAGS)
