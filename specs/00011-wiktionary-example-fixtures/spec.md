@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Status** | draft |
+| **Status** | draft (Phase 1 in progress) |
 | **Created** | 2026-05-22 |
 | **Modifies** | — |
 | **Modified-by** | — |
@@ -79,11 +79,14 @@ Full schema in `tests/fixtures/wiktionary/README.md`.
 | `backend/requirements-dev.txt` | Add `pymongo` (script dep) |
 | `tests/fixtures/wiktionary/README.md` | NEW — schema, quirk codes Q1–Q12, regeneration command |
 | `tests/fixtures/wiktionary/{word}.json` | NEW — 11 fixtures (generated locally, committed after human cross-check) |
+| `tests/integration/test_api_characterization.py` | NEW — parametrized snapshot tests |
+| `tests/integration/conftest.py` | NEW — `api_base` fixture with health-check skip |
+| `tests/integration/__init__.py` | NEW — package marker |
 | `specs/00011-wiktionary-example-fixtures/spec.md` | NEW — this file |
 | `specs/00011-wiktionary-example-fixtures/decision-log.md` | NEW — alternatives considered |
-| `Makefile` | Add `collect-fixtures` target |
+| `Makefile` | Add `collect-fixtures` and `test-integration` targets |
 
-No `backend/app/` changes. No test runner code in this PR.
+No `backend/app/` changes.
 
 ## Verification
 
@@ -91,7 +94,15 @@ No `backend/app/` changes. No test runner code in this PR.
 2. `pip install pymongo` (or `pip install -r backend/requirements-dev.txt`) on host.
 3. `make collect-fixtures` → 11 JSONs appear in `tests/fixtures/wiktionary/`; one-line summary per word.
 4. `python -m json.tool tests/fixtures/wiktionary/*.json > /dev/null` → all parse.
-5. **Human cross-check (required before commit)** — for each fixture, open the corresponding `meta.wiktionary_url` via WebSearch (sandbox blocks direct fetch), confirm `wiktionary_reference.expected_chain_per_wiktionary` matches the live page. Specifically:
+5. **Run the characterization suite**: `make test-integration` → all tests pass (expected by construction; each test asserts the API still returns what was just captured).
+6. **Manual mutation drill** (the user, after fixtures and tests exist):
+   - Edit `tests/fixtures/wiktionary/wine.json`. In `system_output.chain.edges[0].label`, change `"inh"` to `"bor"`. Re-run `make test-integration`. `test_chain_matches_snapshot[wine]` must FAIL with a clear diff. Revert.
+   - Flip `system_output.word_detail.etymology_uncertainty.is_uncertain` for one fixture. Re-run; the matching `test_word_detail_matches_snapshot[<word>]` must fail. Revert.
+   - Mutate one nested list field inside `system_output.tree_inh.nodes`. Re-run; the matching tree test must fail. Revert.
+   - These three drills together confirm assertions bite at value granularity, not just response shape.
+7. `make test-integration ETYMOGRAPH_API=http://elsewhere:8000` → suite skips cleanly with a "not reachable" message.
+8. `make test` (existing unit suite) unchanged and still passes.
+9. **Human cross-check on data (Phase 2 precondition, not blocking this PR)** — for each fixture, open `meta.wiktionary_url` via WebSearch (sandbox blocks direct fetch), confirm `wiktionary_reference.expected_chain_per_wiktionary` matches the live page. Specifically:
    - `wine.json` → reaches Latin `vinum`.
    - `alchemy.json` → reaches Arabic `اَلْكِيمِيَاء` via Greek; Arabic script renders in node IDs.
    - `dog.json` → `etymology_uncertainty.is_uncertain == true`; `known_gaps.missing_alternative_origins == true`; `wiktionary_reference.alternative_theories` lists the three parallel theories.
@@ -101,9 +112,36 @@ No `backend/app/` changes. No test runner code in this PR.
 6. `make collect-fixtures FLAGS=--diff` → zero drift on the dump we just collected from.
 7. `git diff --stat` → only fixtures + script + spec + Makefile + requirements-dev.txt touched.
 
-## Out of scope (follow-up PRs)
+## Characterization test suite (Phase 1 of the TDD cycle)
 
-- `backend/tests/test_integration_api.py` and the conftest fixture loader.
-- Real test-DB strategy (mongomock vs. testcontainers vs. seeded dev Mongo).
-- `make test-integration` target.
-- Pipeline improvements to close Q1, Q2, Q6, Q7 — each likely deserves its own spec.
+Black-box pytest suite that hits the live API and asserts each response equals the corresponding `system_output` snapshot in the fixture file. The suite runs against `make run` services — no mocking — and is intended to pass by construction (the expected values were captured from this same API). Sensitivity is validated by the user via a manual mutation drill (see the verification section).
+
+**Files:**
+- `tests/integration/test_api_characterization.py` — 4 parametrized tests × 1 per fixture = 4 N total cases:
+  - `test_word_detail_matches_snapshot[<word>]`
+  - `test_chain_matches_snapshot[<word>]`
+  - `test_tree_inh_matches_snapshot[<word>]`
+  - `test_tree_inh_bor_der_cog_matches_snapshot[<word>]`
+- `tests/integration/conftest.py` — `api_base` session fixture; pings `/health` and `pytest.skip()`s the suite if the API is unreachable.
+- `tests/integration/__init__.py` — package marker.
+
+**Dependencies:** none new. Uses stdlib `urllib.request` for HTTP and `pytest` (already in `requirements-dev.txt`).
+
+**Runner:** `make test-integration` (also picked up by `make test-all`). Override the API base with `ETYMOGRAPH_API=...` env.
+
+## Tooling for the TDD cycle
+
+The phases below describe how this spec evolves; only Phase 1 is implemented in this PR.
+
+| Phase | Goal | What changes |
+|---|---|---|
+| 1 (this PR) | Characterize current behavior | Tests added; `system_output` snapshots are the source of truth |
+| 2 (later) | Fetch real Wiktionary data, hand-encode `wiktionary_reference` per fixture, identify gaps | Fixture JSONs updated; no test changes |
+| 3 (later) | Flip tests from "assert snapshot" to "assert Wiktionary consistency for non-gapped items" | Tests modified — go red where the system diverges from Wiktionary |
+| 4 (later) | Refactor services to close each gap (Q1, Q2, Q6, Q7…) | Service code changes — tests go green |
+
+## Out of scope (future phases)
+
+- Phase 2 / 3 / 4 above — each phase gets its own PR, possibly its own follow-up spec.
+- Mock-DB strategy (mongomock-motor or testcontainers): defer until isolation is a problem.
+- Service-layer unit tests (filling `backend/tests/test_tree_builder.py` TODO stubs): tackle when those services are refactored in Phase 4.

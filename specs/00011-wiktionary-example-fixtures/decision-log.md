@@ -46,3 +46,52 @@ Integration tests themselves are out of scope for this PR. Scoping the collectio
 
 - **Human** — initially proposed collecting Wiktionary examples; rejected the first plan draft to insist on real research into Wiktionary quirks; named the three primary issue classes (dead links, conditional origins, compound back-references).
 - **Claude (Development Agent)** — researched Wiktionary via WebSearch (direct fetch blocked by sandbox `host_not_allowed`), identified 9 additional quirks (Q4–Q12) beyond the three named, designed the three-layer schema and collector script.
+
+---
+
+## Addendum: TDD-first pivot
+
+### Starting question (revised)
+
+After the collector and quirk catalog were in place, the human asked us to reorder the work into a proper TDD cycle: write characterization tests for the service's *current* behavior first, validate that the tests are actually asserting what they should, *then* fetch Wiktionary, *then* modify the tests for the desired behavior, *then* refactor.
+
+### Alternatives Considered
+
+#### Option A: Mock the database (mongomock-motor) for fast, isolated unit tests
+
+- Pro: No `make run` precondition; fast; idiomatic pytest.
+- Con: `$elemMatch`, `collation`, and complex `$regex + $options` queries used in `tree_builder.find_descendants` and `concept_resolver.aggregate` are only partially supported. Risk of testing the mock, not Mongo. Adds a dep (mongomock-motor) for unclear net gain at this stage.
+
+#### Option B: Real Mongo via testcontainers spun up per test session
+
+- Pro: Real query semantics; full isolation.
+- Con: Startup cost (~3s); extra dependency (testcontainers); adds complexity before we know we need it.
+
+#### Option C: Black-box against the live `make run` stack — no mocks, no test DB
+
+- Pro: Zero new dependencies. Tests use stdlib `urllib`. The expected values come from the same API in the same state, so passing is guaranteed by construction. Provides a real baseline before any decision about test isolation.
+- Pro: User can validate test sensitivity with a simple manual mutation drill — flip a snapshot field, confirm the corresponding test fails. Lightweight equivalent of mutation testing.
+- Con: Couples test runs to `make run`. Cannot run in fresh CI without spinning up the stack first. Acceptable because Phase 1 is about establishing a known-good baseline, not protecting against drift in arbitrary environments.
+
+#### Option D: Full mutation testing (mutmut)
+
+- Pro: Strongest signal that tests are sensitive.
+- Con: Heavy — minutes-to-hours runtime, noisy results requiring triage, separate CI job. Overkill for the Phase 1 baseline; user already has a lightweight equivalent (manual mutation drill on the JSON).
+
+### Decision & Rationale
+
+**Option C**, with the manual mutation drill borrowed in spirit from Option D.
+
+The user's goal is to establish a TDD foundation, not perfect test isolation. Hitting the live API:
+- avoids premature mocking decisions when we don't yet know which queries matter
+- keeps the suite trivial enough that the test code itself is reviewable at a glance
+- treats the captured `system_output` as the contract — the same contract Phase 3 will replace with Wiktionary-derived expectations
+
+We accept the `make run` coupling for Phase 1. If/when isolation becomes painful (e.g., flaky CI, parallel test runs), Phase 4 or later can switch to Option B without changing the test bodies — only the fixture-loading conftest changes.
+
+The four-phase TDD cycle (characterize → Wiktionary research → red tests → refactor) is now documented in `spec.md`. Phase 1 is in scope for this spec; later phases get their own PRs and possibly their own specs.
+
+### Participants (addendum)
+
+- **Human** — directed the TDD pivot, chose Option C, opted to perform manual mutation themselves rather than automate it.
+- **Claude (Development Agent)** — explored test infrastructure gaps (`lang_cache` module state, async test stubs, mongomock-motor query coverage), surfaced the four options above.
