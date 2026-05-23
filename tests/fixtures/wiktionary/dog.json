@@ -1,18 +1,18 @@
 {
   "known_gaps": {
     "foreign_script_roundtrip_unverified": false,
-    "missing_alternative_origins": false,
+    "missing_alternative_origins": true,
     "missing_calques": false,
     "missing_compound_components": false,
     "missing_doublet_link": false,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:32+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Disjunctive origins; uncertain etymology.",
+    "notes": "Phase 2: Classic Q1 case. Wiktionary lists THREE parallel hypotheses for docga. System surfaces only the 'dox' branch as a `der` edge. The other two (*dugan, *dokkā) appear only in prose. is_uncertain=true flag correctly set by classifier.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/dog"
@@ -6283,8 +6283,31 @@
     }
   },
   "wiktionary_reference": {
-    "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "alternative_theories": [
+      {
+        "kaikki_template_present": true,
+        "summary": "from Old English dox ('dark, swarthy') — our /chain captures this branch as a `der` edge from dogga."
+      },
+      {
+        "kaikki_template_present": false,
+        "summary": "from Proto-West Germanic *dugan ('to be suitable'); epithet meaning 'good/useful animal' used by children."
+      },
+      {
+        "kaikki_template_present": false,
+        "summary": "related to *docce ('stock, muscle') from Proto-West Germanic *dokkā, whence English dock ('stumpy tail')."
+      }
+    ],
+    "etymology_section_text_excerpt": "From Middle English dogge, from Old English dogga, docga, of uncertain origin. The original meaning seems to have been a common dog, as opposed to a well-bred one, possibly a pet-form diminutive with suffix -ga, appended to a base *dog-, *doc- of unclear origin.",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "Middle English",
+        "word": "dogge"
+      },
+      {
+        "lang": "Old English",
+        "note": "of uncertain origin",
+        "word": "docga"
+      }
+    ]
   }
 }

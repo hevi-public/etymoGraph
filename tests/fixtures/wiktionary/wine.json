@@ -1,18 +1,18 @@
 {
   "known_gaps": {
     "foreign_script_roundtrip_unverified": false,
-    "missing_alternative_origins": false,
+    "missing_alternative_origins": true,
     "missing_calques": false,
     "missing_compound_components": false,
     "missing_doublet_link": true,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:31+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "inh chain → OE wīn → Latin vīnum; ancestors carry macrons.",
+    "notes": "Phase 2: Wiktionary presents 'either/or' between direct PIE inheritance and early Latin borrowing. Our /chain commits to the borrowing path (*wīną ← der ← vīnum). Doublet 'vine' present as `doublet` template, not surfaced as graph edge.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/wine"
@@ -8206,8 +8206,35 @@
     }
   },
   "wiktionary_reference": {
-    "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "alternative_theories": [
+      {
+        "kaikki_template_present": true,
+        "summary": "Proto-Germanic *wīną borrowed early from Latin vīnum (← Proto-Italic *wīnom ← PIE *wóyh₁nom); this is the path our /chain captures."
+      }
+    ],
+    "etymology_section_text_excerpt": "From Middle English wyn, win, from Old English wīn ('wine'), from Proto-West Germanic *wīn, from Proto-Germanic *wīną, either inherited from Proto-Indo-European *wóyh₁nom ('wine'), or as an early borrowing into Proto-Germanic from Latin vīnum (from Proto-Italic *wīnom, from the same PIE root).",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "Middle English",
+        "word": "wyn"
+      },
+      {
+        "lang": "Old English",
+        "word": "wīn"
+      },
+      {
+        "lang": "Proto-West Germanic",
+        "word": "*wīn"
+      },
+      {
+        "lang": "Proto-Germanic",
+        "word": "*wīną"
+      },
+      {
+        "lang": "Proto-Indo-European",
+        "note": "direct inheritance — the alternative to Latin borrowing",
+        "word": "*wóyh₁nom"
+      }
+    ]
   }
 }

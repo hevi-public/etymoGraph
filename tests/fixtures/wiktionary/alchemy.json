@@ -4,15 +4,15 @@
     "missing_alternative_origins": false,
     "missing_calques": false,
     "missing_compound_components": false,
-    "missing_doublet_link": false,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "missing_doublet_link": true,
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:32+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Foreign-script terminal (Arabic); doublet of chemistry.",
+    "notes": "Phase 2: Doublet of `chemistry` via Greek χυμεία — not surfaced. Chain truncated before deepest Greek root χύμα. Foreign script (Arabic اَلْكِيمِيَاء, كيمياء) in node IDs round-trips through API. Middle English alkamye absent from chain because Kaikki has no ME→OE `inh` template (jumps English ← Old French directly).",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/alchemy"
@@ -970,7 +970,34 @@
   },
   "wiktionary_reference": {
     "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "etymology_section_text_excerpt": "From Middle English alkamye, from Old French alkimie, arquemie (French alchimie), from Medieval Latin alchēmia, from Arabic اَلْكِيمِيَاء (al-kīmiyāʔ), from article اَل (al-) + Ancient Greek χυμείᾱ (khumeíā, 'art of alloying metals'), from χύμα (khúma, 'ingot, bar').",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "Middle English",
+        "note": "intermediate skipped by our /chain — Kaikki has no `inh` ME template",
+        "word": "alkamye"
+      },
+      {
+        "lang": "Old French",
+        "word": "alkimie"
+      },
+      {
+        "lang": "Medieval Latin",
+        "word": "alchēmia"
+      },
+      {
+        "lang": "Arabic",
+        "word": "اَلْكِيمِيَاء"
+      },
+      {
+        "lang": "Ancient Greek",
+        "word": "χυμείᾱ"
+      },
+      {
+        "lang": "Ancient Greek",
+        "note": "deeper root — system chain stops at χυμείᾱ",
+        "word": "χύμα"
+      }
+    ]
   }
 }

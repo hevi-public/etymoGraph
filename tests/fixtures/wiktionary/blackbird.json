@@ -3,16 +3,16 @@
     "foreign_script_roundtrip_unverified": false,
     "missing_alternative_origins": false,
     "missing_calques": false,
-    "missing_compound_components": false,
+    "missing_compound_components": true,
     "missing_doublet_link": false,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:33+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Second compound — confirms Q2 is systematic.",
+    "notes": "Phase 2: Same Q2 pattern as cupboard. /chain stops at the ME parent; components black + bird only in /tree.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/blackbird"
@@ -6568,7 +6568,22 @@
   },
   "wiktionary_reference": {
     "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "etymology_section_text_excerpt": "From Middle English blakebird, blacbrid ('ouzel; Eurasian blackbird'), equivalent to black + bird.",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "Middle English",
+        "word": "blakebird"
+      },
+      {
+        "lang": "English",
+        "note": "compound component — visible in tree_inh_bor_der_cog only",
+        "word": "black"
+      },
+      {
+        "lang": "English",
+        "note": "compound component — visible in tree_inh_bor_der_cog only",
+        "word": "bird"
+      }
+    ]
   }
 }

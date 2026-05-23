@@ -3,16 +3,16 @@
     "foreign_script_roundtrip_unverified": false,
     "missing_alternative_origins": false,
     "missing_calques": false,
-    "missing_compound_components": false,
-    "missing_doublet_link": false,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "missing_compound_components": true,
+    "missing_doublet_link": true,
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:32+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Doublet of alchemy via different Greek path.",
+    "notes": "Phase 2: System /chain is EMPTY despite Wiktionary clearly stating 'chemist + -ry'. Main SPC-00012 precomputed compound edges only show in /tree — /chain still misses them. Doublet of alchemy not surfaced.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/chemistry"
@@ -535,7 +535,18 @@
   },
   "wiktionary_reference": {
     "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "etymology_section_text_excerpt": "First attested 1605, from chemist + -ry. Doublet of alchemy via the same ultimate Greek/Arabic root.",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "English",
+        "note": "component (compound)",
+        "word": "chemist"
+      },
+      {
+        "lang": "English",
+        "note": "component (suffix)",
+        "word": "-ry"
+      }
+    ]
   }
 }

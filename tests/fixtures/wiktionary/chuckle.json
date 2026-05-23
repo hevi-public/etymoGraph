@@ -5,14 +5,14 @@
     "missing_calques": false,
     "missing_compound_components": true,
     "missing_doublet_link": false,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:33+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Coined word ('Lewis Carroll'); no traditional ancestor.",
+    "notes": "Phase 2: Empty /chain as expected (no ancestry templates, only `af`). Frequentative formation chuck + -le. Components would surface in /tree if main SPC-00012 indexed them — verify on regen.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/chuckle"
@@ -195,7 +195,18 @@
   },
   "wiktionary_reference": {
     "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "etymology_section_text_excerpt": "From chuck ('laugh') + -le (frequentative suffix).",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "English",
+        "note": "compound base",
+        "word": "chuck"
+      },
+      {
+        "lang": "English",
+        "note": "frequentative suffix",
+        "word": "-le"
+      }
+    ]
   }
 }

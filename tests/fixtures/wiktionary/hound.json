@@ -5,14 +5,14 @@
     "missing_calques": false,
     "missing_compound_components": false,
     "missing_doublet_link": true,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:31+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Proto-Germanic *hundaz; pre-Germanic prose; asterisk + macron in templates.",
+    "notes": "Phase 2: Pre-Germanic *kun-tós/*ḱwn̥tós described in prose only — no template, so our chain jumps PGmc → PIE directly. Cognates (Old Armenian սկունդ etc.) listed inline as `cog` templates, visible in tree_inh_bor_der_cog but not /chain. Q13 fix verified: *hundaz resolves via the asterisk-normalised lookup.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/hound"
@@ -7091,7 +7091,33 @@
   },
   "wiktionary_reference": {
     "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "etymology_section_text_excerpt": "From Middle English hound, hund, from Old English hund ('dog'), from Proto-West Germanic *hund, from Proto-Germanic *hundaz ('dog'), from Pre-Germanic *kun-tós, *ḱwn̥tós, an enlargement of Proto-Indo-European *ḱwṓ ('dog').",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "Middle English",
+        "word": "hound"
+      },
+      {
+        "lang": "Old English",
+        "word": "hund"
+      },
+      {
+        "lang": "Proto-West Germanic",
+        "word": "*hund"
+      },
+      {
+        "lang": "Proto-Germanic",
+        "word": "*hundaz"
+      },
+      {
+        "lang": "Pre-Germanic",
+        "note": "prose-only intermediate; not a structured Kaikki template (Q8)",
+        "word": "*kun-tós"
+      },
+      {
+        "lang": "Proto-Indo-European",
+        "word": "*ḱwṓ"
+      }
+    ]
   }
 }

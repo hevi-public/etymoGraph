@@ -5,14 +5,14 @@
     "missing_calques": false,
     "missing_compound_components": false,
     "missing_doublet_link": false,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:32+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Deep PIE; cognates in Sanskrit/Greek/Hittite.",
+    "notes": "Phase 2: Full inh chain to PIE. Many cognates (Sanskrit, Greek πῦρ, Hittite paḫḫur, etc.) listed as `cog` templates — visible in tree_inh_bor_der_cog as separate edges. No doublets.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/fire"
@@ -5799,7 +5799,28 @@
   },
   "wiktionary_reference": {
     "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "etymology_section_text_excerpt": "From Middle English fyr, fier, from Old English fȳr ('fire'), from Proto-West Germanic *fuir, from *fuïr (regularised from Proto-Germanic *fōr 'fire'), ultimately from Proto-Indo-European *péh₂wr̥ ('fire').",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "Middle English",
+        "word": "fyr"
+      },
+      {
+        "lang": "Old English",
+        "word": "fȳr"
+      },
+      {
+        "lang": "Proto-West Germanic",
+        "word": "*fuir"
+      },
+      {
+        "lang": "Proto-Germanic",
+        "word": "*fōr"
+      },
+      {
+        "lang": "Proto-Indo-European",
+        "word": "*péh₂wr̥"
+      }
+    ]
   }
 }

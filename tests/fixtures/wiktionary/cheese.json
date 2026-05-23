@@ -5,14 +5,14 @@
     "missing_calques": false,
     "missing_compound_components": false,
     "missing_doublet_link": true,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:31+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Borrowing ← Latin cāseus; OE ċīese has macron + diacritic.",
+    "notes": "Phase 2: Clean borrowing chain matches Wiktionary. Doublets with queso (Spanish), Käse (German), kaas (Dutch) via shared Latin root are present as `doublet` template, not surfaced as edges. Q13 fix verified: ċīese with diacritic resolves.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/cheese"
@@ -2534,7 +2534,25 @@
   },
   "wiktionary_reference": {
     "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "etymology_section_text_excerpt": "From Middle English chese, from Anglian Old English ċīese ('cheese'), from Proto-West Germanic *kāsī, borrowed from Latin cāseus ('cheese').",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "Middle English",
+        "word": "chese"
+      },
+      {
+        "lang": "Old English",
+        "word": "ċīese"
+      },
+      {
+        "lang": "Proto-West Germanic",
+        "word": "*kāsī"
+      },
+      {
+        "lang": "Latin",
+        "note": "borrowed",
+        "word": "cāseus"
+      }
+    ]
   }
 }

@@ -2,17 +2,17 @@
   "known_gaps": {
     "foreign_script_roundtrip_unverified": false,
     "missing_alternative_origins": false,
-    "missing_calques": false,
+    "missing_calques": true,
     "missing_compound_components": false,
     "missing_doublet_link": false,
-    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+    "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
     "collected_at": "2026-05-23T12:10:33+00:00",
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Multi-etymology; Sanskrit terminal; calque; POS split.",
+    "notes": "Phase 2: Three quirks observed. (Q4) System captured Etymology 1 (fruit); Etymology 2 (color, sense extension within English) not represented. (Q5) Foreign-script ancestors نَارَنْج (Arabic), नारङ्ग (Sanskrit) preserved in node IDs. (Q6) Calque relationship 'calqued from Old Italian melarancio' captured as `der` edge in our chain, losing the calque semantic — system has no `cal` edge label. Also: 'influenced by the place name Orange' dropped entirely. Bonus finding: lang_cache returns raw codes for `roa-oit` (Old Italian) and `fa-cls` (Early Classical Persian) instead of human-readable names.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/orange"
@@ -1772,7 +1772,38 @@
   },
   "wiktionary_reference": {
     "alternative_theories": [],
-    "etymology_section_text_excerpt": null,
-    "expected_chain_per_wiktionary": []
+    "etymology_section_text_excerpt": "From Middle English orenge, orange, from Old French pome orenge ('fruit orange'), influenced by the place name Orange and calqued from Old Italian melarancio (mela 'apple' + un'arancia 'an orange'), from Arabic نَارَنْج (nāranj), from Early Classical Persian نَارَنْگ (nārang), from Sanskrit नारङ्ग (nāraṅga, 'orange tree'), ultimately from a Dravidian source.",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "Middle English",
+        "word": "orenge"
+      },
+      {
+        "lang": "Old French",
+        "word": "pome orenge"
+      },
+      {
+        "lang": "Old Occitan",
+        "word": "auranja"
+      },
+      {
+        "lang": "Old Italian",
+        "note": "calque source — surfaced in our chain as `roa-oit` (raw lang code, lang_cache miss)",
+        "word": "melarancio"
+      },
+      {
+        "lang": "Arabic",
+        "word": "نَارَنْج"
+      },
+      {
+        "lang": "Early Classical Persian",
+        "note": "surfaced as `fa-cls` lang code (lang_cache miss)",
+        "word": "نَارَنْگ"
+      },
+      {
+        "lang": "Sanskrit",
+        "word": "नारङ्ग"
+      }
+    ]
   }
 }
