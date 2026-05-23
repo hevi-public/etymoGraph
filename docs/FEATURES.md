@@ -1,6 +1,6 @@
 # Etymology Explorer: Feature Documentation
 
-*Last updated: February 10, 2026*
+*Last updated: March 22, 2026*
 
 ---
 
@@ -21,6 +21,7 @@ The app is a fully functional local etymology explorer with interactive graph vi
   - `(etymology_templates.name, etymology_templates.args.2, etymology_templates.args.3)` — typed descendant lookups
 - **Auxiliary collections**:
   - `languages` — precomputed lang_code ↔ lang name mapping (~4,760 entries), built at ETL time
+  - `etymology_edges` — precomputed compound/affix component edges, built by `make precompute-edges`. Indexed on `(to_word, to_lang)` and `(from_word, from_lang)` for bidirectional lookup
 
 ---
 
@@ -73,14 +74,16 @@ Checkboxes in the Filters popover (click "Filters ▾" button in header):
 
 Changing the filter re-fetches the tree immediately. Borrowed edges are shown with dashed lines. Cognate edges are shown with gold dashed lines.
 
-**Automatic edge types** (not user-selectable, shown when a word has no ancestry):
+**Automatic edge types** (not user-selectable):
 
 | Type | Meaning | Source Templates | Style |
 |------|---------|------------------|-------|
 | `component` | Morphological component of the word (base word in a derivation) | `af`, `affix`, `suffix`, `prefix`, `compound`, `blend` | Gray dashed |
 | `mention` | Word mentioned in etymology text but not as an ancestor | `m`, `m+`, `l` | Gray dashed |
 
-These appear automatically for words with uncertain/disputed etymologies that lack standard ancestry templates. For example, "piros" (Hungarian) has no `inh`/`bor`/`der` ancestors, but the `af` template indicates it's formed from "pirít" + "-os", so a `component` edge connects them.
+**Compound decomposition** — When a word in the ancestry chain is a compound (e.g., Old Norse "vindauga" = "vindr" + "auga"), its components are shown as branching nodes with `component` edges. Each component's own ancestry is traced upward, revealing parallel lineage branches (e.g., "vindr" → Proto-Germanic *windaz → PIE). This uses precomputed edges from the `etymology_edges` collection (see ETL section). Compound expansion recurses up to 2 levels deep to handle compounds-of-compounds.
+
+For words with no ancestry templates at all (uncertain/disputed etymologies), `component` and `mention` edges are still shown via the fallback mention extraction. For example, "piros" (Hungarian) has no `inh`/`bor`/`der` ancestors, but the `af` template indicates it's formed from "pirít" + "-os", so a `component` edge connects them.
 
 ### 4. Language Family Colors
 
@@ -172,7 +175,9 @@ Custom wheel event handling for natural trackpad behavior:
 
 - **Two-finger scroll** → pans the graph (natural scroll direction), speed scaled by zoom level so panning feels consistent when zoomed in
 - **Pinch** → zooms in/out (macOS sends `ctrlKey` for pinch gestures)
+- **Tablet/iPad touch** → two-finger pinch-to-zoom toward pinch center with 1:1 finger-tracking pan, single-finger pan via vis.js `dragView`
 - vis.js built-in zoom is disabled to prevent conflicts
+- CSS `touch-action: none` on graph containers prevents iOS Safari from intercepting pinch gestures for native page zoom
 
 ### 7. Zoom Controls
 
@@ -194,6 +199,7 @@ Click any node in the graph to open a side panel showing:
 - **Word** and **language**
 - **Part of speech** (noun, verb, etc.)
 - **IPA pronunciation**
+- **Audio playback** — when the Kaikki entry has audio files (ogg/mp3), compact audio players appear below the IPA line. Each variant shows dialect/accent tags (e.g., "General-American") when available. Uses `preload="none"` so audio only loads on play. Hidden for words without audio data.
 - **Wiktionary link** — opens the word's Wiktionary page in a new tab. Uses `Reconstruction:` prefix for proto-languages (e.g., Proto-Italic/wīnom) and `#Language` anchors for regular words
 - **Definitions** (all glosses from all senses)
 - **Etymology text** (human-readable narrative) — words mentioned in the etymology chain, prose, and cognates are clickable links when they match known `etymology_templates`. A link-mode toggle next to the "Etymology" heading lets users choose between **In-app** (loads the word in the graph via `selectWord()`) and **Wiktionary** (opens a new tab). Preference is persisted in `localStorage`.
@@ -296,12 +302,20 @@ A sibling view to the etymology graph that answers: "What do languages call this
 - Words are grouped by their first two Dolgopolsky consonant classes (Turchin clusters)
 - Example: "fire" produces K-N group (ignis, agni, ugnis), P-R group (fire, Feuer, vuur, pyr), T-S group (tuz, tuli)
 
+**Multi-concept selection:**
+- Users can load multiple concepts simultaneously (e.g., "circle" + "wheel") to reveal cross-concept phonetic patterns
+- **Chip/tag input**: Each submitted concept appears as a removable chip with a distinct accent color. The search input clears after each addition, ready for the next concept
+- **Merge logic**: One API call per concept, fetched in parallel. Words are deduplicated by ID; words appearing under multiple concepts are tagged with all their concept memberships
+- **Visual differentiation**: Each concept gets a unique accent color from an 8-color palette. When multiple concepts are loaded, graph nodes get colored borders matching their concept. Multi-concept words get thicker borders. Node fill color still represents language family
+- **Concept legend**: When 2+ concepts are loaded, a legend overlay appears in the top-left showing each concept's accent color
+- **URL format**: Concepts stored as comma-separated values: `?concepts=circle,wheel`. Old single-concept URLs (`?concept=fire`) are supported via backward-compat shim
+
 **Frontend controls:**
 - **View toggle**: Tab-like buttons in header switch between Etymology Graph and Concept Map
-- **Concept search**: Debounced autocomplete with translation count hints (in header)
+- **Concept search**: Debounced autocomplete with translation count hints (in header). Submitting adds a chip; click "x" on chip to remove
 - **Similarity slider**: In Filters popover; adjusts the similarity threshold (0.0–1.0); filters edges client-side without re-calling API
 - **Etymology edges checkbox**: In Filters popover; toggles overlay of known etymological connections (solid arrows vs dashed phonetic edges)
-- **POS filter**: In Filters popover; radio buttons for All / Noun / Verb / Adj
+- **POS filter**: In Filters popover; radio buttons for All / Noun / Verb / Adj (applies to all loaded concepts)
 
 **Graph physics & performance:**
 - Uses `barnesHut` solver (separate from etymology graph's `forceAtlas2Based`)
@@ -317,7 +331,9 @@ A sibling view to the etymology graph that answers: "What do languages call this
 **Node styling:**
 - Colored by language family (same 20-family palette as etymology graph)
 - Dashed grey edges = phonetic similarity (width + opacity proportional to score)
-- Solid dark edges = etymological connections (arrows)
+- Solid etymology edges, color-coded by relationship type:
+  - **Cognate**: gold (`#F5C842`), width 2.5, opacity 0.7 — prominent, matching etymology graph convention
+  - **Mentioned**: faint grey, width 0.8, opacity 0.25 — de-emphasized as noisy/less informative
 - Click a node to show detail panel + "View in Etymology Graph" button
 
 **API endpoints:**
@@ -355,7 +371,7 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 | `lang` | etymology | `English` | Word language |
 | `types` | etymology | `inh,bor,der` | Connection type filter |
 | `layout` | etymology | `era-layered` | Graph layout |
-| `concept` | concept | `""` | Searched concept |
+| `concepts` | concept | `""` | Searched concepts (comma-separated for multi-concept) |
 | `pos` | concept | `""` | POS filter |
 | `similarity` | concept | `100` | Similarity threshold (0-100) |
 | `etymEdges` | concept | `true` | Show etymology edges |
@@ -364,8 +380,9 @@ The browser URL reflects the current view state. Users can share, bookmark, and 
 ```
 /?view=etymology&word=wine&lang=English&types=inh,bor,der&layout=force-directed
 /?view=etymology&word=fire&lang=Latin&types=inh,bor,der&layout=era-layered
-/?view=concept&concept=water&pos=&similarity=100&etymEdges=true
-/?view=concept&concept=fire&pos=noun&similarity=75&etymEdges=true
+/?view=concept&concepts=water&pos=&similarity=100&etymEdges=true
+/?view=concept&concepts=fire&pos=noun&similarity=75&etymEdges=true
+/?view=concept&concepts=circle,wheel&pos=&similarity=100&etymEdges=true
 ```
 
 **History behavior:**
@@ -422,7 +439,7 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | Endpoint | Description |
 |----------|-------------|
 | `GET /health` | Health check |
-| `GET /api/words/{word}?lang=English` | Full word data (definitions, pronunciation, etymology, uncertainty info, related mentions) |
+| `GET /api/words/{word}?lang=English` | Full word data (definitions, pronunciation, audio URLs, etymology, uncertainty info, related mentions) |
 | `GET /api/etymology/{word}/chain?lang=English` | Linear ancestry chain (word → root) |
 | `GET /api/etymology/{word}/tree?lang=English&types=inh&max_descendant_depth=3` | Full family tree with branches (nodes include uncertainty metadata) |
 | `GET /api/search?q=wine&limit=20` | Prefix search, deduplicated by word |
@@ -443,6 +460,7 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | `make download` | Download data (skip if exists) |
 | `make load` | Load data into MongoDB |
 | `make precompute-phonetic` | Precompute Dolgopolsky sound classes for concept map (requires `lingpy` + `pymongo`) |
+| `make precompute-edges` | Precompute compound/affix etymology edges (requires `pymongo`) |
 | `make test-frontend` | Run Vitest unit tests (router, etc.) |
 | `make test-e2e` | Run Playwright E2E tests (requires `make run`) |
 | `make test-all` | Run all tests (pytest + Vitest + Playwright) |
@@ -487,7 +505,7 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | Connection type filter | Toggle inherited/borrowed/derived/cognate with checkboxes (all on by default) |
 | Direct-parent chain fix | Only link words to their immediate ancestor |
 | Extended language colors | 20 language families with data-driven palette + dynamic legend |
-| macOS trackpad support | Pinch-to-zoom, two-finger pan with zoom-scaled panning speed |
+| Trackpad & tablet touch support | Pinch-to-zoom, two-finger pan with zoom-scaled panning speed; iPad/tablet pinch-to-zoom toward pinch center with 1:1 pan tracking on both graph views |
 | Zoom controls | Panel toggle, focus word, focus root, fit-all buttons (top-right) |
 | Era-layered layout | Vertically layered by historical era with horizontal self-organization |
 | Cognate view | Cognate edges as gold dashed lines, toggleable via filter, recursive expansion |
@@ -518,6 +536,8 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | Concept map Web Worker | O(n^2) phonetic similarity moved to Web Worker — nodes render instantly, edges compute in background |
 | Concept resolver cache | In-memory cache for resolved concept word lists — repeat queries instant |
 | Dict-based etymology edges | Cognate matching uses dict lookup instead of O(n) scan |
+| Etymology chain normalization (SPC-00011) | Query-time word normalization fixes 90.4% of broken chain links — strips `*` prefix and diacritics to match DB headwords |
+| Polysemy disambiguation (SPC-00011) | Search shows distinct etymology groups for polysemous words (e.g., "bank" → 4 etymologies with gloss hints). `etym` param threads through URL, API, and tree builder. Descendant expansion skipped for the searched word when `etym` is set to avoid mixing senses |
 
 ### Concept Map (Phonetic Similarity Visualization)
 
@@ -531,8 +551,9 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | CM.6 | Frontend: view toggle, concept search, concept-map.js | Done |
 | CM.7 | Frontend: similarity slider, etymology edges toggle, POS filter | Done |
 | CM.8 | Unit tests for phonetic similarity and concept resolver | Done |
-| CM.9 | Cluster convex hulls (Phase 3) | Not started |
-| CM.10 | "Highlight unknown origins" toggle (Phase 3) | Not started |
+| CM.9 | Multi-concept selection (chip/tag input, merge, concept-colored borders) | Done |
+| CM.10 | Cluster convex hulls (Phase 3) | Not started |
+| CM.11 | "Highlight unknown origins" toggle (Phase 3) | Not started |
 
 ### Phase 2: Nice-to-Haves — IN PROGRESS
 
@@ -599,7 +620,7 @@ make test       # Run pytest
 
 ## Known Limitations
 
-1. **Ancestor word details**: Words in ancestor languages (Old English, Proto-Germanic, etc.) may not have full entries in the Kaikki dump. The detail panel shows an explanatory message for these.
+1. **Ancestor word details**: Words in ancestor languages (Old English, Proto-Germanic, etc.) are now resolved via query-time normalization (SPC-00011), which handles ~90.4% of template-to-headword mismatches (macrons, `*` prefix). The remaining ~9.6% (mostly PIE alternate ablaut grades) display as phantom nodes with "No details available" in the detail panel.
 
 2. **Descendant cap**: Each node is limited to 50 descendants to prevent graph explosion. Some PIE roots have hundreds of descendants across all languages.
 

@@ -39,6 +39,7 @@ describe("parseURL", () => {
             lang: "English",
             types: "inh,bor,der",
             layout: "era-layered",
+            etym: "",
         });
     });
 
@@ -57,18 +58,28 @@ describe("parseURL", () => {
     });
 
     it("parses concept view with defaults", () => {
-        const state = parseURL("?view=concept&concept=water");
+        const state = parseURL("?view=concept&concepts=water");
         expect(state.view).toBe("concept");
-        expect(state.concept).toBe("water");
+        expect(state.concepts).toBe("water");
         expect(state.similarity).toBe(100);
         expect(state.etymEdges).toBe(true);
         expect(state.pos).toBe("");
     });
 
     it("applies Number and Boolean parsers to concept params", () => {
-        const state = parseURL("?view=concept&concept=fire&similarity=75&etymEdges=false");
+        const state = parseURL("?view=concept&concepts=fire&similarity=75&etymEdges=false");
         expect(state.similarity).toBe(75);
         expect(state.etymEdges).toBe(false);
+    });
+
+    it("backward compat: old ?concept= maps to concepts", () => {
+        const state = parseURL("?view=concept&concept=water");
+        expect(state.concepts).toBe("water");
+    });
+
+    it("parses multiple concepts from comma-separated value", () => {
+        const state = parseURL("?view=concept&concepts=circle,wheel");
+        expect(state.concepts).toBe("circle,wheel");
     });
 
     it("falls back to etymology defaults for unknown view", () => {
@@ -118,14 +129,14 @@ describe("buildURL", () => {
     it("includes all concept params", () => {
         const url = buildURL({
             view: "concept",
-            concept: "water",
+            concepts: "water",
             pos: "",
             similarity: 100,
             etymEdges: true,
         });
         const qs = parseQS(url);
         expect(qs.view).toBe("concept");
-        expect(qs.concept).toBe("water");
+        expect(qs.concepts).toBe("water");
         expect(qs.similarity).toBe("100");
         expect(qs.etymEdges).toBe("true");
     });
@@ -133,7 +144,7 @@ describe("buildURL", () => {
     it("reflects non-default similarity", () => {
         const url = buildURL({
             view: "concept",
-            concept: "fire",
+            concepts: "fire",
             pos: "",
             similarity: 75,
             etymEdges: true,
@@ -145,7 +156,7 @@ describe("buildURL", () => {
     it("includes default similarity (100)", () => {
         const url = buildURL({
             view: "concept",
-            concept: "fire",
+            concepts: "fire",
             pos: "",
             similarity: 100,
             etymEdges: true,
@@ -196,10 +207,10 @@ describe("push/replace", () => {
 
     it("fills concept defaults and discards etymology params on view change", () => {
         const spy = vi.spyOn(window.history, "pushState");
-        router.push({ view: "concept", concept: "water" });
+        router.push({ view: "concept", concepts: "water" });
         const state = spy.mock.calls[0][0];
         expect(state.view).toBe("concept");
-        expect(state.concept).toBe("water");
+        expect(state.concepts).toBe("water");
         expect(state.similarity).toBe(100);
         expect(state.etymEdges).toBe(true);
         // Etymology params should not be present
@@ -221,7 +232,7 @@ describe("roundtrip", () => {
     it("buildURL → parseURL produces identical state", () => {
         const original = {
             view: "concept",
-            concept: "fire",
+            concepts: "fire",
             pos: "noun",
             similarity: 75,
             etymEdges: false,
@@ -231,8 +242,21 @@ describe("roundtrip", () => {
         expect(parsed).toEqual(original);
     });
 
+    it("buildURL → parseURL roundtrips multi-concept state", () => {
+        const original = {
+            view: "concept",
+            concepts: "circle,wheel",
+            pos: "",
+            similarity: 80,
+            etymEdges: true,
+        };
+        const url = buildURL(original);
+        const parsed = parseURL(url.replace("/", ""));
+        expect(parsed).toEqual(original);
+    });
+
     it("parseURL → buildURL produces identical URL", () => {
-        const url = "?view=etymology&word=fire&lang=Latin&types=inh,bor&layout=force-directed";
+        const url = "?view=etymology&word=fire&lang=Latin&types=inh,bor&layout=force-directed&etym=";
         const state = parseURL(url);
         const rebuilt = buildURL(state);
         const originalParams = new URLSearchParams(url);

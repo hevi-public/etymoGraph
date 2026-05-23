@@ -6,20 +6,26 @@ async function searchWords(query) {
     return res.json();
 }
 
-async function getWord(word, lang = "English") {
-    const res = await fetch(`${API_BASE}/words/${encodeURIComponent(word)}?lang=${encodeURIComponent(lang)}`);
+async function getWord(word, lang = "English", etym = null) {
+    let url = `${API_BASE}/words/${encodeURIComponent(word)}?lang=${encodeURIComponent(lang)}`;
+    if (etym != null) url += `&etym=${etym}`;
+    const res = await fetch(url);
     if (!res.ok) throw new Error(`Word not found (${res.status})`);
     return res.json();
 }
 
-async function getEtymologyChain(word, lang = "English") {
-    const res = await fetch(`${API_BASE}/etymology/${encodeURIComponent(word)}/chain?lang=${encodeURIComponent(lang)}`);
+async function getEtymologyChain(word, lang = "English", etym = null) {
+    let url = `${API_BASE}/etymology/${encodeURIComponent(word)}/chain?lang=${encodeURIComponent(lang)}`;
+    if (etym != null) url += `&etym=${etym}`;
+    const res = await fetch(url);
     if (!res.ok) throw new Error(`Etymology chain failed (${res.status})`);
     return res.json();
 }
 
-async function getEtymologyTree(word, lang = "English", types = "inh") {
-    const res = await fetch(`${API_BASE}/etymology/${encodeURIComponent(word)}/tree?lang=${encodeURIComponent(lang)}&types=${encodeURIComponent(types)}`);
+async function getEtymologyTree(word, lang = "English", types = "inh", etym = null) {
+    let url = `${API_BASE}/etymology/${encodeURIComponent(word)}/tree?lang=${encodeURIComponent(lang)}&types=${encodeURIComponent(types)}`;
+    if (etym != null) url += `&etym=${etym}`;
+    const res = await fetch(url);
     if (!res.ok) throw new Error(`Etymology tree failed (${res.status})`);
     return res.json();
 }

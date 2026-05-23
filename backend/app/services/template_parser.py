@@ -1,9 +1,24 @@
 """Extract structured relationships from Kaikki etymology_templates."""
 
+import unicodedata
+
 from app.services import lang_cache
 
 ANCESTRY_TYPES = {"inh", "bor", "der"}
 COGNATE_TYPE = "cog"
+
+
+def normalize_word(word: str) -> str:
+    """Normalize template-form word to DB headword form.
+
+    Handles two systematic mismatches (90.4% of broken links):
+    - Strip leading '*' (reconstructed language convention): *wīną → wīną
+    - NFKD decomposition + strip combining marks (macrons/diacritics): wīną → winą
+    """
+    if word.startswith("*"):
+        word = word[1:]
+    decomposed = unicodedata.normalize("NFKD", word)
+    return "".join(c for c in decomposed if unicodedata.category(c) != "Mn")
 
 
 def node_id(word: str, lang: str) -> str:

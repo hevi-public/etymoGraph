@@ -2,7 +2,12 @@
 
 from app.services import lang_cache
 from app.services.etymology_classifier import classify_etymology, extract_word_mentions
-from app.services.template_parser import extract_ancestry, extract_cognates, node_id
+from app.services.template_parser import (
+    extract_ancestry,
+    extract_cognates,
+    node_id,
+    normalize_word,
+)
 
 MAX_DESCENDANTS_PER_NODE = 50
 DEFAULT_MAX_COGNATE_ROUNDS = 2
@@ -19,6 +24,7 @@ class TreeBuilder:
         self.nodes: dict[str, dict] = {}
         self.edges: list[dict] = []
         self.visited_edges: set[tuple] = set()
+        self.skip_descendant_ids: set[str] = set()
 
     def add_node(self, word: str, lang: str, level: int, uncertainty: dict | None = None) -> str:
         """Add or update a node in the graph, returning its ID."""
@@ -49,12 +55,27 @@ class TreeBuilder:
         """Return the built graph as {nodes: [...], edges: [...]}."""
         return {"nodes": list(self.nodes.values()), "edges": self.edges}
 
-    async def expand_word(self, word: str, lang: str, base_level: int):
+    async def _find_word_doc(self, word: str, lang: str, projection: dict) -> dict | None:
+        """Look up a word document, falling back to normalized form on miss."""
+        doc = await self.col.find_one({"word": word, "lang": lang}, projection)
+        if doc:
+            return doc
+        normalized = normalize_word(word)
+        if normalized != word:
+            return await self.col.find_one({"word": normalized, "lang": lang}, projection)
+        return None
+
+    async def expand_word(self, word: str, lang: str, base_level: int, etym: int | None = None):
         """Trace ancestry upward and find descendants for a word."""
-        doc = await self.col.find_one(
-            {"word": word, "lang": lang},
-            {"_id": 0, "etymology_templates": 1, "etymology_text": 1},
-        )
+        proj = {"_id": 0, "etymology_templates": 1, "etymology_text": 1}
+        if etym is not None:
+            doc = await self.col.find_one(
+                {"word": word, "lang": lang, "etymology_number": etym}, proj
+            )
+            if not doc:
+                doc = await self._find_word_doc(word, lang, proj)
+        else:
+            doc = await self._find_word_doc(word, lang, proj)
 
         # Classify uncertainty for the word
         uncertainty = None
@@ -65,6 +86,12 @@ class TreeBuilder:
 
         self.add_node(word, lang, base_level, uncertainty)
 
+        # When a specific etymology is selected, skip descendant expansion for
+        # the searched word — templates don't carry etymology_number, so
+        # descendants of a polysemous word would mix all senses.
+        if etym is not None:
+            self.skip_descendant_ids.add(node_id(word, lang))
+
         if not doc:
             return
 
@@ -73,6 +100,9 @@ class TreeBuilder:
         # If no ancestry found, add edges for related mentions
         if len(chain) == 1:
             await self._add_mention_edges(doc, word, lang, base_level)
+
+        # Expand precomputed compound/affix edges for all nodes in the chain
+        await self._expand_compound_edges(chain)
 
         await self._expand_descendants_from_chain(chain)
 
@@ -106,9 +136,8 @@ class TreeBuilder:
 
         for mention in mentions:
             # Check if the mentioned word exists in DB
-            mention_doc = await self.col.find_one(
-                {"word": mention.word, "lang": mention.lang},
-                {"_id": 0, "word": 1},
+            mention_doc = await self._find_word_doc(
+                mention.word, mention.lang, {"_id": 0, "word": 1}
             )
             if not mention_doc:
                 continue
@@ -117,9 +146,50 @@ class TreeBuilder:
             # Edge goes from mention → word (mention is a component/source)
             self.add_edge(mention_id, word_id, mention.role)
 
+    async def _expand_compound_edges(
+        self, chain: list[tuple], max_compound_depth: int = 2
+    ):
+        """Expand precomputed compound/affix edges for each node in the ancestor chain.
+
+        For each node, queries the etymology_edges collection for compound components.
+        When a component is found, also traces its ancestry chain upward so the graph
+        shows the full lineage through compound parts (e.g., vindauga → vindr → *windaz → PIE).
+        """
+        edges_col = self.col.database["etymology_edges"]
+        components_to_trace: list[tuple[str, str, int]] = []
+
+        for word, lang, _lang_code, level in chain:
+            cursor = edges_col.find(
+                {"to_word": word, "to_lang": lang, "from_exists": True}
+            )
+            async for edge_doc in cursor:
+                comp_word = edge_doc["from_word"]
+                comp_lang = edge_doc["from_lang"]
+                comp_id = self.add_node(comp_word, comp_lang, level - 1)
+                word_id = node_id(word, lang)
+                if self.add_edge(comp_id, word_id, edge_doc["edge_type"]):
+                    # Only trace ancestry for newly added components
+                    components_to_trace.append((comp_word, comp_lang, level - 1))
+
+        # Trace ancestry upward for each component (depth-limited)
+        if max_compound_depth > 0:
+            for comp_word, comp_lang, comp_level in components_to_trace:
+                doc = await self._find_word_doc(
+                    comp_word, comp_lang, {"_id": 0, "etymology_templates": 1}
+                )
+                if not doc:
+                    continue
+                comp_chain = self._build_ancestor_chain(
+                    doc, comp_word, comp_lang, comp_level
+                )
+                # Recursively expand compound edges on the component's ancestors
+                await self._expand_compound_edges(comp_chain, max_compound_depth - 1)
+
     async def _expand_descendants_from_chain(self, chain: list[tuple]):
         """Find descendants from each node in the ancestor chain."""
         for anc_word, anc_lang, anc_lc, anc_level in chain:
+            if node_id(anc_word, anc_lang) in self.skip_descendant_ids:
+                continue
             await self.find_descendants(anc_word, anc_lang, anc_lc, anc_level)
 
     async def find_descendants(
@@ -172,7 +242,8 @@ class TreeBuilder:
                 continue
 
             self.add_node(dw, dl, parent_level + 1)
-            await self.find_descendants(dw, dl, dlc, parent_level + 1, depth + 1)
+            if did not in self.skip_descendant_ids:
+                await self.find_descendants(dw, dl, dlc, parent_level + 1, depth + 1)
 
     async def expand_cognates(self, max_rounds: int = DEFAULT_MAX_COGNATE_ROUNDS):
         """Expand cognates from all current nodes, recursively up to max_rounds."""
@@ -186,9 +257,8 @@ class TreeBuilder:
             ]
             for nid, node in unprocessed:
                 processed_nids.add(nid)
-                doc = await self.col.find_one(
-                    {"word": node["label"], "lang": node["language"]},
-                    {"_id": 0, "etymology_templates": 1},
+                doc = await self._find_word_doc(
+                    node["label"], node["language"], {"_id": 0, "etymology_templates": 1}
                 )
                 if not doc:
                     continue

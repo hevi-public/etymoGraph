@@ -24,10 +24,13 @@
         </div>
         <!-- Concept search -->
         <div id="concept-controls" class="view-controls" hidden>
-            <div class="search-container">
-                <input type="text" id="concept-search-input" placeholder="Search a concept (e.g. fire)..." autocomplete="off">
-                <button id="concept-clear-btn" hidden type="button">&times;</button>
-                <ul id="concept-suggestions" hidden></ul>
+            <div class="concept-chip-area">
+                <div id="concept-chips"></div>
+                <div class="search-container">
+                    <input type="text" id="concept-search-input" placeholder="Search a concept (e.g. fire)..." autocomplete="off">
+                    <button id="concept-clear-btn" hidden type="button">&times;</button>
+                    <ul id="concept-suggestions" hidden></ul>
+                </div>
             </div>
         </div>
         <!-- Unified filters button + popover -->
@@ -84,6 +87,7 @@
             <p id="detail-lang" class="detail-meta"></p>
             <p id="detail-pos" class="detail-meta"></p>
             <p id="detail-ipa" class="detail-meta"></p>
+            <div id="detail-audio"></div>
             <a id="detail-wikt" class="detail-meta" href="#" target="_blank" rel="noopener">&#x1F517; Wiktionary</a>
             <div class="etym-header">
                 <h3>Etymology</h3>

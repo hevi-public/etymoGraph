@@ -1,4 +1,4 @@
-.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic test-frontend test-e2e test-integration test-all collect-fixtures
+.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic precompute-edges test-frontend test-e2e test-integration test-all collect-fixtures
 
 setup: build download load
 	@echo "Setup complete! Run 'make run' to start."
@@ -61,6 +61,10 @@ format:  ## Format Python code with Ruff
 precompute-phonetic:  ## Precompute Dolgopolsky sound classes for concept map
 	@echo "Precomputing phonetic data (requires lingpy + pymongo)..."
 	cd backend && python -m etl.precompute_phonetic
+
+precompute-edges:  ## Precompute compound/affix etymology edges
+	@echo "Precomputing compound/affix edges (requires pymongo)..."
+	cd backend && python -m etl.precompute_edges
 
 test-frontend:  ## Run Vitest unit tests
 	npx vitest run

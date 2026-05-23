@@ -8,8 +8,15 @@
 
 let currentWord = "wine";
 let currentLang = "English";
+let currentEtym = null;
 let activeView = "etymology"; // "etymology" | "concept"
-let currentConcept = "";
+
+// Multi-concept state
+let activeConcepts = []; // [{concept, accentColor}]
+const CONCEPT_ACCENT_COLORS = [
+    "#5B8DEF", "#EF5B5B", "#43D9A2", "#F5C842",
+    "#CE6BF0", "#FF8C42", "#00BCD4", "#8BC34A",
+];
 
 // --- Etymology view functions ---
 
@@ -29,21 +36,22 @@ async function resolveLanguage(word) {
     }
 }
 
-async function selectWord(word, lang, skipRoute = false) {
+async function selectWord(word, lang, skipRoute = false, etym = null) {
     if (!lang) {
         lang = await resolveLanguage(word);
     }
     currentWord = word;
     currentLang = lang;
+    currentEtym = etym;
     try {
         const types = getSelectedTypes();
-        const data = await getEtymologyTree(word, lang, types);
+        const data = await getEtymologyTree(word, lang, types, etym);
         if (data.nodes.length === 0) {
             data.nodes = [{ id: `${word}:${lang}`, label: word, language: lang, level: 0 }];
         }
         updateGraph(data);
         if (!skipRoute) {
-            router.push({ view: "etymology", word, lang });
+            router.push({ view: "etymology", word, lang, etym: etym || "" });
         }
     } catch (e) {
         console.error("Failed to load etymology:", e);
@@ -76,6 +84,7 @@ function switchView(view, skipRoute = false) {
         graphDiv.hidden = false;
         conceptGraphDiv.hidden = true;
         destroyConceptMap();
+        removeConceptLegend();
         // Hide "View in Etymology Graph" button if present
         const etymBtn = document.getElementById("view-in-etymology-btn");
         if (etymBtn) etymBtn.hidden = true;
@@ -96,17 +105,134 @@ function switchView(view, skipRoute = false) {
 
 let conceptDebounceTimer = null;
 
-async function loadConceptMap(concept, pos, skipRoute = false) {
-    currentConcept = concept;
+function nextAccentColor() {
+    const used = new Set(activeConcepts.map((c) => c.accentColor));
+    const unused = CONCEPT_ACCENT_COLORS.find((c) => !used.has(c));
+    return unused || CONCEPT_ACCENT_COLORS[activeConcepts.length % CONCEPT_ACCENT_COLORS.length];
+}
+
+function addConcept(concept, skipRoute = false) {
+    if (activeConcepts.some((c) => c.concept === concept)) return;
+    activeConcepts.push({ concept, accentColor: nextAccentColor() });
+    renderChips();
+    reloadConceptMap(skipRoute);
+}
+
+function removeConcept(concept) {
+    activeConcepts = activeConcepts.filter((c) => c.concept !== concept);
+    renderChips();
+    if (activeConcepts.length === 0) {
+        destroyConceptMap();
+        removeConceptLegend();
+        router.replace({ concepts: "" });
+    } else {
+        reloadConceptMap();
+    }
+}
+
+function renderChips() {
+    const container = document.getElementById("concept-chips");
+    container.innerHTML = "";
+    for (const c of activeConcepts) {
+        const chip = document.createElement("span");
+        chip.className = "concept-chip";
+        chip.style.setProperty("--chip-color", c.accentColor);
+
+        const dot = document.createElement("span");
+        dot.className = "chip-dot";
+        chip.appendChild(dot);
+
+        chip.appendChild(document.createTextNode(c.concept));
+
+        const btn = document.createElement("button");
+        btn.className = "chip-remove";
+        btn.type = "button";
+        btn.textContent = "\u00d7";
+        btn.addEventListener("click", () => removeConcept(c.concept));
+        chip.appendChild(btn);
+
+        container.appendChild(chip);
+    }
+}
+
+function buildConceptColorMap() {
+    const map = {};
+    for (const c of activeConcepts) {
+        map[c.concept] = c.accentColor;
+    }
+    return map;
+}
+
+async function reloadConceptMap(skipRoute = false) {
+    if (activeConcepts.length === 0) return;
+    const pos = getSelectedPos();
     try {
-        const data = await getConceptMap(concept, pos || null);
-        updateConceptMap(data);
+        const results = await Promise.all(
+            activeConcepts.map((c) => getConceptMap(c.concept, pos || null))
+        );
+        // Merge: deduplicate words by ID, tag with concept membership
+        const mergedWords = new Map();
+        const mergedEtymEdges = [];
+        const seenEdges = new Set();
+        for (let i = 0; i < results.length; i++) {
+            const data = results[i];
+            const conceptName = activeConcepts[i].concept;
+            for (const w of data.words) {
+                if (mergedWords.has(w.id)) {
+                    mergedWords.get(w.id)._concepts.push(conceptName);
+                } else {
+                    mergedWords.set(w.id, { ...w, _concepts: [conceptName] });
+                }
+            }
+            for (const e of (data.etymology_edges || [])) {
+                const key = [e.source, e.target].sort().join("|");
+                if (!seenEdges.has(key)) {
+                    seenEdges.add(key);
+                    mergedEtymEdges.push(e);
+                }
+            }
+        }
+        const mergedData = {
+            words: Array.from(mergedWords.values()),
+            etymology_edges: mergedEtymEdges,
+            _conceptColorMap: buildConceptColorMap(),
+        };
+        updateConceptMap(mergedData);
+        updateConceptLegend();
         if (!skipRoute) {
-            router.push({ view: "concept", concept, pos: pos || "" });
+            router.push({
+                view: "concept",
+                concepts: activeConcepts.map((c) => c.concept).join(","),
+                pos: pos || "",
+            });
         }
     } catch (e) {
         console.error("Failed to load concept map:", e);
     }
+}
+
+function updateConceptLegend() {
+    removeConceptLegend();
+    if (activeConcepts.length < 2) return;
+    const legend = document.createElement("div");
+    legend.className = "concept-legend";
+    legend.id = "concept-legend";
+    for (const c of activeConcepts) {
+        const item = document.createElement("div");
+        item.className = "concept-legend-item";
+        const dot = document.createElement("span");
+        dot.className = "concept-legend-dot";
+        dot.style.background = c.accentColor;
+        item.appendChild(dot);
+        item.appendChild(document.createTextNode(c.concept));
+        legend.appendChild(item);
+    }
+    document.getElementById("graph-wrapper").appendChild(legend);
+}
+
+function removeConceptLegend() {
+    const existing = document.getElementById("concept-legend");
+    if (existing) existing.remove();
 }
 
 function renderConceptSuggestions(matches) {
@@ -124,9 +250,9 @@ function renderConceptSuggestions(matches) {
         countSpan.textContent = `${item.translation_count} languages`;
         li.appendChild(countSpan);
         li.addEventListener("click", () => {
-            document.getElementById("concept-search-input").value = item.concept;
+            document.getElementById("concept-search-input").value = "";
             list.hidden = true;
-            loadConceptMap(item.concept, getSelectedPos());
+            addConcept(item.concept);
         });
         list.appendChild(li);
     });
@@ -162,7 +288,7 @@ document.addEventListener("click", (e) => {
 // Re-fetch etymology when connection filter changes
 document.getElementById("ety-filters").addEventListener("change", (e) => {
     if (e.target.matches("input[type=checkbox]")) {
-        selectWord(currentWord, currentLang, true);
+        selectWord(currentWord, currentLang, true, currentEtym);
         router.replace({ types: getSelectedTypes() });
     }
 });
@@ -180,7 +306,7 @@ layoutSelect.value = currentLayout;
 layoutSelect.addEventListener("change", () => {
     currentLayout = layoutSelect.value;
     localStorage.setItem("graphLayout", currentLayout);
-    selectWord(currentWord, currentLang, true);
+    selectWord(currentWord, currentLang, true, currentEtym);
     router.replace({ layout: layoutSelect.value });
 });
 
@@ -214,7 +340,9 @@ conceptSearchInput.addEventListener("keydown", (e) => {
         if (!q) return;
         conceptSuggestions.hidden = true;
         clearTimeout(conceptDebounceTimer);
-        loadConceptMap(q, getSelectedPos());
+        addConcept(q);
+        conceptSearchInput.value = "";
+        conceptClearBtn.hidden = true;
     }
 });
 
@@ -252,9 +380,9 @@ document.getElementById("show-etymology-edges").addEventListener("change", (e) =
 // POS filter radio
 document.querySelectorAll("input[name='concept-pos']").forEach((radio) => {
     radio.addEventListener("change", () => {
-        if (currentConcept) {
+        if (activeConcepts.length > 0) {
             const pos = getSelectedPos();
-            loadConceptMap(currentConcept, pos, true);
+            reloadConceptMap(true);
             router.replace({ pos });
         }
     });
@@ -293,8 +421,18 @@ function updateDOMFromState(state) {
     if (state.view === "etymology" && state.word) {
         document.getElementById("search-input").value = state.word;
     }
-    if (state.view === "concept" && state.concept) {
-        document.getElementById("concept-search-input").value = state.concept;
+
+    // Restore multi-concept chips from URL state
+    if (state.view === "concept" && state.concepts) {
+        const conceptNames = state.concepts.split(",").filter(Boolean);
+        activeConcepts = conceptNames.map((name, i) => ({
+            concept: name,
+            accentColor: CONCEPT_ACCENT_COLORS[i % CONCEPT_ACCENT_COLORS.length],
+        }));
+        renderChips();
+    } else if (state.view === "concept") {
+        activeConcepts = [];
+        renderChips();
     }
 }
 
@@ -304,9 +442,9 @@ router.onNavigate((state) => {
     updateDOMFromState(state);
     switchView(state.view, true);
     if (state.view === "etymology") {
-        selectWord(state.word, state.lang, true);
-    } else if (state.view === "concept") {
-        loadConceptMap(state.concept, state.pos, true);
+        selectWord(state.word, state.lang, true, state.etym || null);
+    } else if (state.view === "concept" && activeConcepts.length > 0) {
+        reloadConceptMap(true);
     }
 });
 
@@ -325,7 +463,9 @@ router.replace(initial);
 updateDOMFromState(initial);
 if (initial.view === "concept") {
     switchView("concept", true);
-    loadConceptMap(initial.concept, initial.pos, true);
+    if (activeConcepts.length > 0) {
+        reloadConceptMap(true);
+    }
 } else {
-    selectWord(initial.word, initial.lang, true);
+    selectWord(initial.word, initial.lang, true, initial.etym || null);
 }

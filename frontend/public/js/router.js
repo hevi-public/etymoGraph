@@ -12,9 +12,10 @@
             lang:   { "default": "English" },
             types:  { "default": "inh,bor,der" },
             layout: { "default": "era-layered" },
+            etym:   { "default": "" },
         },
         concept: {
-            concept:    { "default": "" },
+            concepts:   { "default": "" },
             pos:        { "default": "" },
             similarity: { "default": 100, parse: Number },
             etymEdges:  { "default": true, parse: function (v) { return v !== "false"; } },
@@ -60,6 +61,12 @@
                 state[key] = defs[key]["default"];
             }
         }
+
+        // Backward compat: old URLs with ?concept= instead of ?concepts=
+        if (view === "concept" && !state.concepts && params.get("concept")) {
+            state.concepts = params.get("concept");
+        }
+
         return state;
     }
 

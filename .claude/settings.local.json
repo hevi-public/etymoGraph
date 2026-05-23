@@ -40,7 +40,21 @@
       "WebFetch(domain:visjs.github.io)",
       "WebSearch",
       "mcp__playwright__playwright_screenshot",
-      "mcp__playwright__playwright_navigate"
+      "mcp__playwright__playwright_navigate",
+      "mcp__mongodb__create-index",
+      "WebFetch(domain:en.wiktionary.org)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d[''''parse''''][''''wikitext''''][''''*''''][:2000]\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d[''''parse''''][''''wikitext''''][''''*''''][:3000]\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); t=d[''''parse''''][''''wikitext''''][''''*'''']; print\\(t[:3000]\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); t=d.get\\(''''parse'''',{}\\).get\\(''''wikitext'''',{}\\).get\\(''''*'''',''''''''\\); print\\(t[:3000] if t else json.dumps\\(d, indent=2\\)[:500]\\)\")",
+      "Bash(python3 -c \":*)",
+      "Bash(python3 -c \"import sys, json; d=json.load\\(sys.stdin\\); print\\(f''''Nodes: {len\\(d[\"\"nodes\"\"]\\)}, Edges: {len\\(d[\"\"edges\"\"]\\)}''''\\)\")",
+      "Bash(for word:*)",
+      "Bash(do echo:*)",
+      "Bash(python3 -c \"import sys, json; d=json.load\\(sys.stdin\\); nodes=d[''''nodes'''']; levels=[n[''''level''''] for n in nodes]; print\\(f''''{len\\(nodes\\)} nodes, depth {min\\(levels\\)} to {max\\(levels\\)}''''\\)\")",
+      "Bash(done)",
+      "Bash(npx vitest:*)",
+      "Bash(docker ps:*)"
     ]
   },
   "enabledMcpjsonServers": [

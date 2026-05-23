@@ -2,21 +2,40 @@ from fastapi import APIRouter, Query
 
 from app.database import get_words_collection
 from app.services import lang_cache
-from app.services.template_parser import ANCESTRY_TYPES, COGNATE_TYPE, extract_ancestry, node_id
+from app.services.template_parser import (
+    ANCESTRY_TYPES,
+    COGNATE_TYPE,
+    extract_ancestry,
+    node_id,
+    normalize_word,
+)
 from app.services.tree_builder import TreeBuilder
 
 router = APIRouter()
 
 
 @router.get("/etymology/{word}/chain")
-async def get_etymology_chain(word: str, lang: str = "English", max_depth: int = 10):
+async def get_etymology_chain(
+    word: str, lang: str = "English", max_depth: int = 10, etym: int | None = None
+):
     """Trace ancestry chain upward from a word to its root."""
     col = get_words_collection()
     await lang_cache.ensure_loaded(col)
     nodes = {}
     edges = []
 
-    doc = await col.find_one({"word": word, "lang": lang}, {"_id": 0, "etymology_templates": 1})
+    proj = {"_id": 0, "etymology_templates": 1}
+    query = {"word": word, "lang": lang}
+    if etym is not None:
+        query["etymology_number"] = etym
+    doc = await col.find_one(query, proj)
+    if not doc:
+        normalized = normalize_word(word)
+        if normalized != word:
+            nquery = {"word": normalized, "lang": lang}
+            if etym is not None:
+                nquery["etymology_number"] = etym
+            doc = await col.find_one(nquery, proj)
 
     root_id = node_id(word, lang)
     nodes[root_id] = {"id": root_id, "label": word, "language": lang, "level": 0}
@@ -51,6 +70,7 @@ async def get_etymology_tree(
     max_ancestor_depth: int = 10,
     max_descendant_depth: int = Query(3, ge=1, le=5),
     types: str = Query("inh", description="Comma-separated connection types: inh,bor,der,cog"),
+    etym: int | None = None,
 ):
     """Build a full tree: trace up to the root, then find all descendants at each level."""
     col = get_words_collection()
@@ -65,7 +85,7 @@ async def get_etymology_tree(
         allowed_types = {"inh"}
 
     builder = TreeBuilder(col, allowed_types, max_ancestor_depth, max_descendant_depth)
-    await builder.expand_word(word, lang, base_level=0)
+    await builder.expand_word(word, lang, base_level=0, etym=etym)
 
     if include_cognates:
         await builder.expand_cognates()

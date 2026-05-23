@@ -1160,6 +1160,73 @@ graphContainer.addEventListener("wheel", (e) => {
     }
 }, { passive: false });
 
+// Touch: pinch-to-zoom and single-finger pan for tablets
+let touchState = null;
+
+function getTouchDistance(t1, t2) {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+function getTouchCenter(t1, t2) {
+    return { x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 };
+}
+
+graphContainer.addEventListener("touchstart", (e) => {
+    if (!network) return;
+    if (e.touches.length === 2) {
+        e.preventDefault();
+        touchState = {
+            startDist: getTouchDistance(e.touches[0], e.touches[1]),
+            startScale: network.getScale(),
+            lastCenter: getTouchCenter(e.touches[0], e.touches[1]),
+        };
+    }
+}, { passive: false });
+
+graphContainer.addEventListener("touchmove", (e) => {
+    if (!network || !touchState || e.touches.length !== 2) return;
+    e.preventDefault();
+
+    const center = getTouchCenter(e.touches[0], e.touches[1]);
+    const oldScale = network.getScale();
+    const oldPos = network.getViewPosition();
+
+    // Compute new scale from pinch distance
+    const dist = getTouchDistance(e.touches[0], e.touches[1]);
+    const ratio = dist / touchState.startDist;
+    const newScale = Math.max(0.1, Math.min(5, touchState.startScale * ratio));
+
+    // Convert pinch screen center to world coords
+    const rect = graphContainer.getBoundingClientRect();
+    const pinchWorld = network.DOMtoCanvas({
+        x: center.x - rect.left,
+        y: center.y - rect.top,
+    });
+
+    // Zoom toward pinch center: keep the world point under fingers fixed
+    const newPos = {
+        x: pinchWorld.x - (pinchWorld.x - oldPos.x) * (oldScale / newScale),
+        y: pinchWorld.y - (pinchWorld.y - oldPos.y) * (oldScale / newScale),
+    };
+
+    // Add finger pan delta (convert screen px to world units at new scale)
+    newPos.x += (touchState.lastCenter.x - center.x) / newScale;
+    newPos.y += (touchState.lastCenter.y - center.y) / newScale;
+
+    network.moveTo({ scale: newScale, position: newPos, animation: false });
+    handleZoomLOD(newScale);
+    handleZoomClustering(newScale);
+    touchState.lastCenter = center;
+}, { passive: false });
+
+graphContainer.addEventListener("touchend", (e) => {
+    if (e.touches.length < 2) {
+        touchState = null;
+    }
+}, { passive: true });
+
 function selectNodeById(nodeId) {
     if (!network) return;
     network.selectNodes([nodeId]);
@@ -1239,6 +1306,45 @@ function buildConnectionsPanel(nodeId) {
 
 // --- showDetail ---
 
+function renderAudioPlayer(audioEntries) {
+    const container = document.getElementById("detail-audio");
+    container.innerHTML = "";
+    if (!audioEntries.length) {
+        container.hidden = true;
+        return;
+    }
+    container.hidden = false;
+    for (const entry of audioEntries) {
+        const row = document.createElement("div");
+        row.className = "audio-row";
+
+        const audio = document.createElement("audio");
+        audio.controls = true;
+        audio.preload = "none";
+        if (entry.mp3_url) {
+            const src = document.createElement("source");
+            src.src = entry.mp3_url;
+            src.type = "audio/mpeg";
+            audio.appendChild(src);
+        }
+        if (entry.ogg_url) {
+            const src = document.createElement("source");
+            src.src = entry.ogg_url;
+            src.type = "audio/ogg";
+            audio.appendChild(src);
+        }
+        row.appendChild(audio);
+
+        if (entry.tags && entry.tags.length) {
+            const label = document.createElement("span");
+            label.className = "audio-tag";
+            label.textContent = entry.tags.join(", ");
+            row.appendChild(label);
+        }
+        container.appendChild(row);
+    }
+}
+
 function renderUncertaintyBadge(uncertainty) {
     const badge = document.getElementById("detail-uncertainty");
     if (!uncertainty || !uncertainty.is_uncertain) {
@@ -1277,6 +1383,7 @@ async function showDetail(word, lang) {
     langEl.textContent = lang;
     posEl.textContent = "";
     ipaEl.textContent = "";
+    renderAudioPlayer([]);
     defsEl.innerHTML = "";
     etymEl.textContent = "";
     renderUncertaintyBadge(null);  // Clear until loaded
@@ -1290,6 +1397,7 @@ async function showDetail(word, lang) {
         const data = await getWord(word, lang);
         posEl.textContent = data.pos || "";
         ipaEl.textContent = data.pronunciation || "";
+        renderAudioPlayer(data.audio || []);
         renderUncertaintyBadge(data.etymology_uncertainty);
         defsEl.innerHTML = "";
         (data.definitions || []).forEach((d) => {
