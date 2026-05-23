@@ -78,7 +78,7 @@ Changing the filter re-fetches the tree immediately. Borrowed edges are shown wi
 
 | Type | Meaning | Source Templates | Style |
 |------|---------|------------------|-------|
-| `component` | Morphological component of the word (base word in a derivation) | `af`, `affix`, `suffix`, `prefix`, `compound`, `blend` | Gray dashed |
+| `component` | Morphological component of the word (base word in a derivation) | `af`, `affix`, `suffix` (incl. `suf` alias), `prefix` (incl. `pre` alias), `compound`, `confix`, `blend` | Gray dashed |
 | `mention` | Word mentioned in etymology text but not as an ancestor | `m`, `m+`, `l` | Gray dashed |
 
 **Compound decomposition** — When a word in the ancestry chain is a compound (e.g., Old Norse "vindauga" = "vindr" + "auga"), its components are shown as branching nodes with `component` edges. Each component's own ancestry is traced upward, revealing parallel lineage branches (e.g., "vindr" → Proto-Germanic *windaz → PIE). This uses precomputed edges from the `etymology_edges` collection (see ETL section). Compound expansion recurses up to 2 levels deep to handle compounds-of-compounds.

@@ -1,5 +1,6 @@
 """Tests for etymology classification functions."""
 
+import pytest
 from app.services.etymology_classifier import (
     UncertaintyResult,
     classify_etymology,
@@ -165,6 +166,27 @@ def test_extract_word_mentions_skips_affixes():
     # Should only include "test", not "-able" (it's an affix)
     assert len(mentions) == 1
     assert mentions[0].word == "test"
+
+
+@pytest.mark.parametrize("template_name", ["suf", "pre", "affix", "compound", "confix"])
+def test_affix_template_aliases_extract_components(template_name):
+    """Wiktionary short-form aliases (`suf`, `pre`) parse like their long forms.
+
+    Regression for SPC-00013 Q2 finding: chemistry uses `suf` rather than
+    `suffix`, so the prior extractor missed its `chemist + -ry` components.
+    """
+    doc = {
+        "etymology_templates": [
+            {"name": template_name, "args": {"1": "en", "2": "base", "3": "extra"}},
+        ],
+    }
+
+    mentions = extract_word_mentions(doc)
+
+    words = {m.word for m in mentions}
+    assert "base" in words, f"{template_name}: base component missing"
+    assert "extra" in words, f"{template_name}: extra component missing"
+    assert all(m.role == "component" for m in mentions)
 
 
 def test_uncertainty_result_to_dict():

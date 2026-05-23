@@ -40,8 +40,21 @@ UNCERTAIN_TEXT_PATTERNS = [
 # Templates that mention words but don't establish ancestry
 MENTION_TEMPLATES = {"m", "m+", "l"}
 
-# Templates for affix-based word formation
-AFFIX_TEMPLATES = {"af", "affix", "suffix", "prefix", "compound", "blend"}
+# Templates for affix-based word formation. Includes the short-form aliases
+# Wiktionary editors sometimes use (`suf` for `suffix`, `pre` for `prefix`).
+# Kaikki preserves the exact template name from the wikitext source, so both
+# spellings appear in raw documents.
+AFFIX_TEMPLATES = {
+    "af",
+    "affix",
+    "suffix",
+    "suf",
+    "prefix",
+    "pre",
+    "compound",
+    "confix",
+    "blend",
+}
 
 # Ancestry templates (for exclusion from mentions)
 ANCESTRY_TEMPLATES = {"inh", "bor", "der"}
