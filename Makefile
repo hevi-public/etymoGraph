@@ -62,9 +62,9 @@ precompute-phonetic:  ## Precompute Dolgopolsky sound classes for concept map
 	@echo "Precomputing phonetic data (requires lingpy + pymongo)..."
 	cd backend && python -m etl.precompute_phonetic
 
-precompute-edges:  ## Precompute compound/affix etymology edges
+precompute-edges:  ## Precompute compound/affix etymology edges (pass --reprocess via FLAGS to rebuild)
 	@echo "Precomputing compound/affix edges (requires pymongo)..."
-	cd backend && python -m etl.precompute_edges
+	cd backend && python -m etl.precompute_edges $(FLAGS)
 
 test-frontend:  ## Run Vitest unit tests
 	npx vitest run
