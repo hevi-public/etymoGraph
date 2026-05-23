@@ -68,7 +68,7 @@ test-frontend:  ## Run Vitest unit tests
 test-e2e:  ## Run Playwright E2E tests (requires make run)
 	npx playwright test
 
-test-integration:  ## Run live-API characterization tests (SPC-00011, requires make run)
+test-integration:  ## Run live-API characterization tests (SPC-00013, requires make run)
 	pytest tests/integration $(FLAGS)
 
 test-all:  ## Run all tests
@@ -77,5 +77,5 @@ test-all:  ## Run all tests
 	$(MAKE) test-e2e
 	$(MAKE) test-integration
 
-collect-fixtures:  ## Regenerate Wiktionary example fixtures (SPC-00011, requires make run)
+collect-fixtures:  ## Regenerate Wiktionary example fixtures (SPC-00013, requires make run)
 	python scripts/collect_wiktionary_examples.py --all $(FLAGS)

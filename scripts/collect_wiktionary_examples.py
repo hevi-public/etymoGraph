@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Collect Wiktionary-example fixtures for SPC-00011.
+"""Collect Wiktionary-example fixtures for SPC-00013.
 
 Snapshots the current API output (`/api/words`, `/api/etymology/.../chain`,
 `/api/etymology/.../tree`) for a curated word set, alongside the raw Kaikki
 document. Each fixture also reserves space for hand-encoded Wiktionary ground
-truth and an explicit gap inventory — see specs/00011-wiktionary-example-fixtures/
+truth and an explicit gap inventory — see specs/00013-wiktionary-example-fixtures/
 for the rationale.
 
 Run against a live `make run` stack (Mongo on :27017, backend on :8000).
@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = REPO_ROOT / "tests" / "fixtures" / "wiktionary"
-SPEC_ID = "SPC-00011"
+SPEC_ID = "SPC-00013"
 
 MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017/etymology")
 API_BASE = os.environ.get("ETYMOGRAPH_API", "http://localhost:8000").rstrip("/")

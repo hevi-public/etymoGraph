@@ -1,10 +1,10 @@
-# Wiktionary Example Fixtures (SPC-00011)
+# Wiktionary Example Fixtures (SPC-00013)
 
 Snapshots of API output for a curated word set, alongside hand-encoded ground truth from Wiktionary. Substrate for the integration tests planned in the follow-up PR.
 
 ## Quirk codes
 
-Each fixture's `quirks_covered` field references one or more of these. See `specs/00011-wiktionary-example-fixtures/spec.md` for full discussion.
+Each fixture's `quirks_covered` field references one or more of these. See `specs/00013-wiktionary-example-fixtures/spec.md` for full discussion.
 
 | Code | Quirk |
 |---|---|
@@ -26,7 +26,7 @@ Each fixture's `quirks_covered` field references one or more of these. See `spec
 ```jsonc
 {
   "meta": {
-    "spec": "SPC-00011",
+    "spec": "SPC-00013",
     "kaikki_source_url": "https://kaikki.org/...",
     "kaikki_dump_date": null,                  // set via KAIKKI_DUMP_DATE env at collection time
     "wiktionary_url": "https://en.wiktionary.org/wiki/dog",

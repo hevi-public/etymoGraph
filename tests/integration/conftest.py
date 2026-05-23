@@ -1,4 +1,4 @@
-"""Pytest fixtures for live-API integration tests (SPC-00011 Phase 1)."""
+"""Pytest fixtures for live-API integration tests (SPC-00013 Phase 1)."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-# Decision Log — SPC-00011: Wiktionary Example Fixtures
+# Decision Log — SPC-00013: Wiktionary Example Fixtures
 
 ## Starting Question
 

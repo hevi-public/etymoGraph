@@ -1,4 +1,4 @@
-"""Characterization tests for the etymology API (SPC-00011 Phase 1).
+"""Characterization tests for the etymology API (SPC-00013 Phase 1).
 
 Each test parametrizes over the fixtures in `tests/fixtures/wiktionary/` and
 asserts that the live API still returns exactly what was captured when the
@@ -7,7 +7,7 @@ so a fresh run against the same data MUST pass; a divergence means either the
 code or the data changed.
 
 The user validates assertion sensitivity by manually mutating a fixture field
-and confirming the corresponding test fails — see SPC-00011 decision-log.md.
+and confirming the corresponding test fails — see SPC-00013 decision-log.md.
 """
 
 from __future__ import annotations

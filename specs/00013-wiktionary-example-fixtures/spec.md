@@ -1,4 +1,4 @@
-# SPC-00011: Wiktionary Example Fixtures
+# SPC-00013: Wiktionary Example Fixtures
 
 | Field | Value |
 |---|---|
@@ -82,8 +82,8 @@ Full schema in `tests/fixtures/wiktionary/README.md`.
 | `tests/integration/test_api_characterization.py` | NEW — parametrized snapshot tests |
 | `tests/integration/conftest.py` | NEW — `api_base` fixture with health-check skip |
 | `tests/integration/__init__.py` | NEW — package marker |
-| `specs/00011-wiktionary-example-fixtures/spec.md` | NEW — this file |
-| `specs/00011-wiktionary-example-fixtures/decision-log.md` | NEW — alternatives considered |
+| `specs/00013-wiktionary-example-fixtures/spec.md` | NEW — this file |
+| `specs/00013-wiktionary-example-fixtures/decision-log.md` | NEW — alternatives considered |
 | `Makefile` | Add `collect-fixtures` and `test-integration` targets |
 
 No `backend/app/` changes.
