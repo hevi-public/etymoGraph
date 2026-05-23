@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Status** | draft (Phase 1 in progress) |
+| **Status** | Phase 1 implemented (PR #6); Phase 2 in progress |
 | **Created** | 2026-05-22 |
 | **Modifies** | — |
 | **Modified-by** | — |
@@ -17,28 +17,34 @@ The fixtures are designed to expose specific Wiktionary quirks our Kaikki-derive
 
 Each fixture word is selected to exercise at least one quirk class. Codes referenced from `tests/fixtures/wiktionary/README.md`.
 
-| Code | Quirk | Example word | What our pipeline does today |
-|---|---|---|---|
-| Q1 | Disjunctive / "either X or Y" origins | `dog` | Classifier flags `is_uncertain`; only the first template surfaces in `/chain` |
-| Q2 | Compounds / affixed forms back to base words | `cupboard`, `blackbird` | `compound`/`af`/`+` not in `ANCESTRY_TYPES`; appear only in `related_mentions` |
-| Q3 | Dead / missing links (reconstructed proto-forms) | `hound` chain → `*hundaz`, `*ḱwṓ` | Coverage depends on whether Kaikki has the reconstruction doc |
-| Q4 | Multiple Etymology sections per page | `orange` (fruit vs. color) | `find_one((word, lang))` picks whichever doc Mongo returns first |
-| Q5 | Foreign-script ancestors | `alchemy` → `اَلْكِيمِيَاء`; `orange` → `नारङ्ग` | `node_id` round-trip through URL/Mongo/vis.js untested |
-| Q6 | Calques and "influenced by" | `orange` | No edge label for `cal`; "influenced by" dropped entirely |
-| Q7 | Doublets | `alchemy` / `chemistry` | No graph representation for sister-via-shared-root |
-| Q8 | Prose-only intermediate forms | `hound`'s "Pre-Germanic *kun-tós" | Skipped — no structured template |
-| Q9 | Cognates listed inline with ancestors | `hound`, `fire` | `extract_cognates` separates them; assertable |
-| Q10 | POS-specific etymologies | `orange` adjective vs. noun | One doc per `(word, lang, pos)`; chain endpoint ignores POS |
-| Q11 | "Of unknown origin" terminals | `dog`, `chuckle` | Chain ends silently; verify no 404/error |
-| Q12 | Kaikki snapshot lag vs. live Wiktionary | all | Document with `meta.kaikki_dump_date` |
+**Status legend:**
+- **OPEN** — system diverges from Wiktionary; tests will expose the gap.
+- **PARTIAL** — partially addressed by an upstream change; tests should narrow on remaining edge cases.
+- **CLOSED** — addressed in main; tests confirm the fix and prevent regression.
+
+| Code | Quirk | Example word | Status | What our pipeline does today |
+|---|---|---|---|---|
+| Q1 | Disjunctive / "either X or Y" origins | `dog` | OPEN | Classifier flags `is_uncertain`; only the first template surfaces in `/chain` |
+| Q2 | Compounds / affixed forms back to base words | `cupboard`, `blackbird` | PARTIAL (main SPC-00012 precomputes `etymology_edges`) | Compound/affix templates now surface as edges via the precomputed collection; re-validate after fixture regen |
+| Q3 | Dead / missing links (reconstructed proto-forms) | `hound` chain → `*hundaz`, `*ḱwṓ` | PARTIAL (main SPC-00011 normalizes asterisk-prefix lookup) | Reconstructed-form templates now resolve to `Reconstruction:` docs when those docs exist in Kaikki; gaps remain where Kaikki lacks the doc |
+| Q4 | Multiple Etymology sections per page | `orange` (fruit vs. color) | OPEN | `find_one((word, lang))` picks whichever doc Mongo returns first |
+| Q5 | Foreign-script ancestors | `alchemy` → `اَلْكِيمِيَاء`; `orange` → `नारङ्ग` | OPEN | `node_id` round-trip through URL/Mongo/vis.js untested |
+| Q6 | Calques and "influenced by" | `orange` | OPEN | No edge label for `cal`; "influenced by" dropped entirely |
+| Q7 | Doublets | `alchemy` / `chemistry` | OPEN | No graph representation for sister-via-shared-root |
+| Q8 | Prose-only intermediate forms | `hound`'s "Pre-Germanic *kun-tós" | OPEN | Skipped — no structured template |
+| Q9 | Cognates listed inline with ancestors | `hound`, `fire` | OPEN | `extract_cognates` separates them; assertable |
+| Q10 | POS-specific etymologies | `orange` adjective vs. noun | OPEN | One doc per `(word, lang, pos)`; chain endpoint ignores POS |
+| Q11 | "Of unknown origin" terminals | `dog`, `chuckle` | OPEN | Chain ends silently; verify no 404/error |
+| Q12 | Kaikki snapshot lag vs. live Wiktionary | all | OPEN | Document with `meta.kaikki_dump_date` |
+| Q13 | Template display spelling ≠ DB headword (macrons, asterisks, diacritics) | `wine` → `wīn` (OE), `cheese` → `ċīese` (OE), `hound` → `*hundaz` | CLOSED (main SPC-00011) | `template_parser` normalizes via Unicode NFKD + asterisk strip before DB lookup; regression test on the normalization surface |
 
 ## Word set
 
 | Word | Quirks covered |
 |---|---|
-| `wine` | clean baseline (`inh` chain) |
-| `hound` | Q3, Q8, Q9 |
-| `cheese` | clean borrowing baseline |
+| `wine` | Q13 (Old English ancestor `wīn` has macron) |
+| `hound` | Q3, Q8, Q9, Q13 (`*hundaz` asterisk + macron) |
+| `cheese` | Q13 (Old English `ċīese`, Latin `cāseus` have macrons + diacritic) |
 | `fire` | Q9, deep PIE |
 | `alchemy` | Q5, Q7 |
 | `chemistry` | Q7 |
@@ -140,8 +146,26 @@ The phases below describe how this spec evolves; only Phase 1 is implemented in 
 | 3 (later) | Flip tests from "assert snapshot" to "assert Wiktionary consistency for non-gapped items" | Tests modified — go red where the system diverges from Wiktionary |
 | 4 (later) | Refactor services to close each gap (Q1, Q2, Q6, Q7…) | Service code changes — tests go green |
 
-## Out of scope (future phases)
+## Phase 2 scope (current PR)
 
-- Phase 2 / 3 / 4 above — each phase gets its own PR, possibly its own follow-up spec.
+Phase 2 produces the **hand-encoded Wiktionary ground truth** that Phase 3 will later assert against. Per fixture in `tests/fixtures/wiktionary/{word}.json`:
+
+1. Open `meta.wiktionary_url` via WebSearch (sandbox blocks direct WebFetch on `en.wiktionary.org`; WebSearch on the domain works).
+2. Fill `wiktionary_reference.etymology_section_text_excerpt` with the first 1–3 sentences of the Etymology section verbatim.
+3. Fill `wiktionary_reference.expected_chain_per_wiktionary` with the primary ancestry chain Wiktionary presents — each entry `{lang, word, note?}`, in order from immediate parent back to the deepest root.
+4. For words tagged `Q1`, populate `wiktionary_reference.alternative_theories` with each "perhaps from…" / "possibly…" / "another proposal…" branch.
+5. Update `known_gaps`:
+   - `missing_alternative_origins`: `true` iff `Q1` and `len(system_output.chain.edges) <= 1`.
+   - `missing_compound_components`: `true` iff `Q2`-tagged fixture's `system_output.chain.edges` is still missing the component edges Wiktionary shows (re-check after main SPC-00012 — likely `false` now).
+   - `missing_calques`, `missing_doublet_link`: per template presence vs. graph representation.
+   - `foreign_script_roundtrip_unverified`: `false` once a Phase 2 reviewer confirms the foreign-script node id appears in `system_output` and round-trips.
+6. Add free-form `meta.notes` capturing anything surprising during the cross-check.
+
+Phase 2 is **per-fixture, mechanical-ish work** — the WebSearch + edit + commit loop runs once per word. Does not touch `backend/app/`, the test suite, or the collector script.
+
+## Out of scope (Phase 3, Phase 4)
+
+- **Phase 3**: modify the characterization tests from snapshot equality to "for each `known_gaps.<flag> == false`, system_output covers wiktionary_reference items." Tests go red where the system diverges from Wiktionary.
+- **Phase 4**: refactor services to close each remaining OPEN quirk class. Each likely warrants its own spec (e.g., `SPC-NNNNN: Surface alternative origins on uncertain etymologies` for Q1).
 - Mock-DB strategy (mongomock-motor or testcontainers): defer until isolation is a problem.
 - Service-layer unit tests (filling `backend/tests/test_tree_builder.py` TODO stubs): tackle when those services are refactored in Phase 4.
