@@ -113,14 +113,17 @@ PHASE2: dict[str, dict[str, Any]] = {
             "From Middle English alkamye, from Old French alkimie, arquemie "
             "(French alchimie), from Medieval Latin alchēmia, from Arabic اَلْكِيمِيَاء "
             "(al-kīmiyāʔ), from article اَل (al-) + Ancient Greek χυμείᾱ (khumeíā, "  # noqa: RUF001
-            "'art of alloying metals'), from χύμα (khúma, 'ingot, bar')."
+            "'art of alloying metals'), from χύμα (khúma, 'ingot, bar'). "
+            "Doublet of chemistry via the shared Greek root."
         ),
         "chain": [
             {"lang": "Middle English", "word": "alkamye",
              "note": "intermediate skipped by our /chain — Kaikki has no `inh` ME template"},
             {"lang": "Old French", "word": "alkimie"},
-            {"lang": "Medieval Latin", "word": "alchēmia"},
-            {"lang": "Arabic", "word": "اَلْكِيمِيَاء"},
+            {"lang": "Medieval Latin", "word": "alchēmia",
+             "note": "lang_cache miss — system has lang code `la-med`, not 'Medieval Latin'"},
+            {"lang": "Arabic", "word": "اَلْكِيمِيَاء",
+             "note": "Arabic diacritic stripping — system has bare form `كيمياء`"},
             {"lang": "Ancient Greek", "word": "χυμείᾱ"},
             {"lang": "Ancient Greek", "word": "χύμα",
              "note": "deeper root — system chain stops at χυμείᾱ"},
@@ -128,10 +131,12 @@ PHASE2: dict[str, dict[str, Any]] = {
         "alternative_theories": [],
         "gaps": {"missing_doublet_link": True},
         "notes": ("Phase 2: Doublet of `chemistry` via Greek χυμεία — not surfaced. "
-                  "Chain truncated before deepest Greek root χύμα. Foreign script "
-                  "(Arabic اَلْكِيمِيَاء, كيمياء) in node IDs round-trips through API. "
-                  "Middle English alkamye absent from chain because Kaikki has no ME→OE `inh` "
-                  "template (jumps English ← Old French directly)."),
+                  "Chain truncated before deepest Greek root χύμα. Two bonus quirks "
+                  "found: (a) lang_cache miss for `la-med` (Medieval Latin); (b) Arabic "
+                  "diacritic stripping — system stores bare form `كيمياء` while "
+                  "Wiktionary template uses fully-vocalised `اَلْكِيمِيَاء`. Middle English "
+                  "alkamye absent from chain because Kaikki has no ME→OE `inh` template "
+                  "(jumps English ← Old French directly)."),
     },
     "chemistry": {
         "excerpt": (
@@ -139,14 +144,18 @@ PHASE2: dict[str, dict[str, Any]] = {
             "same ultimate Greek/Arabic root."
         ),
         "chain": [
-            {"lang": "English", "word": "chemist", "note": "component (compound)"},
-            {"lang": "English", "word": "-ry", "note": "component (suffix)"},
+            {"lang": "English", "word": "chemist",
+             "note": "compound component — also missing from /tree (SPC-00012 doesn't normalize `suf`/`derived`)"},
+            {"lang": "English", "word": "-ry",
+             "note": "compound component (suffix) — also missing from /tree"},
         ],
         "alternative_theories": [],
         "gaps": {"missing_compound_components": True, "missing_doublet_link": True},
         "notes": ("Phase 2: System /chain is EMPTY despite Wiktionary clearly stating "
-                  "'chemist + -ry'. Main SPC-00012 precomputed compound edges only show "
-                  "in /tree — /chain still misses them. Doublet of alchemy not surfaced."),
+                  "'chemist + -ry'. Surprise finding: main SPC-00012 ALSO misses this — "
+                  "templates are `suf`/`derived` not `compound`/`suffix`, and SPC-00012 "
+                  "doesn't normalize those variants. So Q2 is OPEN at /tree too for "
+                  "chemistry. Doublet of alchemy not surfaced as edge."),
     },
     "dog": {
         "excerpt": (
@@ -248,14 +257,17 @@ PHASE2: dict[str, dict[str, Any]] = {
             "From chuck ('laugh') + -le (frequentative suffix)."
         ),
         "chain": [
-            {"lang": "English", "word": "chuck", "note": "compound base"},
-            {"lang": "English", "word": "-le", "note": "frequentative suffix"},
+            {"lang": "English", "word": "chuck",
+             "note": "compound component — appears in /tree via SPC-00012 (verified)"},
+            {"lang": "English", "word": "-le",
+             "note": "compound component (frequentative suffix) — missing from /tree (no -le entry)"},
         ],
         "alternative_theories": [],
         "gaps": {"missing_compound_components": True},
-        "notes": ("Phase 2: Empty /chain as expected (no ancestry templates, only `af`). "
-                  "Frequentative formation chuck + -le. Components would surface in /tree "
-                  "if main SPC-00012 indexed them — verify on regen."),
+        "notes": ("Phase 2: Empty /chain as expected (only `af` template). Components: "
+                  "`chuck` DOES surface in /tree_inh_bor_der_cog as a `component` edge "
+                  "(SPC-00012 works here). `-le` does NOT — suffix has no Kaikki doc, "
+                  "so the component edge dangles."),
     },
 }
 

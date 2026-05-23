@@ -12,7 +12,7 @@
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Phase 2: System /chain is EMPTY despite Wiktionary clearly stating 'chemist + -ry'. Main SPC-00012 precomputed compound edges only show in /tree — /chain still misses them. Doublet of alchemy not surfaced.",
+    "notes": "Phase 2: System /chain is EMPTY despite Wiktionary clearly stating 'chemist + -ry'. Surprise finding: main SPC-00012 ALSO misses this — templates are `suf`/`derived` not `compound`/`suffix`, and SPC-00012 doesn't normalize those variants. So Q2 is OPEN at /tree too for chemistry. Doublet of alchemy not surfaced as edge.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/chemistry"
@@ -539,12 +539,12 @@
     "expected_chain_per_wiktionary": [
       {
         "lang": "English",
-        "note": "component (compound)",
+        "note": "compound component — also missing from /tree (SPC-00012 doesn't normalize `suf`/`derived`)",
         "word": "chemist"
       },
       {
         "lang": "English",
-        "note": "component (suffix)",
+        "note": "compound component (suffix) — also missing from /tree",
         "word": "-ry"
       }
     ]

@@ -607,6 +607,7 @@ make test       # Run pytest
 - `tests/e2e/large-graph-perf.spec.js`: 9 E2E tests for large-graph performance (R1-R7, interaction integrity)
 - `tests/fixtures/wiktionary/`: Snapshot fixtures for the canonical-word integration tests planned in the SPC-00013 follow-up. Each fixture pairs current API output with hand-encoded Wiktionary ground truth and an explicit gap inventory (Q1–Q12). Regenerate with `make collect-fixtures` against `make run` services.
 - `tests/integration/test_api_characterization.py`: SPC-00013 Phase 1 — black-box pytest suite that parametrizes over the fixture JSONs and asserts each live API response equals the captured snapshot. Run with `make test-integration` (requires `make run`). Skips automatically when the API is unreachable.
+- `tests/integration/test_wiktionary_consistency.py`: SPC-00013 Phase 3 — Wiktionary-consistency assertions over fixture content (no API needed). Each documented gap is xfailed; closing a gap in Phase 4 flips the xfail to XPASS, forcing the developer to update both system code and `known_gaps` flag in the same commit.
 - Future: tests for other services (template_parser, lang_cache) when touched
 
 **Linting configuration**:

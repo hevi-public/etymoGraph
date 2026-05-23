@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Status** | Phase 1 implemented (PR #6); Phase 2 in progress |
+| **Status** | Phase 1 (PR #6) + Phase 2 (PR #7) merged; Phase 3 in progress |
 | **Created** | 2026-05-22 |
 | **Modifies** | — |
 | **Modified-by** | — |
@@ -163,9 +163,26 @@ Phase 2 produces the **hand-encoded Wiktionary ground truth** that Phase 3 will 
 
 Phase 2 is **per-fixture, mechanical-ish work** — the WebSearch + edit + commit loop runs once per word. Does not touch `backend/app/`, the test suite, or the collector script.
 
-## Out of scope (Phase 3, Phase 4)
+## Phase 3 scope (current PR)
 
-- **Phase 3**: modify the characterization tests from snapshot equality to "for each `known_gaps.<flag> == false`, system_output covers wiktionary_reference items." Tests go red where the system diverges from Wiktionary.
-- **Phase 4**: refactor services to close each remaining OPEN quirk class. Each likely warrants its own spec (e.g., `SPC-NNNNN: Surface alternative origins on uncertain etymologies` for Q1).
+Layers Wiktionary-consistency assertions on top of the Phase 1 snapshot regression tests. The new tests assert on fixture content alone — they compare `system_output` against `wiktionary_reference` within the JSON, so they don't need a live API.
+
+**Files:**
+- `tests/integration/test_wiktionary_consistency.py` — four parametrized test classes:
+  - `test_chain_covers_wiktionary_ancestors` — every `expected_chain_per_wiktionary` entry must appear as a node in `chain` or `tree_inh_bor_der_cog`; `xfail` when an explanatory `known_gaps` flag or chain note is present, FAIL otherwise.
+  - `test_alternative_theories_surfaced` — for Q1 fixtures, the API should expose alternatives; `xfail` while `missing_alternative_origins == true` (Phase 4 will invent the API surface).
+  - `test_documented_gap_is_present` — stale-flag detector. For each `known_gaps.<flag> == true`, both the Wiktionary side (excerpt mention or template) and the system side (missing edge) must agree the gap exists.
+  - `test_q13_diacritics_normalized` — regression for main SPC-00011. Hardcoded ancestor list for `wine`/`hound`/`cheese`; must pass, no xfail tolerance.
+
+**Result after Phase 3 (against current fixtures):** 20 pass, 7 xfail, 17 skip — the 7 xfails are exactly the documented gaps (`chain_covers` on alchemy/chemistry/chuckle/hound/orange, plus both Q1 alternative-theory cases).
+
+**Sub-quirks discovered during Phase 3 fixture cross-check** (not given new Q codes, documented in fixture `meta.notes`):
+- **lang_cache misses** — `la-med` (Medieval Latin), `roa-oit` (Old Italian), `fa-cls` (Early Classical Persian) leak as raw codes in node IDs.
+- **Arabic diacritic stripping** — system stores `كيمياء` (bare); Wiktionary template uses fully-vocalised `اَلْكِيمِيَاء`.
+- **SPC-00012 coverage gap** — `suf` / `derived` templates aren't in the compound-template normalization set, so chemistry's `chemist + -ry` doesn't surface in `/tree` either.
+
+## Out of scope (Phase 4)
+
+- **Phase 4**: refactor services to close each remaining OPEN quirk class. Each xfail in the Phase 3 suite becomes a Phase 4 target — flipping `known_gaps.<flag>` to `false` triggers the corresponding xfail to fail loudly via pytest XPASS, forcing the refactor commit to also surface the new system data. Each likely warrants its own spec (e.g., `SPC-NNNNN: Surface alternative origins on uncertain etymologies` for Q1).
 - Mock-DB strategy (mongomock-motor or testcontainers): defer until isolation is a problem.
 - Service-layer unit tests (filling `backend/tests/test_tree_builder.py` TODO stubs): tackle when those services are refactored in Phase 4.
