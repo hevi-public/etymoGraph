@@ -40,6 +40,7 @@
       "WebFetch(domain:visjs.github.io)",
       "WebSearch",
       "mcp__playwright__playwright_screenshot",
+      "mcp__playwright__playwright_navigate",
       "mcp__mongodb__create-index",
       "WebFetch(domain:en.wiktionary.org)",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d[''''parse''''][''''wikitext''''][''''*''''][:2000]\\)\")",

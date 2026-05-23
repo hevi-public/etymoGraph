@@ -605,6 +605,8 @@ make test       # Run pytest
 - `frontend/tests/graph-perf.test.js`: 13 unit tests for performance thresholds, LOD, clustering, family property
 - `tests/e2e/shareable-links.spec.js`: 10 E2E tests for URL routing (direct load, history, DOM consistency)
 - `tests/e2e/large-graph-perf.spec.js`: 9 E2E tests for large-graph performance (R1-R7, interaction integrity)
+- `tests/fixtures/wiktionary/`: Snapshot fixtures for the canonical-word integration tests planned in the SPC-00013 follow-up. Each fixture pairs current API output with hand-encoded Wiktionary ground truth and an explicit gap inventory (Q1–Q12). Regenerate with `make collect-fixtures` against `make run` services.
+- `tests/integration/test_api_characterization.py`: SPC-00013 Phase 1 — black-box pytest suite that parametrizes over the fixture JSONs and asserts each live API response equals the captured snapshot. Run with `make test-integration` (requires `make run`). Skips automatically when the API is unreachable.
 - Future: tests for other services (template_parser, lang_cache) when touched
 
 **Linting configuration**:

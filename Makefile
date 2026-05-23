@@ -1,4 +1,4 @@
-.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic precompute-edges test-frontend test-e2e test-all
+.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic precompute-edges test-frontend test-e2e test-integration test-all collect-fixtures
 
 setup: build download load
 	@echo "Setup complete! Run 'make run' to start."
@@ -72,7 +72,14 @@ test-frontend:  ## Run Vitest unit tests
 test-e2e:  ## Run Playwright E2E tests (requires make run)
 	npx playwright test
 
+test-integration:  ## Run live-API characterization tests (SPC-00013, requires make run)
+	pytest tests/integration $(FLAGS)
+
 test-all:  ## Run all tests
 	$(MAKE) test
 	$(MAKE) test-frontend
 	$(MAKE) test-e2e
+	$(MAKE) test-integration
+
+collect-fixtures:  ## Regenerate Wiktionary example fixtures (SPC-00013, requires make run)
+	python scripts/collect_wiktionary_examples.py --all $(FLAGS)
