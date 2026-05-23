@@ -181,8 +181,19 @@ Layers Wiktionary-consistency assertions on top of the Phase 1 snapshot regressi
 - **Arabic diacritic stripping** — system stores `كيمياء` (bare); Wiktionary template uses fully-vocalised `اَلْكِيمِيَاء`.
 - **SPC-00012 coverage gap** — `suf` / `derived` templates aren't in the compound-template normalization set, so chemistry's `chemist + -ry` doesn't surface in `/tree` either.
 
-## Out of scope (Phase 4)
+## Phase 4 progress
 
-- **Phase 4**: refactor services to close each remaining OPEN quirk class. Each xfail in the Phase 3 suite becomes a Phase 4 target — flipping `known_gaps.<flag>` to `false` triggers the corresponding xfail to fail loudly via pytest XPASS, forcing the refactor commit to also surface the new system data. Each likely warrants its own spec (e.g., `SPC-NNNNN: Surface alternative origins on uncertain etymologies` for Q1).
+Phase 4 closes the OPEN quirk classes one at a time. Each fix follows the same pattern: code change → optional ETL re-run → fixture regen → fixture `known_gaps` flag flip → Phase 3 test moves from xfail to pass.
+
+| # | Fix | Affects | Status |
+|---|---|---|---|
+| 4.1 | `lang_cache` extended sub-language code fallback (la-med, roa-oit, fa-cls, xno, …) | alchemy, orange chain entries flagged "lang_cache miss" | this PR |
+| 4.x | SPC-00012 normalization of `suf` / `derived` templates | chemistry | open |
+| 4.x | Arabic vocalisation normalisation (harakat) in template_parser | alchemy | open |
+| 4.x | Pre-Germanic prose intermediate (Q8) | hound | open — design |
+| 4.x | `alternative_origins` field on /api/words/{word} (Q1) | dog, wine | open — biggest scope |
+
+## Out of scope
+
 - Mock-DB strategy (mongomock-motor or testcontainers): defer until isolation is a problem.
-- Service-layer unit tests (filling `backend/tests/test_tree_builder.py` TODO stubs): tackle when those services are refactored in Phase 4.
+- Service-layer unit tests (filling `backend/tests/test_tree_builder.py` TODO stubs): tackle when those services are refactored.

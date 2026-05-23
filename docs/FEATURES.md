@@ -53,7 +53,7 @@ The core feature. Builds a full family tree for any word:
 
 **Cognate expansion** — When cognates are enabled, each cognate's full ancestry and descendant tree is also expanded (up to 2 rounds). This means searching "busz" (Hungarian) with cognates shows not just English/German/French "bus", but also all the languages that borrowed from English "bus" (Japanese, Welsh, Arabic, etc.).
 
-**Language code mapping** — Language codes (e.g., "hu" → "Hungarian") are resolved dynamically from a precomputed `languages` collection in MongoDB, covering all ~4,760 languages in the dataset. No hardcoded mapping.
+**Language code mapping** — Language codes (e.g., "hu" → "Hungarian") are resolved dynamically from a precomputed `languages` collection in MongoDB, covering all ~4,760 languages in the dataset. For sub-language codes referenced from `etymology_templates.args` but absent from the `languages` collection (chronological registers like `la-med` = Medieval Latin, dialects like `roa-oit` = Old Italian, proto-stage variants), `lang_cache._EXTENDED_CODES` provides a hand-curated fallback so graph node IDs display human-readable names instead of raw codes.
 
 **Parameters**:
 - `max_ancestor_depth`: 10 (how far back to trace)
