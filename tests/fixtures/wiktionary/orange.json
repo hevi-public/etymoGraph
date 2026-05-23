@@ -1,0 +1,1778 @@
+{
+  "known_gaps": {
+    "foreign_script_roundtrip_unverified": false,
+    "missing_alternative_origins": false,
+    "missing_calques": false,
+    "missing_compound_components": false,
+    "missing_doublet_link": false,
+    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+  },
+  "meta": {
+    "collected_at": "2026-05-23T12:10:33+00:00",
+    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "kaikki_dump_date": null,
+    "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
+    "notes": "Multi-etymology; Sanskrit terminal; calque; POS split.",
+    "spec": "SPC-00013",
+    "wiktionary_revision_seen": null,
+    "wiktionary_url": "https://en.wiktionary.org/wiki/orange"
+  },
+  "query": {
+    "lang": "English",
+    "word": "orange"
+  },
+  "quirks_covered": [
+    "Q4",
+    "Q5",
+    "Q6",
+    "Q10"
+  ],
+  "raw_kaikki": {
+    "etymology_templates": [
+      {
+        "args": {
+          "1": "en",
+          "2": ":inh",
+          "3": "enm:orenge<id:fruit>",
+          "id": "fruit",
+          "tree": "1"
+        },
+        "expansion": "Etymology tree\n▲\nItalian melaranciacalq.\nOld French Orengeinflu.\n▲\nOld Occitan auranjainflu.\nOld French pomme d'orenge\nOld French orenge\nMiddle French orangebor.\nMiddle English orenge\nEnglish orange",
+        "name": "etymon"
+      },
+      {
+        "args": {
+          "1": "",
+          "2": "i",
+          "3": "I"
+        },
+        "expansion": "I",
+        "name": "yesno"
+      },
+      {
+        "args": {
+          "1": "Inherited"
+        },
+        "expansion": "Inherited",
+        "name": "glossary"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "enm",
+          "3": "orenge",
+          "4": "",
+          "5": "",
+          "g": "",
+          "g2": "",
+          "g3": "",
+          "id": "",
+          "lit": "",
+          "nocat": "",
+          "pos": "",
+          "sc": "",
+          "sort": "",
+          "tr": "",
+          "ts": ""
+        },
+        "expansion": "Middle English orenge",
+        "name": "inh"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "enm",
+          "3": "orenge"
+        },
+        "expansion": "Inherited from Middle English orenge",
+        "name": "inh+"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "fro",
+          "3": "pome orenge",
+          "t": "fruit orange"
+        },
+        "expansion": "Old French pome orenge (“fruit orange”)",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "pro",
+          "3": "auranja"
+        },
+        "expansion": "Old Occitan auranja",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "roa-oit",
+          "3": "melarancio"
+        },
+        "expansion": "Old Italian melarancio",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "ar",
+          "3": "نَارَنْج"
+        },
+        "expansion": "Arabic نَارَنْج (nāranj)",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "fa-cls",
+          "3": "نَارَنْگْ"
+        },
+        "expansion": "Classical Persian نَارَنْگْ (nārang)",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "sa",
+          "3": "नारङ्ग",
+          "t": "orange tree"
+        },
+        "expansion": "Sanskrit नारङ्ग (nāraṅga, “orange tree”)",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "dra"
+        },
+        "expansion": "Dravidian",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "ta",
+          "2": "நாரங்காய்"
+        },
+        "expansion": "Tamil நாரங்காய் (nāraṅkāy)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "te",
+          "2": "నారంగము, నారింజ"
+        },
+        "expansion": "Telugu నారంగము, నారింజ (nāraṅgamu, nāriñja)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "ml",
+          "2": "നാരങ്ങ"
+        },
+        "expansion": "Malayalam നാരങ്ങ (nāraṅṅa)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "kn",
+          "2": "ನಾರಂಗಿ"
+        },
+        "expansion": "Kannada ನಾರಂಗಿ (nāraṅgi)",
+        "name": "cog"
+      }
+    ],
+    "etymology_text": "Etymology tree\n▲\nItalian melaranciacalq.\nOld French Orengeinflu.\n▲\nOld Occitan auranjainflu.\nOld French pomme d'orenge\nOld French orenge\nMiddle French orangebor.\nMiddle English orenge\nEnglish orange\nInherited from Middle English orenge, orange, from Old French pome orenge (“fruit orange”), influenced by the place name Orange (which is from Gaulish and unrelated to the word for the fruit and color) and by Old Occitan auranja and calqued from Old Italian melarancio, melarancia, compound of mela (“apple”) and un'arancia (“an orange”), from Arabic نَارَنْج (nāranj), from Early Classical Persian نَارَنْگْ (nārang), from Sanskrit नारङ्ग (nāraṅga, “orange tree”), ultimately from Dravidian. Compare Tamil நாரங்காய் (nāraṅkāy), compound of நாரம் (nāram, “water”) and காய் (kāy, “fruit”); also Telugu నారంగము, నారింజ (nāraṅgamu, nāriñja), Malayalam നാരങ്ങ (nāraṅṅa), Kannada ನಾರಂಗಿ (nāraṅgi)).\nOriginally borrowed as the surname (derived from the place name) in the 13th century, before the sense of the fruit was imported in the late 14th century and the color in 1510. In the color sense, largely displaced ġeolurēad, whence yellow-red.",
+    "lang": "English",
+    "lang_code": "en",
+    "phonetic": {
+      "dolgo_classes": "VRVNK",
+      "dolgo_consonants": "RNK",
+      "dolgo_first2": "RN",
+      "ipa": "ɒɹɪnd͡ʒ",
+      "tokens": [
+        "ɒ",
+        "ɹ",
+        "ɪ",
+        "n",
+        "d͡ʒ"
+      ]
+    },
+    "pos": "noun",
+    "senses": [
+      {
+        "categories": [
+          "English countable nouns"
+        ],
+        "glosses": [
+          "An evergreen tree of the genus Citrus such as Citrus sinensis which yields oranges (the fruit)."
+        ],
+        "links": [
+          [
+            "evergreen",
+            "evergreen"
+          ],
+          [
+            "tree",
+            "tree"
+          ],
+          [
+            "Citrus",
+            "Citrus"
+          ],
+          [
+            "Citrus sinensis",
+            "Citrus sinensis#Translingual"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable) An evergreen tree of the genus Citrus such as Citrus sinensis which yields oranges (the fruit)."
+        ],
+        "tags": [
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns"
+        ],
+        "glosses": [
+          "Any round citrus fruit with a yellow-red colour when ripe and a sour-sweet taste; the fruit of the orange tree."
+        ],
+        "links": [
+          [
+            "citrus",
+            "citrus"
+          ],
+          [
+            "fruit",
+            "fruit"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable) Any round citrus fruit with a yellow-red colour when ripe and a sour-sweet taste; the fruit of the orange tree."
+        ],
+        "senseid": [
+          "en:Q13191"
+        ],
+        "tags": [
+          "countable"
+        ],
+        "wikidata": [
+          "Q13191"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns"
+        ],
+        "glosses": [
+          "Any round citrus fruit with a yellow-red colour when ripe and a sour-sweet taste; the fruit of the orange tree.",
+          "Specifically, a sweet orange or Citrus sinensis."
+        ],
+        "links": [
+          [
+            "citrus",
+            "citrus"
+          ],
+          [
+            "fruit",
+            "fruit"
+          ],
+          [
+            "sweet orange",
+            "sweet orange"
+          ],
+          [
+            "Citrus sinensis",
+            "Citrus sinensis#Translingual"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable) Any round citrus fruit with a yellow-red colour when ripe and a sour-sweet taste; the fruit of the orange tree.",
+          "(countable) Specifically, a sweet orange or Citrus sinensis."
+        ],
+        "senseid": [
+          "en:Q13191"
+        ],
+        "tags": [
+          "countable"
+        ],
+        "wikidata": [
+          "Q13191"
+        ]
+      },
+      {
+        "categories": [
+          "English uncountable nouns"
+        ],
+        "glosses": [
+          "The colour of a ripe fruit of an orange tree, midway between red and yellow."
+        ],
+        "links": [
+          [
+            "colour",
+            "colour"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable) The colour of a ripe fruit of an orange tree, midway between red and yellow."
+        ],
+        "senseid": [
+          "en:Q39338"
+        ],
+        "synonyms": [
+          {
+            "word": "yellow-red"
+          }
+        ],
+        "tags": [
+          "uncountable"
+        ],
+        "wikidata": [
+          "Q39338"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations",
+          "English uncountable nouns"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                22,
+                28
+              ]
+            ],
+            "ref": "2015 March 31, Debbie McGowan, Two By Two, Beaten Track Publishing, →ISBN, page 81:",
+            "text": "“What you drinking?” “Orange and soda will go down nicely, thanks.” “Pint?” “Sure.” Andy headed for the bar, stopping along the way to kiss Shaunna and check she and Kris were OK for a drink. “Everything all right?” Sean asked.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                166,
+                172
+              ]
+            ],
+            "ref": "2015 May 7, Tosh Lavery, Tosh: An Amazing True Story Of Life, Death, Danger And Drama In The Garda Sub-Aqua Unit, Penguin UK, →ISBN:",
+            "text": "I ran out into the street and around the block, searching everywhere, and finally burst into O'Dowd's pub around the corner to see Thomas sitting at the bar drinking orange and eating a bag of crisps with two old men.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                36,
+                42
+              ]
+            ],
+            "ref": "2018 May 25, Michael Nilsen, Beyond the Cave, Troubador Publishing Ltd, →ISBN, page 82:",
+            "text": "It transpired this lad was drinking orange and faculties were keen. There were one or two verbal exchanges, then I followed him into the car park. He said to the doorman, 'I won't be long.' He easily knocked me to the ground.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                140,
+                146
+              ]
+            ],
+            "ref": "2021 June 10, Anna McPartlin, Waiting for the Miracle: Warm your heart this winter with this uplifting novel from the bestselling author of THE LAST DAYS OF RABBIT HAYES, Bonnier Zaffre Ltd., →ISBN:",
+            "text": "When the fast songs played, like the Beatles' 'Help' or The Rolling Stones' 'Satisfaction', Justin and I sat on two wooden chairs, drinking orange and holding hands. When the nuns weren't watching, I rested my head on his shoulder.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "Various drinks"
+        ],
+        "raw_glosses": [
+          "(uncountable) Various drinks:"
+        ],
+        "tags": [
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations",
+          "English uncountable nouns"
+        ],
+        "glosses": [
+          "Various drinks:",
+          "An orange-coloured and orange-flavoured cordial."
+        ],
+        "links": [
+          [
+            "cordial",
+            "cordial"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable) Various drinks:",
+          "An orange-coloured and orange-flavoured cordial."
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations",
+          "English uncountable nouns"
+        ],
+        "glosses": [
+          "Various drinks:",
+          "An orange-coloured and orange-flavoured soft drink."
+        ],
+        "links": [
+          [
+            "soft drink",
+            "soft drink"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable) Various drinks:",
+          "An orange-coloured and orange-flavoured soft drink."
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations",
+          "English terms with uncommon senses",
+          "English uncountable nouns"
+        ],
+        "glosses": [
+          "Various drinks:",
+          "Orange juice."
+        ],
+        "raw_glosses": [
+          "(uncountable) Various drinks:",
+          "(uncommon) Orange juice."
+        ],
+        "tags": [
+          "countable",
+          "uncommon",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "en:Heraldry"
+        ],
+        "examples": [
+          {
+            "text": "For quotations using this term, see Citations:orange."
+          }
+        ],
+        "glosses": [
+          "An orange-coloured roundel."
+        ],
+        "links": [
+          [
+            "heraldry",
+            "heraldry"
+          ],
+          [
+            "roundel",
+            "roundel"
+          ]
+        ],
+        "raw_glosses": [
+          "(heraldry) An orange-coloured roundel."
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ],
+        "topics": [
+          "government",
+          "heraldry",
+          "hobbies",
+          "lifestyle",
+          "monarchy",
+          "nobility",
+          "politics"
+        ]
+      }
+    ],
+    "sounds": [
+      {
+        "enpr": "ŏrʹĭnj",
+        "tags": [
+          "Received-Pronunciation"
+        ]
+      },
+      {
+        "enpr": "ŏrʹənj",
+        "tags": [
+          "Received-Pronunciation"
+        ]
+      },
+      {
+        "ipa": "/ˈɒɹɪnd͡ʒ/",
+        "tags": [
+          "Received-Pronunciation"
+        ]
+      },
+      {
+        "ipa": "/ˈɒɹənd͡ʒ/",
+        "tags": [
+          "Received-Pronunciation"
+        ]
+      },
+      {
+        "ipa": "/ˈɒɹɪnʒ/",
+        "tags": [
+          "Received-Pronunciation"
+        ]
+      },
+      {
+        "ipa": "/ˈɒɹənʒ/",
+        "tags": [
+          "Received-Pronunciation"
+        ]
+      },
+      {
+        "audio": "LL-Q1860 (eng)-Back ache-ORANGE.wav",
+        "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/06/LL-Q1860_%28eng%29-Back_ache-ORANGE.wav/LL-Q1860_%28eng%29-Back_ache-ORANGE.wav.mp3",
+        "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/06/LL-Q1860_%28eng%29-Back_ache-ORANGE.wav/LL-Q1860_%28eng%29-Back_ache-ORANGE.wav.ogg"
+      },
+      {
+        "enpr": "ôrʹĭnj",
+        "tags": [
+          "Canada",
+          "General-American"
+        ]
+      },
+      {
+        "ipa": "/ˈɔɹənd͡ʒ/",
+        "tags": [
+          "Canada",
+          "General-American"
+        ]
+      },
+      {
+        "ipa": "/ˈɔɹnd͡ʒ/",
+        "tags": [
+          "Canada",
+          "General-American"
+        ]
+      },
+      {
+        "audio": "LL-Q1860 (eng)-Aquild-orange.wav",
+        "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/e/e4/LL-Q1860_%28eng%29-Aquild-orange.wav/LL-Q1860_%28eng%29-Aquild-orange.wav.mp3",
+        "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/e/e4/LL-Q1860_%28eng%29-Aquild-orange.wav/LL-Q1860_%28eng%29-Aquild-orange.wav.ogg"
+      },
+      {
+        "enpr": "ärʹĭnj",
+        "tags": [
+          "East-Coast",
+          "US"
+        ]
+      },
+      {
+        "enpr": "ŏrʹĭnj",
+        "tags": [
+          "East-Coast",
+          "US"
+        ]
+      },
+      {
+        "ipa": "/ˈɑɹənd͡ʒ/",
+        "tags": [
+          "East-Coast",
+          "US"
+        ]
+      },
+      {
+        "ipa": "/ˈɔɹəŋʒ/",
+        "tags": [
+          "East-Coast",
+          "US"
+        ]
+      },
+      {
+        "audio": "En-NYC-orange.wav",
+        "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/dc/En-NYC-orange.wav/En-NYC-orange.wav.mp3",
+        "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/dc/En-NYC-orange.wav/En-NYC-orange.wav.ogg"
+      },
+      {
+        "enpr": "ˈoɹeɪnd͡ʒ",
+        "tags": [
+          "Philippines"
+        ]
+      },
+      {
+        "homophone": "Orange"
+      },
+      {
+        "rhymes": "-ɒɹɪndʒ"
+      },
+      {
+        "rhymes": "-ɒɹəndʒ stripped-by-parse_pron_post_template_fn"
+      }
+    ],
+    "word": "orange"
+  },
+  "system_output": {
+    "chain": {
+      "edges": [
+        {
+          "from": "orenge:Middle English",
+          "label": "inh",
+          "to": "orange:English"
+        },
+        {
+          "from": "pome orenge:Old French",
+          "label": "der",
+          "to": "orenge:Middle English"
+        },
+        {
+          "from": "auranja:Old Occitan",
+          "label": "der",
+          "to": "pome orenge:Old French"
+        },
+        {
+          "from": "melarancio:roa-oit",
+          "label": "der",
+          "to": "auranja:Old Occitan"
+        },
+        {
+          "from": "نَارَنْج:Arabic",
+          "label": "der",
+          "to": "melarancio:roa-oit"
+        },
+        {
+          "from": "نَارَنْگْ:fa-cls",
+          "label": "der",
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "नारङ्ग:Sanskrit",
+          "label": "der",
+          "to": "نَارَنْگْ:fa-cls"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "orange:English",
+          "label": "orange",
+          "language": "English",
+          "level": 0
+        },
+        {
+          "id": "orenge:Middle English",
+          "label": "orenge",
+          "language": "Middle English",
+          "level": -1
+        },
+        {
+          "id": "pome orenge:Old French",
+          "label": "pome orenge",
+          "language": "Old French",
+          "level": -2
+        },
+        {
+          "id": "auranja:Old Occitan",
+          "label": "auranja",
+          "language": "Old Occitan",
+          "level": -3
+        },
+        {
+          "id": "melarancio:roa-oit",
+          "label": "melarancio",
+          "language": "roa-oit",
+          "level": -4
+        },
+        {
+          "id": "نَارَنْج:Arabic",
+          "label": "نَارَنْج",
+          "language": "Arabic",
+          "level": -5
+        },
+        {
+          "id": "نَارَنْگْ:fa-cls",
+          "label": "نَارَنْگْ",
+          "language": "fa-cls",
+          "level": -6
+        },
+        {
+          "id": "नारङ्ग:Sanskrit",
+          "label": "नारङ्ग",
+          "language": "Sanskrit",
+          "level": -7
+        }
+      ]
+    },
+    "tree_inh": {
+      "edges": [
+        {
+          "from": "orenge:Middle English",
+          "label": "inh",
+          "to": "orange:English"
+        },
+        {
+          "from": "orange:English",
+          "label": "inh",
+          "to": "orenge:Middle English"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "orange:English",
+          "label": "orange",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "orenge:Middle English",
+          "label": "orenge",
+          "language": "Middle English",
+          "level": -1,
+          "uncertainty": null
+        }
+      ]
+    },
+    "tree_inh_bor_der_cog": {
+      "edges": [
+        {
+          "from": "orenge:Middle English",
+          "label": "inh",
+          "to": "orange:English"
+        },
+        {
+          "from": "pome orenge:Old French",
+          "label": "der",
+          "to": "orenge:Middle English"
+        },
+        {
+          "from": "auranja:Old Occitan",
+          "label": "der",
+          "to": "pome orenge:Old French"
+        },
+        {
+          "from": "melarancio:roa-oit",
+          "label": "der",
+          "to": "auranja:Old Occitan"
+        },
+        {
+          "from": "نَارَنْج:Arabic",
+          "label": "der",
+          "to": "melarancio:roa-oit"
+        },
+        {
+          "from": "نَارَنْگْ:fa-cls",
+          "label": "der",
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "नारङ्ग:Sanskrit",
+          "label": "der",
+          "to": "نَارَنْگْ:fa-cls"
+        },
+        {
+          "from": "oran:Marshallese",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "oren:Indonesian",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "oren:Malay",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "oren:Welsh",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "oranĝo:Esperanto",
+          "label": "der",
+          "to": "orange:English"
+        },
+        {
+          "from": "oranjo:Ido",
+          "label": "bor",
+          "to": "oranĝo:Esperanto"
+        },
+        {
+          "from": "oyen:Malay",
+          "label": "der",
+          "to": "orange:English"
+        },
+        {
+          "from": "orens:Cebuano",
+          "label": "der",
+          "to": "orange:English"
+        },
+        {
+          "from": "오렌지:Korean",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "orenji:Xhosa",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "i-orenji:Xhosa",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "ólentsi:Hopi",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "umolintji:Swazi",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "orentji:Southern Ndebele",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "oranġjo:Maltese",
+          "label": "der",
+          "to": "orange:English"
+        },
+        {
+          "from": "tulhakoba:Choctaw",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "އޮރެންޖުކުލަ:Dhivehi",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "ʔo·linčas:Makah",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "òlënch:Unami",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "orange:English",
+          "label": "inh",
+          "to": "orenge:Middle English"
+        },
+        {
+          "from": "pomme d'orenge:Old French",
+          "label": "der",
+          "to": "auranja:Old Occitan"
+        },
+        {
+          "from": "arancia:Italian",
+          "label": "bor",
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "oransje:Norwegian Bokmål",
+          "label": "der",
+          "to": "arancia:Italian"
+        },
+        {
+          "from": "oransje:Norwegian Nynorsk",
+          "label": "der",
+          "to": "arancia:Italian"
+        },
+        {
+          "from": "arantium:Latin",
+          "label": "bor",
+          "to": "arancia:Italian"
+        },
+        {
+          "from": "aråntschat:Cimbrian",
+          "label": "der",
+          "to": "arancia:Italian"
+        },
+        {
+          "from": "laranja:Basque",
+          "label": "der",
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "pomarańcza:Polish",
+          "label": "der",
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "פּאָמעראַנץ:Yiddish",
+          "label": "bor",
+          "to": "pomarańcza:Polish"
+        },
+        {
+          "from": "aurantius:Latin",
+          "label": "der",
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "Aurantium:Translingual",
+          "label": "der",
+          "to": "aurantius:Latin"
+        },
+        {
+          "from": "auranja:Old Occitan",
+          "label": "bor",
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "aranciu:Sicilian",
+          "label": "der",
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "aranzada:English",
+          "label": "bor",
+          "to": "aranciu:Sicilian"
+        },
+        {
+          "from": "arancio:Italian",
+          "label": "der",
+          "to": "नारङ्ग:Sanskrit"
+        },
+        {
+          "from": "arangiu:Sardinian",
+          "label": "bor",
+          "to": "arancio:Italian"
+        },
+        {
+          "from": "नारंगी:Hindi",
+          "label": "der",
+          "to": "नारङ्ग:Sanskrit"
+        },
+        {
+          "from": "نارنگ:Persian",
+          "label": "der",
+          "to": "नारङ्ग:Sanskrit"
+        },
+        {
+          "from": "narynç:Turkmen",
+          "label": "bor",
+          "to": "نارنگ:Persian"
+        },
+        {
+          "from": "νεράντζιον:Ancient Greek",
+          "label": "der",
+          "to": "نارنگ:Persian"
+        },
+        {
+          "from": "ނާރިގު:Dhivehi",
+          "label": "bor",
+          "to": "نارنگ:Persian"
+        },
+        {
+          "from": "نارنج:Arabic",
+          "label": "der",
+          "to": "नारङ्ग:Sanskrit"
+        },
+        {
+          "from": "orange:English",
+          "label": "cog",
+          "to": "நாரங்காய்:Tamil"
+        },
+        {
+          "from": "orange:English",
+          "label": "cog",
+          "to": "నారంగము, నారింజ:Telugu"
+        },
+        {
+          "from": "orange:English",
+          "label": "cog",
+          "to": "നാരങ്ങ:Malayalam"
+        },
+        {
+          "from": "orange:English",
+          "label": "cog",
+          "to": "ನಾರಂಗಿ:Kannada"
+        },
+        {
+          "from": "auranja:Old Occitan",
+          "label": "cog",
+          "to": "orange:English"
+        },
+        {
+          "from": "नारङ्ग:Sanskrit",
+          "label": "cog",
+          "to": "நார்த்தங்காய்:Tamil"
+        },
+        {
+          "from": "नारङ्ग:Sanskrit",
+          "label": "cog",
+          "to": "நாரங்காய்:Tamil"
+        },
+        {
+          "from": "नारङ्ग:Sanskrit",
+          "label": "cog",
+          "to": "నారంగము:Telugu"
+        },
+        {
+          "from": "नारङ्ग:Sanskrit",
+          "label": "cog",
+          "to": "നാരങ്ങ:Malayalam"
+        },
+        {
+          "from": "नारङ्ग:Sanskrit",
+          "label": "cog",
+          "to": "ನಾರಂಗಿ:Kannada"
+        },
+        {
+          "from": "oran:Marshallese",
+          "label": "cog",
+          "to": "నారంగము:Telugu"
+        },
+        {
+          "from": "oran:Marshallese",
+          "label": "cog",
+          "to": "നാരങ്ങ:Malayalam"
+        },
+        {
+          "from": "oran:Marshallese",
+          "label": "cog",
+          "to": "ನಾರಂಗಿ:Kannada"
+        },
+        {
+          "from": "oren:Indonesian",
+          "label": "cog",
+          "to": "auranja:Old Occitan"
+        },
+        {
+          "from": "oren:Indonesian",
+          "label": "cog",
+          "to": "நர்தங்காய்:Tamil"
+        },
+        {
+          "from": "oren:Indonesian",
+          "label": "cog",
+          "to": "నారంగము:Telugu"
+        },
+        {
+          "from": "oren:Indonesian",
+          "label": "cog",
+          "to": "നാരങ്ങ:Malayalam"
+        },
+        {
+          "from": "oren:Indonesian",
+          "label": "cog",
+          "to": "ನಾರಂಗಿ:Kannada"
+        },
+        {
+          "from": "oren:Malay",
+          "label": "cog",
+          "to": "auranja:Old Occitan"
+        },
+        {
+          "from": "oren:Malay",
+          "label": "cog",
+          "to": "நர்தங்காய்:Tamil"
+        },
+        {
+          "from": "oren:Malay",
+          "label": "cog",
+          "to": "నారంగము:Telugu"
+        },
+        {
+          "from": "oren:Malay",
+          "label": "cog",
+          "to": "നാരങ്ങ:Malayalam"
+        },
+        {
+          "from": "oren:Malay",
+          "label": "cog",
+          "to": "ನಾರಂಗಿ:Kannada"
+        },
+        {
+          "from": "aranciu:Sicilian",
+          "label": "cog",
+          "to": "நார்த்தங்காய்:Tamil"
+        },
+        {
+          "from": "aranciu:Sicilian",
+          "label": "cog",
+          "to": "నారంగము:Telugu"
+        },
+        {
+          "from": "aranciu:Sicilian",
+          "label": "cog",
+          "to": "നാരങ്ങ:Malayalam"
+        },
+        {
+          "from": "aranciu:Sicilian",
+          "label": "cog",
+          "to": "ನಾರಂಗಿ:Kannada"
+        },
+        {
+          "from": "नारंगी:Hindi",
+          "label": "cog",
+          "to": "نارنج:Persian"
+        },
+        {
+          "from": "narynç:Turkmen",
+          "label": "cog",
+          "to": "narınc:Azerbaijani"
+        },
+        {
+          "from": "നാരം:Malayalam",
+          "label": "component",
+          "to": "നാരങ്ങ:Malayalam"
+        },
+        {
+          "from": "نارنگ:fa-cls",
+          "label": "der",
+          "to": "نارنج:Persian"
+        },
+        {
+          "from": "نارنج:Persian",
+          "label": "der",
+          "to": "نارنگ:fa-cls"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "orange:English",
+          "label": "orange",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "orenge:Middle English",
+          "label": "orenge",
+          "language": "Middle English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "pome orenge:Old French",
+          "label": "pome orenge",
+          "language": "Old French",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "auranja:Old Occitan",
+          "label": "auranja",
+          "language": "Old Occitan",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "melarancio:roa-oit",
+          "label": "melarancio",
+          "language": "roa-oit",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "نَارَنْج:Arabic",
+          "label": "نَارَنْج",
+          "language": "Arabic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "نَارَنْگْ:fa-cls",
+          "label": "نَارَنْگْ",
+          "language": "fa-cls",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "नारङ्ग:Sanskrit",
+          "label": "नारङ्ग",
+          "language": "Sanskrit",
+          "level": -7,
+          "uncertainty": null
+        },
+        {
+          "id": "oran:Marshallese",
+          "label": "oran",
+          "language": "Marshallese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "oren:Indonesian",
+          "label": "oren",
+          "language": "Indonesian",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "oren:Malay",
+          "label": "oren",
+          "language": "Malay",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "oren:Welsh",
+          "label": "oren",
+          "language": "Welsh",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "oranĝo:Esperanto",
+          "label": "oranĝo",
+          "language": "Esperanto",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "oranjo:Ido",
+          "label": "oranjo",
+          "language": "Ido",
+          "level": 2,
+          "uncertainty": null
+        },
+        {
+          "id": "oyen:Malay",
+          "label": "oyen",
+          "language": "Malay",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "orens:Cebuano",
+          "label": "orens",
+          "language": "Cebuano",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "오렌지:Korean",
+          "label": "오렌지",
+          "language": "Korean",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "orenji:Xhosa",
+          "label": "orenji",
+          "language": "Xhosa",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "i-orenji:Xhosa",
+          "label": "i-orenji",
+          "language": "Xhosa",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "ólentsi:Hopi",
+          "label": "ólentsi",
+          "language": "Hopi",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "umolintji:Swazi",
+          "label": "umolintji",
+          "language": "Swazi",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "orentji:Southern Ndebele",
+          "label": "orentji",
+          "language": "Southern Ndebele",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "oranġjo:Maltese",
+          "label": "oranġjo",
+          "language": "Maltese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "tulhakoba:Choctaw",
+          "label": "tulhakoba",
+          "language": "Choctaw",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "އޮރެންޖުކުލަ:Dhivehi",
+          "label": "އޮރެންޖުކުލަ",
+          "language": "Dhivehi",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "ʔo·linčas:Makah",
+          "label": "ʔo·linčas",
+          "language": "Makah",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "òlënch:Unami",
+          "label": "òlënch",
+          "language": "Unami",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "pomme d'orenge:Old French",
+          "label": "pomme d'orenge",
+          "language": "Old French",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "arancia:Italian",
+          "label": "arancia",
+          "language": "Italian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "oransje:Norwegian Bokmål",
+          "label": "oransje",
+          "language": "Norwegian Bokmål",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "oransje:Norwegian Nynorsk",
+          "label": "oransje",
+          "language": "Norwegian Nynorsk",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "arantium:Latin",
+          "label": "arantium",
+          "language": "Latin",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "aråntschat:Cimbrian",
+          "label": "aråntschat",
+          "language": "Cimbrian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "laranja:Basque",
+          "label": "laranja",
+          "language": "Basque",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "pomarańcza:Polish",
+          "label": "pomarańcza",
+          "language": "Polish",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "פּאָמעראַנץ:Yiddish",
+          "label": "פּאָמעראַנץ",
+          "language": "Yiddish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "aurantius:Latin",
+          "label": "aurantius",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "Aurantium:Translingual",
+          "label": "Aurantium",
+          "language": "Translingual",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "aranciu:Sicilian",
+          "label": "aranciu",
+          "language": "Sicilian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "aranzada:English",
+          "label": "aranzada",
+          "language": "English",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "arancio:Italian",
+          "label": "arancio",
+          "language": "Italian",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "arangiu:Sardinian",
+          "label": "arangiu",
+          "language": "Sardinian",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "नारंगी:Hindi",
+          "label": "नारंगी",
+          "language": "Hindi",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "نارنگ:Persian",
+          "label": "نارنگ",
+          "language": "Persian",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "narynç:Turkmen",
+          "label": "narynç",
+          "language": "Turkmen",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "νεράντζιον:Ancient Greek",
+          "label": "νεράντζιον",
+          "language": "Ancient Greek",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "ނާރިގު:Dhivehi",
+          "label": "ނާރިގު",
+          "language": "Dhivehi",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "نارنج:Arabic",
+          "label": "نارنج",
+          "language": "Arabic",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "நாரங்காய்:Tamil",
+          "label": "நாரங்காய்",
+          "language": "Tamil",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "నారంగము, నారింజ:Telugu",
+          "label": "నారంగము, నారింజ",
+          "language": "Telugu",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "നാരങ്ങ:Malayalam",
+          "label": "നാരങ്ങ",
+          "language": "Malayalam",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "ನಾರಂಗಿ:Kannada",
+          "label": "ನಾರಂಗಿ",
+          "language": "Kannada",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "நார்த்தங்காய்:Tamil",
+          "label": "நார்த்தங்காய்",
+          "language": "Tamil",
+          "level": -7,
+          "uncertainty": null
+        },
+        {
+          "id": "నారంగము:Telugu",
+          "label": "నారంగము",
+          "language": "Telugu",
+          "level": -7,
+          "uncertainty": null
+        },
+        {
+          "id": "நர்தங்காய்:Tamil",
+          "label": "நர்தங்காய்",
+          "language": "Tamil",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "نارنج:Persian",
+          "label": "نارنج",
+          "language": "Persian",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "narınc:Azerbaijani",
+          "label": "narınc",
+          "language": "Azerbaijani",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "നാരം:Malayalam",
+          "label": "നാരം",
+          "language": "Malayalam",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "نارنگ:fa-cls",
+          "label": "نارنگ",
+          "language": "fa-cls",
+          "level": -7,
+          "uncertainty": null
+        }
+      ]
+    },
+    "word_detail": {
+      "audio": [
+        {
+          "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/06/LL-Q1860_%28eng%29-Back_ache-ORANGE.wav/LL-Q1860_%28eng%29-Back_ache-ORANGE.wav.mp3",
+          "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/06/LL-Q1860_%28eng%29-Back_ache-ORANGE.wav/LL-Q1860_%28eng%29-Back_ache-ORANGE.wav.ogg"
+        },
+        {
+          "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/e/e4/LL-Q1860_%28eng%29-Aquild-orange.wav/LL-Q1860_%28eng%29-Aquild-orange.wav.mp3",
+          "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/e/e4/LL-Q1860_%28eng%29-Aquild-orange.wav/LL-Q1860_%28eng%29-Aquild-orange.wav.ogg"
+        },
+        {
+          "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/dc/En-NYC-orange.wav/En-NYC-orange.wav.mp3",
+          "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/dc/En-NYC-orange.wav/En-NYC-orange.wav.ogg"
+        }
+      ],
+      "definitions": [
+        "An evergreen tree of the genus Citrus such as Citrus sinensis which yields oranges (the fruit).",
+        "Any round citrus fruit with a yellow-red colour when ripe and a sour-sweet taste; the fruit of the orange tree.",
+        "Any round citrus fruit with a yellow-red colour when ripe and a sour-sweet taste; the fruit of the orange tree.",
+        "Specifically, a sweet orange or Citrus sinensis.",
+        "The colour of a ripe fruit of an orange tree, midway between red and yellow.",
+        "Various drinks",
+        "Various drinks:",
+        "An orange-coloured and orange-flavoured cordial.",
+        "Various drinks:",
+        "An orange-coloured and orange-flavoured soft drink.",
+        "Various drinks:",
+        "Orange juice.",
+        "An orange-coloured roundel."
+      ],
+      "dolgo_classes": "VRVNK",
+      "dolgo_consonants": "RNK",
+      "etymology_templates": [
+        {
+          "args": {
+            "1": "en",
+            "2": ":inh",
+            "3": "enm:orenge<id:fruit>",
+            "id": "fruit",
+            "tree": "1"
+          },
+          "expansion": "Etymology tree\n▲\nItalian melaranciacalq.\nOld French Orengeinflu.\n▲\nOld Occitan auranjainflu.\nOld French pomme d'orenge\nOld French orenge\nMiddle French orangebor.\nMiddle English orenge\nEnglish orange",
+          "name": "etymon"
+        },
+        {
+          "args": {
+            "1": "",
+            "2": "i",
+            "3": "I"
+          },
+          "expansion": "I",
+          "name": "yesno"
+        },
+        {
+          "args": {
+            "1": "Inherited"
+          },
+          "expansion": "Inherited",
+          "name": "glossary"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "enm",
+            "3": "orenge",
+            "4": "",
+            "5": "",
+            "g": "",
+            "g2": "",
+            "g3": "",
+            "id": "",
+            "lit": "",
+            "nocat": "",
+            "pos": "",
+            "sc": "",
+            "sort": "",
+            "tr": "",
+            "ts": ""
+          },
+          "expansion": "Middle English orenge",
+          "name": "inh"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "enm",
+            "3": "orenge"
+          },
+          "expansion": "Inherited from Middle English orenge",
+          "name": "inh+"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "fro",
+            "3": "pome orenge",
+            "t": "fruit orange"
+          },
+          "expansion": "Old French pome orenge (“fruit orange”)",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "pro",
+            "3": "auranja"
+          },
+          "expansion": "Old Occitan auranja",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "roa-oit",
+            "3": "melarancio"
+          },
+          "expansion": "Old Italian melarancio",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "ar",
+            "3": "نَارَنْج"
+          },
+          "expansion": "Arabic نَارَنْج (nāranj)",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "fa-cls",
+            "3": "نَارَنْگْ"
+          },
+          "expansion": "Classical Persian نَارَنْگْ (nārang)",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "sa",
+            "3": "नारङ्ग",
+            "t": "orange tree"
+          },
+          "expansion": "Sanskrit नारङ्ग (nāraṅga, “orange tree”)",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "dra"
+          },
+          "expansion": "Dravidian",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "ta",
+            "2": "நாரங்காய்"
+          },
+          "expansion": "Tamil நாரங்காய் (nāraṅkāy)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "te",
+            "2": "నారంగము, నారింజ"
+          },
+          "expansion": "Telugu నారంగము, నారింజ (nāraṅgamu, nāriñja)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "ml",
+            "2": "നാരങ്ങ"
+          },
+          "expansion": "Malayalam നാരങ്ങ (nāraṅṅa)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "kn",
+            "2": "ನಾರಂಗಿ"
+          },
+          "expansion": "Kannada ನಾರಂಗಿ (nāraṅgi)",
+          "name": "cog"
+        }
+      ],
+      "etymology_text": "Etymology tree\n▲\nItalian melaranciacalq.\nOld French Orengeinflu.\n▲\nOld Occitan auranjainflu.\nOld French pomme d'orenge\nOld French orenge\nMiddle French orangebor.\nMiddle English orenge\nEnglish orange\nInherited from Middle English orenge, orange, from Old French pome orenge (“fruit orange”), influenced by the place name Orange (which is from Gaulish and unrelated to the word for the fruit and color) and by Old Occitan auranja and calqued from Old Italian melarancio, melarancia, compound of mela (“apple”) and un'arancia (“an orange”), from Arabic نَارَنْج (nāranj), from Early Classical Persian نَارَنْگْ (nārang), from Sanskrit नारङ्ग (nāraṅga, “orange tree”), ultimately from Dravidian. Compare Tamil நாரங்காய் (nāraṅkāy), compound of நாரம் (nāram, “water”) and காய் (kāy, “fruit”); also Telugu నారంగము, నారింజ (nāraṅgamu, nāriñja), Malayalam നാരങ്ങ (nāraṅṅa), Kannada ನಾರಂಗಿ (nāraṅgi)).\nOriginally borrowed as the surname (derived from the place name) in the 13th century, before the sense of the fruit was imported in the late 14th century and the color in 1510. In the color sense, largely displaced ġeolurēad, whence yellow-red.",
+      "etymology_uncertainty": {
+        "confidence": "high",
+        "is_uncertain": false,
+        "source": null,
+        "type": null
+      },
+      "lang": "English",
+      "phonetic_ipa": "ɒɹɪnd͡ʒ",
+      "pos": "noun",
+      "pronunciation": "/ˈɒɹɪnd͡ʒ/",
+      "related_mentions": [],
+      "word": "orange"
+    }
+  },
+  "wiktionary_reference": {
+    "alternative_theories": [],
+    "etymology_section_text_excerpt": null,
+    "expected_chain_per_wiktionary": []
+  }
+}

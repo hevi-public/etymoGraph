@@ -1,0 +1,2540 @@
+{
+  "known_gaps": {
+    "foreign_script_roundtrip_unverified": false,
+    "missing_alternative_origins": false,
+    "missing_calques": false,
+    "missing_compound_components": false,
+    "missing_doublet_link": true,
+    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+  },
+  "meta": {
+    "collected_at": "2026-05-23T12:10:31+00:00",
+    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "kaikki_dump_date": null,
+    "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
+    "notes": "Borrowing ← Latin cāseus; OE ċīese has macron + diacritic.",
+    "spec": "SPC-00013",
+    "wiktionary_revision_seen": null,
+    "wiktionary_url": "https://en.wiktionary.org/wiki/cheese"
+  },
+  "query": {
+    "lang": "English",
+    "word": "cheese"
+  },
+  "quirks_covered": [
+    "Q13"
+  ],
+  "raw_kaikki": {
+    "etymology_templates": [
+      {
+        "args": {
+          "1": "en",
+          "2": ":inh",
+          "3": "enm:chese<id:cheese>",
+          "id": "dairy product",
+          "tree": "1"
+        },
+        "expansion": "Etymology tree\nLatin cāseusbor.\nProto-Germanic *kāsijaz\nProto-West Germanic *kāsī\nOld English ċīese\nMiddle English chese\nEnglish cheese",
+        "name": "etymon"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "enm",
+          "3": "chese"
+        },
+        "expansion": "Middle English chese",
+        "name": "inh"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "ang",
+          "3": "ċīese"
+        },
+        "expansion": "Old English ċīese",
+        "name": "inh"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "gmw-pro",
+          "3": "*kāsī"
+        },
+        "expansion": "Proto-West Germanic *kāsī",
+        "name": "inh"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "la",
+          "3": "cāseus"
+        },
+        "expansion": "Latin cāseus",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "queso"
+        },
+        "expansion": "Doublet of queso",
+        "name": "doublet"
+      },
+      {
+        "args": {
+          "1": "stq",
+          "2": "Síes",
+          "t": "cheese"
+        },
+        "expansion": "Saterland Frisian Síes (“cheese”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "fy",
+          "2": "tsiis",
+          "t": "cheese"
+        },
+        "expansion": "West Frisian tsiis (“cheese”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "nl",
+          "2": "kaas",
+          "t": "cheese"
+        },
+        "expansion": "Dutch kaas (“cheese”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "nds-de",
+          "2": "Kees",
+          "t": "cheese"
+        },
+        "expansion": "German Low German Kees (“cheese”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "de",
+          "2": "Käse",
+          "t": "cheese"
+        },
+        "expansion": "German Käse (“cheese”)",
+        "name": "cog"
+      }
+    ],
+    "etymology_text": "Etymology tree\nLatin cāseusbor.\nProto-Germanic *kāsijaz\nProto-West Germanic *kāsī\nOld English ċīese\nMiddle English chese\nEnglish cheese\nFrom Middle English chese, from Anglian Old English ċīese, from Proto-West Germanic *kāsī, borrowed from Latin cāseus. Doublet of queso.\nCognate with Saterland Frisian Síes (“cheese”), West Frisian tsiis (“cheese”), Dutch kaas (“cheese”), German Low German Kees (“cheese”), German Käse (“cheese”).",
+    "lang": "English",
+    "lang_code": "en",
+    "phonetic": {
+      "dolgo_classes": "KVS",
+      "dolgo_consonants": "KS",
+      "dolgo_first2": "KS",
+      "ipa": "t͡ʃiːz",
+      "tokens": [
+        "t͡ʃ",
+        "iː",
+        "z"
+      ]
+    },
+    "pos": "noun",
+    "senses": [
+      {
+        "categories": [
+          "English uncountable nouns"
+        ],
+        "glosses": [
+          "A dairy product made from curdled or cultured milk."
+        ],
+        "links": [
+          [
+            "dairy",
+            "dairy"
+          ],
+          [
+            "curdle",
+            "curdle"
+          ],
+          [
+            "culture",
+            "culture"
+          ],
+          [
+            "milk",
+            "milk"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable) A dairy product made from curdled or cultured milk."
+        ],
+        "senseid": [
+          "en:Q10943"
+        ],
+        "tags": [
+          "uncountable"
+        ],
+        "wikidata": [
+          "Q10943"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns"
+        ],
+        "glosses": [
+          "Any particular variety of cheese."
+        ],
+        "raw_glosses": [
+          "(countable) Any particular variety of cheese."
+        ],
+        "tags": [
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                44,
+                51
+              ]
+            ],
+            "ref": "2015 August 23, Dominik Guggisberg et al., “Mechanism and control of the eye formation in cheese”, in International Dairy Journal, volume 47, Elsevier, →DOI, pages 118–127:",
+            "text": "In the tomographic images of the 30-day-old cheeses, the gantry had to be removed with image processing techniques: first, the binarised image (grey level larger than 10⁴) was eroded with a disk of three pixels.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "A piece of cheese, especially one moulded into a large round shape during manufacture."
+        ],
+        "raw_glosses": [
+          "(countable) A piece of cheese, especially one moulded into a large round shape during manufacture."
+        ],
+        "tags": [
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "British English",
+          "English uncountable nouns"
+        ],
+        "examples": [
+          {
+            "text": "1807, Nutt, F. (1807). The Complete Confectioner: Or, The Whole Art of Confectionary Made Easy: Containing, Among a Variety of Useful Matter, the Art of Making the Various Kinds of Biscuits, Drops ... as Also the Most Approved Method of Making Cheeses, Puddings, Cakes &c. in 250 Cheap and Fashionable Receipts. The Result of Many Years Experience with the Celebrated Negri and Witten. United Kingdom: reprinted, for Richard Scott and sold at his bookstore, no. 243 Pearl-street.\np.82-3, No.244. Damson Cheese: “Pick the damsons free from stalks···You may make plum or bullace cheese in the same way···”"
+          }
+        ],
+        "glosses": [
+          "A thick variety of jam (fruit preserve), as distinguished from a thinner variety (sometimes called jelly)"
+        ],
+        "links": [
+          [
+            "jam",
+            "jam"
+          ],
+          [
+            "jelly",
+            "jelly"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable, UK) A thick variety of jam (fruit preserve), as distinguished from a thinner variety (sometimes called jelly)"
+        ],
+        "tags": [
+          "UK",
+          "uncountable"
+        ]
+      },
+      {
+        "glosses": [
+          "A substance resembling cream cheese, such as lemon cheese"
+        ],
+        "links": [
+          [
+            "lemon cheese",
+            "lemon cheese"
+          ]
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English colloquialisms",
+          "English terms with quotations",
+          "English uncountable nouns"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                22,
+                28
+              ]
+            ],
+            "ref": "2012, Katrina Hill, Action Movie Freak, page 117:",
+            "text": "It's time to add some cheese to this action burger! Every genre has them, everybody loves them ... it's the parodies!",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                150,
+                156
+              ]
+            ],
+            "ref": "2012 June 18, Ryan Lambie, “10 delightfully cheesy 90s sci-fi movie trailers”, in Den of Geek!, archived from the original on 07 Jul 2017:",
+            "text": "A film ostensibly about the lead singer of a hair metal band killing innocent people on a future planet Earth, Alienator is the epitome of low-budget cheese.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "That which is melodramatic, overly emotional, or cliché, i.e. cheesy."
+        ],
+        "links": [
+          [
+            "melodramatic",
+            "melodramatic"
+          ],
+          [
+            "emotional",
+            "emotional"
+          ],
+          [
+            "cliché",
+            "cliché"
+          ],
+          [
+            "cheesy",
+            "cheesy"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable, colloquial) That which is melodramatic, overly emotional, or cliché, i.e. cheesy."
+        ],
+        "tags": [
+          "colloquial",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English slang",
+          "English uncountable nouns"
+        ],
+        "glosses": [
+          "Money."
+        ],
+        "raw_glosses": [
+          "(uncountable, slang) Money."
+        ],
+        "senseid": [
+          "en:Q1368"
+        ],
+        "synonyms": [
+          {
+            "word": "cheddar"
+          }
+        ],
+        "tags": [
+          "slang",
+          "uncountable"
+        ],
+        "wikidata": [
+          "Q1368"
+        ]
+      },
+      {
+        "categories": [
+          "British English",
+          "English countable nouns"
+        ],
+        "glosses": [
+          "In skittles, the roughly ovoid object that is thrown to knock down the skittles."
+        ],
+        "links": [
+          [
+            "skittles",
+            "skittles"
+          ],
+          [
+            "ovoid",
+            "ovoid"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable, UK) In skittles, the roughly ovoid object that is thrown to knock down the skittles."
+        ],
+        "tags": [
+          "UK",
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "English slang",
+          "English uncountable nouns",
+          "en:Baseball"
+        ],
+        "glosses": [
+          "A fastball."
+        ],
+        "links": [
+          [
+            "baseball",
+            "baseball"
+          ],
+          [
+            "fastball",
+            "fastball"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable, slang, baseball) A fastball."
+        ],
+        "tags": [
+          "slang",
+          "uncountable"
+        ],
+        "topics": [
+          "ball-games",
+          "baseball",
+          "games",
+          "hobbies",
+          "lifestyle",
+          "sports"
+        ]
+      },
+      {
+        "categories": [
+          "English slang",
+          "English uncountable nouns"
+        ],
+        "glosses": [
+          "A dangerous mixture of black tar heroin and crushed Tylenol PM tablets. The resulting powder resembles grated cheese and is snorted."
+        ],
+        "links": [
+          [
+            "heroin",
+            "heroin"
+          ],
+          [
+            "Tylenol PM",
+            "Tylenol"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable, slang) A dangerous mixture of black tar heroin and crushed Tylenol PM tablets. The resulting powder resembles grated cheese and is snorted."
+        ],
+        "tags": [
+          "slang",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English slang",
+          "English vulgarities"
+        ],
+        "glosses": [
+          "Smegma."
+        ],
+        "links": [
+          [
+            "Smegma",
+            "smegma"
+          ]
+        ],
+        "raw_glosses": [
+          "(vulgar, slang) Smegma."
+        ],
+        "tags": [
+          "countable",
+          "slang",
+          "uncountable",
+          "vulgar"
+        ]
+      },
+      {
+        "categories": [
+          "en:Technology"
+        ],
+        "examples": [
+          {
+            "text": "2006, US Patent 7458053, International Business Machines Corporation\nIt is known in the art to insert features that are electrically inactive (“fill structures”) into a layout to increase layout pattern density or and to remove features from the layout (“cheese structures”) to decrease layout pattern density."
+          }
+        ],
+        "glosses": [
+          "Holed pattern of circuitry to decrease pattern density."
+        ],
+        "links": [
+          [
+            "technology",
+            "technology"
+          ],
+          [
+            "Holed",
+            "hole"
+          ],
+          [
+            "circuitry",
+            "circuitry"
+          ]
+        ],
+        "raw_glosses": [
+          "(technology) Holed pattern of circuitry to decrease pattern density."
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ],
+        "topics": [
+          "engineering",
+          "natural-sciences",
+          "physical-sciences",
+          "technology"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                159,
+                166
+              ],
+              [
+                160,
+                166
+              ],
+              [
+                209,
+                215
+              ],
+              [
+                266,
+                273
+              ],
+              [
+                267,
+                273
+              ],
+              [
+                287,
+                294
+              ],
+              [
+                288,
+                294
+              ]
+            ],
+            "ref": "2011, P. Rutledge, “Production of Non-Fermented Fruit Products”, in D. Arthey, P.R. Ashurst, editors, Fruit Processing, →ISBN, page 77:",
+            "text": "Apple pulp is poured into the cloth until the frame is full. The edges of the cloth are folded over the pulp forming a cloth-bound bed of apple pulp, called a 'cheese' as it resembles the European-style bound cheese. The frame is removed, a divider is placed on the 'cheese' and another 'cheese' is built on top of the first, and so on.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "A mass of pomace, or ground apples, pressed together in the shape of a cheese."
+        ],
+        "links": [
+          [
+            "pomace",
+            "pomace"
+          ]
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "Entries missing English vernacular names of taxa",
+          "Entries using missing taxonomic name (species)"
+        ],
+        "glosses": [
+          "The flat, circular, mucilaginous fruit of dwarf mallow (Malva rotundifolia) or marshmallow (Althaea officinalis)."
+        ],
+        "links": [
+          [
+            "mucilaginous",
+            "mucilaginous"
+          ],
+          [
+            "fruit",
+            "fruit"
+          ],
+          [
+            "marshmallow",
+            "marshmallow"
+          ],
+          [
+            "Althaea officinalis",
+            "Althaea officinalis#Translingual"
+          ]
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                285,
+                292
+              ]
+            ],
+            "ref": "1853, Thomas De Quincey, “I Enter the World”, in Autobiographic Sketches:",
+            "text": "The time was morning; the young lady was not fifteen; her spirits were as the spirits of a fawn in May; her tour of duty for the day was either not come, or was gone; and, finding herself alone in a spacious room, what more reasonable thing could she do than amuse herself with making cheeses? that is, whirling round, according to a fashion practised by young ladies both in France and England, and pirouetting until the petticoat is inflated like a balloon, and then sinking into a courtesy.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                142,
+                148
+              ]
+            ],
+            "ref": "1857, William Makepeace Thackeray, chapter 34, in The Virginians:",
+            "text": "\"I thank your ladyship, I don't like tanzing, and I don't like cards,\" says Miss Hester, tossing up her head; and, dropping a curtsey like a \"cheese,\" she strutted away from the Countess's table.",
+            "type": "quotation"
+          },
+          {
+            "ref": "1897, Stanley John Weyman, “The Deanery Ball”, in For the Cause:",
+            "text": "Mrs. Curzon-Bowlby, thus deserted in the middle of the room, dropped the prettiest of \"cheeses,\" and broke into a merry peal of unaffected laughter.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "A low curtsey; so called on account of the cheese shape assumed by a woman's dress when she stoops after extending the skirts by a rapid gyration."
+        ],
+        "links": [
+          [
+            "curtsey",
+            "curtsey"
+          ]
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      }
+    ],
+    "sounds": [
+      {
+        "enpr": "chēz"
+      },
+      {
+        "ipa": "/t͡ʃiːz/"
+      },
+      {
+        "ipa": "/t͡ʃiz/",
+        "tags": [
+          "General-American"
+        ]
+      },
+      {
+        "audio": "en-us-cheese.ogg",
+        "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bc/En-us-cheese.ogg/En-us-cheese.ogg.mp3",
+        "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/En-us-cheese.ogg"
+      },
+      {
+        "rhymes": "-iːz"
+      },
+      {
+        "homophone": "qis"
+      }
+    ],
+    "word": "cheese"
+  },
+  "system_output": {
+    "chain": {
+      "edges": [
+        {
+          "from": "chese:Middle English",
+          "label": "inh",
+          "to": "cheese:English"
+        },
+        {
+          "from": "ċīese:Old English",
+          "label": "inh",
+          "to": "chese:Middle English"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "inh",
+          "to": "ċīese:Old English"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "der",
+          "to": "*kāsī:Proto-West Germanic"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "cheese:English",
+          "label": "cheese",
+          "language": "English",
+          "level": 0
+        },
+        {
+          "id": "chese:Middle English",
+          "label": "chese",
+          "language": "Middle English",
+          "level": -1
+        },
+        {
+          "id": "ċīese:Old English",
+          "label": "ċīese",
+          "language": "Old English",
+          "level": -2
+        },
+        {
+          "id": "*kāsī:Proto-West Germanic",
+          "label": "*kāsī",
+          "language": "Proto-West Germanic",
+          "level": -3
+        },
+        {
+          "id": "cāseus:Latin",
+          "label": "cāseus",
+          "language": "Latin",
+          "level": -4
+        }
+      ]
+    },
+    "tree_inh": {
+      "edges": [
+        {
+          "from": "chese:Middle English",
+          "label": "inh",
+          "to": "cheese:English"
+        },
+        {
+          "from": "ċīese:Old English",
+          "label": "inh",
+          "to": "chese:Middle English"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "inh",
+          "to": "ċīese:Old English"
+        },
+        {
+          "from": "cheese:English",
+          "label": "inh",
+          "to": "chese:Middle English"
+        },
+        {
+          "from": "Chiswick:English",
+          "label": "inh",
+          "to": "ċīese:Old English"
+        },
+        {
+          "from": "chese:Middle English",
+          "label": "inh",
+          "to": "ċīese:Old English"
+        },
+        {
+          "from": "ciese:Old English",
+          "label": "inh",
+          "to": "*kāsī:Proto-West Germanic"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "cheese:English",
+          "label": "cheese",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "chese:Middle English",
+          "label": "chese",
+          "language": "Middle English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "ċīese:Old English",
+          "label": "ċīese",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "*kāsī:Proto-West Germanic",
+          "label": "*kāsī",
+          "language": "Proto-West Germanic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "Chiswick:English",
+          "label": "Chiswick",
+          "language": "English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "ciese:Old English",
+          "label": "ciese",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        }
+      ]
+    },
+    "tree_inh_bor_der_cog": {
+      "edges": [
+        {
+          "from": "chese:Middle English",
+          "label": "inh",
+          "to": "cheese:English"
+        },
+        {
+          "from": "ċīese:Old English",
+          "label": "inh",
+          "to": "chese:Middle English"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "inh",
+          "to": "ċīese:Old English"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "der",
+          "to": "*kāsī:Proto-West Germanic"
+        },
+        {
+          "from": "sis:Tok Pisin",
+          "label": "der",
+          "to": "cheese:English"
+        },
+        {
+          "from": "sisi:Samoan",
+          "label": "der",
+          "to": "cheese:English"
+        },
+        {
+          "from": "hihi:Tokelauan",
+          "label": "bor",
+          "to": "sisi:Samoan"
+        },
+        {
+          "from": "chizi:Shona",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "치즈:Korean",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "芝士:Chinese",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "jiss:Somali",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "cihs:Mohegan-Pequot",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "起司:Chinese",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "起士:Chinese",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "chiz:Abenaki",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "吉士:Chinese",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "itshizi:Xhosa",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "ushizi:Zulu",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "jiij:Marshallese",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "tsís:Mohawk",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "čidᶻ:Lushootseed",
+          "label": "bor",
+          "to": "cheese:English"
+        },
+        {
+          "from": "cheese:English",
+          "label": "inh",
+          "to": "chese:Middle English"
+        },
+        {
+          "from": "Chisholm:English",
+          "label": "der",
+          "to": "ċīese:Old English"
+        },
+        {
+          "from": "Chiswick:English",
+          "label": "inh",
+          "to": "ċīese:Old English"
+        },
+        {
+          "from": "chese:Middle English",
+          "label": "inh",
+          "to": "ċīese:Old English"
+        },
+        {
+          "from": "kæsa:Icelandic",
+          "label": "der",
+          "to": "*kāsī:Proto-West Germanic"
+        },
+        {
+          "from": "ciese:Old English",
+          "label": "inh",
+          "to": "*kāsī:Proto-West Germanic"
+        },
+        {
+          "from": "cash:Aromanian",
+          "label": "inh",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "قاشر:Ottoman Turkish",
+          "label": "bor",
+          "to": "cash:Aromanian"
+        },
+        {
+          "from": "kaşar:Turkish",
+          "label": "inh",
+          "to": "قاشر:Ottoman Turkish"
+        },
+        {
+          "from": "keso:Tagalog",
+          "label": "der",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "caso:Neapolitan",
+          "label": "inh",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "casu:Sardinian",
+          "label": "inh",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "casu:Sicilian",
+          "label": "inh",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "kisu:Tausug",
+          "label": "der",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "cacio:Italian",
+          "label": "inh",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "inh",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "queixo:Galician",
+          "label": "inh",
+          "to": "queijo:Old Galician-Portuguese"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "inh",
+          "to": "queijo:Old Galician-Portuguese"
+        },
+        {
+          "from": "keju:Malay",
+          "label": "bor",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "keiju:Tetum",
+          "label": "bor",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "kiju:Sundanese",
+          "label": "bor",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "kiju:Tausug",
+          "label": "der",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "queixhu:Fala",
+          "label": "inh",
+          "to": "queijo:Old Galician-Portuguese"
+        },
+        {
+          "from": "queixu:Fala",
+          "label": "inh",
+          "to": "queijo:Old Galician-Portuguese"
+        },
+        {
+          "from": "chis:Dalmatian",
+          "label": "inh",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "caseo:Interlingua",
+          "label": "der",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "caș:Romanian",
+          "label": "inh",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "kazeina:Polish",
+          "label": "der",
+          "to": "cāseus:Latin"
+        },
+        {
+          "from": "cheese:English",
+          "label": "cog",
+          "to": "Síes:Saterland Frisian"
+        },
+        {
+          "from": "cheese:English",
+          "label": "cog",
+          "to": "tsiis:West Frisian"
+        },
+        {
+          "from": "cheese:English",
+          "label": "cog",
+          "to": "kaas:Dutch"
+        },
+        {
+          "from": "cheese:English",
+          "label": "cog",
+          "to": "Kees:German Low German"
+        },
+        {
+          "from": "cheese:English",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "hihi:Tokelauan",
+          "label": "cog",
+          "to": "hihi:Tuvaluan"
+        },
+        {
+          "from": "kæsa:Icelandic",
+          "label": "cog",
+          "to": "kæsa:Faroese"
+        },
+        {
+          "from": "cash:Aromanian",
+          "label": "cog",
+          "to": "caș:Romanian"
+        },
+        {
+          "from": "casu:Sardinian",
+          "label": "cog",
+          "to": "caș:Romanian"
+        },
+        {
+          "from": "casu:Sardinian",
+          "label": "cog",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "casu:Sardinian",
+          "label": "cog",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "casu:Sicilian",
+          "label": "cog",
+          "to": "cacio:Italian"
+        },
+        {
+          "from": "casu:Sicilian",
+          "label": "cog",
+          "to": "caso:Neapolitan"
+        },
+        {
+          "from": "casu:Sicilian",
+          "label": "cog",
+          "to": "casu:Sardinian"
+        },
+        {
+          "from": "casu:Sicilian",
+          "label": "cog",
+          "to": "queso:an,es"
+        },
+        {
+          "from": "casu:Sicilian",
+          "label": "cog",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "casu:Sicilian",
+          "label": "cog",
+          "to": "cash:Aromanian"
+        },
+        {
+          "from": "casu:Sicilian",
+          "label": "cog",
+          "to": "caș:Romanian"
+        },
+        {
+          "from": "kisu:Tausug",
+          "label": "cog",
+          "to": "keso:Cebuano"
+        },
+        {
+          "from": "kisu:Tausug",
+          "label": "cog",
+          "to": "keso:Tagalog"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "cog",
+          "to": "keso:Old Leonese"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "cog",
+          "to": "queso:Old Spanish"
+        },
+        {
+          "from": "queixo:Galician",
+          "label": "cog",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "queixo:Galician",
+          "label": "cog",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "queixo:Galician"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "cacio:Italian"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "caș:Romanian"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "cheese:English"
+        },
+        {
+          "from": "queixhu:Fala",
+          "label": "cog",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "queixu:Fala",
+          "label": "cog",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "chis:Dalmatian",
+          "label": "cog",
+          "to": "cacio:Italian"
+        },
+        {
+          "from": "chis:Dalmatian",
+          "label": "cog",
+          "to": "caș:Romanian"
+        },
+        {
+          "from": "chis:Dalmatian",
+          "label": "cog",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "caș:Romanian",
+          "label": "cog",
+          "to": "cash:Aromanian"
+        },
+        {
+          "from": "kazeina:Polish",
+          "label": "cog",
+          "to": "casein:English"
+        },
+        {
+          "from": "kazeina:Polish",
+          "label": "cog",
+          "to": "caséine:French"
+        },
+        {
+          "from": "kazeina:Polish",
+          "label": "cog",
+          "to": "Kasein:German"
+        },
+        {
+          "from": "kīse:Old Frisian",
+          "label": "inh",
+          "to": "Síes:Saterland Frisian"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "inh",
+          "to": "kīse:Old Frisian"
+        },
+        {
+          "from": "Síes:Saterland Frisian",
+          "label": "inh",
+          "to": "kīse:Old Frisian"
+        },
+        {
+          "from": "tzīse:Old Frisian",
+          "label": "inh",
+          "to": "tsiis:West Frisian"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "inh",
+          "to": "tzīse:Old Frisian"
+        },
+        {
+          "from": "tsiis:West Frisian",
+          "label": "inh",
+          "to": "tzīse:Old Frisian"
+        },
+        {
+          "from": "câse:Middle Dutch",
+          "label": "inh",
+          "to": "kaas:Dutch"
+        },
+        {
+          "from": "*kāsi:Old Dutch",
+          "label": "inh",
+          "to": "câse:Middle Dutch"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "inh",
+          "to": "*kāsi:Old Dutch"
+        },
+        {
+          "from": "kaas:Afrikaans",
+          "label": "inh",
+          "to": "kaas:Dutch"
+        },
+        {
+          "from": "kasi:Sranan Tongo",
+          "label": "bor",
+          "to": "kaas:Dutch"
+        },
+        {
+          "from": "kääs:Jersey Dutch",
+          "label": "inh",
+          "to": "kaas:Dutch"
+        },
+        {
+          "from": "kaas:Dutch",
+          "label": "inh",
+          "to": "câse:Middle Dutch"
+        },
+        {
+          "from": "case:Middle Dutch",
+          "label": "inh",
+          "to": "*kāsi:Old Dutch"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "Käse:German"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "inh",
+          "to": "kāsi:Old High German"
+        },
+        {
+          "from": "Kase:English",
+          "label": "bor",
+          "to": "Käse:German"
+        },
+        {
+          "from": "kazeo:Esperanto",
+          "label": "der",
+          "to": "Käse:German"
+        },
+        {
+          "from": "Käse:German",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "Kies:Central Franconian",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "kas:Mòcheno",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "קעז:Yiddish",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "Kéis:Luxembourgish",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "kȳz:Vilamovian",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "Chääs:Alemannic German",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "Kaes:Pennsylvania German",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "khéeze:Cimbrian",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "cheisch:Alemannic German",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "chìŝch:Alemannic German",
+          "label": "inh",
+          "to": "kæse:Middle High German"
+        },
+        {
+          "from": "kase:Bavarian",
+          "label": "inh",
+          "to": "kāsi:Old High German"
+        },
+        {
+          "from": "kese:Cimbrian",
+          "label": "inh",
+          "to": "kāsi:Old High German"
+        },
+        {
+          "from": "khes:Cimbrian",
+          "label": "inh",
+          "to": "kāsi:Old High German"
+        },
+        {
+          "from": "khase:Bavarian",
+          "label": "inh",
+          "to": "kāsi:Old High German"
+        },
+        {
+          "from": "ckaas:Bavarian",
+          "label": "inh",
+          "to": "kāsi:Old High German"
+        },
+        {
+          "from": "Kaas:Bavarian",
+          "label": "inh",
+          "to": "kāsi:Old High German"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "kāsi:Old High German"
+        },
+        {
+          "from": "queso:Old Spanish",
+          "label": "inh",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "queso:Old Spanish"
+        },
+        {
+          "from": "keso:Cebuano",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "keso:Swedish",
+          "label": "der",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "keso:Waray-Waray",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "kesò:Guerrero Amuzgo",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "quiiz:Seri",
+          "label": "der",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "kiso:Maranao",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "kiso:Sambali",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "kisu:Quechua",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "kešu:Rayón Zoque",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "kàsuʼúna:Taos",
+          "label": "der",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "géeso:Navajo",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "géésu:Jemez",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "ques:Zoogocho Zapotec",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "quiexo:Tetelcingo Nahuatl",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "quéexiu:Huichol",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "ᎨᏒ:Cherokee",
+          "label": "bor",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "inh",
+          "to": "queso:Old Spanish"
+        },
+        {
+          "from": "kézo:Ladino",
+          "label": "inh",
+          "to": "queso:Old Spanish"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "keso:Cebuano"
+        },
+        {
+          "from": "cāseum:Latin",
+          "label": "inh",
+          "to": "queso:Old Spanish"
+        },
+        {
+          "from": "queso:Old Spanish",
+          "label": "inh",
+          "to": "cāseum:Latin"
+        },
+        {
+          "from": "caséine:French",
+          "label": "bor",
+          "to": "casein:English"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "der",
+          "to": "caséine:French"
+        },
+        {
+          "from": "casein:English",
+          "label": "bor",
+          "to": "caséine:French"
+        },
+        {
+          "from": "Síes:Saterland Frisian",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "Síes:Saterland Frisian",
+          "label": "cog",
+          "to": "tsiis:West Frisian"
+        },
+        {
+          "from": "queso:Old Spanish",
+          "label": "cog",
+          "to": "keso:Old Leonese"
+        },
+        {
+          "from": "kas:Mòcheno",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "kas:Mòcheno",
+          "label": "cog",
+          "to": "cheese:English"
+        },
+        {
+          "from": "קעז:Yiddish",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "קעז:Yiddish",
+          "label": "cog",
+          "to": "kaas:Dutch"
+        },
+        {
+          "from": "קעז:Yiddish",
+          "label": "cog",
+          "to": "cheese:English"
+        },
+        {
+          "from": "Kaes:Pennsylvania German",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "Kaes:Pennsylvania German",
+          "label": "cog",
+          "to": "kaas:Dutch"
+        },
+        {
+          "from": "Kaes:Pennsylvania German",
+          "label": "cog",
+          "to": "cheese:English"
+        },
+        {
+          "from": "Kaes:Pennsylvania German",
+          "label": "cog",
+          "to": "tsiis:West Frisian"
+        },
+        {
+          "from": "khéeze:Cimbrian",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "khéeze:Cimbrian",
+          "label": "cog",
+          "to": "cheese:English"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "cheese:English",
+          "label": "cheese",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "chese:Middle English",
+          "label": "chese",
+          "language": "Middle English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "ċīese:Old English",
+          "label": "ċīese",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "*kāsī:Proto-West Germanic",
+          "label": "*kāsī",
+          "language": "Proto-West Germanic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "cāseus:Latin",
+          "label": "cāseus",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "sis:Tok Pisin",
+          "label": "sis",
+          "language": "Tok Pisin",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "sisi:Samoan",
+          "label": "sisi",
+          "language": "Samoan",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "hihi:Tokelauan",
+          "label": "hihi",
+          "language": "Tokelauan",
+          "level": 2,
+          "uncertainty": null
+        },
+        {
+          "id": "chizi:Shona",
+          "label": "chizi",
+          "language": "Shona",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "치즈:Korean",
+          "label": "치즈",
+          "language": "Korean",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "芝士:Chinese",
+          "label": "芝士",
+          "language": "Chinese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "jiss:Somali",
+          "label": "jiss",
+          "language": "Somali",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "cihs:Mohegan-Pequot",
+          "label": "cihs",
+          "language": "Mohegan-Pequot",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "起司:Chinese",
+          "label": "起司",
+          "language": "Chinese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "起士:Chinese",
+          "label": "起士",
+          "language": "Chinese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "chiz:Abenaki",
+          "label": "chiz",
+          "language": "Abenaki",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "吉士:Chinese",
+          "label": "吉士",
+          "language": "Chinese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "itshizi:Xhosa",
+          "label": "itshizi",
+          "language": "Xhosa",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "ushizi:Zulu",
+          "label": "ushizi",
+          "language": "Zulu",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "jiij:Marshallese",
+          "label": "jiij",
+          "language": "Marshallese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "tsís:Mohawk",
+          "label": "tsís",
+          "language": "Mohawk",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "čidᶻ:Lushootseed",
+          "label": "čidᶻ",
+          "language": "Lushootseed",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "Chisholm:English",
+          "label": "Chisholm",
+          "language": "English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "Chiswick:English",
+          "label": "Chiswick",
+          "language": "English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "kæsa:Icelandic",
+          "label": "kæsa",
+          "language": "Icelandic",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "ciese:Old English",
+          "label": "ciese",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "cash:Aromanian",
+          "label": "cash",
+          "language": "Aromanian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "قاشر:Ottoman Turkish",
+          "label": "قاشر",
+          "language": "Ottoman Turkish",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kaşar:Turkish",
+          "label": "kaşar",
+          "language": "Turkish",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "keso:Tagalog",
+          "label": "keso",
+          "language": "Tagalog",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "caso:Neapolitan",
+          "label": "caso",
+          "language": "Neapolitan",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "casu:Sardinian",
+          "label": "casu",
+          "language": "Sardinian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "casu:Sicilian",
+          "label": "casu",
+          "language": "Sicilian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "kisu:Tausug",
+          "label": "kisu",
+          "language": "Tausug",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "cacio:Italian",
+          "label": "cacio",
+          "language": "Italian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "queijo:Old Galician-Portuguese",
+          "label": "queijo",
+          "language": "Old Galician-Portuguese",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "queixo:Galician",
+          "label": "queixo",
+          "language": "Galician",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "queijo:Portuguese",
+          "label": "queijo",
+          "language": "Portuguese",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "keju:Malay",
+          "label": "keju",
+          "language": "Malay",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "keiju:Tetum",
+          "label": "keiju",
+          "language": "Tetum",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "kiju:Sundanese",
+          "label": "kiju",
+          "language": "Sundanese",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "kiju:Tausug",
+          "label": "kiju",
+          "language": "Tausug",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "queixhu:Fala",
+          "label": "queixhu",
+          "language": "Fala",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "queixu:Fala",
+          "label": "queixu",
+          "language": "Fala",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "chis:Dalmatian",
+          "label": "chis",
+          "language": "Dalmatian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "caseo:Interlingua",
+          "label": "caseo",
+          "language": "Interlingua",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "caș:Romanian",
+          "label": "caș",
+          "language": "Romanian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "kazeina:Polish",
+          "label": "kazeina",
+          "language": "Polish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "Síes:Saterland Frisian",
+          "label": "Síes",
+          "language": "Saterland Frisian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "tsiis:West Frisian",
+          "label": "tsiis",
+          "language": "West Frisian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "kaas:Dutch",
+          "label": "kaas",
+          "language": "Dutch",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Kees:German Low German",
+          "label": "Kees",
+          "language": "German Low German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Käse:German",
+          "label": "Käse",
+          "language": "German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "hihi:Tuvaluan",
+          "label": "hihi",
+          "language": "Tuvaluan",
+          "level": 2,
+          "uncertainty": null
+        },
+        {
+          "id": "kæsa:Faroese",
+          "label": "kæsa",
+          "language": "Faroese",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "queso:Spanish",
+          "label": "queso",
+          "language": "Spanish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "queso:an,es",
+          "label": "queso",
+          "language": "an,es",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "keso:Cebuano",
+          "label": "keso",
+          "language": "Cebuano",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "keso:Old Leonese",
+          "label": "keso",
+          "language": "Old Leonese",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "queso:Old Spanish",
+          "label": "queso",
+          "language": "Old Spanish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "casein:English",
+          "label": "casein",
+          "language": "English",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "caséine:French",
+          "label": "caséine",
+          "language": "French",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "Kasein:German",
+          "label": "Kasein",
+          "language": "German",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "kīse:Old Frisian",
+          "label": "kīse",
+          "language": "Old Frisian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "tzīse:Old Frisian",
+          "label": "tzīse",
+          "language": "Old Frisian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "câse:Middle Dutch",
+          "label": "câse",
+          "language": "Middle Dutch",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "*kāsi:Old Dutch",
+          "label": "*kāsi",
+          "language": "Old Dutch",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kaas:Afrikaans",
+          "label": "kaas",
+          "language": "Afrikaans",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "kasi:Sranan Tongo",
+          "label": "kasi",
+          "language": "Sranan Tongo",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "kääs:Jersey Dutch",
+          "label": "kääs",
+          "language": "Jersey Dutch",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "case:Middle Dutch",
+          "label": "case",
+          "language": "Middle Dutch",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "kæse:Middle High German",
+          "label": "kæse",
+          "language": "Middle High German",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "kāsi:Old High German",
+          "label": "kāsi",
+          "language": "Old High German",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "Kase:English",
+          "label": "Kase",
+          "language": "English",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "kazeo:Esperanto",
+          "label": "kazeo",
+          "language": "Esperanto",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "Kies:Central Franconian",
+          "label": "Kies",
+          "language": "Central Franconian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "kas:Mòcheno",
+          "label": "kas",
+          "language": "Mòcheno",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "קעז:Yiddish",
+          "label": "קעז",
+          "language": "Yiddish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Kéis:Luxembourgish",
+          "label": "Kéis",
+          "language": "Luxembourgish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "kȳz:Vilamovian",
+          "label": "kȳz",
+          "language": "Vilamovian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Chääs:Alemannic German",
+          "label": "Chääs",
+          "language": "Alemannic German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Kaes:Pennsylvania German",
+          "label": "Kaes",
+          "language": "Pennsylvania German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "khéeze:Cimbrian",
+          "label": "khéeze",
+          "language": "Cimbrian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "cheisch:Alemannic German",
+          "label": "cheisch",
+          "language": "Alemannic German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "chìŝch:Alemannic German",
+          "label": "chìŝch",
+          "language": "Alemannic German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "kase:Bavarian",
+          "label": "kase",
+          "language": "Bavarian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "kese:Cimbrian",
+          "label": "kese",
+          "language": "Cimbrian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "khes:Cimbrian",
+          "label": "khes",
+          "language": "Cimbrian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "khase:Bavarian",
+          "label": "khase",
+          "language": "Bavarian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "ckaas:Bavarian",
+          "label": "ckaas",
+          "language": "Bavarian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "Kaas:Bavarian",
+          "label": "Kaas",
+          "language": "Bavarian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "keso:Swedish",
+          "label": "keso",
+          "language": "Swedish",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "keso:Waray-Waray",
+          "label": "keso",
+          "language": "Waray-Waray",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kesò:Guerrero Amuzgo",
+          "label": "kesò",
+          "language": "Guerrero Amuzgo",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "quiiz:Seri",
+          "label": "quiiz",
+          "language": "Seri",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kiso:Maranao",
+          "label": "kiso",
+          "language": "Maranao",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kiso:Sambali",
+          "label": "kiso",
+          "language": "Sambali",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kisu:Quechua",
+          "label": "kisu",
+          "language": "Quechua",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kešu:Rayón Zoque",
+          "label": "kešu",
+          "language": "Rayón Zoque",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kàsuʼúna:Taos",
+          "label": "kàsuʼúna",
+          "language": "Taos",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "géeso:Navajo",
+          "label": "géeso",
+          "language": "Navajo",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "géésu:Jemez",
+          "label": "géésu",
+          "language": "Jemez",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "ques:Zoogocho Zapotec",
+          "label": "ques",
+          "language": "Zoogocho Zapotec",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "quiexo:Tetelcingo Nahuatl",
+          "label": "quiexo",
+          "language": "Tetelcingo Nahuatl",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "quéexiu:Huichol",
+          "label": "quéexiu",
+          "language": "Huichol",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "ᎨᏒ:Cherokee",
+          "label": "ᎨᏒ",
+          "language": "Cherokee",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kézo:Ladino",
+          "label": "kézo",
+          "language": "Ladino",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "cāseum:Latin",
+          "label": "cāseum",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        }
+      ]
+    },
+    "word_detail": {
+      "audio": [
+        {
+          "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bc/En-us-cheese.ogg/En-us-cheese.ogg.mp3",
+          "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/En-us-cheese.ogg"
+        }
+      ],
+      "definitions": [
+        "A dairy product made from curdled or cultured milk.",
+        "Any particular variety of cheese.",
+        "A piece of cheese, especially one moulded into a large round shape during manufacture.",
+        "A thick variety of jam (fruit preserve), as distinguished from a thinner variety (sometimes called jelly)",
+        "A substance resembling cream cheese, such as lemon cheese",
+        "That which is melodramatic, overly emotional, or cliché, i.e. cheesy.",
+        "Money.",
+        "In skittles, the roughly ovoid object that is thrown to knock down the skittles.",
+        "A fastball.",
+        "A dangerous mixture of black tar heroin and crushed Tylenol PM tablets. The resulting powder resembles grated cheese and is snorted.",
+        "Smegma.",
+        "Holed pattern of circuitry to decrease pattern density.",
+        "A mass of pomace, or ground apples, pressed together in the shape of a cheese.",
+        "The flat, circular, mucilaginous fruit of dwarf mallow (Malva rotundifolia) or marshmallow (Althaea officinalis).",
+        "A low curtsey; so called on account of the cheese shape assumed by a woman's dress when she stoops after extending the skirts by a rapid gyration."
+      ],
+      "dolgo_classes": "KVS",
+      "dolgo_consonants": "KS",
+      "etymology_templates": [
+        {
+          "args": {
+            "1": "en",
+            "2": ":inh",
+            "3": "enm:chese<id:cheese>",
+            "id": "dairy product",
+            "tree": "1"
+          },
+          "expansion": "Etymology tree\nLatin cāseusbor.\nProto-Germanic *kāsijaz\nProto-West Germanic *kāsī\nOld English ċīese\nMiddle English chese\nEnglish cheese",
+          "name": "etymon"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "enm",
+            "3": "chese"
+          },
+          "expansion": "Middle English chese",
+          "name": "inh"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "ang",
+            "3": "ċīese"
+          },
+          "expansion": "Old English ċīese",
+          "name": "inh"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "gmw-pro",
+            "3": "*kāsī"
+          },
+          "expansion": "Proto-West Germanic *kāsī",
+          "name": "inh"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "la",
+            "3": "cāseus"
+          },
+          "expansion": "Latin cāseus",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "queso"
+          },
+          "expansion": "Doublet of queso",
+          "name": "doublet"
+        },
+        {
+          "args": {
+            "1": "stq",
+            "2": "Síes",
+            "t": "cheese"
+          },
+          "expansion": "Saterland Frisian Síes (“cheese”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "fy",
+            "2": "tsiis",
+            "t": "cheese"
+          },
+          "expansion": "West Frisian tsiis (“cheese”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "nl",
+            "2": "kaas",
+            "t": "cheese"
+          },
+          "expansion": "Dutch kaas (“cheese”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "nds-de",
+            "2": "Kees",
+            "t": "cheese"
+          },
+          "expansion": "German Low German Kees (“cheese”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "de",
+            "2": "Käse",
+            "t": "cheese"
+          },
+          "expansion": "German Käse (“cheese”)",
+          "name": "cog"
+        }
+      ],
+      "etymology_text": "Etymology tree\nLatin cāseusbor.\nProto-Germanic *kāsijaz\nProto-West Germanic *kāsī\nOld English ċīese\nMiddle English chese\nEnglish cheese\nFrom Middle English chese, from Anglian Old English ċīese, from Proto-West Germanic *kāsī, borrowed from Latin cāseus. Doublet of queso.\nCognate with Saterland Frisian Síes (“cheese”), West Frisian tsiis (“cheese”), Dutch kaas (“cheese”), German Low German Kees (“cheese”), German Käse (“cheese”).",
+      "etymology_uncertainty": {
+        "confidence": "high",
+        "is_uncertain": false,
+        "source": null,
+        "type": null
+      },
+      "lang": "English",
+      "phonetic_ipa": "t͡ʃiːz",
+      "pos": "noun",
+      "pronunciation": "/t͡ʃiːz/",
+      "related_mentions": [],
+      "word": "cheese"
+    }
+  },
+  "wiktionary_reference": {
+    "alternative_theories": [],
+    "etymology_section_text_excerpt": null,
+    "expected_chain_per_wiktionary": []
+  }
+}

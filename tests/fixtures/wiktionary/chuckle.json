@@ -1,0 +1,201 @@
+{
+  "known_gaps": {
+    "foreign_script_roundtrip_unverified": false,
+    "missing_alternative_origins": false,
+    "missing_calques": false,
+    "missing_compound_components": true,
+    "missing_doublet_link": false,
+    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+  },
+  "meta": {
+    "collected_at": "2026-05-23T12:10:33+00:00",
+    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "kaikki_dump_date": null,
+    "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
+    "notes": "Coined word ('Lewis Carroll'); no traditional ancestor.",
+    "spec": "SPC-00013",
+    "wiktionary_revision_seen": null,
+    "wiktionary_url": "https://en.wiktionary.org/wiki/chuckle"
+  },
+  "query": {
+    "lang": "English",
+    "word": "chuckle"
+  },
+  "quirks_covered": [
+    "Q11"
+  ],
+  "raw_kaikki": {
+    "etymology_templates": [
+      {
+        "args": {
+          "1": "en",
+          "2": "chuck",
+          "3": "-le"
+        },
+        "expansion": "chuck + -le",
+        "name": "af"
+      }
+    ],
+    "etymology_text": "From chuck + -le.",
+    "lang": "English",
+    "lang_code": "en",
+    "phonetic": {
+      "dolgo_classes": "KVKVR",
+      "dolgo_consonants": "KKR",
+      "dolgo_first2": "KK",
+      "ipa": "t͡ʃʌkəl",
+      "tokens": [
+        "t͡ʃ",
+        "ʌ",
+        "k",
+        "ə",
+        "l"
+      ]
+    },
+    "pos": "noun",
+    "senses": [
+      {
+        "glosses": [
+          "A quiet laugh."
+        ],
+        "links": [
+          [
+            "laugh",
+            "laugh"
+          ]
+        ],
+        "synonyms": [
+          {
+            "word": "chortle"
+          },
+          {
+            "word": "giggle"
+          },
+          {
+            "word": "snigger"
+          },
+          {
+            "word": "titter"
+          }
+        ]
+      }
+    ],
+    "sounds": [
+      {
+        "ipa": "/ˈt͡ʃʌkəl/"
+      },
+      {
+        "rhymes": "-ʌkəl"
+      }
+    ],
+    "word": "chuckle"
+  },
+  "system_output": {
+    "chain": {
+      "edges": [],
+      "nodes": [
+        {
+          "id": "chuckle:English",
+          "label": "chuckle",
+          "language": "English",
+          "level": 0
+        }
+      ]
+    },
+    "tree_inh": {
+      "edges": [
+        {
+          "from": "chuck:English",
+          "label": "component",
+          "to": "chuckle:English"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "chuckle:English",
+          "label": "chuckle",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "chuck:English",
+          "label": "chuck",
+          "language": "English",
+          "level": -1,
+          "uncertainty": null
+        }
+      ]
+    },
+    "tree_inh_bor_der_cog": {
+      "edges": [
+        {
+          "from": "chuck:English",
+          "label": "component",
+          "to": "chuckle:English"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "chuckle:English",
+          "label": "chuckle",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "chuck:English",
+          "label": "chuck",
+          "language": "English",
+          "level": -1,
+          "uncertainty": null
+        }
+      ]
+    },
+    "word_detail": {
+      "audio": [],
+      "definitions": [
+        "A quiet laugh."
+      ],
+      "dolgo_classes": "KVKVR",
+      "dolgo_consonants": "KKR",
+      "etymology_templates": [
+        {
+          "args": {
+            "1": "en",
+            "2": "chuck",
+            "3": "-le"
+          },
+          "expansion": "chuck + -le",
+          "name": "af"
+        }
+      ],
+      "etymology_text": "From chuck + -le.",
+      "etymology_uncertainty": {
+        "confidence": "high",
+        "is_uncertain": false,
+        "source": null,
+        "type": null
+      },
+      "lang": "English",
+      "phonetic_ipa": "t͡ʃʌkəl",
+      "pos": "noun",
+      "pronunciation": "/ˈt͡ʃʌkəl/",
+      "related_mentions": [
+        {
+          "lang": "English",
+          "lang_code": "en",
+          "role": "component",
+          "source_template": "af",
+          "word": "chuck"
+        }
+      ],
+      "word": "chuckle"
+    }
+  },
+  "wiktionary_reference": {
+    "alternative_theories": [],
+    "etymology_section_text_excerpt": null,
+    "expected_chain_per_wiktionary": []
+  }
+}

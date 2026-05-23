@@ -1,0 +1,976 @@
+{
+  "known_gaps": {
+    "foreign_script_roundtrip_unverified": false,
+    "missing_alternative_origins": false,
+    "missing_calques": false,
+    "missing_compound_components": false,
+    "missing_doublet_link": false,
+    "notes": "Heuristic pre-fill — human reviewer should adjust during cross-check."
+  },
+  "meta": {
+    "collected_at": "2026-05-23T12:10:32+00:00",
+    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "kaikki_dump_date": null,
+    "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
+    "notes": "Foreign-script terminal (Arabic); doublet of chemistry.",
+    "spec": "SPC-00013",
+    "wiktionary_revision_seen": null,
+    "wiktionary_url": "https://en.wiktionary.org/wiki/alchemy"
+  },
+  "query": {
+    "lang": "English",
+    "word": "alchemy"
+  },
+  "quirks_covered": [
+    "Q5",
+    "Q7"
+  ],
+  "raw_kaikki": {
+    "etymology_templates": [
+      {
+        "args": {
+          "1": "en",
+          "2": "ine-pro",
+          "3": "*ǵʰew-"
+        },
+        "expansion": "",
+        "name": "root"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "fro",
+          "3": "alkimie"
+        },
+        "expansion": "Old French alkimie",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "fr",
+          "2": "alchimie"
+        },
+        "expansion": "French alchimie",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "la-med",
+          "3": "alchēmia"
+        },
+        "expansion": "Medieval Latin alchēmia",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "ar",
+          "3": "كيمياء",
+          "4": "اَلْكِيمِيَاء"
+        },
+        "expansion": "Arabic اَلْكِيمِيَاء (al-kīmiyāʔ)",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "grc",
+          "3": "χυμείᾱ",
+          "t": "art of alloying metals"
+        },
+        "expansion": "Ancient Greek χυμείᾱ (khumeíā, “art of alloying metals”)",
+        "name": "der"
+      },
+      {
+        "args": {
+          "1": "es",
+          "2": "alquimia"
+        },
+        "expansion": "Spanish alquimia",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "it",
+          "2": "alchimia"
+        },
+        "expansion": "Italian alchimia",
+        "name": "cog"
+      }
+    ],
+    "etymology_text": "From Old French alkimie, arquemie (French alchimie), from Medieval Latin alchēmia, from Arabic اَلْكِيمِيَاء (al-kīmiyāʔ), from Ancient Greek χυμείᾱ (khumeíā, “art of alloying metals”), from χύμα (khúma, “ingot, bar”). Compare Spanish alquimia and Italian alchimia.",
+    "lang": "English",
+    "lang_code": "en",
+    "phonetic": {
+      "dolgo_classes": "VRKVMV",
+      "dolgo_consonants": "RKM",
+      "dolgo_first2": "RK",
+      "ipa": "ælkəmi",
+      "tokens": [
+        "æ",
+        "l",
+        "k",
+        "ə",
+        "m",
+        "i"
+      ]
+    },
+    "pos": "noun",
+    "senses": [
+      {
+        "categories": [
+          "English terms with quotations",
+          "English terms with usage examples",
+          "English uncountable nouns",
+          "Quotation templates to be cleaned"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                18,
+                25
+              ]
+            ],
+            "ref": "1605, Francis Bacon, The Advancement of Learning, IV. (11):",
+            "text": "And yet surely to alchemy this right is due, that it may be compared to the husbandman whereof Æsop makes the fable; that, when he died, told his sons that he had left unto them gold buried underground in his vineyard; and they digged over all the ground, and gold they found none; but by reason of their stirring and digging the mould about the roots of their vines, they had a great vintage the year following: so assuredly the search and stir to make gold hath brought to light a great number of good and fruitful inventions and experiments, as well for the disclosing of nature as for the use of man’s life.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                231,
+                238
+              ]
+            ],
+            "ref": "2014 June 21, “Magician’s brain”, in The Economist, volume 411, number 8892:",
+            "text": "The [Isaac] Newton that emerges from the [unpublished] manuscripts is far from the popular image of a rational practitioner of cold and pure reason. The architect of modern science was himself not very modern. He was obsessed with alchemy.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                24,
+                31
+              ]
+            ],
+            "text": "The purpose of physical alchemy—as opposed to its various spiritual pursuits—was to treat the supposed leprosity of base metals such as lead, refining and purifying them into gold.",
+            "type": "example"
+          }
+        ],
+        "glosses": [
+          "The premodern and early modern study of physical changes, particularly in Europe, Arabia, and China; and chiefly in pursuit of an elixir of immortality, a universal panacea, and/or a philosopher's stone able to transmute base metals into gold, eventually developing into chemistry."
+        ],
+        "links": [
+          [
+            "premodern",
+            "premodern"
+          ],
+          [
+            "early",
+            "early"
+          ],
+          [
+            "modern",
+            "modern"
+          ],
+          [
+            "study",
+            "study"
+          ],
+          [
+            "physical",
+            "physical"
+          ],
+          [
+            "change",
+            "change"
+          ],
+          [
+            "particularly",
+            "particularly"
+          ],
+          [
+            "Europe",
+            "Europe"
+          ],
+          [
+            "Arabia",
+            "Arabia"
+          ],
+          [
+            "China",
+            "China"
+          ],
+          [
+            "chiefly",
+            "chiefly"
+          ],
+          [
+            "pursuit",
+            "pursuit"
+          ],
+          [
+            "elixir",
+            "elixir"
+          ],
+          [
+            "immortality",
+            "immortality"
+          ],
+          [
+            "universal",
+            "universal"
+          ],
+          [
+            "panacea",
+            "panacea"
+          ],
+          [
+            "and/or",
+            "and/or"
+          ],
+          [
+            "philosopher's stone",
+            "philosopher's stone"
+          ],
+          [
+            "able",
+            "able"
+          ],
+          [
+            "transmute",
+            "transmute"
+          ],
+          [
+            "base metal",
+            "base metal"
+          ],
+          [
+            "gold",
+            "gold"
+          ],
+          [
+            "eventually",
+            "eventually"
+          ],
+          [
+            "develop",
+            "develop"
+          ],
+          [
+            "chemistry",
+            "chemistry"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable) The premodern and early modern study of physical changes, particularly in Europe, Arabia, and China; and chiefly in pursuit of an elixir of immortality, a universal panacea, and/or a philosopher's stone able to transmute base metals into gold, eventually developing into chemistry."
+        ],
+        "tags": [
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English terms with quotations",
+          "Quotation templates to be cleaned"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                117,
+                124
+              ]
+            ],
+            "ref": "1599 (first performance), William Shakespeare, “The Tragedie of Iulius Cæsar”, in Mr. William Shakespeares Comedies, Histories, & Tragedies […] (First Folio), London: […] Isaac Iaggard, and Ed[ward] Blount, published 1623, →OCLC, [Act I, scene iii]:",
+            "text": "O, he sits high in all the people’s hearts:\nAnd that which would appear offence in us,\nHis countenance, like richest alchemy,\nWill change to virtue and to worthiness.",
+            "type": "quotation"
+          },
+          {
+            "text": "1640, George Herbert, Jacula Prudentum; or, Outlandish Proverbs, Sentences, etc., in The Remains of that Sweet Singer of the Temple George Herbert, London: Pickering, 1841, p. 143,\nNo alchymy to saving."
+          },
+          {
+            "bold_text_offsets": [
+              [
+                162,
+                169
+              ]
+            ],
+            "ref": "1667, John Milton, “Book II”, in Paradise Lost. […], London: […] [Samuel Simmons], and are to be sold by Peter Parker […]; [a]nd by Robert Boulter […]; [a]nd Matthias Walker, […], →OCLC; republished as Paradise Lost in Ten Books: […], London: Basil Montagu Pickering […], 1873, →OCLC:",
+            "text": "Then of their session ended they bid cry\nWith trumpet’s regal sound the great result:\nToward the four winds four speedy Cherubim\nPut to their mouths the sounding alchemy,\nBy herald’s voice explained; the hollow Abyss\nHeard far and wide, and all the host of Hell\nWith deafening shout returned them loud acclaim.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                193,
+                200
+              ]
+            ],
+            "ref": "1840, Percy Bysshe Shelley, A Defence of Poetry:",
+            "text": "[Poetry] transmutes all that it touches, and every form moving within the radiance of its presence is changed by wondrous sympathy to an incarnation of the spirit which it breathes: its secret alchemy turns to potable gold the poisonous waters which flow from death through life; it strips the veil of familiarity from the world, and lays bare the naked and sleeping beauty, which is the spirit of its forms.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                111,
+                118
+              ]
+            ],
+            "ref": "2016, Boris Johnson, (Please provide the book title or journal name):",
+            "text": "There is such a rich thesaurus now of things that I have said that have been, one way or another, through what alchemy I do not know, somehow misconstrued, that it would really take me too long to engage in a full global itinerary of apology to all concerned.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "The causing of any sort of mysterious sudden transmutation."
+        ],
+        "links": [
+          [
+            "sudden",
+            "sudden"
+          ],
+          [
+            "transmutation",
+            "transmutation"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable) The causing of any sort of mysterious sudden transmutation."
+        ],
+        "tags": [
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English slang",
+          "en:Computing"
+        ],
+        "glosses": [
+          "Any elaborate transformation process or algorithm."
+        ],
+        "links": [
+          [
+            "computing",
+            "computing#Noun"
+          ],
+          [
+            "transformation",
+            "transformation"
+          ],
+          [
+            "algorithm",
+            "algorithm"
+          ]
+        ],
+        "raw_glosses": [
+          "(computing, slang, countable) Any elaborate transformation process or algorithm."
+        ],
+        "tags": [
+          "countable",
+          "slang"
+        ],
+        "topics": [
+          "computing",
+          "engineering",
+          "mathematics",
+          "natural-sciences",
+          "physical-sciences",
+          "sciences"
+        ]
+      }
+    ],
+    "sounds": [
+      {
+        "ipa": "/ˈælkəmi/",
+        "tags": [
+          "US"
+        ]
+      },
+      {
+        "audio": "en-us-alchemy.ogg",
+        "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/2/20/En-us-alchemy.ogg/En-us-alchemy.ogg.mp3",
+        "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/En-us-alchemy.ogg"
+      }
+    ],
+    "word": "alchemy"
+  },
+  "system_output": {
+    "chain": {
+      "edges": [
+        {
+          "from": "alkimie:Old French",
+          "label": "der",
+          "to": "alchemy:English"
+        },
+        {
+          "from": "alchēmia:la-med",
+          "label": "der",
+          "to": "alkimie:Old French"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "alchēmia:la-med"
+        },
+        {
+          "from": "χυμείᾱ:Ancient Greek",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "alchemy:English",
+          "label": "alchemy",
+          "language": "English",
+          "level": 0
+        },
+        {
+          "id": "alkimie:Old French",
+          "label": "alkimie",
+          "language": "Old French",
+          "level": -1
+        },
+        {
+          "id": "alchēmia:la-med",
+          "label": "alchēmia",
+          "language": "la-med",
+          "level": -2
+        },
+        {
+          "id": "كيمياء:Arabic",
+          "label": "كيمياء",
+          "language": "Arabic",
+          "level": -3
+        },
+        {
+          "id": "χυμείᾱ:Ancient Greek",
+          "label": "χυμείᾱ",
+          "language": "Ancient Greek",
+          "level": -4
+        }
+      ]
+    },
+    "tree_inh": {
+      "edges": [],
+      "nodes": [
+        {
+          "id": "alchemy:English",
+          "label": "alchemy",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        }
+      ]
+    },
+    "tree_inh_bor_der_cog": {
+      "edges": [
+        {
+          "from": "alkimie:Old French",
+          "label": "der",
+          "to": "alchemy:English"
+        },
+        {
+          "from": "alchēmia:la-med",
+          "label": "der",
+          "to": "alkimie:Old French"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "alchēmia:la-med"
+        },
+        {
+          "from": "χυμείᾱ:Ancient Greek",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "alkemi:Cornish",
+          "label": "bor",
+          "to": "alchemy:English"
+        },
+        {
+          "from": "alchemy:English",
+          "label": "der",
+          "to": "alkimie:Old French"
+        },
+        {
+          "from": "alchemie:Dutch",
+          "label": "der",
+          "to": "alkimie:Old French"
+        },
+        {
+          "from": "chemia:Latin",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "química:Galician",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "química:Portuguese",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "química:Spanish",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "Alchemie:German",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "ալքիմիա:Middle Armenian",
+          "label": "bor",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "ալքիմիա:Armenian",
+          "label": "der",
+          "to": "ալքիմիա:Middle Armenian"
+        },
+        {
+          "from": "alquímia:Catalan",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "алхимия:Bulgarian",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "алхимия:Kazakh",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "алхимия:Russian",
+          "label": "bor",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "chemicus:Latin",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "química:Catalan",
+          "label": "der",
+          "to": "χυμείᾱ:Ancient Greek"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "bor",
+          "to": "χυμείᾱ:Ancient Greek"
+        },
+        {
+          "from": "alchemia:Latin",
+          "label": "der",
+          "to": "χυμείᾱ:Ancient Greek"
+        },
+        {
+          "from": "ქიმია:Georgian",
+          "label": "der",
+          "to": "χυμείᾱ:Ancient Greek"
+        },
+        {
+          "from": "alchemy:English",
+          "label": "cog",
+          "to": "alchimie:French"
+        },
+        {
+          "from": "alchemy:English",
+          "label": "cog",
+          "to": "alquimia:Spanish"
+        },
+        {
+          "from": "alchemy:English",
+          "label": "cog",
+          "to": "alchimia:Italian"
+        },
+        {
+          "from": "alchemie:Dutch",
+          "label": "cog",
+          "to": "alquimia:Spanish"
+        },
+        {
+          "from": "alchemie:Dutch",
+          "label": "cog",
+          "to": "alchimia:Italian"
+        },
+        {
+          "from": "alquimia:Old Spanish",
+          "label": "inh",
+          "to": "alquimia:Spanish"
+        },
+        {
+          "from": "اَلْكِيمْيَا:Andalusian Arabic",
+          "label": "der",
+          "to": "alquimia:Old Spanish"
+        },
+        {
+          "from": "alchemia:la-med",
+          "label": "der",
+          "to": "اَلْكِيمْيَا:Andalusian Arabic"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "alchemia:la-med"
+        },
+        {
+          "from": "alquimia:Spanish",
+          "label": "inh",
+          "to": "alquimia:Old Spanish"
+        },
+        {
+          "from": "alquimia:Old Spanish",
+          "label": "der",
+          "to": "اَلْكِيمْيَا:Andalusian Arabic"
+        },
+        {
+          "from": "alkimiya:Tagalog",
+          "label": "der",
+          "to": "اَلْكِيمْيَا:Andalusian Arabic"
+        },
+        {
+          "from": "alkimiya:Tagalog",
+          "label": "cog",
+          "to": "kimia:Malay"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "alchemy:English",
+          "label": "alchemy",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "alkimie:Old French",
+          "label": "alkimie",
+          "language": "Old French",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "alchēmia:la-med",
+          "label": "alchēmia",
+          "language": "la-med",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "كيمياء:Arabic",
+          "label": "كيمياء",
+          "language": "Arabic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "χυμείᾱ:Ancient Greek",
+          "label": "χυμείᾱ",
+          "language": "Ancient Greek",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "alkemi:Cornish",
+          "label": "alkemi",
+          "language": "Cornish",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "alchemie:Dutch",
+          "label": "alchemie",
+          "language": "Dutch",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "chemia:Latin",
+          "label": "chemia",
+          "language": "Latin",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "química:Galician",
+          "label": "química",
+          "language": "Galician",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "química:Portuguese",
+          "label": "química",
+          "language": "Portuguese",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "química:Spanish",
+          "label": "química",
+          "language": "Spanish",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "Alchemie:German",
+          "label": "Alchemie",
+          "language": "German",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "ալքիմիա:Middle Armenian",
+          "label": "ալքիմիա",
+          "language": "Middle Armenian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "ալքիմիա:Armenian",
+          "label": "ալքիմիա",
+          "language": "Armenian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "alquímia:Catalan",
+          "label": "alquímia",
+          "language": "Catalan",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "алхимия:Bulgarian",
+          "label": "алхимия",
+          "language": "Bulgarian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "алхимия:Kazakh",
+          "label": "алхимия",
+          "language": "Kazakh",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "алхимия:Russian",
+          "label": "алхимия",
+          "language": "Russian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "chemicus:Latin",
+          "label": "chemicus",
+          "language": "Latin",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "química:Catalan",
+          "label": "química",
+          "language": "Catalan",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "alchemia:Latin",
+          "label": "alchemia",
+          "language": "Latin",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "ქიმია:Georgian",
+          "label": "ქიმია",
+          "language": "Georgian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "alchimie:French",
+          "label": "alchimie",
+          "language": "French",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "alquimia:Spanish",
+          "label": "alquimia",
+          "language": "Spanish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "alchimia:Italian",
+          "label": "alchimia",
+          "language": "Italian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "alquimia:Old Spanish",
+          "label": "alquimia",
+          "language": "Old Spanish",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "اَلْكِيمْيَا:Andalusian Arabic",
+          "label": "اَلْكِيمْيَا",
+          "language": "Andalusian Arabic",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "alchemia:la-med",
+          "label": "alchemia",
+          "language": "la-med",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "alkimiya:Tagalog",
+          "label": "alkimiya",
+          "language": "Tagalog",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "kimia:Malay",
+          "label": "kimia",
+          "language": "Malay",
+          "level": -1,
+          "uncertainty": null
+        }
+      ]
+    },
+    "word_detail": {
+      "audio": [
+        {
+          "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/2/20/En-us-alchemy.ogg/En-us-alchemy.ogg.mp3",
+          "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/En-us-alchemy.ogg"
+        }
+      ],
+      "definitions": [
+        "The premodern and early modern study of physical changes, particularly in Europe, Arabia, and China; and chiefly in pursuit of an elixir of immortality, a universal panacea, and/or a philosopher's stone able to transmute base metals into gold, eventually developing into chemistry.",
+        "The causing of any sort of mysterious sudden transmutation.",
+        "Any elaborate transformation process or algorithm."
+      ],
+      "dolgo_classes": "VRKVMV",
+      "dolgo_consonants": "RKM",
+      "etymology_templates": [
+        {
+          "args": {
+            "1": "en",
+            "2": "ine-pro",
+            "3": "*ǵʰew-"
+          },
+          "expansion": "",
+          "name": "root"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "fro",
+            "3": "alkimie"
+          },
+          "expansion": "Old French alkimie",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "fr",
+            "2": "alchimie"
+          },
+          "expansion": "French alchimie",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "la-med",
+            "3": "alchēmia"
+          },
+          "expansion": "Medieval Latin alchēmia",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "ar",
+            "3": "كيمياء",
+            "4": "اَلْكِيمِيَاء"
+          },
+          "expansion": "Arabic اَلْكِيمِيَاء (al-kīmiyāʔ)",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "grc",
+            "3": "χυμείᾱ",
+            "t": "art of alloying metals"
+          },
+          "expansion": "Ancient Greek χυμείᾱ (khumeíā, “art of alloying metals”)",
+          "name": "der"
+        },
+        {
+          "args": {
+            "1": "es",
+            "2": "alquimia"
+          },
+          "expansion": "Spanish alquimia",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "it",
+            "2": "alchimia"
+          },
+          "expansion": "Italian alchimia",
+          "name": "cog"
+        }
+      ],
+      "etymology_text": "From Old French alkimie, arquemie (French alchimie), from Medieval Latin alchēmia, from Arabic اَلْكِيمِيَاء (al-kīmiyāʔ), from Ancient Greek χυμείᾱ (khumeíā, “art of alloying metals”), from χύμα (khúma, “ingot, bar”). Compare Spanish alquimia and Italian alchimia.",
+      "etymology_uncertainty": {
+        "confidence": "high",
+        "is_uncertain": false,
+        "source": null,
+        "type": null
+      },
+      "lang": "English",
+      "phonetic_ipa": "ælkəmi",
+      "pos": "noun",
+      "pronunciation": "/ˈælkəmi/",
+      "related_mentions": [],
+      "word": "alchemy"
+    }
+  },
+  "wiktionary_reference": {
+    "alternative_theories": [],
+    "etymology_section_text_excerpt": null,
+    "expected_chain_per_wiktionary": []
+  }
+}
