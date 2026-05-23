@@ -1,0 +1,5826 @@
+{
+  "known_gaps": {
+    "foreign_script_roundtrip_unverified": false,
+    "missing_alternative_origins": false,
+    "missing_calques": false,
+    "missing_compound_components": false,
+    "missing_doublet_link": false,
+    "notes": "Phase 2 cross-check: see meta.notes for details."
+  },
+  "meta": {
+    "collected_at": "2026-05-23T12:10:32+00:00",
+    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "kaikki_dump_date": null,
+    "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
+    "notes": "Phase 2: Full inh chain to PIE. Many cognates (Sanskrit, Greek πῦρ, Hittite paḫḫur, etc.) listed as `cog` templates — visible in tree_inh_bor_der_cog as separate edges. No doublets.",
+    "spec": "SPC-00013",
+    "wiktionary_revision_seen": null,
+    "wiktionary_url": "https://en.wiktionary.org/wiki/fire"
+  },
+  "query": {
+    "lang": "English",
+    "word": "fire"
+  },
+  "quirks_covered": [
+    "Q9"
+  ],
+  "raw_kaikki": {
+    "etymology_templates": [
+      {
+        "args": {
+          "1": "en",
+          "2": "enm",
+          "3": "fyr"
+        },
+        "expansion": "Middle English fyr",
+        "name": "inh"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "ang",
+          "3": "fȳr",
+          "t": "fire"
+        },
+        "expansion": "Old English fȳr (“fire”)",
+        "name": "inh"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "gmw-pro",
+          "3": "*fuir"
+        },
+        "expansion": "Proto-West Germanic *fuir",
+        "name": "inh"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "gem-pro",
+          "3": "*fōr",
+          "t": "fire"
+        },
+        "expansion": "Proto-Germanic *fōr (“fire”)",
+        "name": "inh"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "ine-pro",
+          "3": "*péh₂wr̥"
+        },
+        "expansion": "Proto-Indo-European *péh₂wr̥",
+        "name": "inh"
+      },
+      {
+        "args": {
+          "1": "2",
+          "2": "cog"
+        },
+        "expansion": "Cognates",
+        "name": "col-top"
+      },
+      {
+        "args": {
+          "1": "sco",
+          "2": "feier"
+        },
+        "expansion": "Scots feier",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "yol",
+          "2": "vier"
+        },
+        "expansion": "Yola vier",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "stq",
+          "2": "Fjuur"
+        },
+        "expansion": "Saterland Frisian Fjuur",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "fy",
+          "2": "fjoer",
+          "t": "fire"
+        },
+        "expansion": "West Frisian fjoer (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "gsw",
+          "2": "Füür",
+          "t": "fire"
+        },
+        "expansion": "Alemannic German Füür (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "bar",
+          "2": "Feia",
+          "t": "fire"
+        },
+        "expansion": "Bavarian Feia (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "gmw-cfr",
+          "2": "Fauer"
+        },
+        "expansion": "Central Franconian Fauer",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "cim",
+          "2": "bôar"
+        },
+        "expansion": "Cimbrian bôar",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "nl",
+          "2": "vier"
+        },
+        "expansion": "Dutch vier",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "de",
+          "2": "Feuer",
+          "t": "fire"
+        },
+        "expansion": "German Feuer (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "nds-de",
+          "2": "Füer"
+        },
+        "expansion": "German Low German Füer",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "lb",
+          "2": "Feier",
+          "t": "fire"
+        },
+        "expansion": "Luxembourgish Feier (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "mhn",
+          "2": "vaier",
+          "t": "fire"
+        },
+        "expansion": "Mòcheno vaier (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "wym",
+          "2": "faojer",
+          "t": "fire"
+        },
+        "expansion": "Vilamovian faojer (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "vls",
+          "2": "vier",
+          "t": "fire"
+        },
+        "expansion": "West Flemish vier (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "yi",
+          "2": "פֿײַער",
+          "t": "fire"
+        },
+        "expansion": "Yiddish פֿײַער (fayer, “fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "da",
+          "2": "-"
+        },
+        "expansion": "Danish",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "nb",
+          "2": "-"
+        },
+        "expansion": "Norwegian Bokmål",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "nn",
+          "2": "-"
+        },
+        "expansion": "Norwegian Nynorsk",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "sv",
+          "2": "fyr",
+          "t": "fire"
+        },
+        "expansion": "Swedish fyr (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "is",
+          "2": "funi",
+          "t": "fire"
+        },
+        "expansion": "Icelandic funi (“fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "got",
+          "2": "𐍆𐍉𐌽",
+          "t": "fire"
+        },
+        "expansion": "Gothic 𐍆𐍉𐌽 (fōn, “fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "hy",
+          "2": "հուր",
+          "t": "fire"
+        },
+        "expansion": "Armenian հուր (hur, “fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "el",
+          "2": "πυρ",
+          "t": "fire"
+        },
+        "expansion": "Greek πυρ (pyr, “fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "la",
+          "2": "pūrgō",
+          "t": "to clean, cleanse, clear, purge, purify"
+        },
+        "expansion": "Latin pūrgō (“to clean, cleanse, clear, purge, purify”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "xum",
+          "2": "𐌐𐌉𐌓",
+          "t": "fire"
+        },
+        "expansion": "Umbrian 𐌐𐌉𐌓 (pir, “fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "bg",
+          "2": "фир",
+          "t": "ooze, pickle, soak"
+        },
+        "expansion": "Bulgarian фир (fir, “ooze, pickle, soak”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "pl",
+          "2": "perz",
+          "t": "smoke"
+        },
+        "expansion": "Polish perz (“smoke”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "hit",
+          "2": "𒉺𒄴𒄯",
+          "t": "fire",
+          "tr": "paḫḫur"
+        },
+        "expansion": "Hittite 𒉺𒄴𒄯 (paḫḫur, “fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "xlu",
+          "2": "𒉺𒀀𒄷𒌋𒌨",
+          "t": "fire",
+          "tr": "pāhūr"
+        },
+        "expansion": "Luwian 𒉺𒀀𒄷𒌋𒌨 (pāhūr, “fire”)",
+        "name": "cog"
+      },
+      {
+        "args": {
+          "1": "ine-pro",
+          "2": "*h₁n̥gʷnis"
+        },
+        "expansion": "Proto-Indo-European *h₁n̥gʷnis",
+        "name": "cog"
+      }
+    ],
+    "etymology_text": "From Middle English fyr, from Old English fȳr (“fire”), from Proto-West Germanic *fuir, from *fuïr, a regularised form of Proto-Germanic *fōr (“fire”), ultimately from Proto-Indo-European *péh₂wr̥.\nCognates\nSee also Scots feier, fyre (“fire”), Yola vier, vire (“fire”), Saterland Frisian Fjuur, Fjúur (“fire”), West Frisian fjoer (“fire”), Alemannic German Füür (“fire”), Bavarian Feia (“fire”), Central Franconian Fauer, Feier, Füür (“fire”), Cimbrian bôar, vaür, vôar (“fire”), Dutch vier, vuur (“fire”), German Feuer (“fire”), German Low German Füer, Füür (“fire”), Luxembourgish Feier (“fire”), Mòcheno vaier (“fire”), Vilamovian faojer (“fire”), West Flemish vier (“fire”), Yiddish פֿײַער (fayer, “fire”), Danish, Norwegian Bokmål, Norwegian Nynorsk and Swedish fyr (“fire”), Icelandic funi (“fire”), Gothic 𐍆𐍉𐌽 (fōn, “fire”). Also, compare Armenian հուր (hur, “fire”), Greek πυρ (pyr, “fire”), Latin pūrgō (“to clean, cleanse, clear, purge, purify”), Umbrian 𐌐𐌉𐌓 (pir, “fire”), Bulgarian фир (fir, “ooze, pickle, soak”), Polish perz (“smoke”), Hittite 𒉺𒄴𒄯 (paḫḫur, “fire”), Luwian 𒉺𒀀𒄷𒌋𒌨 (pāhūr, “fire”), Tocharian A/B por/puwar (“fire”). This was an inanimate noun whose animate counterpart was Proto-Indo-European *h₁n̥gʷnis (see ignite). Cognate to pyre.",
+    "lang": "English",
+    "lang_code": "en",
+    "phonetic": {
+      "dolgo_classes": "PV",
+      "dolgo_consonants": "P",
+      "dolgo_first2": "P",
+      "ipa": "faːə",
+      "tokens": [
+        "f",
+        "aːə"
+      ]
+    },
+    "pos": "noun",
+    "senses": [
+      {
+        "categories": [
+          "English uncountable nouns"
+        ],
+        "glosses": [
+          "A (usually self-sustaining) chemical reaction involving the bonding of oxygen with carbon or other fuel, with the production of heat and the presence of flame or smouldering."
+        ],
+        "links": [
+          [
+            "chemical",
+            "chemical"
+          ],
+          [
+            "reaction",
+            "reaction"
+          ],
+          [
+            "bond",
+            "bond"
+          ],
+          [
+            "oxygen",
+            "oxygen"
+          ],
+          [
+            "carbon",
+            "carbon"
+          ],
+          [
+            "fuel",
+            "fuel"
+          ],
+          [
+            "heat",
+            "heat"
+          ],
+          [
+            "flame",
+            "flame"
+          ],
+          [
+            "smouldering",
+            "smolder"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable) A (usually self-sustaining) chemical reaction involving the bonding of oxygen with carbon or other fuel, with the production of heat and the presence of flame or smouldering."
+        ],
+        "senseid": [
+          "en:Q3196"
+        ],
+        "tags": [
+          "uncountable"
+        ],
+        "wikidata": [
+          "Q3196"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English terms with quotations",
+          "English terms with usage examples"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                17,
+                21
+              ]
+            ],
+            "text": "We sat about the fire singing songs and telling tales.",
+            "type": "example"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                33,
+                37
+              ]
+            ],
+            "ref": "1913, Joseph C[rosby] Lincoln, chapter VIII, in Mr. Pratt’s Patients, New York, N.Y.; London: D[aniel] Appleton and Company, →OCLC:",
+            "text": "We toted in the wood and got the fire going nice and comfortable. Lord James still set in one of the chairs and Applegate had cabbaged the other and was hugging the stove.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "An instance of this chemical reaction, especially when intentionally created and maintained in a specific location to a useful end (such as a campfire or a hearth fire)."
+        ],
+        "links": [
+          [
+            "campfire",
+            "campfire"
+          ],
+          [
+            "hearth",
+            "hearth"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable) An instance of this chemical reaction, especially when intentionally created and maintained in a specific location to a useful end (such as a campfire or a hearth fire)."
+        ],
+        "tags": [
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English terms with quotations",
+          "English terms with usage examples"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                12,
+                16
+              ]
+            ],
+            "text": "There was a fire at the school last night and the whole place burned down.",
+            "type": "example"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                32,
+                37
+              ]
+            ],
+            "text": "During hot and dry summers many fires in forests are caused by regardlessly discarded cigarette butts.",
+            "type": "example"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                21,
+                25
+              ],
+              [
+                21,
+                26
+              ],
+              [
+                82,
+                86
+              ],
+              [
+                82,
+                87
+              ],
+              [
+                149,
+                153
+              ]
+            ],
+            "ref": "2020 January 1, Bernard Lagan, “Thousands flee to beaches as the flames close in”, in The Times, number 73,044, page 24:",
+            "text": "Efforts to fight the fires in New South Wales and Victoria were hampered as large fires converged and created their own violent weather systems. The fire created dry lightning storms so severe that planes had to be grounded.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "The occurrence, often accidental, of fire in a certain place, causing damage and danger."
+        ],
+        "links": [
+          [
+            "accidental",
+            "accidental"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable) The occurrence, often accidental, of fire in a certain place, causing damage and danger."
+        ],
+        "tags": [
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "English uncountable nouns",
+          "en:Alchemy",
+          "en:Philosophy"
+        ],
+        "glosses": [
+          "The aforementioned chemical reaction of burning, considered one of the Classical elements or basic elements of alchemy."
+        ],
+        "links": [
+          [
+            "alchemy",
+            "alchemy"
+          ],
+          [
+            "philosophy",
+            "philosophy"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable, alchemy, philosophy) The aforementioned chemical reaction of burning, considered one of the Classical elements or basic elements of alchemy."
+        ],
+        "tags": [
+          "uncountable"
+        ],
+        "topics": [
+          "alchemy",
+          "human-sciences",
+          "philosophy",
+          "pseudoscience",
+          "sciences"
+        ]
+      },
+      {
+        "categories": [
+          "British English",
+          "English countable nouns"
+        ],
+        "glosses": [
+          "A heater or stove used in place of a real fire (such as an electric fire)."
+        ],
+        "links": [
+          [
+            "heater",
+            "heater"
+          ],
+          [
+            "stove",
+            "stove"
+          ],
+          [
+            "electric fire",
+            "electric fire"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable, British) A heater or stove used in place of a real fire (such as an electric fire)."
+        ],
+        "tags": [
+          "British",
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English terms with usage examples"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                4,
+                8
+              ]
+            ],
+            "text": "The fire was laid and needed to be lit.",
+            "type": "example"
+          }
+        ],
+        "glosses": [
+          "The elements necessary to start a fire."
+        ],
+        "raw_glosses": [
+          "(countable) The elements necessary to start a fire."
+        ],
+        "tags": [
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with usage examples",
+          "English uncountable nouns"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                4,
+                8
+              ]
+            ],
+            "text": "The fire from the enemy guns kept us from attacking.",
+            "type": "example"
+          }
+        ],
+        "glosses": [
+          "The bullets or other projectiles fired from a gun or other ranged weapon."
+        ],
+        "links": [
+          [
+            "bullet",
+            "bullet"
+          ],
+          [
+            "projectile",
+            "projectile"
+          ],
+          [
+            "gun",
+            "gun"
+          ],
+          [
+            "ranged weapon",
+            "ranged weapon"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable) The bullets or other projectiles fired from a gun or other ranged weapon."
+        ],
+        "tags": [
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English terms with usage examples"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                38,
+                43
+              ]
+            ],
+            "text": "We dominated the battlespace with our fires.",
+            "type": "example"
+          }
+        ],
+        "glosses": [
+          "A planned bombardment by artillery or similar weapons, or the capability to deliver such."
+        ],
+        "links": [
+          [
+            "artillery",
+            "artillery"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable) A planned bombardment by artillery or similar weapons, or the capability to deliver such."
+        ],
+        "tags": [
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "African-American Vernacular English",
+          "English countable nouns",
+          "English slang",
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "ref": "2023 June 23, “Special K” (track 7), in BLP Kosher (lyrics), Bars Mitzva, 2:01:",
+            "text": "I used to work at Five Below but now I keep that fire below",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "A firearm."
+        ],
+        "links": [
+          [
+            "firearm",
+            "firearm"
+          ]
+        ],
+        "qualifier": "African-American Vernacular",
+        "raw_glosses": [
+          "(countable, African-American Vernacular, slang) A firearm."
+        ],
+        "tags": [
+          "countable",
+          "slang"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                162,
+                166
+              ]
+            ],
+            "ref": "1911, James George Frazer, The Golden Bough, volume 7, page 136:",
+            "text": "In the district of Erfurt a very heavy sheaf [...] is called the Great Mother, and is carried on the last waggon to the barn, where all hands lift it down amid a fire of jokes.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "A barrage, volley"
+        ],
+        "links": [
+          [
+            "barrage",
+            "barrage"
+          ],
+          [
+            "volley",
+            "volley"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable, figurative) A barrage, volley"
+        ],
+        "tags": [
+          "countable",
+          "figuratively"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with usage examples",
+          "en:Astronautics"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                7,
+                11
+              ]
+            ],
+            "text": "static fire",
+            "type": "example"
+          }
+        ],
+        "glosses": [
+          "An instance of firing one or more rocket engines."
+        ],
+        "links": [
+          [
+            "astronautics",
+            "astronautics"
+          ],
+          [
+            "firing",
+            "#Verb"
+          ],
+          [
+            "rocket",
+            "rocket"
+          ],
+          [
+            "engine",
+            "engine"
+          ]
+        ],
+        "raw_glosses": [
+          "(astronautics) An instance of firing one or more rocket engines."
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ],
+        "topics": [
+          "aerospace",
+          "astronautics",
+          "business",
+          "engineering",
+          "natural-sciences",
+          "physical-sciences"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                7,
+                11
+              ]
+            ],
+            "ref": "1687, Francis Atterbury, An Answer to Some Considerations on the Spirit of Martin Luther and the Original of the Reformation; […], Oxford, Oxfordshire: […] [Sheldonian] Theater, →OCLC:",
+            "text": "He had fire in his temper.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                22,
+                26
+              ],
+              [
+                30,
+                34
+              ]
+            ],
+            "ref": "1829, Edgar Allan Poe, “Tamerlane”, in Al Aaraaf, Tamerlane and Minor Poems:",
+            "text": "You call it hope—that fire of fire!\nIt is but agony of desire: […]",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "Strength of passion, whether love or hate."
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                37,
+                41
+              ]
+            ],
+            "ref": "1711 May, [Alexander Pope], An Essay on Criticism, London: […] W[illiam] Lewis […]; and sold by W[illiam] Taylor […], T[homas] Osborn[e] […], and J[ohn] Graves […], →OCLC:",
+            "text": "And bless their critic with a poet's fire.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                63,
+                67
+              ]
+            ],
+            "ref": "1991 December 15, Michael Halberstadt, “Queer Proposals?”, in Gay Community News, volume 19, number 22, page 5:",
+            "text": "Attendance of QN meetings has been dwindling, and the creative fire drained from the organization by the dead hand of wannabe bureaucrats bend ^([sic]) on thought control. The action has long since been elsewhere.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "Liveliness of imagination or fancy; intellectual and moral enthusiasm."
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                17,
+                22
+              ]
+            ],
+            "ref": "c. 1606 (date written), William Shakespeare, “The Tragedie of Macbeth”, in Mr. William Shakespeares Comedies, Histories, & Tragedies […] (First Folio), London: […] Isaac Iaggard, and Ed[ward] Blount, published 1623, →OCLC, [Act I, scene iv]:",
+            "text": "Stars, hide your fires.",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                41,
+                46
+              ]
+            ],
+            "ref": "1667, John Milton, “Book XII”, in Paradise Lost. […], London: […] [Samuel Simmons], and are to be sold by Peter Parker […]; [a]nd by Robert Boulter […]; [a]nd Matthias Walker, […], →OCLC; republished as Paradise Lost in Ten Books: […], London: Basil Montagu Pickering […], 1873, →OCLC:",
+            "text": "As in a zodiac representing the heavenly fires.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "Splendour; brilliancy; lustre; hence, a star."
+        ],
+        "links": [
+          [
+            "Splendour",
+            "splendour"
+          ],
+          [
+            "brilliancy",
+            "brilliancy"
+          ],
+          [
+            "lustre",
+            "lustre"
+          ],
+          [
+            "star",
+            "star"
+          ]
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "glosses": [
+          "A severe trial; anything inflaming or provoking."
+        ],
+        "links": [
+          [
+            "severe",
+            "severe"
+          ],
+          [
+            "trial",
+            "trial"
+          ]
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "glosses": [
+          "Red coloration in a piece of opal."
+        ],
+        "links": [
+          [
+            "coloration",
+            "coloration"
+          ],
+          [
+            "opal",
+            "opal"
+          ]
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                159,
+                163
+              ],
+              [
+                173,
+                177
+              ]
+            ],
+            "ref": "2009 December, Al Gilbertson, Benjamin Gudlewski, Mary Johnson, George Maltezos, Axel Scherer, James Shigley, “Cutting Diffraction Gratings to Improve Dispersion (“Fire”) in Diamonds”, in Gems & Gemology, volume 45, number 4, Gemological Institute of America, →DOI, archived from the original on 30 Jul 2024, pages 260–270:",
+            "text": "In other words, the more times a light ray reflects within a diamond, the greater the separation of the spectral colors—and the more obvious the appearance of fire—will be. Fire in a gemstone is best defined as \"the visible extent of light dispersed into spectral colors\" (Reinitz et al., 2001). In a polished diamond, this is seen as flares or flashes of color that appear and disappear as the diamond, the observer, or the light source moves.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "The capacity of a gemstone, especially a faceted, cut gemstone, that is transparent to visible light, to disperse white light into its multispectral component parts, resulting in a flash of different colors, the richness and dispersion of which increases the gemstone's value."
+        ],
+        "links": [
+          [
+            "capacity",
+            "capacity"
+          ],
+          [
+            "gemstone",
+            "gemstone"
+          ],
+          [
+            "faceted",
+            "faceted"
+          ],
+          [
+            "cut",
+            "cut"
+          ],
+          [
+            "transparent",
+            "transparent"
+          ],
+          [
+            "visible light",
+            "visible light"
+          ],
+          [
+            "disperse",
+            "disperse"
+          ],
+          [
+            "white light",
+            "white light"
+          ],
+          [
+            "multispectral",
+            "multispectral"
+          ],
+          [
+            "flash",
+            "flash"
+          ],
+          [
+            "color",
+            "color"
+          ],
+          [
+            "richness",
+            "richness"
+          ],
+          [
+            "dispersion",
+            "dispersion"
+          ],
+          [
+            "value",
+            "value"
+          ]
+        ],
+        "raw_glosses": [
+          "(gemology) The capacity of a gemstone, especially a faceted, cut gemstone, that is transparent to visible light, to disperse white light into its multispectral component parts, resulting in a flash of different colors, the richness and dispersion of which increases the gemstone's value."
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ],
+        "topics": [
+          "gemology",
+          "geography",
+          "geology",
+          "jewelry",
+          "lifestyle",
+          "natural-sciences"
+        ]
+      }
+    ],
+    "sounds": [
+      {
+        "ipa": "/ˈfaɪ.ə/",
+        "tags": [
+          "Received-Pronunciation"
+        ]
+      },
+      {
+        "ipa": "[faɪ̯ə]",
+        "tags": [
+          "Received-Pronunciation"
+        ]
+      },
+      {
+        "ipa": "[ˈfaːə]",
+        "note": "triphthong smoothing"
+      },
+      {
+        "ipa": "[ˈfaː]",
+        "note": "triphthong smoothing"
+      },
+      {
+        "ipa": "[ˈfɑə]",
+        "note": "triphthong smoothing"
+      },
+      {
+        "ipa": "[ˈfɑːə]",
+        "note": "triphthong smoothing"
+      },
+      {
+        "enpr": "fīʹər",
+        "tags": [
+          "General-American"
+        ]
+      },
+      {
+        "enpr": "fīr",
+        "tags": [
+          "General-American"
+        ]
+      },
+      {
+        "ipa": "/ˈfaɪ.ɚ/",
+        "tags": [
+          "General-American"
+        ]
+      },
+      {
+        "ipa": "[ˈfaɪ̯ɚ]",
+        "tags": [
+          "General-American"
+        ]
+      },
+      {
+        "ipa": "/ˈfaɪɹ/",
+        "tags": [
+          "General-American"
+        ]
+      },
+      {
+        "audio": "En-us-fire.ogg",
+        "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/1/19/En-us-fire.ogg/En-us-fire.ogg.mp3",
+        "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/1/19/En-us-fire.ogg"
+      },
+      {
+        "ipa": "[ˈfäːɚ]",
+        "tags": [
+          "Appalachia",
+          "Southern-US"
+        ]
+      },
+      {
+        "ipa": "[fʌɪ̯ɚ]",
+        "tags": [
+          "Inland-Northern-American",
+          "New-England",
+          "Ontario",
+          "Philadelphia",
+          "Western"
+        ]
+      },
+      {
+        "ipa": "/ˈfaɪ.ə/",
+        "tags": [
+          "General-Australian",
+          "New-Zealand"
+        ]
+      },
+      {
+        "ipa": "[ˈfɑe̯ə]",
+        "tags": [
+          "General-Australian",
+          "New-Zealand"
+        ]
+      },
+      {
+        "ipa": "/ˈfo̞ɪ.ɚ/",
+        "note": "Dublin"
+      },
+      {
+        "ipa": "/ˈfəɪ.ɚ/",
+        "note": "Dublin"
+      },
+      {
+        "ipa": "/ˈfo̞ɪ.ɐ/",
+        "note": "Dublin"
+      },
+      {
+        "ipa": "/ˈfəɪ.ɐ/",
+        "note": "Dublin"
+      },
+      {
+        "audio": "LL-Q1860 (eng)-Vealhurl-fire.wav",
+        "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b9/LL-Q1860_%28eng%29-Vealhurl-fire.wav/LL-Q1860_%28eng%29-Vealhurl-fire.wav.mp3",
+        "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b9/LL-Q1860_%28eng%29-Vealhurl-fire.wav/LL-Q1860_%28eng%29-Vealhurl-fire.wav.ogg"
+      },
+      {
+        "rhymes": "-aɪə(ɹ)"
+      }
+    ],
+    "word": "fire"
+  },
+  "system_output": {
+    "chain": {
+      "edges": [
+        {
+          "from": "fyr:Middle English",
+          "label": "inh",
+          "to": "fire:English"
+        },
+        {
+          "from": "fȳr:Old English",
+          "label": "inh",
+          "to": "fyr:Middle English"
+        },
+        {
+          "from": "*fuir:Proto-West Germanic",
+          "label": "inh",
+          "to": "fȳr:Old English"
+        },
+        {
+          "from": "*fōr:Proto-Germanic",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "*péh₂wr̥:Proto-Indo-European",
+          "label": "inh",
+          "to": "*fōr:Proto-Germanic"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "fire:English",
+          "label": "fire",
+          "language": "English",
+          "level": 0
+        },
+        {
+          "id": "fyr:Middle English",
+          "label": "fyr",
+          "language": "Middle English",
+          "level": -1
+        },
+        {
+          "id": "fȳr:Old English",
+          "label": "fȳr",
+          "language": "Old English",
+          "level": -2
+        },
+        {
+          "id": "*fuir:Proto-West Germanic",
+          "label": "*fuir",
+          "language": "Proto-West Germanic",
+          "level": -3
+        },
+        {
+          "id": "*fōr:Proto-Germanic",
+          "label": "*fōr",
+          "language": "Proto-Germanic",
+          "level": -4
+        },
+        {
+          "id": "*péh₂wr̥:Proto-Indo-European",
+          "label": "*péh₂wr̥",
+          "language": "Proto-Indo-European",
+          "level": -5
+        }
+      ]
+    },
+    "tree_inh": {
+      "edges": [
+        {
+          "from": "fyr:Middle English",
+          "label": "inh",
+          "to": "fire:English"
+        },
+        {
+          "from": "fȳr:Old English",
+          "label": "inh",
+          "to": "fyr:Middle English"
+        },
+        {
+          "from": "*fuir:Proto-West Germanic",
+          "label": "inh",
+          "to": "fȳr:Old English"
+        },
+        {
+          "from": "*fōr:Proto-Germanic",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "*péh₂wr̥:Proto-Indo-European",
+          "label": "inh",
+          "to": "*fōr:Proto-Germanic"
+        },
+        {
+          "from": "fire:English",
+          "label": "inh",
+          "to": "fyr:Middle English"
+        },
+        {
+          "from": "vire:Yola",
+          "label": "inh",
+          "to": "fyr:Middle English"
+        },
+        {
+          "from": "feier:Scots",
+          "label": "inh",
+          "to": "fyr:Middle English"
+        },
+        {
+          "from": "fyr:Middle English",
+          "label": "inh",
+          "to": "fȳr:Old English"
+        },
+        {
+          "from": "fuir:Old Dutch",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "vuur:Middle Dutch",
+          "label": "inh",
+          "to": "fuir:Old Dutch"
+        },
+        {
+          "from": "vuur:Dutch",
+          "label": "inh",
+          "to": "vuur:Middle Dutch"
+        },
+        {
+          "from": "fyr:Old English",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "fiur:Old Frisian",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "fiur:Old Saxon",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "funi:Old Norse",
+          "label": "inh",
+          "to": "*fōr:Proto-Germanic"
+        },
+        {
+          "from": "𐍆𐍉𐌽:Gothic",
+          "label": "inh",
+          "to": "*fōr:Proto-Germanic"
+        },
+        {
+          "from": "fuir:Proto-West Germanic",
+          "label": "inh",
+          "to": "*fōr:Proto-Germanic"
+        },
+        {
+          "from": "papaver:Latin",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "papàvaro:Venetan",
+          "label": "inh",
+          "to": "papaver:Latin"
+        },
+        {
+          "from": "panno:Old Prussian",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "fōr:Proto-Germanic",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "páHʷr̥:Proto-Anatolian",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "𐌐𐌉𐌓:Umbrian",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "pūr:Proto-Italic",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "fire:English",
+          "label": "fire",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fyr:Middle English",
+          "label": "fyr",
+          "language": "Middle English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "fȳr:Old English",
+          "label": "fȳr",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "*fuir:Proto-West Germanic",
+          "label": "*fuir",
+          "language": "Proto-West Germanic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "*fōr:Proto-Germanic",
+          "label": "*fōr",
+          "language": "Proto-Germanic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "*péh₂wr̥:Proto-Indo-European",
+          "label": "*péh₂wr̥",
+          "language": "Proto-Indo-European",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "vire:Yola",
+          "label": "vire",
+          "language": "Yola",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "feier:Scots",
+          "label": "feier",
+          "language": "Scots",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fuir:Old Dutch",
+          "label": "fuir",
+          "language": "Old Dutch",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "vuur:Middle Dutch",
+          "label": "vuur",
+          "language": "Middle Dutch",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "vuur:Dutch",
+          "label": "vuur",
+          "language": "Dutch",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fyr:Old English",
+          "label": "fyr",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fiur:Old Frisian",
+          "label": "fiur",
+          "language": "Old Frisian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fiur:Old Saxon",
+          "label": "fiur",
+          "language": "Old Saxon",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "funi:Old Norse",
+          "label": "funi",
+          "language": "Old Norse",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "𐍆𐍉𐌽:Gothic",
+          "label": "𐍆𐍉𐌽",
+          "language": "Gothic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "fuir:Proto-West Germanic",
+          "label": "fuir",
+          "language": "Proto-West Germanic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "papaver:Latin",
+          "label": "papaver",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "papàvaro:Venetan",
+          "label": "papàvaro",
+          "language": "Venetan",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "panno:Old Prussian",
+          "label": "panno",
+          "language": "Old Prussian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "fōr:Proto-Germanic",
+          "label": "fōr",
+          "language": "Proto-Germanic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "pyrь:Proto-Slavic",
+          "label": "pyrь",
+          "language": "Proto-Slavic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "páHʷr̥:Proto-Anatolian",
+          "label": "páHʷr̥",
+          "language": "Proto-Anatolian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "𐌐𐌉𐌓:Umbrian",
+          "label": "𐌐𐌉𐌓",
+          "language": "Umbrian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "pūr:Proto-Italic",
+          "label": "pūr",
+          "language": "Proto-Italic",
+          "level": -4,
+          "uncertainty": null
+        }
+      ]
+    },
+    "tree_inh_bor_der_cog": {
+      "edges": [
+        {
+          "from": "fyr:Middle English",
+          "label": "inh",
+          "to": "fire:English"
+        },
+        {
+          "from": "fȳr:Old English",
+          "label": "inh",
+          "to": "fyr:Middle English"
+        },
+        {
+          "from": "*fuir:Proto-West Germanic",
+          "label": "inh",
+          "to": "fȳr:Old English"
+        },
+        {
+          "from": "*fōr:Proto-Germanic",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "*péh₂wr̥:Proto-Indo-European",
+          "label": "inh",
+          "to": "*fōr:Proto-Germanic"
+        },
+        {
+          "from": "paia:Tok Pisin",
+          "label": "der",
+          "to": "fire:English"
+        },
+        {
+          "from": "fajro:Esperanto",
+          "label": "bor",
+          "to": "fire:English"
+        },
+        {
+          "from": "faya:Aukan",
+          "label": "der",
+          "to": "fire:English"
+        },
+        {
+          "from": "faya:Sranan Tongo",
+          "label": "der",
+          "to": "fire:English"
+        },
+        {
+          "from": "fairo:Ido",
+          "label": "bor",
+          "to": "fire:English"
+        },
+        {
+          "from": "piah:Chinook Jargon",
+          "label": "bor",
+          "to": "fire:English"
+        },
+        {
+          "from": "ファイヤー:Japanese",
+          "label": "bor",
+          "to": "fire:English"
+        },
+        {
+          "from": "fichik:Choctaw",
+          "label": "bor",
+          "to": "fire:English"
+        },
+        {
+          "from": "faiya:Jamaican Creole",
+          "label": "der",
+          "to": "fire:English"
+        },
+        {
+          "from": "fire:English",
+          "label": "inh",
+          "to": "fyr:Middle English"
+        },
+        {
+          "from": "vire:Yola",
+          "label": "inh",
+          "to": "fyr:Middle English"
+        },
+        {
+          "from": "feier:Scots",
+          "label": "inh",
+          "to": "fyr:Middle English"
+        },
+        {
+          "from": "fyr:Middle English",
+          "label": "inh",
+          "to": "fȳr:Old English"
+        },
+        {
+          "from": "fuir:Old Dutch",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "vuur:Middle Dutch",
+          "label": "inh",
+          "to": "fuir:Old Dutch"
+        },
+        {
+          "from": "vuur:Dutch",
+          "label": "inh",
+          "to": "vuur:Middle Dutch"
+        },
+        {
+          "from": "fyr:Old English",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "fiur:Old Frisian",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "fiur:Old Saxon",
+          "label": "inh",
+          "to": "*fuir:Proto-West Germanic"
+        },
+        {
+          "from": "funi:Old Norse",
+          "label": "inh",
+          "to": "*fōr:Proto-Germanic"
+        },
+        {
+          "from": "𐍆𐍉𐌽:Gothic",
+          "label": "inh",
+          "to": "*fōr:Proto-Germanic"
+        },
+        {
+          "from": "fona:Portuguese",
+          "label": "der",
+          "to": "𐍆𐍉𐌽:Gothic"
+        },
+        {
+          "from": "fuir:Proto-West Germanic",
+          "label": "inh",
+          "to": "*fōr:Proto-Germanic"
+        },
+        {
+          "from": "fajjar:Maltese",
+          "label": "der",
+          "to": "*fōr:Proto-Germanic"
+        },
+        {
+          "from": "papaver:Latin",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "παπαρούνα:Greek",
+          "label": "der",
+          "to": "papaver:Latin"
+        },
+        {
+          "from": "papàvaro:Venetan",
+          "label": "inh",
+          "to": "papaver:Latin"
+        },
+        {
+          "from": "panno:Old Prussian",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "fōr:Proto-Germanic",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "páHʷr̥:Proto-Anatolian",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "𐌐𐌉𐌓:Umbrian",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "pūr:Proto-Italic",
+          "label": "inh",
+          "to": "*péh₂wr̥:Proto-Indo-European"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "feier:Scots"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "vier:Yola"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "Fjuur:Saterland Frisian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "fjoer:West Frisian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "Füür:Alemannic German"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "Feia:Bavarian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "Fauer:Central Franconian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "bôar:Cimbrian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "vier:Dutch"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "Füer:German Low German"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "Feier:Luxembourgish"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "vaier:Mòcheno"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "faojer:Vilamovian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "vier:West Flemish"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "פֿײַער:Yiddish"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "-:Danish"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "-:Norwegian Bokmål"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "-:Norwegian Nynorsk"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "fyr:Swedish"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "funi:Icelandic"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "𐍆𐍉𐌽:Gothic"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "հուր:Armenian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "πυρ:Greek"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "pūrgō:Latin"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "𐌐𐌉𐌓:Umbrian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "фир:Bulgarian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "perz:Polish"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "𒉺𒄴𒄯:Hittite"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "𒉺𒀀𒄷𒌋𒌨:Luwian"
+        },
+        {
+          "from": "fire:English",
+          "label": "cog",
+          "to": "*h₁n̥gʷnis:Proto-Indo-European"
+        },
+        {
+          "from": "fajro:Esperanto",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "vuur:Dutch",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "fiur:Old Saxon",
+          "label": "cog",
+          "to": "fiūr:Old Frisian"
+        },
+        {
+          "from": "fiur:Old Saxon",
+          "label": "cog",
+          "to": "fȳr:Old English"
+        },
+        {
+          "from": "fiur:Old Saxon",
+          "label": "cog",
+          "to": "fiur:Old High German"
+        },
+        {
+          "from": "fiur:Old Saxon",
+          "label": "cog",
+          "to": "fúrr:Old Norse"
+        },
+        {
+          "from": "𐍆𐍉𐌽:Gothic",
+          "label": "cog",
+          "to": "fȳr:Old English"
+        },
+        {
+          "from": "𐍆𐍉𐌽:Gothic",
+          "label": "cog",
+          "to": "funi:Old Norse"
+        },
+        {
+          "from": "𐍆𐍉𐌽:Gothic",
+          "label": "cog",
+          "to": "πῦρ:grc-koi"
+        },
+        {
+          "from": "𐍆𐍉𐌽:Gothic",
+          "label": "cog",
+          "to": "𒉺𒄴𒄯:Hittite"
+        },
+        {
+          "from": "παπαρούνα:Greek",
+          "label": "cog",
+          "to": "paparoană:Romanian"
+        },
+        {
+          "from": "παπαρούνα:Greek",
+          "label": "cog",
+          "to": "paparina:Sicilian"
+        },
+        {
+          "from": "panno:Old Prussian",
+          "label": "cog",
+          "to": "panu:Finnish"
+        },
+        {
+          "from": "panno:Old Prussian",
+          "label": "cog",
+          "to": "𐍆𐍉𐌽:Gothic"
+        },
+        {
+          "from": "panno:Old Prussian",
+          "label": "cog",
+          "to": "funi:Old Norse"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "cog",
+          "to": "panno:Old Prussian"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "cog",
+          "to": "*pyti:Proto-Slavic"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "cog",
+          "to": "pū́ti:Lithuanian"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "cog",
+          "to": "pũt:Latvian"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "cog",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "cog",
+          "to": "*(s)peh₂-:Proto-Indo-European"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "cog",
+          "to": "σπᾰ́ω:Ancient Greek"
+        },
+        {
+          "from": "pyrь:Proto-Slavic",
+          "label": "cog",
+          "to": "*patъ:Proto-Slavic"
+        },
+        {
+          "from": "veir:Middle English",
+          "label": "inh",
+          "to": "vier:Yola"
+        },
+        {
+          "from": "vair:Old French",
+          "label": "der",
+          "to": "veir:Middle English"
+        },
+        {
+          "from": "varius:Latin",
+          "label": "der",
+          "to": "vair:Old French"
+        },
+        {
+          "from": "vārus:Latin",
+          "label": "component",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "ius:Latin",
+          "label": "component",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "*wāros:Proto-Italic",
+          "label": "inh",
+          "to": "vārus:Latin"
+        },
+        {
+          "from": "*jowos:Proto-Italic",
+          "label": "der",
+          "to": "ius:Latin"
+        },
+        {
+          "from": "*h₂yew-:Proto-Indo-European",
+          "label": "der",
+          "to": "*jowos:Proto-Italic"
+        },
+        {
+          "from": "vier:Yola",
+          "label": "inh",
+          "to": "veir:Middle English"
+        },
+        {
+          "from": "vair:English",
+          "label": "inh",
+          "to": "veir:Middle English"
+        },
+        {
+          "from": "vair:Dutch",
+          "label": "der",
+          "to": "vair:Old French"
+        },
+        {
+          "from": "vair:French",
+          "label": "inh",
+          "to": "vair:Old French"
+        },
+        {
+          "from": "véir:Irish",
+          "label": "der",
+          "to": "vair:Old French"
+        },
+        {
+          "from": "vero:Spanish",
+          "label": "inh",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "various:English",
+          "label": "der",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "abbagliare:Italian",
+          "label": "der",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "vair:Catalan",
+          "label": "inh",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "vair:Old French",
+          "label": "inh",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "variometer:English",
+          "label": "bor",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "veir:Middle English",
+          "label": "der",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "vaio:Italian",
+          "label": "inh",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "variometri:Finnish",
+          "label": "der",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "veiro:Old Galician-Portuguese",
+          "label": "inh",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "veiro:Galician",
+          "label": "inh",
+          "to": "veiro:Old Galician-Portuguese"
+        },
+        {
+          "from": "veiro:Portuguese",
+          "label": "inh",
+          "to": "veiro:Old Galician-Portuguese"
+        },
+        {
+          "from": "vaire:Catalan",
+          "label": "inh",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "vàrio:Ligurian",
+          "label": "der",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "variograph:English",
+          "label": "der",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "vari-:English",
+          "label": "der",
+          "to": "varius:Latin"
+        },
+        {
+          "from": "fiūr:Old Frisian",
+          "label": "inh",
+          "to": "fjoer:West Frisian"
+        },
+        {
+          "from": "fjoer:West Frisian",
+          "label": "inh",
+          "to": "fiūr:Old Frisian"
+        },
+        {
+          "from": "Fjúur:Saterland Frisian",
+          "label": "inh",
+          "to": "fiūr:Old Frisian"
+        },
+        {
+          "from": "viur:Middle High German",
+          "label": "inh",
+          "to": "Füür:Alemannic German"
+        },
+        {
+          "from": "fiur:Old High German",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "*fuir:Proto-West Germanic",
+          "label": "inh",
+          "to": "fiur:Old High German"
+        },
+        {
+          "from": "Feuer:German",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "Feier:Bavarian",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "Feier:East Central German",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "Feier:Luxembourgish",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "Feier:Pennsylvania German",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "Füür:Alemannic German",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "Füür:Central Franconian",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "vaier:Mòcheno",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "vaür:Cimbrian",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "Fauer:Central Franconian",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "vôar:Cimbrian",
+          "label": "inh",
+          "to": "viur:Middle High German"
+        },
+        {
+          "from": "viur:Middle High German",
+          "label": "inh",
+          "to": "fiur:Old High German"
+        },
+        {
+          "from": "Feia:Bavarian",
+          "label": "inh",
+          "to": "fiur:Old High German"
+        },
+        {
+          "from": "fiur:Old High German",
+          "label": "inh",
+          "to": "Feia:Bavarian"
+        },
+        {
+          "from": "viur:Middle High German",
+          "label": "inh",
+          "to": "Fauer:Central Franconian"
+        },
+        {
+          "from": "vier:Middle Dutch",
+          "label": "inh",
+          "to": "vier:Dutch"
+        },
+        {
+          "from": "*fiuwar:Old Dutch",
+          "label": "inh",
+          "to": "vier:Middle Dutch"
+        },
+        {
+          "from": "*feuwar:Proto-West Germanic",
+          "label": "inh",
+          "to": "*fiuwar:Old Dutch"
+        },
+        {
+          "from": "*fedwōr:Proto-Germanic",
+          "label": "inh",
+          "to": "*feuwar:Proto-West Germanic"
+        },
+        {
+          "from": "*kʷetwṓr:Proto-Indo-European",
+          "label": "inh",
+          "to": "*fedwōr:Proto-Germanic"
+        },
+        {
+          "from": "vier:Afrikaans",
+          "label": "inh",
+          "to": "vier:Dutch"
+        },
+        {
+          "from": "vîr:Jersey Dutch",
+          "label": "inh",
+          "to": "vier:Dutch"
+        },
+        {
+          "from": "vier:Dutch",
+          "label": "inh",
+          "to": "vier:Middle Dutch"
+        },
+        {
+          "from": "vier:West Flemish",
+          "label": "inh",
+          "to": "vier:Middle Dutch"
+        },
+        {
+          "from": "vier:Zealandic",
+          "label": "inh",
+          "to": "vier:Middle Dutch"
+        },
+        {
+          "from": "veer:Limburgish",
+          "label": "inh",
+          "to": "vier:Middle Dutch"
+        },
+        {
+          "from": "feower:Old English",
+          "label": "inh",
+          "to": "*feuwar:Proto-West Germanic"
+        },
+        {
+          "from": "fior:Old High German",
+          "label": "inh",
+          "to": "*feuwar:Proto-West Germanic"
+        },
+        {
+          "from": "fiyr:Vilamovian",
+          "label": "der",
+          "to": "fior:Old High German"
+        },
+        {
+          "from": "fiuwar:Old Saxon",
+          "label": "inh",
+          "to": "*feuwar:Proto-West Germanic"
+        },
+        {
+          "from": "fiuwer:Old Frisian",
+          "label": "inh",
+          "to": "*feuwar:Proto-West Germanic"
+        },
+        {
+          "from": "fjórir:Old Norse",
+          "label": "inh",
+          "to": "*fedwōr:Proto-Germanic"
+        },
+        {
+          "from": "fire:Danish",
+          "label": "inh",
+          "to": "fjórir:Old Norse"
+        },
+        {
+          "from": "fire:Norwegian Bokmål",
+          "label": "der",
+          "to": "fire:Danish"
+        },
+        {
+          "from": "fire:Norwegian Nynorsk",
+          "label": "der",
+          "to": "fire:Danish"
+        },
+        {
+          "from": "fyra:Elfdalian",
+          "label": "der",
+          "to": "fjórir:Old Norse"
+        },
+        {
+          "from": "fjórir:Icelandic",
+          "label": "inh",
+          "to": "fjórir:Old Norse"
+        },
+        {
+          "from": "fýra:Faroese",
+          "label": "inh",
+          "to": "fjórir:Old Norse"
+        },
+        {
+          "from": "fyre:Norn",
+          "label": "der",
+          "to": "fjórir:Old Norse"
+        },
+        {
+          "from": "fyrætiughæ:Old Danish",
+          "label": "der",
+          "to": "fjórir:Old Norse"
+        },
+        {
+          "from": "𐍆𐌹𐌳𐍅𐍉𐍂:Gothic",
+          "label": "inh",
+          "to": "*fedwōr:Proto-Germanic"
+        },
+        {
+          "from": "fiurir:Old Swedish",
+          "label": "der",
+          "to": "*fedwōr:Proto-Germanic"
+        },
+        {
+          "from": "fyra:Swedish",
+          "label": "inh",
+          "to": "fiurir:Old Swedish"
+        },
+        {
+          "from": "fyder:Crimean Gothic",
+          "label": "inh",
+          "to": "*fedwōr:Proto-Germanic"
+        },
+        {
+          "from": "feuwar:Proto-West Germanic",
+          "label": "inh",
+          "to": "*fedwōr:Proto-Germanic"
+        },
+        {
+          "from": "kʷettwōr:Proto-Italic",
+          "label": "inh",
+          "to": "*kʷetwṓr:Proto-Indo-European"
+        },
+        {
+          "from": "viur:Middle High German",
+          "label": "inh",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "vǖr:Middle Low German",
+          "label": "inh",
+          "to": "Füer:German Low German"
+        },
+        {
+          "from": "fiur:Old Saxon",
+          "label": "inh",
+          "to": "vǖr:Middle Low German"
+        },
+        {
+          "from": "fyr:Danish",
+          "label": "der",
+          "to": "vǖr:Middle Low German"
+        },
+        {
+          "from": "Füer:German Low German",
+          "label": "inh",
+          "to": "vǖr:Middle Low German"
+        },
+        {
+          "from": "Fia:Plautdietsch",
+          "label": "inh",
+          "to": "vǖr:Middle Low German"
+        },
+        {
+          "from": "viur:Middle High German",
+          "label": "inh",
+          "to": "Feier:Luxembourgish"
+        },
+        {
+          "from": "viur:Middle High German",
+          "label": "inh",
+          "to": "vaier:Mòcheno"
+        },
+        {
+          "from": "vier:Middle Dutch",
+          "label": "inh",
+          "to": "vier:West Flemish"
+        },
+        {
+          "from": "fuir:Old Dutch",
+          "label": "inh",
+          "to": "vier:Middle Dutch"
+        },
+        {
+          "from": "*fuir:Proto-West Germanic",
+          "label": "inh",
+          "to": "fuir:Old Dutch"
+        },
+        {
+          "from": "fuir:Old High German",
+          "label": "der",
+          "to": "פֿײַער:Yiddish"
+        },
+        {
+          "from": "*fōr:Proto-Germanic",
+          "label": "der",
+          "to": "fuir:Old High German"
+        },
+        {
+          "from": "פֿײַער:Yiddish",
+          "label": "der",
+          "to": "fuir:Old High German"
+        },
+        {
+          "from": "Vyyryläinen:Finnish",
+          "label": "der",
+          "to": "fyr:Swedish"
+        },
+        {
+          "from": "fúrr:Old Norse",
+          "label": "inh",
+          "to": "funi:Icelandic"
+        },
+        {
+          "from": "*fōr:Proto-Germanic",
+          "label": "inh",
+          "to": "fúrr:Old Norse"
+        },
+        {
+          "from": "fyr:Swedish",
+          "label": "der",
+          "to": "fúrr:Old Norse"
+        },
+        {
+          "from": "funi:Icelandic",
+          "label": "inh",
+          "to": "fúrr:Old Norse"
+        },
+        {
+          "from": "purgen:Middle English",
+          "label": "der",
+          "to": "pūrgō:Latin"
+        },
+        {
+          "from": "purge:English",
+          "label": "der",
+          "to": "purgen:Middle English"
+        },
+        {
+          "from": "pyrz:Old Polish",
+          "label": "inh",
+          "to": "perz:Polish"
+        },
+        {
+          "from": "perz:Polish",
+          "label": "inh",
+          "to": "pyrz:Old Polish"
+        },
+        {
+          "from": "*páHʷr̥:Proto-Anatolian",
+          "label": "inh",
+          "to": "𒉺𒄴𒄯:Hittite"
+        },
+        {
+          "from": "*péh₂wr̥:Proto-Indo-European",
+          "label": "inh",
+          "to": "*páHʷr̥:Proto-Anatolian"
+        },
+        {
+          "from": "𒉺𒀀𒄷𒌋𒌨:Luwian",
+          "label": "inh",
+          "to": "*páHʷr̥:Proto-Anatolian"
+        },
+        {
+          "from": "𒉺𒄴𒄯:Hittite",
+          "label": "inh",
+          "to": "*páHʷr̥:Proto-Anatolian"
+        },
+        {
+          "from": "*páHʷr̥:Proto-Anatolian",
+          "label": "inh",
+          "to": "𒉺𒀀𒄷𒌋𒌨:Luwian"
+        },
+        {
+          "from": "*fuir:Proto-West Germanic",
+          "label": "inh",
+          "to": "fiūr:Old Frisian"
+        },
+        {
+          "from": "papāver:Latin",
+          "label": "inh",
+          "to": "paparina:Sicilian"
+        },
+        {
+          "from": "popig:Old English",
+          "label": "bor",
+          "to": "papāver:Latin"
+        },
+        {
+          "from": "papaver:English",
+          "label": "der",
+          "to": "papāver:Latin"
+        },
+        {
+          "from": "papavero:Ido",
+          "label": "bor",
+          "to": "papāver:Latin"
+        },
+        {
+          "from": "papavo:Esperanto",
+          "label": "der",
+          "to": "papāver:Latin"
+        },
+        {
+          "from": "paparina:Sicilian",
+          "label": "inh",
+          "to": "papāver:Latin"
+        },
+        {
+          "from": "حببور:Arabic",
+          "label": "bor",
+          "to": "papāver:Latin"
+        },
+        {
+          "from": "*panu:Proto-Finnic",
+          "label": "inh",
+          "to": "panu:Finnish"
+        },
+        {
+          "from": "*panu:bat-pro",
+          "label": "der",
+          "to": "*panu:Proto-Finnic"
+        },
+        {
+          "from": "panu:Finnish",
+          "label": "inh",
+          "to": "*panu:Proto-Finnic"
+        },
+        {
+          "from": "panu:Proto-Finnic",
+          "label": "bor",
+          "to": "*panu:bat-pro"
+        },
+        {
+          "from": "*pūros:Proto-Italic",
+          "label": "inh",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "*pewH-:Proto-Indo-European",
+          "label": "inh",
+          "to": "*pūros:Proto-Italic"
+        },
+        {
+          "from": "puro:Italian",
+          "label": "inh",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "pura:Esperanto",
+          "label": "der",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "pur:Cornish",
+          "label": "bor",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "pur:Old French",
+          "label": "inh",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "pure:Middle English",
+          "label": "bor",
+          "to": "pur:Old French"
+        },
+        {
+          "from": "pure:English",
+          "label": "inh",
+          "to": "pure:Middle English"
+        },
+        {
+          "from": "pur:Norman",
+          "label": "inh",
+          "to": "pur:Old French"
+        },
+        {
+          "from": "pur:Romansch",
+          "label": "inh",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "pur:Swedish",
+          "label": "bor",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "puru:Asturian",
+          "label": "inh",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "puru:Sicilian",
+          "label": "inh",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "apurar:Portuguese",
+          "label": "der",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "apura:Kabuverdianu",
+          "label": "der",
+          "to": "apurar:Portuguese"
+        },
+        {
+          "from": "apurá:Kabuverdianu",
+          "label": "der",
+          "to": "apurar:Portuguese"
+        },
+        {
+          "from": "apurar:Spanish",
+          "label": "der",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "apporare:Neapolitan",
+          "label": "bor",
+          "to": "apurar:Spanish"
+        },
+        {
+          "from": "purità:Italian",
+          "label": "der",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "puritate:Romanian",
+          "label": "bor",
+          "to": "purità:Italian"
+        },
+        {
+          "from": "pür:Romansch",
+          "label": "inh",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "пюре:Russian",
+          "label": "der",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "puridad:Spanish",
+          "label": "der",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "пурист:Russian",
+          "label": "der",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "пуританин:Russian",
+          "label": "der",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "purus:Latin",
+          "label": "inh",
+          "to": "*pūros:Proto-Italic"
+        },
+        {
+          "from": "purina:Spanish",
+          "label": "der",
+          "to": "purus:Latin"
+        },
+        {
+          "from": "purisme:Danish",
+          "label": "der",
+          "to": "purus:Latin"
+        },
+        {
+          "from": "pûr:Emilian",
+          "label": "inh",
+          "to": "purus:Latin"
+        },
+        {
+          "from": "πτύον:Ancient Greek",
+          "label": "der",
+          "to": "*pewH-:Proto-Indo-European"
+        },
+        {
+          "from": "Ptyonoprogne:Translingual",
+          "label": "der",
+          "to": "πτύον:Ancient Greek"
+        },
+        {
+          "from": "पवित्र:Sanskrit",
+          "label": "der",
+          "to": "*pewH-:Proto-Indo-European"
+        },
+        {
+          "from": "पवित्र:Hindi",
+          "label": "der",
+          "to": "पवित्र:Sanskrit"
+        },
+        {
+          "from": "പവിത്രം:Malayalam",
+          "label": "bor",
+          "to": "पवित्र:Sanskrit"
+        },
+        {
+          "from": "पू:Sanskrit",
+          "label": "inh",
+          "to": "*pewH-:Proto-Indo-European"
+        },
+        {
+          "from": "fawjaną:Proto-Germanic",
+          "label": "der",
+          "to": "*pewH-:Proto-Indo-European"
+        },
+        {
+          "from": "पुनाति:Sanskrit",
+          "label": "inh",
+          "to": "*pewH-:Proto-Indo-European"
+        },
+        {
+          "from": "𑀧𑀼𑀡𑀇:Prakrit",
+          "label": "inh",
+          "to": "पुनाति:Sanskrit"
+        },
+        {
+          "from": "پھُنیک:Khowar",
+          "label": "inh",
+          "to": "पुनाति:Sanskrit"
+        },
+        {
+          "from": "punāti:Pali",
+          "label": "inh",
+          "to": "पुनाति:Sanskrit"
+        },
+        {
+          "from": "پݨݨ:Saraiki",
+          "label": "inh",
+          "to": "पुनाति:Sanskrit"
+        },
+        {
+          "from": "𐌹𐌽𐍆𐌴𐌹𐌽𐌰𐌽:Gothic",
+          "label": "der",
+          "to": "*pewH-:Proto-Indo-European"
+        },
+        {
+          "from": "pohtadak:Proto-Finnic",
+          "label": "der",
+          "to": "*pewH-:Proto-Indo-European"
+        },
+        {
+          "from": "Füür:Alemannic German",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "Füür:Alemannic German",
+          "label": "cog",
+          "to": "vuur:Dutch"
+        },
+        {
+          "from": "Füür:Alemannic German",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "Füür:Alemannic German",
+          "label": "cog",
+          "to": "fyr:Swedish"
+        },
+        {
+          "from": "Feuer:German",
+          "label": "cog",
+          "to": "vuur:Dutch"
+        },
+        {
+          "from": "Feuer:German",
+          "label": "cog",
+          "to": "Füer:Low German"
+        },
+        {
+          "from": "Feuer:German",
+          "label": "cog",
+          "to": "fjoer:West Frisian"
+        },
+        {
+          "from": "Feuer:German",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "Feuer:German",
+          "label": "cog",
+          "to": "fyr:Danish"
+        },
+        {
+          "from": "Füer:German Low German",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "Füer:German Low German",
+          "label": "cog",
+          "to": "vuur:Dutch"
+        },
+        {
+          "from": "Füer:German Low German",
+          "label": "cog",
+          "to": "fjoer:West Frisian"
+        },
+        {
+          "from": "Füer:German Low German",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "Füer:German Low German",
+          "label": "cog",
+          "to": "fyr:Danish"
+        },
+        {
+          "from": "Feier:Luxembourgish",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "Feier:Luxembourgish",
+          "label": "cog",
+          "to": "vuur:Dutch"
+        },
+        {
+          "from": "Feier:Luxembourgish",
+          "label": "cog",
+          "to": "fjoer:West Frisian"
+        },
+        {
+          "from": "Feier:Luxembourgish",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "vaier:Mòcheno",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "vaier:Mòcheno",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "фир:Bulgarian",
+          "label": "cog",
+          "to": "*pyrь:Proto-Slavic"
+        },
+        {
+          "from": "фир:Bulgarian",
+          "label": "cog",
+          "to": "φύρα:Greek"
+        },
+        {
+          "from": "𒉺𒄴𒄯:Hittite",
+          "label": "cog",
+          "to": "𒉺𒀀𒄷𒌋𒌨:Luwian"
+        },
+        {
+          "from": "𒉺𒄴𒄯:Hittite",
+          "label": "cog",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "𒉺𒄴𒄯:Hittite",
+          "label": "cog",
+          "to": "հուր:Old Armenian"
+        },
+        {
+          "from": "𒉺𒄴𒄯:Hittite",
+          "label": "cog",
+          "to": "puwar:Tocharian B"
+        },
+        {
+          "from": "𒉺𒄴𒄯:Hittite",
+          "label": "cog",
+          "to": "panno:Old Prussian"
+        },
+        {
+          "from": "𒉺𒄴𒄯:Hittite",
+          "label": "cog",
+          "to": "fȳr:Old English"
+        },
+        {
+          "from": "𒉺𒄴𒄯:Hittite",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "𒉺𒀀𒄷𒌋𒌨:Luwian",
+          "label": "cog",
+          "to": "𒉺𒄴𒄯:Hittite"
+        },
+        {
+          "from": "paparina:Sicilian",
+          "label": "cog",
+          "to": "παπαρούνα:Greek"
+        },
+        {
+          "from": "panu:Finnish",
+          "label": "cog",
+          "to": "panno:Old Prussian"
+        },
+        {
+          "from": "pūrus:Latin",
+          "label": "cog",
+          "to": "putus:Latin"
+        },
+        {
+          "from": "pūrus:Latin",
+          "label": "cog",
+          "to": "pius:Latin"
+        },
+        {
+          "from": "ius:Latin",
+          "label": "cog",
+          "to": "योस्:Sanskrit"
+        },
+        {
+          "from": "ius:Latin",
+          "label": "cog",
+          "to": "𐬫𐬀𐬊𐬲𐬛𐬁:Avestan"
+        },
+        {
+          "from": "variometri:Finnish",
+          "label": "cog",
+          "to": "variometer:English"
+        },
+        {
+          "from": "Fjúur:Saterland Frisian",
+          "label": "cog",
+          "to": "fjoer:West Frisian"
+        },
+        {
+          "from": "Fjúur:Saterland Frisian",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "Feier:East Central German",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "Feier:Pennsylvania German",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "Feier:Pennsylvania German",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "vaür:Cimbrian",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "vaür:Cimbrian",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "vôar:Cimbrian",
+          "label": "cog",
+          "to": "Feuer:German"
+        },
+        {
+          "from": "vôar:Cimbrian",
+          "label": "cog",
+          "to": "fire:English"
+        },
+        {
+          "from": "fior:Old High German",
+          "label": "cog",
+          "to": "fiuwar:Old Saxon"
+        },
+        {
+          "from": "fior:Old High German",
+          "label": "cog",
+          "to": "fēower:Old English"
+        },
+        {
+          "from": "fior:Old High German",
+          "label": "cog",
+          "to": "fjórir:Old Norse"
+        },
+        {
+          "from": "fiyr:Vilamovian",
+          "label": "cog",
+          "to": "vier:German"
+        },
+        {
+          "from": "fiyr:Vilamovian",
+          "label": "cog",
+          "to": "véier:Luxembourgish"
+        },
+        {
+          "from": "fiyr:Vilamovian",
+          "label": "cog",
+          "to": "פֿיר:Yiddish"
+        },
+        {
+          "from": "fiuwer:Old Frisian",
+          "label": "cog",
+          "to": "fēower:Old English"
+        },
+        {
+          "from": "fiuwer:Old Frisian",
+          "label": "cog",
+          "to": "fiuwar:Old Saxon"
+        },
+        {
+          "from": "fjórir:Old Norse",
+          "label": "cog",
+          "to": "Fiæþrundaland:Old Swedish"
+        },
+        {
+          "from": "fyra:Elfdalian",
+          "label": "cog",
+          "to": "fyra:Swedish"
+        },
+        {
+          "from": "fjórir:Icelandic",
+          "label": "cog",
+          "to": "fýra:Faroese"
+        },
+        {
+          "from": "fjórir:Icelandic",
+          "label": "cog",
+          "to": "fire:Danish"
+        },
+        {
+          "from": "𐍆𐌹𐌳𐍅𐍉𐍂:Gothic",
+          "label": "cog",
+          "to": "fēower:Old English"
+        },
+        {
+          "from": "𐍆𐌹𐌳𐍅𐍉𐍂:Gothic",
+          "label": "cog",
+          "to": "fyder:Crimean Gothic"
+        },
+        {
+          "from": "𐍆𐌹𐌳𐍅𐍉𐍂:Gothic",
+          "label": "cog",
+          "to": "τέσσαρες:grc-koi"
+        },
+        {
+          "from": "fyder:Crimean Gothic",
+          "label": "cog",
+          "to": "𐍆𐌹𐌳𐍅𐍉𐍂:Gothic"
+        },
+        {
+          "from": "*panu:Proto-Finnic",
+          "label": "cog",
+          "to": "panno:Old Prussian"
+        },
+        {
+          "from": "panu:Proto-Finnic",
+          "label": "cog",
+          "to": "panno:Old Prussian"
+        },
+        {
+          "from": "pure:English",
+          "label": "cog",
+          "to": "scǣre:Old English"
+        },
+        {
+          "from": "apurar:Spanish",
+          "label": "cog",
+          "to": "apurer:French"
+        },
+        {
+          "from": "пюре:Russian",
+          "label": "cog",
+          "to": "pure:English"
+        },
+        {
+          "from": "пюре:Russian",
+          "label": "cog",
+          "to": "пури́зм:Russian"
+        },
+        {
+          "from": "пюре:Russian",
+          "label": "cog",
+          "to": "putus:Latin"
+        },
+        {
+          "from": "пюре:Russian",
+          "label": "cog",
+          "to": "pius:Latin"
+        },
+        {
+          "from": "пурист:Russian",
+          "label": "cog",
+          "to": "pure:English"
+        },
+        {
+          "from": "пурист:Russian",
+          "label": "cog",
+          "to": "putus:Latin"
+        },
+        {
+          "from": "пурист:Russian",
+          "label": "cog",
+          "to": "pius:Latin"
+        },
+        {
+          "from": "пуританин:Russian",
+          "label": "cog",
+          "to": "pure:English"
+        },
+        {
+          "from": "пуританин:Russian",
+          "label": "cog",
+          "to": "putus:Latin"
+        },
+        {
+          "from": "пуританин:Russian",
+          "label": "cog",
+          "to": "pius:Latin"
+        },
+        {
+          "from": "purus:Latin",
+          "label": "cog",
+          "to": "putus:Latin"
+        },
+        {
+          "from": "purus:Latin",
+          "label": "cog",
+          "to": "pius:Latin"
+        },
+        {
+          "from": "पू:Sanskrit",
+          "label": "cog",
+          "to": "pūrus:Latin"
+        },
+        {
+          "from": "पुनाति:Sanskrit",
+          "label": "cog",
+          "to": "*fawjaną:Proto-Germanic"
+        },
+        {
+          "from": "𐌹𐌽𐍆𐌴𐌹𐌽𐌰𐌽:Gothic",
+          "label": "cog",
+          "to": "pius:Latin"
+        },
+        {
+          "from": "pohtadak:Proto-Finnic",
+          "label": "cog",
+          "to": "понжавтомс:Erzya"
+        },
+        {
+          "from": "*péh₂wr̥:Proto-Indo-European",
+          "label": "inh",
+          "to": "*pyrь:Proto-Slavic"
+        },
+        {
+          "from": "pira:Slovene",
+          "label": "inh",
+          "to": "*pyrь:Proto-Slavic"
+        },
+        {
+          "from": "pyrje:Lower Sorbian",
+          "label": "inh",
+          "to": "*pyrь:Proto-Slavic"
+        },
+        {
+          "from": "*pāwər:Proto-Hellenic",
+          "label": "inh",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "*péh₂wr̥:Proto-Indo-European",
+          "label": "der",
+          "to": "*pāwər:Proto-Hellenic"
+        },
+        {
+          "from": "pyrargyrite:English",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "pyro:English",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "pyrophore:English",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "pira:Italian",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "Pyrococcus:Translingual",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "pirico:Italian",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "pirólise:Portuguese",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "eupyrion:English",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "dipyre:English",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "Pyrosoma:Translingual",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "pyroballogy:English",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "Pyroraptor:Translingual",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "пиро-:Russian",
+          "label": "der",
+          "to": "πῦρ:Ancient Greek"
+        },
+        {
+          "from": "πῦρ:Ancient Greek",
+          "label": "inh",
+          "to": "*pāwər:Proto-Hellenic"
+        },
+        {
+          "from": "*puwār:Proto-Tocharian",
+          "label": "inh",
+          "to": "puwar:Tocharian B"
+        },
+        {
+          "from": "*péh₂wr̥:Proto-Indo-European",
+          "label": "inh",
+          "to": "*puwār:Proto-Tocharian"
+        },
+        {
+          "from": "puwar:Tocharian B",
+          "label": "inh",
+          "to": "*puwār:Proto-Tocharian"
+        },
+        {
+          "from": "*putos:Proto-Italic",
+          "label": "inh",
+          "to": "putus:Latin"
+        },
+        {
+          "from": "*puHtós:Proto-Indo-European",
+          "label": "inh",
+          "to": "*putos:Proto-Italic"
+        },
+        {
+          "from": "putino:Esperanto",
+          "label": "der",
+          "to": "putus:Latin"
+        },
+        {
+          "from": "putsãn:Aromanian",
+          "label": "inh",
+          "to": "putus:Latin"
+        },
+        {
+          "from": "putus:Latin",
+          "label": "inh",
+          "to": "*putos:Proto-Italic"
+        },
+        {
+          "from": "*pwījos:Proto-Italic",
+          "label": "der",
+          "to": "pius:Latin"
+        },
+        {
+          "from": "pio:Italian",
+          "label": "inh",
+          "to": "pius:Latin"
+        },
+        {
+          "from": "pia:Esperanto",
+          "label": "der",
+          "to": "pio:Italian"
+        },
+        {
+          "from": "pio:Portuguese",
+          "label": "der",
+          "to": "pius:Latin"
+        },
+        {
+          "from": "pius:Latin",
+          "label": "der",
+          "to": "*pwījos:Proto-Italic"
+        },
+        {
+          "from": "pihom:Volscian",
+          "label": "der",
+          "to": "*pwījos:Proto-Italic"
+        },
+        {
+          "from": "*Hyáwṣ:Proto-Indo-Aryan",
+          "label": "inh",
+          "to": "योस्:Sanskrit"
+        },
+        {
+          "from": "*Hyáwš:Proto-Indo-Iranian",
+          "label": "inh",
+          "to": "*Hyáwṣ:Proto-Indo-Aryan"
+        },
+        {
+          "from": "योस्:Sanskrit",
+          "label": "inh",
+          "to": "*Hyáwṣ:Proto-Indo-Aryan"
+        },
+        {
+          "from": "*feuwar:Proto-West Germanic",
+          "label": "inh",
+          "to": "fēower:Old English"
+        },
+        {
+          "from": "*kʷetwóres:Proto-Indo-European",
+          "label": "der",
+          "to": "*fedwōr:Proto-Germanic"
+        },
+        {
+          "from": "vier:Middle High German",
+          "label": "inh",
+          "to": "vier:German"
+        },
+        {
+          "from": "fior:Old High German",
+          "label": "inh",
+          "to": "vier:Middle High German"
+        },
+        {
+          "from": "*feuwar:Proto-West Germanic",
+          "label": "inh",
+          "to": "fior:Old High German"
+        },
+        {
+          "from": "vier:Alemannic German",
+          "label": "inh",
+          "to": "vier:Middle High German"
+        },
+        {
+          "from": "vier:Central Franconian",
+          "label": "inh",
+          "to": "vier:Middle High German"
+        },
+        {
+          "from": "fier:Hunsrik",
+          "label": "inh",
+          "to": "vier:Central Franconian"
+        },
+        {
+          "from": "vier:German",
+          "label": "inh",
+          "to": "vier:Middle High German"
+        },
+        {
+          "from": "vier:Pennsylvania German",
+          "label": "inh",
+          "to": "vier:Middle High German"
+        },
+        {
+          "from": "פֿיר:Yiddish",
+          "label": "inh",
+          "to": "vier:Middle High German"
+        },
+        {
+          "from": "Vier:German",
+          "label": "inh",
+          "to": "vier:Middle High German"
+        },
+        {
+          "from": "viar:Mòcheno",
+          "label": "inh",
+          "to": "vier:Middle High German"
+        },
+        {
+          "from": "viare:Cimbrian",
+          "label": "inh",
+          "to": "vier:Middle High German"
+        },
+        {
+          "from": "vior:Old High German",
+          "label": "der",
+          "to": "véier:Luxembourgish"
+        },
+        {
+          "from": "*fedwōr:Proto-Germanic",
+          "label": "der",
+          "to": "vior:Old High German"
+        },
+        {
+          "from": "véier:Luxembourgish",
+          "label": "der",
+          "to": "vior:Old High German"
+        },
+        {
+          "from": "vier:Middle High German",
+          "label": "inh",
+          "to": "פֿיר:Yiddish"
+        },
+        {
+          "from": "pur:French",
+          "label": "component",
+          "to": "apurer:French"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "fire:English",
+          "label": "fire",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fyr:Middle English",
+          "label": "fyr",
+          "language": "Middle English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "fȳr:Old English",
+          "label": "fȳr",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "*fuir:Proto-West Germanic",
+          "label": "*fuir",
+          "language": "Proto-West Germanic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "*fōr:Proto-Germanic",
+          "label": "*fōr",
+          "language": "Proto-Germanic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "*péh₂wr̥:Proto-Indo-European",
+          "label": "*péh₂wr̥",
+          "language": "Proto-Indo-European",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "paia:Tok Pisin",
+          "label": "paia",
+          "language": "Tok Pisin",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "fajro:Esperanto",
+          "label": "fajro",
+          "language": "Esperanto",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "faya:Aukan",
+          "label": "faya",
+          "language": "Aukan",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "faya:Sranan Tongo",
+          "label": "faya",
+          "language": "Sranan Tongo",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "fairo:Ido",
+          "label": "fairo",
+          "language": "Ido",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "piah:Chinook Jargon",
+          "label": "piah",
+          "language": "Chinook Jargon",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "ファイヤー:Japanese",
+          "label": "ファイヤー",
+          "language": "Japanese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "fichik:Choctaw",
+          "label": "fichik",
+          "language": "Choctaw",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "faiya:Jamaican Creole",
+          "label": "faiya",
+          "language": "Jamaican Creole",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "vire:Yola",
+          "label": "vire",
+          "language": "Yola",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "feier:Scots",
+          "label": "feier",
+          "language": "Scots",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fuir:Old Dutch",
+          "label": "fuir",
+          "language": "Old Dutch",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "vuur:Middle Dutch",
+          "label": "vuur",
+          "language": "Middle Dutch",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "vuur:Dutch",
+          "label": "vuur",
+          "language": "Dutch",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fyr:Old English",
+          "label": "fyr",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fiur:Old Frisian",
+          "label": "fiur",
+          "language": "Old Frisian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fiur:Old Saxon",
+          "label": "fiur",
+          "language": "Old Saxon",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "funi:Old Norse",
+          "label": "funi",
+          "language": "Old Norse",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "𐍆𐍉𐌽:Gothic",
+          "label": "𐍆𐍉𐌽",
+          "language": "Gothic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "fona:Portuguese",
+          "label": "fona",
+          "language": "Portuguese",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fuir:Proto-West Germanic",
+          "label": "fuir",
+          "language": "Proto-West Germanic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "fajjar:Maltese",
+          "label": "fajjar",
+          "language": "Maltese",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "papaver:Latin",
+          "label": "papaver",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "παπαρούνα:Greek",
+          "label": "παπαρούνα",
+          "language": "Greek",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "papàvaro:Venetan",
+          "label": "papàvaro",
+          "language": "Venetan",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "panno:Old Prussian",
+          "label": "panno",
+          "language": "Old Prussian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "fōr:Proto-Germanic",
+          "label": "fōr",
+          "language": "Proto-Germanic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "pyrь:Proto-Slavic",
+          "label": "pyrь",
+          "language": "Proto-Slavic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "páHʷr̥:Proto-Anatolian",
+          "label": "páHʷr̥",
+          "language": "Proto-Anatolian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "𐌐𐌉𐌓:Umbrian",
+          "label": "𐌐𐌉𐌓",
+          "language": "Umbrian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "pūr:Proto-Italic",
+          "label": "pūr",
+          "language": "Proto-Italic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:Yola",
+          "label": "vier",
+          "language": "Yola",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Fjuur:Saterland Frisian",
+          "label": "Fjuur",
+          "language": "Saterland Frisian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fjoer:West Frisian",
+          "label": "fjoer",
+          "language": "West Frisian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Füür:Alemannic German",
+          "label": "Füür",
+          "language": "Alemannic German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Feia:Bavarian",
+          "label": "Feia",
+          "language": "Bavarian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Fauer:Central Franconian",
+          "label": "Fauer",
+          "language": "Central Franconian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "bôar:Cimbrian",
+          "label": "bôar",
+          "language": "Cimbrian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:Dutch",
+          "label": "vier",
+          "language": "Dutch",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Feuer:German",
+          "label": "Feuer",
+          "language": "German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Füer:German Low German",
+          "label": "Füer",
+          "language": "German Low German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Feier:Luxembourgish",
+          "label": "Feier",
+          "language": "Luxembourgish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "vaier:Mòcheno",
+          "label": "vaier",
+          "language": "Mòcheno",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "faojer:Vilamovian",
+          "label": "faojer",
+          "language": "Vilamovian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:West Flemish",
+          "label": "vier",
+          "language": "West Flemish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "פֿײַער:Yiddish",
+          "label": "פֿײַער",
+          "language": "Yiddish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "-:Danish",
+          "label": "-",
+          "language": "Danish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "-:Norwegian Bokmål",
+          "label": "-",
+          "language": "Norwegian Bokmål",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "-:Norwegian Nynorsk",
+          "label": "-",
+          "language": "Norwegian Nynorsk",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fyr:Swedish",
+          "label": "fyr",
+          "language": "Swedish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "funi:Icelandic",
+          "label": "funi",
+          "language": "Icelandic",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "հուր:Armenian",
+          "label": "հուր",
+          "language": "Armenian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "πυρ:Greek",
+          "label": "πυρ",
+          "language": "Greek",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "pūrgō:Latin",
+          "label": "pūrgō",
+          "language": "Latin",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "фир:Bulgarian",
+          "label": "фир",
+          "language": "Bulgarian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "perz:Polish",
+          "label": "perz",
+          "language": "Polish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "𒉺𒄴𒄯:Hittite",
+          "label": "𒉺𒄴𒄯",
+          "language": "Hittite",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "𒉺𒀀𒄷𒌋𒌨:Luwian",
+          "label": "𒉺𒀀𒄷𒌋𒌨",
+          "language": "Luwian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "*h₁n̥gʷnis:Proto-Indo-European",
+          "label": "*h₁n̥gʷnis",
+          "language": "Proto-Indo-European",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fiūr:Old Frisian",
+          "label": "fiūr",
+          "language": "Old Frisian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fiur:Old High German",
+          "label": "fiur",
+          "language": "Old High German",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fúrr:Old Norse",
+          "label": "fúrr",
+          "language": "Old Norse",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "πῦρ:grc-koi",
+          "label": "πῦρ",
+          "language": "grc-koi",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "paparoană:Romanian",
+          "label": "paparoană",
+          "language": "Romanian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "paparina:Sicilian",
+          "label": "paparina",
+          "language": "Sicilian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "panu:Finnish",
+          "label": "panu",
+          "language": "Finnish",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "*pyti:Proto-Slavic",
+          "label": "*pyti",
+          "language": "Proto-Slavic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "pū́ti:Lithuanian",
+          "label": "pū́ti",
+          "language": "Lithuanian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "pũt:Latvian",
+          "label": "pũt",
+          "language": "Latvian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "pūrus:Latin",
+          "label": "pūrus",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "*(s)peh₂-:Proto-Indo-European",
+          "label": "*(s)peh₂-",
+          "language": "Proto-Indo-European",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "σπᾰ́ω:Ancient Greek",
+          "label": "σπᾰ́ω",
+          "language": "Ancient Greek",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "*patъ:Proto-Slavic",
+          "label": "*patъ",
+          "language": "Proto-Slavic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "veir:Middle English",
+          "label": "veir",
+          "language": "Middle English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "vair:Old French",
+          "label": "vair",
+          "language": "Old French",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "varius:Latin",
+          "label": "varius",
+          "language": "Latin",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "vārus:Latin",
+          "label": "vārus",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "ius:Latin",
+          "label": "ius",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "*wāros:Proto-Italic",
+          "label": "*wāros",
+          "language": "Proto-Italic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "*jowos:Proto-Italic",
+          "label": "*jowos",
+          "language": "Proto-Italic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "*h₂yew-:Proto-Indo-European",
+          "label": "*h₂yew-",
+          "language": "Proto-Indo-European",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "vair:English",
+          "label": "vair",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "vair:Dutch",
+          "label": "vair",
+          "language": "Dutch",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "vair:French",
+          "label": "vair",
+          "language": "French",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "véir:Irish",
+          "label": "véir",
+          "language": "Irish",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "vero:Spanish",
+          "label": "vero",
+          "language": "Spanish",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "various:English",
+          "label": "various",
+          "language": "English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "abbagliare:Italian",
+          "label": "abbagliare",
+          "language": "Italian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "vair:Catalan",
+          "label": "vair",
+          "language": "Catalan",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "variometer:English",
+          "label": "variometer",
+          "language": "English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "vaio:Italian",
+          "label": "vaio",
+          "language": "Italian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "variometri:Finnish",
+          "label": "variometri",
+          "language": "Finnish",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "veiro:Old Galician-Portuguese",
+          "label": "veiro",
+          "language": "Old Galician-Portuguese",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "veiro:Galician",
+          "label": "veiro",
+          "language": "Galician",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "veiro:Portuguese",
+          "label": "veiro",
+          "language": "Portuguese",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "vaire:Catalan",
+          "label": "vaire",
+          "language": "Catalan",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "vàrio:Ligurian",
+          "label": "vàrio",
+          "language": "Ligurian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "variograph:English",
+          "label": "variograph",
+          "language": "English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "vari-:English",
+          "label": "vari-",
+          "language": "English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "Fjúur:Saterland Frisian",
+          "label": "Fjúur",
+          "language": "Saterland Frisian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "viur:Middle High German",
+          "label": "viur",
+          "language": "Middle High German",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "Feier:Bavarian",
+          "label": "Feier",
+          "language": "Bavarian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Feier:East Central German",
+          "label": "Feier",
+          "language": "East Central German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Feier:Pennsylvania German",
+          "label": "Feier",
+          "language": "Pennsylvania German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Füür:Central Franconian",
+          "label": "Füür",
+          "language": "Central Franconian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "vaür:Cimbrian",
+          "label": "vaür",
+          "language": "Cimbrian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "vôar:Cimbrian",
+          "label": "vôar",
+          "language": "Cimbrian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:Middle Dutch",
+          "label": "vier",
+          "language": "Middle Dutch",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "*fiuwar:Old Dutch",
+          "label": "*fiuwar",
+          "language": "Old Dutch",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "*feuwar:Proto-West Germanic",
+          "label": "*feuwar",
+          "language": "Proto-West Germanic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "*fedwōr:Proto-Germanic",
+          "label": "*fedwōr",
+          "language": "Proto-Germanic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "*kʷetwṓr:Proto-Indo-European",
+          "label": "*kʷetwṓr",
+          "language": "Proto-Indo-European",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:Afrikaans",
+          "label": "vier",
+          "language": "Afrikaans",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "vîr:Jersey Dutch",
+          "label": "vîr",
+          "language": "Jersey Dutch",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:Zealandic",
+          "label": "vier",
+          "language": "Zealandic",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "veer:Limburgish",
+          "label": "veer",
+          "language": "Limburgish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "feower:Old English",
+          "label": "feower",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fior:Old High German",
+          "label": "fior",
+          "language": "Old High German",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fiyr:Vilamovian",
+          "label": "fiyr",
+          "language": "Vilamovian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "fiuwar:Old Saxon",
+          "label": "fiuwar",
+          "language": "Old Saxon",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fiuwer:Old Frisian",
+          "label": "fiuwer",
+          "language": "Old Frisian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fjórir:Old Norse",
+          "label": "fjórir",
+          "language": "Old Norse",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "fire:Danish",
+          "label": "fire",
+          "language": "Danish",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fire:Norwegian Bokmål",
+          "label": "fire",
+          "language": "Norwegian Bokmål",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "fire:Norwegian Nynorsk",
+          "label": "fire",
+          "language": "Norwegian Nynorsk",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "fyra:Elfdalian",
+          "label": "fyra",
+          "language": "Elfdalian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fjórir:Icelandic",
+          "label": "fjórir",
+          "language": "Icelandic",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fýra:Faroese",
+          "label": "fýra",
+          "language": "Faroese",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fyre:Norn",
+          "label": "fyre",
+          "language": "Norn",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fyrætiughæ:Old Danish",
+          "label": "fyrætiughæ",
+          "language": "Old Danish",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "𐍆𐌹𐌳𐍅𐍉𐍂:Gothic",
+          "label": "𐍆𐌹𐌳𐍅𐍉𐍂",
+          "language": "Gothic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "fiurir:Old Swedish",
+          "label": "fiurir",
+          "language": "Old Swedish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "fyra:Swedish",
+          "label": "fyra",
+          "language": "Swedish",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "fyder:Crimean Gothic",
+          "label": "fyder",
+          "language": "Crimean Gothic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "feuwar:Proto-West Germanic",
+          "label": "feuwar",
+          "language": "Proto-West Germanic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "kʷettwōr:Proto-Italic",
+          "label": "kʷettwōr",
+          "language": "Proto-Italic",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "vǖr:Middle Low German",
+          "label": "vǖr",
+          "language": "Middle Low German",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "fyr:Danish",
+          "label": "fyr",
+          "language": "Danish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Fia:Plautdietsch",
+          "label": "Fia",
+          "language": "Plautdietsch",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "fuir:Old High German",
+          "label": "fuir",
+          "language": "Old High German",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "Vyyryläinen:Finnish",
+          "label": "Vyyryläinen",
+          "language": "Finnish",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "purgen:Middle English",
+          "label": "purgen",
+          "language": "Middle English",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "purge:English",
+          "label": "purge",
+          "language": "English",
+          "level": 2,
+          "uncertainty": null
+        },
+        {
+          "id": "pyrz:Old Polish",
+          "label": "pyrz",
+          "language": "Old Polish",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "*páHʷr̥:Proto-Anatolian",
+          "label": "*páHʷr̥",
+          "language": "Proto-Anatolian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "papāver:Latin",
+          "label": "papāver",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "popig:Old English",
+          "label": "popig",
+          "language": "Old English",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "papaver:English",
+          "label": "papaver",
+          "language": "English",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "papavero:Ido",
+          "label": "papavero",
+          "language": "Ido",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "papavo:Esperanto",
+          "label": "papavo",
+          "language": "Esperanto",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "حببور:Arabic",
+          "label": "حببور",
+          "language": "Arabic",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "*panu:Proto-Finnic",
+          "label": "*panu",
+          "language": "Proto-Finnic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "*panu:bat-pro",
+          "label": "*panu",
+          "language": "bat-pro",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "panu:Proto-Finnic",
+          "label": "panu",
+          "language": "Proto-Finnic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "*pūros:Proto-Italic",
+          "label": "*pūros",
+          "language": "Proto-Italic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "*pewH-:Proto-Indo-European",
+          "label": "*pewH-",
+          "language": "Proto-Indo-European",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "puro:Italian",
+          "label": "puro",
+          "language": "Italian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "pura:Esperanto",
+          "label": "pura",
+          "language": "Esperanto",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "pur:Cornish",
+          "label": "pur",
+          "language": "Cornish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "pur:Old French",
+          "label": "pur",
+          "language": "Old French",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "pure:Middle English",
+          "label": "pure",
+          "language": "Middle English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "pure:English",
+          "label": "pure",
+          "language": "English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "pur:Norman",
+          "label": "pur",
+          "language": "Norman",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "pur:Romansch",
+          "label": "pur",
+          "language": "Romansch",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "pur:Swedish",
+          "label": "pur",
+          "language": "Swedish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "puru:Asturian",
+          "label": "puru",
+          "language": "Asturian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "puru:Sicilian",
+          "label": "puru",
+          "language": "Sicilian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "apurar:Portuguese",
+          "label": "apurar",
+          "language": "Portuguese",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "apura:Kabuverdianu",
+          "label": "apura",
+          "language": "Kabuverdianu",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "apurá:Kabuverdianu",
+          "label": "apurá",
+          "language": "Kabuverdianu",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "apurar:Spanish",
+          "label": "apurar",
+          "language": "Spanish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "apporare:Neapolitan",
+          "label": "apporare",
+          "language": "Neapolitan",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "purità:Italian",
+          "label": "purità",
+          "language": "Italian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "puritate:Romanian",
+          "label": "puritate",
+          "language": "Romanian",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "pür:Romansch",
+          "label": "pür",
+          "language": "Romansch",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "пюре:Russian",
+          "label": "пюре",
+          "language": "Russian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "puridad:Spanish",
+          "label": "puridad",
+          "language": "Spanish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "пурист:Russian",
+          "label": "пурист",
+          "language": "Russian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "пуританин:Russian",
+          "label": "пуританин",
+          "language": "Russian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "purus:Latin",
+          "label": "purus",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "purina:Spanish",
+          "label": "purina",
+          "language": "Spanish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "purisme:Danish",
+          "label": "purisme",
+          "language": "Danish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "pûr:Emilian",
+          "label": "pûr",
+          "language": "Emilian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "πτύον:Ancient Greek",
+          "label": "πτύον",
+          "language": "Ancient Greek",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "Ptyonoprogne:Translingual",
+          "label": "Ptyonoprogne",
+          "language": "Translingual",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "पवित्र:Sanskrit",
+          "label": "पवित्र",
+          "language": "Sanskrit",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "पवित्र:Hindi",
+          "label": "पवित्र",
+          "language": "Hindi",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "പവിത്രം:Malayalam",
+          "label": "പവിത്രം",
+          "language": "Malayalam",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "पू:Sanskrit",
+          "label": "पू",
+          "language": "Sanskrit",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "fawjaną:Proto-Germanic",
+          "label": "fawjaną",
+          "language": "Proto-Germanic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "पुनाति:Sanskrit",
+          "label": "पुनाति",
+          "language": "Sanskrit",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "𑀧𑀼𑀡𑀇:Prakrit",
+          "label": "𑀧𑀼𑀡𑀇",
+          "language": "Prakrit",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "پھُنیک:Khowar",
+          "label": "پھُنیک",
+          "language": "Khowar",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "punāti:Pali",
+          "label": "punāti",
+          "language": "Pali",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "پݨݨ:Saraiki",
+          "label": "پݨݨ",
+          "language": "Saraiki",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "𐌹𐌽𐍆𐌴𐌹𐌽𐌰𐌽:Gothic",
+          "label": "𐌹𐌽𐍆𐌴𐌹𐌽𐌰𐌽",
+          "language": "Gothic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "pohtadak:Proto-Finnic",
+          "label": "pohtadak",
+          "language": "Proto-Finnic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "Füer:Low German",
+          "label": "Füer",
+          "language": "Low German",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "*pyrь:Proto-Slavic",
+          "label": "*pyrь",
+          "language": "Proto-Slavic",
+          "level": 0,
+          "uncertainty": {
+            "confidence": "medium",
+            "is_uncertain": true,
+            "source": "text:disputed",
+            "type": "disputed"
+          }
+        },
+        {
+          "id": "φύρα:Greek",
+          "label": "φύρα",
+          "language": "Greek",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "πῦρ:Ancient Greek",
+          "label": "πῦρ",
+          "language": "Ancient Greek",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "հուր:Old Armenian",
+          "label": "հուր",
+          "language": "Old Armenian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "puwar:Tocharian B",
+          "label": "puwar",
+          "language": "Tocharian B",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "putus:Latin",
+          "label": "putus",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "pius:Latin",
+          "label": "pius",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "योस्:Sanskrit",
+          "label": "योस्",
+          "language": "Sanskrit",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "𐬫𐬀𐬊𐬲𐬛𐬁:Avestan",
+          "label": "𐬫𐬀𐬊𐬲𐬛𐬁",
+          "language": "Avestan",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "fēower:Old English",
+          "label": "fēower",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:German",
+          "label": "vier",
+          "language": "German",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "véier:Luxembourgish",
+          "label": "véier",
+          "language": "Luxembourgish",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "פֿיר:Yiddish",
+          "label": "פֿיר",
+          "language": "Yiddish",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "Fiæþrundaland:Old Swedish",
+          "label": "Fiæþrundaland",
+          "language": "Old Swedish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "τέσσαρες:grc-koi",
+          "label": "τέσσαρες",
+          "language": "grc-koi",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "scǣre:Old English",
+          "label": "scǣre",
+          "language": "Old English",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "apurer:French",
+          "label": "apurer",
+          "language": "French",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "пури́зм:Russian",
+          "label": "пури́зм",
+          "language": "Russian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "*fawjaną:Proto-Germanic",
+          "label": "*fawjaną",
+          "language": "Proto-Germanic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "понжавтомс:Erzya",
+          "label": "понжавтомс",
+          "language": "Erzya",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "pira:Slovene",
+          "label": "pira",
+          "language": "Slovene",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "pyrje:Lower Sorbian",
+          "label": "pyrje",
+          "language": "Lower Sorbian",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "*pāwər:Proto-Hellenic",
+          "label": "*pāwər",
+          "language": "Proto-Hellenic",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "pyrargyrite:English",
+          "label": "pyrargyrite",
+          "language": "English",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "pyro:English",
+          "label": "pyro",
+          "language": "English",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "pyrophore:English",
+          "label": "pyrophore",
+          "language": "English",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "pira:Italian",
+          "label": "pira",
+          "language": "Italian",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "Pyrococcus:Translingual",
+          "label": "Pyrococcus",
+          "language": "Translingual",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "pirico:Italian",
+          "label": "pirico",
+          "language": "Italian",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "pirólise:Portuguese",
+          "label": "pirólise",
+          "language": "Portuguese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "eupyrion:English",
+          "label": "eupyrion",
+          "language": "English",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "dipyre:English",
+          "label": "dipyre",
+          "language": "English",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "Pyrosoma:Translingual",
+          "label": "Pyrosoma",
+          "language": "Translingual",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "pyroballogy:English",
+          "label": "pyroballogy",
+          "language": "English",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "Pyroraptor:Translingual",
+          "label": "Pyroraptor",
+          "language": "Translingual",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "пиро-:Russian",
+          "label": "пиро-",
+          "language": "Russian",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "*puwār:Proto-Tocharian",
+          "label": "*puwār",
+          "language": "Proto-Tocharian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "*putos:Proto-Italic",
+          "label": "*putos",
+          "language": "Proto-Italic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "*puHtós:Proto-Indo-European",
+          "label": "*puHtós",
+          "language": "Proto-Indo-European",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "putino:Esperanto",
+          "label": "putino",
+          "language": "Esperanto",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "putsãn:Aromanian",
+          "label": "putsãn",
+          "language": "Aromanian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "*pwījos:Proto-Italic",
+          "label": "*pwījos",
+          "language": "Proto-Italic",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "pio:Italian",
+          "label": "pio",
+          "language": "Italian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "pia:Esperanto",
+          "label": "pia",
+          "language": "Esperanto",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "pio:Portuguese",
+          "label": "pio",
+          "language": "Portuguese",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "pihom:Volscian",
+          "label": "pihom",
+          "language": "Volscian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "*Hyáwṣ:Proto-Indo-Aryan",
+          "label": "*Hyáwṣ",
+          "language": "Proto-Indo-Aryan",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "*Hyáwš:Proto-Indo-Iranian",
+          "label": "*Hyáwš",
+          "language": "Proto-Indo-Iranian",
+          "level": -6,
+          "uncertainty": null
+        },
+        {
+          "id": "*kʷetwóres:Proto-Indo-European",
+          "label": "*kʷetwóres",
+          "language": "Proto-Indo-European",
+          "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:Middle High German",
+          "label": "vier",
+          "language": "Middle High German",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:Alemannic German",
+          "label": "vier",
+          "language": "Alemannic German",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:Central Franconian",
+          "label": "vier",
+          "language": "Central Franconian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "fier:Hunsrik",
+          "label": "fier",
+          "language": "Hunsrik",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "vier:Pennsylvania German",
+          "label": "vier",
+          "language": "Pennsylvania German",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "Vier:German",
+          "label": "Vier",
+          "language": "German",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "viar:Mòcheno",
+          "label": "viar",
+          "language": "Mòcheno",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "viare:Cimbrian",
+          "label": "viare",
+          "language": "Cimbrian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "vior:Old High German",
+          "label": "vior",
+          "language": "Old High German",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "pur:French",
+          "label": "pur",
+          "language": "French",
+          "level": -4,
+          "uncertainty": null
+        }
+      ]
+    },
+    "word_detail": {
+      "audio": [
+        {
+          "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/1/19/En-us-fire.ogg/En-us-fire.ogg.mp3",
+          "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/1/19/En-us-fire.ogg"
+        },
+        {
+          "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b9/LL-Q1860_%28eng%29-Vealhurl-fire.wav/LL-Q1860_%28eng%29-Vealhurl-fire.wav.mp3",
+          "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b9/LL-Q1860_%28eng%29-Vealhurl-fire.wav/LL-Q1860_%28eng%29-Vealhurl-fire.wav.ogg"
+        }
+      ],
+      "definitions": [
+        "A (usually self-sustaining) chemical reaction involving the bonding of oxygen with carbon or other fuel, with the production of heat and the presence of flame or smouldering.",
+        "An instance of this chemical reaction, especially when intentionally created and maintained in a specific location to a useful end (such as a campfire or a hearth fire).",
+        "The occurrence, often accidental, of fire in a certain place, causing damage and danger.",
+        "The aforementioned chemical reaction of burning, considered one of the Classical elements or basic elements of alchemy.",
+        "A heater or stove used in place of a real fire (such as an electric fire).",
+        "The elements necessary to start a fire.",
+        "The bullets or other projectiles fired from a gun or other ranged weapon.",
+        "A planned bombardment by artillery or similar weapons, or the capability to deliver such.",
+        "A firearm.",
+        "A barrage, volley",
+        "An instance of firing one or more rocket engines.",
+        "Strength of passion, whether love or hate.",
+        "Liveliness of imagination or fancy; intellectual and moral enthusiasm.",
+        "Splendour; brilliancy; lustre; hence, a star.",
+        "A severe trial; anything inflaming or provoking.",
+        "Red coloration in a piece of opal.",
+        "The capacity of a gemstone, especially a faceted, cut gemstone, that is transparent to visible light, to disperse white light into its multispectral component parts, resulting in a flash of different colors, the richness and dispersion of which increases the gemstone's value."
+      ],
+      "dolgo_classes": "PV",
+      "dolgo_consonants": "P",
+      "etymology_templates": [
+        {
+          "args": {
+            "1": "en",
+            "2": "enm",
+            "3": "fyr"
+          },
+          "expansion": "Middle English fyr",
+          "name": "inh"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "ang",
+            "3": "fȳr",
+            "t": "fire"
+          },
+          "expansion": "Old English fȳr (“fire”)",
+          "name": "inh"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "gmw-pro",
+            "3": "*fuir"
+          },
+          "expansion": "Proto-West Germanic *fuir",
+          "name": "inh"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "gem-pro",
+            "3": "*fōr",
+            "t": "fire"
+          },
+          "expansion": "Proto-Germanic *fōr (“fire”)",
+          "name": "inh"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "ine-pro",
+            "3": "*péh₂wr̥"
+          },
+          "expansion": "Proto-Indo-European *péh₂wr̥",
+          "name": "inh"
+        },
+        {
+          "args": {
+            "1": "2",
+            "2": "cog"
+          },
+          "expansion": "Cognates",
+          "name": "col-top"
+        },
+        {
+          "args": {
+            "1": "sco",
+            "2": "feier"
+          },
+          "expansion": "Scots feier",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "yol",
+            "2": "vier"
+          },
+          "expansion": "Yola vier",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "stq",
+            "2": "Fjuur"
+          },
+          "expansion": "Saterland Frisian Fjuur",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "fy",
+            "2": "fjoer",
+            "t": "fire"
+          },
+          "expansion": "West Frisian fjoer (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "gsw",
+            "2": "Füür",
+            "t": "fire"
+          },
+          "expansion": "Alemannic German Füür (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "bar",
+            "2": "Feia",
+            "t": "fire"
+          },
+          "expansion": "Bavarian Feia (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "gmw-cfr",
+            "2": "Fauer"
+          },
+          "expansion": "Central Franconian Fauer",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "cim",
+            "2": "bôar"
+          },
+          "expansion": "Cimbrian bôar",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "nl",
+            "2": "vier"
+          },
+          "expansion": "Dutch vier",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "de",
+            "2": "Feuer",
+            "t": "fire"
+          },
+          "expansion": "German Feuer (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "nds-de",
+            "2": "Füer"
+          },
+          "expansion": "German Low German Füer",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "lb",
+            "2": "Feier",
+            "t": "fire"
+          },
+          "expansion": "Luxembourgish Feier (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "mhn",
+            "2": "vaier",
+            "t": "fire"
+          },
+          "expansion": "Mòcheno vaier (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "wym",
+            "2": "faojer",
+            "t": "fire"
+          },
+          "expansion": "Vilamovian faojer (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "vls",
+            "2": "vier",
+            "t": "fire"
+          },
+          "expansion": "West Flemish vier (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "yi",
+            "2": "פֿײַער",
+            "t": "fire"
+          },
+          "expansion": "Yiddish פֿײַער (fayer, “fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "da",
+            "2": "-"
+          },
+          "expansion": "Danish",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "nb",
+            "2": "-"
+          },
+          "expansion": "Norwegian Bokmål",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "nn",
+            "2": "-"
+          },
+          "expansion": "Norwegian Nynorsk",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "sv",
+            "2": "fyr",
+            "t": "fire"
+          },
+          "expansion": "Swedish fyr (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "is",
+            "2": "funi",
+            "t": "fire"
+          },
+          "expansion": "Icelandic funi (“fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "got",
+            "2": "𐍆𐍉𐌽",
+            "t": "fire"
+          },
+          "expansion": "Gothic 𐍆𐍉𐌽 (fōn, “fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "hy",
+            "2": "հուր",
+            "t": "fire"
+          },
+          "expansion": "Armenian հուր (hur, “fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "el",
+            "2": "πυρ",
+            "t": "fire"
+          },
+          "expansion": "Greek πυρ (pyr, “fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "la",
+            "2": "pūrgō",
+            "t": "to clean, cleanse, clear, purge, purify"
+          },
+          "expansion": "Latin pūrgō (“to clean, cleanse, clear, purge, purify”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "xum",
+            "2": "𐌐𐌉𐌓",
+            "t": "fire"
+          },
+          "expansion": "Umbrian 𐌐𐌉𐌓 (pir, “fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "bg",
+            "2": "фир",
+            "t": "ooze, pickle, soak"
+          },
+          "expansion": "Bulgarian фир (fir, “ooze, pickle, soak”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "pl",
+            "2": "perz",
+            "t": "smoke"
+          },
+          "expansion": "Polish perz (“smoke”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "hit",
+            "2": "𒉺𒄴𒄯",
+            "t": "fire",
+            "tr": "paḫḫur"
+          },
+          "expansion": "Hittite 𒉺𒄴𒄯 (paḫḫur, “fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "xlu",
+            "2": "𒉺𒀀𒄷𒌋𒌨",
+            "t": "fire",
+            "tr": "pāhūr"
+          },
+          "expansion": "Luwian 𒉺𒀀𒄷𒌋𒌨 (pāhūr, “fire”)",
+          "name": "cog"
+        },
+        {
+          "args": {
+            "1": "ine-pro",
+            "2": "*h₁n̥gʷnis"
+          },
+          "expansion": "Proto-Indo-European *h₁n̥gʷnis",
+          "name": "cog"
+        }
+      ],
+      "etymology_text": "From Middle English fyr, from Old English fȳr (“fire”), from Proto-West Germanic *fuir, from *fuïr, a regularised form of Proto-Germanic *fōr (“fire”), ultimately from Proto-Indo-European *péh₂wr̥.\nCognates\nSee also Scots feier, fyre (“fire”), Yola vier, vire (“fire”), Saterland Frisian Fjuur, Fjúur (“fire”), West Frisian fjoer (“fire”), Alemannic German Füür (“fire”), Bavarian Feia (“fire”), Central Franconian Fauer, Feier, Füür (“fire”), Cimbrian bôar, vaür, vôar (“fire”), Dutch vier, vuur (“fire”), German Feuer (“fire”), German Low German Füer, Füür (“fire”), Luxembourgish Feier (“fire”), Mòcheno vaier (“fire”), Vilamovian faojer (“fire”), West Flemish vier (“fire”), Yiddish פֿײַער (fayer, “fire”), Danish, Norwegian Bokmål, Norwegian Nynorsk and Swedish fyr (“fire”), Icelandic funi (“fire”), Gothic 𐍆𐍉𐌽 (fōn, “fire”). Also, compare Armenian հուր (hur, “fire”), Greek πυρ (pyr, “fire”), Latin pūrgō (“to clean, cleanse, clear, purge, purify”), Umbrian 𐌐𐌉𐌓 (pir, “fire”), Bulgarian фир (fir, “ooze, pickle, soak”), Polish perz (“smoke”), Hittite 𒉺𒄴𒄯 (paḫḫur, “fire”), Luwian 𒉺𒀀𒄷𒌋𒌨 (pāhūr, “fire”), Tocharian A/B por/puwar (“fire”). This was an inanimate noun whose animate counterpart was Proto-Indo-European *h₁n̥gʷnis (see ignite). Cognate to pyre.",
+      "etymology_uncertainty": {
+        "confidence": "high",
+        "is_uncertain": false,
+        "source": null,
+        "type": null
+      },
+      "lang": "English",
+      "phonetic_ipa": "faːə",
+      "pos": "noun",
+      "pronunciation": "/ˈfaɪ.ə/",
+      "related_mentions": [],
+      "word": "fire"
+    }
+  },
+  "wiktionary_reference": {
+    "alternative_theories": [],
+    "etymology_section_text_excerpt": "From Middle English fyr, fier, from Old English fȳr ('fire'), from Proto-West Germanic *fuir, from *fuïr (regularised from Proto-Germanic *fōr 'fire'), ultimately from Proto-Indo-European *péh₂wr̥ ('fire').",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "Middle English",
+        "word": "fyr"
+      },
+      {
+        "lang": "Old English",
+        "word": "fȳr"
+      },
+      {
+        "lang": "Proto-West Germanic",
+        "word": "*fuir"
+      },
+      {
+        "lang": "Proto-Germanic",
+        "word": "*fōr"
+      },
+      {
+        "lang": "Proto-Indo-European",
+        "word": "*péh₂wr̥"
+      }
+    ]
+  }
+}

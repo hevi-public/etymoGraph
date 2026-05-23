@@ -43,18 +43,23 @@ KAIKKI_URL = "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz"
 
 # Each entry: (word, lang, quirks_covered, notes). See spec.md for quirk codes.
 WORDS: list[dict[str, Any]] = [
-    {"word": "wine", "lang": "English", "quirks": [], "notes": "Clean inh baseline → Latin vinum."},
+    {
+        "word": "wine",
+        "lang": "English",
+        "quirks": ["Q13"],
+        "notes": "inh chain → OE wīn → Latin vīnum; ancestors carry macrons.",
+    },
     {
         "word": "hound",
         "lang": "English",
-        "quirks": ["Q3", "Q8", "Q9"],
-        "notes": "Proto-Germanic *hundaz; pre-Germanic prose.",
+        "quirks": ["Q3", "Q8", "Q9", "Q13"],
+        "notes": "Proto-Germanic *hundaz; pre-Germanic prose; asterisk + macron in templates.",
     },
     {
         "word": "cheese",
         "lang": "English",
-        "quirks": [],
-        "notes": "Borrowing baseline ← Latin cāseus.",
+        "quirks": ["Q13"],
+        "notes": "Borrowing ← Latin cāseus; OE ċīese has macron + diacritic.",
     },
     {
         "word": "fire",

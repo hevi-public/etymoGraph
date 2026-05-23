@@ -4,22 +4,23 @@ Snapshots of API output for a curated word set, alongside hand-encoded ground tr
 
 ## Quirk codes
 
-Each fixture's `quirks_covered` field references one or more of these. See `specs/00013-wiktionary-example-fixtures/spec.md` for full discussion.
+Each fixture's `quirks_covered` field references one or more of these. See `specs/00013-wiktionary-example-fixtures/spec.md` for full discussion (including status: OPEN / PARTIAL / CLOSED per quirk).
 
-| Code | Quirk |
-|---|---|
-| Q1  | Disjunctive / "either X or Y" origins |
-| Q2  | Compounds / affixed forms back to base words |
-| Q3  | Dead / missing links (reconstructed proto-forms) |
-| Q4  | Multiple Etymology sections per page |
-| Q5  | Foreign-script ancestors |
-| Q6  | Calques and "influenced by" |
-| Q7  | Doublets |
-| Q8  | Prose-only intermediate forms |
-| Q9  | Cognates listed inline with ancestors |
-| Q10 | POS-specific etymologies |
-| Q11 | "Of unknown origin" terminals |
-| Q12 | Kaikki snapshot lag vs. live Wiktionary |
+| Code | Quirk | Status |
+|---|---|---|
+| Q1  | Disjunctive / "either X or Y" origins | OPEN |
+| Q2  | Compounds / affixed forms back to base words | PARTIAL (main SPC-00012) |
+| Q3  | Dead / missing links (reconstructed proto-forms) | PARTIAL (main SPC-00011) |
+| Q4  | Multiple Etymology sections per page | OPEN |
+| Q5  | Foreign-script ancestors | OPEN |
+| Q6  | Calques and "influenced by" | OPEN |
+| Q7  | Doublets | OPEN |
+| Q8  | Prose-only intermediate forms | OPEN |
+| Q9  | Cognates listed inline with ancestors | OPEN |
+| Q10 | POS-specific etymologies | OPEN |
+| Q11 | "Of unknown origin" terminals | OPEN |
+| Q12 | Kaikki snapshot lag vs. live Wiktionary | OPEN |
+| Q13 | Template display spelling ≠ DB headword (macrons, asterisks, diacritics) | CLOSED (main SPC-00011) |
 
 ## Schema
 

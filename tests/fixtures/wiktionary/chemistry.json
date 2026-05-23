@@ -1,0 +1,552 @@
+{
+  "known_gaps": {
+    "foreign_script_roundtrip_unverified": false,
+    "missing_alternative_origins": false,
+    "missing_calques": false,
+    "missing_compound_components": true,
+    "missing_doublet_link": true,
+    "notes": "Phase 2 cross-check: see meta.notes for details."
+  },
+  "meta": {
+    "collected_at": "2026-05-23T12:10:32+00:00",
+    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "kaikki_dump_date": null,
+    "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
+    "notes": "Phase 2: System /chain is EMPTY despite Wiktionary clearly stating 'chemist + -ry'. Main SPC-00012 precomputed compound edges only show in /tree — /chain still misses them. Doublet of alchemy not surfaced.",
+    "spec": "SPC-00013",
+    "wiktionary_revision_seen": null,
+    "wiktionary_url": "https://en.wiktionary.org/wiki/chemistry"
+  },
+  "query": {
+    "lang": "English",
+    "word": "chemistry"
+  },
+  "quirks_covered": [
+    "Q7"
+  ],
+  "raw_kaikki": {
+    "etymology_templates": [
+      {
+        "args": {
+          "1": "en",
+          "2": "ine-pro",
+          "3": "*ǵʰew-"
+        },
+        "expansion": "",
+        "name": "root"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "chemist",
+          "3": "ry"
+        },
+        "expansion": "chemist + -ry",
+        "name": "suf"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "la",
+          "3": "alchimista"
+        },
+        "expansion": "Latin alchimista",
+        "name": "derived"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "ar",
+          "3": "كيمياء",
+          "4": "اَلْكِيمِيَاء"
+        },
+        "expansion": "Arabic اَلْكِيمِيَاء (al-kīmiyāʔ)",
+        "name": "derived"
+      },
+      {
+        "args": {
+          "1": "en",
+          "2": "grc",
+          "3": "χυμεία",
+          "4": "",
+          "5": "art of alloying metals"
+        },
+        "expansion": "Ancient Greek χυμεία (khumeía, “art of alloying metals”)",
+        "name": "derived"
+      }
+    ],
+    "etymology_text": "First coined 1605, from chemist + -ry. From chemist, chymist, from Latin alchimista, from Arabic اَلْكِيمِيَاء (al-kīmiyāʔ), from article اَل (al-) + Ancient Greek χυμεία (khumeía, “art of alloying metals”), from χύμα (khúma, “fluid”), from χυμός (khumós, “juice”), from χέω (khéō, “I pour”).",
+    "lang": "English",
+    "lang_code": "en",
+    "phonetic": {
+      "dolgo_classes": "KVMVSTRV",
+      "dolgo_consonants": "KMSTR",
+      "dolgo_first2": "KM",
+      "ipa": "kɛmɪstɹi",
+      "tokens": [
+        "k",
+        "ɛ",
+        "m",
+        "ɪ",
+        "s",
+        "t",
+        "ɹ",
+        "i"
+      ]
+    },
+    "pos": "noun",
+    "senses": [
+      {
+        "categories": [
+          "English uncountable nouns"
+        ],
+        "glosses": [
+          "The branch of natural science that deals with the composition and constitution of substances and the changes that they undergo as a consequence of alterations in the constitution of their molecules."
+        ],
+        "links": [
+          [
+            "science",
+            "science"
+          ],
+          [
+            "substance",
+            "substance"
+          ],
+          [
+            "molecule",
+            "molecule"
+          ]
+        ],
+        "raw_glosses": [
+          "(uncountable) The branch of natural science that deals with the composition and constitution of substances and the changes that they undergo as a consequence of alterations in the constitution of their molecules."
+        ],
+        "senseid": [
+          "en:Q2329"
+        ],
+        "tags": [
+          "uncountable"
+        ],
+        "wikidata": [
+          "Q2329"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                30,
+                41
+              ]
+            ],
+            "ref": "1979 December 29, Tia Cross, “Lesbian Family Album”, in Gay Community News, volume 7, number 23, page 14:",
+            "text": "Learning the very complicated chemistries necessary to reproduce reality into a picture using light",
+            "type": "quotation"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                12,
+                23
+              ]
+            ],
+            "ref": "1984, North American Lake Management Society, Lake and Reservoir Management: Proceedings of the Third Annual Conference, page 250:",
+            "text": "The aquatic chemistries of iron and manganese are similar; this “is reflected geologically in their common association in rocks of all kinds” (Bortleson and Lee, 1974).",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "An application of chemical theory and method to a particular substance."
+        ],
+        "links": [
+          [
+            "application",
+            "application"
+          ]
+        ],
+        "raw_glosses": [
+          "(countable) An application of chemical theory and method to a particular substance."
+        ],
+        "tags": [
+          "countable"
+        ]
+      },
+      {
+        "categories": [
+          "English terms with quotations"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                103,
+                112
+              ]
+            ],
+            "ref": "2022 September 29, Carl Zimmer, “A New Approach to Spotting Tumors: Look for Their Microbes”, in The New York Times:",
+            "text": "But some microbes manage to move to new organs to get inside tumors. It’s possible that the particular chemistry inside a tumor, such as its level of oxygen, helps determine which microbes will thrive there.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "The chemical properties and reactions of a particular organism, environment etc."
+        ],
+        "links": [
+          [
+            "chemical",
+            "chemical"
+          ],
+          [
+            "properties",
+            "property"
+          ],
+          [
+            "reaction",
+            "reaction"
+          ],
+          [
+            "organism",
+            "organism"
+          ],
+          [
+            "environment",
+            "environment"
+          ]
+        ],
+        "tags": [
+          "countable",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English informal terms",
+          "English terms with quotations",
+          "English terms with usage examples"
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                14,
+                23
+              ]
+            ],
+            "text": "The on-screen chemistry between the lead actors led many viewers to believe they were a couple in real life.",
+            "type": "example"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                47,
+                56
+              ]
+            ],
+            "text": "The coach attributed their losses to poor team chemistry.",
+            "type": "example"
+          },
+          {
+            "bold_text_offsets": [
+              [
+                50,
+                59
+              ]
+            ],
+            "ref": "2019 February 25, Brett Dawson, Fred Katz, “How power forward Markieff Morris might fit in with the Thunder”, in The Athletic:",
+            "text": "He and [Dennis] Schröder developing pick-and-roll chemistry will certainly be an objective. [Markieff] Morris has a tendency to linger around the mid-range area after setting ball screens, but when he’s popping beyond the 3-point line, he can hurt defenses.",
+            "type": "quotation"
+          }
+        ],
+        "glosses": [
+          "The mutual attraction between two people; rapport."
+        ],
+        "links": [
+          [
+            "mutual",
+            "mutual"
+          ],
+          [
+            "attraction",
+            "attraction"
+          ],
+          [
+            "rapport",
+            "rapport"
+          ]
+        ],
+        "raw_glosses": [
+          "(informal) The mutual attraction between two people; rapport."
+        ],
+        "tags": [
+          "countable",
+          "informal",
+          "uncountable"
+        ]
+      },
+      {
+        "categories": [
+          "English countable nouns",
+          "English informal terms",
+          "English proscribed terms",
+          "English terms with usage examples",
+          "en:Medicine"
+        ],
+        "coordinate_terms": [
+          {
+            "word": "serology"
+          }
+        ],
+        "examples": [
+          {
+            "bold_text_offsets": [
+              [
+                81,
+                92
+              ]
+            ],
+            "text": "Diagnosis is presumptive by history and physical examination and is confirmed by chemistries.",
+            "type": "example"
+          }
+        ],
+        "glosses": [
+          "A blood test to measure the amount of various components of the serum (such as electrolytes, creatinine, and glucose)."
+        ],
+        "links": [
+          [
+            "medicine",
+            "medicine"
+          ],
+          [
+            "blood test",
+            "blood test"
+          ],
+          [
+            "electrolyte",
+            "electrolyte"
+          ],
+          [
+            "creatinine",
+            "creatinine"
+          ],
+          [
+            "glucose",
+            "glucose"
+          ]
+        ],
+        "raw_glosses": [
+          "(medicine, countable, informal, sometimes proscribed) A blood test to measure the amount of various components of the serum (such as electrolytes, creatinine, and glucose)."
+        ],
+        "tags": [
+          "countable",
+          "informal",
+          "proscribed",
+          "sometimes"
+        ],
+        "topics": [
+          "medicine",
+          "sciences"
+        ]
+      }
+    ],
+    "sounds": [
+      {
+        "enpr": "kĕm'ĭstrē"
+      },
+      {
+        "ipa": "/ˈkɛm.ɪ.stɹi/"
+      },
+      {
+        "audio": "en-us-chemistry.ogg",
+        "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/8/8e/En-us-chemistry.ogg/En-us-chemistry.ogg.mp3",
+        "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/En-us-chemistry.ogg"
+      }
+    ],
+    "word": "chemistry"
+  },
+  "system_output": {
+    "chain": {
+      "edges": [],
+      "nodes": [
+        {
+          "id": "chemistry:English",
+          "label": "chemistry",
+          "language": "English",
+          "level": 0
+        }
+      ]
+    },
+    "tree_inh": {
+      "edges": [],
+      "nodes": [
+        {
+          "id": "chemistry:English",
+          "label": "chemistry",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        }
+      ]
+    },
+    "tree_inh_bor_der_cog": {
+      "edges": [
+        {
+          "from": "chem:Chinese",
+          "label": "der",
+          "to": "chemistry:English"
+        },
+        {
+          "from": "kemistri:Cebuano",
+          "label": "bor",
+          "to": "chemistry:English"
+        },
+        {
+          "from": "കെമിസ്ട്രി:Malayalam",
+          "label": "bor",
+          "to": "chemistry:English"
+        },
+        {
+          "from": "케미:Korean",
+          "label": "der",
+          "to": "chemistry:English"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "chemistry:English",
+          "label": "chemistry",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "chem:Chinese",
+          "label": "chem",
+          "language": "Chinese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "kemistri:Cebuano",
+          "label": "kemistri",
+          "language": "Cebuano",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "കെമിസ്ട്രി:Malayalam",
+          "label": "കെമിസ്ട്രി",
+          "language": "Malayalam",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "케미:Korean",
+          "label": "케미",
+          "language": "Korean",
+          "level": 1,
+          "uncertainty": null
+        }
+      ]
+    },
+    "word_detail": {
+      "audio": [
+        {
+          "mp3_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/8/8e/En-us-chemistry.ogg/En-us-chemistry.ogg.mp3",
+          "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/En-us-chemistry.ogg"
+        }
+      ],
+      "definitions": [
+        "The branch of natural science that deals with the composition and constitution of substances and the changes that they undergo as a consequence of alterations in the constitution of their molecules.",
+        "An application of chemical theory and method to a particular substance.",
+        "The chemical properties and reactions of a particular organism, environment etc.",
+        "The mutual attraction between two people; rapport.",
+        "A blood test to measure the amount of various components of the serum (such as electrolytes, creatinine, and glucose)."
+      ],
+      "dolgo_classes": "KVMVSTRV",
+      "dolgo_consonants": "KMSTR",
+      "etymology_templates": [
+        {
+          "args": {
+            "1": "en",
+            "2": "ine-pro",
+            "3": "*ǵʰew-"
+          },
+          "expansion": "",
+          "name": "root"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "chemist",
+            "3": "ry"
+          },
+          "expansion": "chemist + -ry",
+          "name": "suf"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "la",
+            "3": "alchimista"
+          },
+          "expansion": "Latin alchimista",
+          "name": "derived"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "ar",
+            "3": "كيمياء",
+            "4": "اَلْكِيمِيَاء"
+          },
+          "expansion": "Arabic اَلْكِيمِيَاء (al-kīmiyāʔ)",
+          "name": "derived"
+        },
+        {
+          "args": {
+            "1": "en",
+            "2": "grc",
+            "3": "χυμεία",
+            "4": "",
+            "5": "art of alloying metals"
+          },
+          "expansion": "Ancient Greek χυμεία (khumeía, “art of alloying metals”)",
+          "name": "derived"
+        }
+      ],
+      "etymology_text": "First coined 1605, from chemist + -ry. From chemist, chymist, from Latin alchimista, from Arabic اَلْكِيمِيَاء (al-kīmiyāʔ), from article اَل (al-) + Ancient Greek χυμεία (khumeía, “art of alloying metals”), from χύμα (khúma, “fluid”), from χυμός (khumós, “juice”), from χέω (khéō, “I pour”).",
+      "etymology_uncertainty": {
+        "confidence": "high",
+        "is_uncertain": false,
+        "source": null,
+        "type": null
+      },
+      "lang": "English",
+      "phonetic_ipa": "kɛmɪstɹi",
+      "pos": "noun",
+      "pronunciation": "/ˈkɛm.ɪ.stɹi/",
+      "related_mentions": [],
+      "word": "chemistry"
+    }
+  },
+  "wiktionary_reference": {
+    "alternative_theories": [],
+    "etymology_section_text_excerpt": "First attested 1605, from chemist + -ry. Doublet of alchemy via the same ultimate Greek/Arabic root.",
+    "expected_chain_per_wiktionary": [
+      {
+        "lang": "English",
+        "note": "component (compound)",
+        "word": "chemist"
+      },
+      {
+        "lang": "English",
+        "note": "component (suffix)",
+        "word": "-ry"
+      }
+    ]
+  }
+}
