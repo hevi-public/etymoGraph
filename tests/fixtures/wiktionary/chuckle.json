@@ -12,7 +12,7 @@
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Phase 2: Empty /chain as expected (no ancestry templates, only `af`). Frequentative formation chuck + -le. Components would surface in /tree if main SPC-00012 indexed them — verify on regen.",
+    "notes": "Phase 2: Empty /chain as expected (only `af` template). Components: `chuck` DOES surface in /tree_inh_bor_der_cog as a `component` edge (SPC-00012 works here). `-le` does NOT — suffix has no Kaikki doc, so the component edge dangles.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/chuckle"
@@ -199,12 +199,12 @@
     "expected_chain_per_wiktionary": [
       {
         "lang": "English",
-        "note": "compound base",
+        "note": "compound component — appears in /tree via SPC-00012 (verified)",
         "word": "chuck"
       },
       {
         "lang": "English",
-        "note": "frequentative suffix",
+        "note": "compound component (frequentative suffix) — missing from /tree (no -le entry)",
         "word": "-le"
       }
     ]

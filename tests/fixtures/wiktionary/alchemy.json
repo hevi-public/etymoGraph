@@ -12,7 +12,7 @@
     "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Phase 2: Doublet of `chemistry` via Greek χυμεία — not surfaced. Chain truncated before deepest Greek root χύμα. Foreign script (Arabic اَلْكِيمِيَاء, كيمياء) in node IDs round-trips through API. Middle English alkamye absent from chain because Kaikki has no ME→OE `inh` template (jumps English ← Old French directly).",
+    "notes": "Phase 2: Doublet of `chemistry` via Greek χυμεία — not surfaced. Chain truncated before deepest Greek root χύμα. Two bonus quirks found: (a) lang_cache miss for `la-med` (Medieval Latin); (b) Arabic diacritic stripping — system stores bare form `كيمياء` while Wiktionary template uses fully-vocalised `اَلْكِيمِيَاء`. Middle English alkamye absent from chain because Kaikki has no ME→OE `inh` template (jumps English ← Old French directly).",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/alchemy"
@@ -970,7 +970,7 @@
   },
   "wiktionary_reference": {
     "alternative_theories": [],
-    "etymology_section_text_excerpt": "From Middle English alkamye, from Old French alkimie, arquemie (French alchimie), from Medieval Latin alchēmia, from Arabic اَلْكِيمِيَاء (al-kīmiyāʔ), from article اَل (al-) + Ancient Greek χυμείᾱ (khumeíā, 'art of alloying metals'), from χύμα (khúma, 'ingot, bar').",
+    "etymology_section_text_excerpt": "From Middle English alkamye, from Old French alkimie, arquemie (French alchimie), from Medieval Latin alchēmia, from Arabic اَلْكِيمِيَاء (al-kīmiyāʔ), from article اَل (al-) + Ancient Greek χυμείᾱ (khumeíā, 'art of alloying metals'), from χύμα (khúma, 'ingot, bar'). Doublet of chemistry via the shared Greek root.",
     "expected_chain_per_wiktionary": [
       {
         "lang": "Middle English",
@@ -983,10 +983,12 @@
       },
       {
         "lang": "Medieval Latin",
+        "note": "lang_cache miss — system has lang code `la-med`, not 'Medieval Latin'",
         "word": "alchēmia"
       },
       {
         "lang": "Arabic",
+        "note": "Arabic diacritic stripping — system has bare form `كيمياء`",
         "word": "اَلْكِيمِيَاء"
       },
       {
