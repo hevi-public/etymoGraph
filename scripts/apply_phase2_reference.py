@@ -269,6 +269,149 @@ PHASE2: dict[str, dict[str, Any]] = {
                   "(SPC-00012 works here). `-le` does NOT — suffix has no Kaikki doc, "
                   "so the component edge dangles."),
     },
+    # --- Phase 4 fixture expansion --------------------------------------
+    "smog": {
+        "excerpt": (
+            "Blend of smoke + fog. Coined around 1905 by H. A. Des Voeux to describe "
+            "the smoke-laden fog of London."
+        ),
+        "chain": [
+            {"lang": "English", "word": "smoke",
+             "note": "compound component (blend) — should surface in /tree via SPC-00012"},
+            {"lang": "English", "word": "fog",
+             "note": "compound component (blend) — should surface in /tree via SPC-00012"},
+        ],
+        "alternative_theories": [],
+        "gaps": {"missing_compound_components": True},
+        "notes": ("Phase 4 breadth fixture. Blends use the `{{blend}}` template "
+                  "(in AFFIX_TEMPLATES). Coined in 1905; biographical detail (Des Voeux) "
+                  "is in Wiktionary prose only — no template captures it."),
+    },
+    "brunch": {
+        "excerpt": (
+            "Blend of breakfast + lunch. Attested 1895 in British English (slang); "
+            "spread to American English from 1930."
+        ),
+        "chain": [
+            {"lang": "English", "word": "breakfast",
+             "note": "compound component (blend)"},
+            {"lang": "English", "word": "lunch",
+             "note": "compound component (blend)"},
+        ],
+        "alternative_theories": [],
+        "gaps": {"missing_compound_components": True},
+        "notes": ("Phase 4 breadth fixture. Second blend datapoint after smog — "
+                  "useful for confirming `{{blend}}` template handling is systematic."),
+    },
+    "sandwich": {
+        "excerpt": (
+            "Eponym, after John Montagu, 4th Earl of Sandwich (1718–1792), who is "  # noqa: RUF001
+            "said to have ordered his meat between slices of bread so he could keep "
+            "playing cards. The earldom itself takes its name from the town of "
+            "Sandwich, Kent (Old English sandwic, 'sandy harbour')."
+        ),
+        "chain": [],
+        "alternative_theories": [],
+        "gaps": {},
+        "notes": ("Phase 4 breadth fixture. Eponyms have no traditional linguistic "
+                  "ancestor — the etymology is biographical. Wiktionary's etymology "
+                  "section is prose-only (no `eponym` template in common use). "
+                  "Expected system_output.chain is single-node (just sandwich:English) "
+                  "with no edges. NEW QUIRK class — track as candidate Q14 (eponym)."),
+    },
+    "karaoke": {
+        "excerpt": (
+            "Borrowed from Japanese カラオケ (karaoke), a compound of 空 (kara, "
+            "'empty') + オケ (oke, an abbreviation of オーケストラ ōkesutora, "
+            "'orchestra'), the latter from English orchestra. The literal reading "
+            "is 'empty orchestra' — instrumental music without vocals."
+        ),
+        "chain": [
+            {"lang": "Japanese", "word": "カラオケ"},
+            {"lang": "Japanese", "word": "空",
+             "note": "compound component (kara, 'empty')"},
+            {"lang": "Japanese", "word": "オケ",
+             "note": "compound component — clipping of オーケストラ"},
+            {"lang": "Japanese", "word": "オーケストラ",
+             "note": "intermediate — borrowed from English"},
+            {"lang": "English", "word": "orchestra",
+             "note": "recursive — English ← Japanese ← English"},
+        ],
+        "alternative_theories": [],
+        "gaps": {"foreign_script_roundtrip_unverified": True},
+        "notes": ("Phase 4 breadth fixture. Japanese script in node IDs — verify "
+                  "kana + kanji round-trip through API. Recursive borrowing: "
+                  "'orchestra' is English-origin, borrowed into Japanese, then the "
+                  "Japanese compound is borrowed back into English. Tests whether "
+                  "our chain handles this cycle gracefully (it's NOT a true cycle — "
+                  "different words at each step)."),
+    },
+    "laser": {
+        "excerpt": (
+            "Acronym from Light Amplification by Stimulated Emission of Radiation. "
+            "Coined in 1959 by Gordon Gould; the matching device was first "
+            "demonstrated in 1960."
+        ),
+        "chain": [
+            {"lang": "English", "word": "light",
+             "note": "acronym component (L)"},
+            {"lang": "English", "word": "amplification",
+             "note": "acronym component (A)"},
+            {"lang": "English", "word": "stimulated",
+             "note": "acronym component (S)"},
+            {"lang": "English", "word": "emission",
+             "note": "acronym component (E)"},
+            {"lang": "English", "word": "radiation",
+             "note": "acronym component (R)"},
+        ],
+        "alternative_theories": [],
+        "gaps": {"missing_compound_components": True},
+        "notes": ("Phase 4 breadth fixture. Acronyms aren't a separate Kaikki "
+                  "template — the relationship is captured in `etymology_text` prose "
+                  "only. Expected system_output.chain is empty (no ancestry templates). "
+                  "NEW QUIRK class — candidate Q15 (acronym/initialism)."),
+    },
+    "cockroach": {
+        "excerpt": (
+            "Borrowed from Spanish cucaracha (from cuca, of onomatopoeic origin), "
+            "with the surface form reshaped by folk etymology to look like a "
+            "compound of cock + roach."
+        ),
+        "chain": [
+            {"lang": "Spanish", "word": "cucaracha"},
+            {"lang": "Spanish", "word": "cuca",
+             "note": "onomatopoeic root within Spanish"},
+        ],
+        "alternative_theories": [],
+        "gaps": {},
+        "notes": ("Phase 4 breadth fixture. Folk etymology — English speakers "
+                  "reanalysed cucaracha to look like cock + roach, but neither "
+                  "is a real ancestor. Wiktionary mentions the folk-etymology "
+                  "relationship in prose; no structured template marks 'reshaped "
+                  "by folk etymology'. NEW QUIRK class — candidate Q16 (folk "
+                  "etymology)."),
+    },
+    "Hund": {
+        "excerpt": (
+            "From Middle High German hunt, from Old High German hunt, from "
+            "Proto-West Germanic *hund, from Proto-Germanic *hundaz ('dog'), "
+            "ultimately from Proto-Indo-European *ḱwṓ ('dog')."
+        ),
+        "chain": [
+            {"lang": "Middle High German", "word": "hunt"},
+            {"lang": "Old High German", "word": "hunt"},
+            {"lang": "Proto-West Germanic", "word": "*hund"},
+            {"lang": "Proto-Germanic", "word": "*hundaz"},
+            {"lang": "Proto-Indo-European", "word": "*ḱwṓ"},
+        ],
+        "alternative_theories": [],
+        "gaps": {},
+        "notes": ("Phase 4 breadth fixture. Non-English query word stresses the "
+                  "lang-handling code paths beyond English. Same PIE root as 'hound' "
+                  "via parallel Germanic descent — useful for verifying that German "
+                  "and English chains converge at *hundaz / *ḱwṓ. Q13 fix coverage: "
+                  "asterisk-prefixed and macron-bearing ancestors should resolve."),
+    },
 }
 
 

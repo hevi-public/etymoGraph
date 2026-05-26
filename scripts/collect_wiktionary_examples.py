@@ -109,6 +109,56 @@ WORDS: list[dict[str, Any]] = [
         "quirks": ["Q11"],
         "notes": "Coined word ('Lewis Carroll'); no traditional ancestor.",
     },
+    # --- Phase 4 fixture expansion: quirk-class breadth ---------------
+    {
+        "word": "smog",
+        "lang": "English",
+        "quirks": ["Q2"],
+        "notes": "Blend of smoke + fog (coined ~1905). Exercises `blend` template.",
+    },
+    {
+        "word": "brunch",
+        "lang": "English",
+        "quirks": ["Q2"],
+        "notes": "Blend of breakfast + lunch (attested 1895 UK / 1930 US). Second blend datapoint.",
+    },
+    {
+        "word": "sandwich",
+        "lang": "English",
+        "quirks": ["Q11"],
+        "notes": "Eponym — named after John Montagu, 4th Earl of Sandwich. "
+                 "No traditional linguistic-ancestor chain; etymology is biographical.",
+    },
+    {
+        "word": "karaoke",
+        "lang": "English",
+        "quirks": ["Q5"],
+        "notes": "Modern borrowing from Japanese カラオケ (= 空 'empty' + オケ, "
+                 "clipping of オーケストラ 'orchestra' ← English orchestra). "
+                 "Recursive borrowing (orchestra → JP → EN); Japanese script.",
+    },
+    {
+        "word": "laser",
+        "lang": "English",
+        "quirks": ["Q11"],
+        "notes": "Acronym: Light Amplification by Stimulated Emission of Radiation "
+                 "(1960). Components are common English words, not ancestors.",
+    },
+    {
+        "word": "cockroach",
+        "lang": "English",
+        "quirks": ["Q5"],
+        "notes": "Borrowed from Spanish cucaracha; reanalysed by folk etymology as "
+                 "cock + roach. Folk-etymology relationship not captured as a template.",
+    },
+    {
+        "word": "Hund",
+        "lang": "German",
+        "quirks": ["Q13"],
+        "notes": "Non-English query word — stresses lang handling beyond English. "
+                 "Same PIE root as 'hound' (Proto-Germanic *hundaz ← PIE *ḱwṓ); "
+                 "ancestors carry asterisks + macrons.",
+    },
 ]
 
 # Tree configurations captured for each word.
