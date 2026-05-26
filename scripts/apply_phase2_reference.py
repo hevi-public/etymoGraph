@@ -4,6 +4,7 @@ One-shot script. Reads each fixture, overwrites:
   - wiktionary_reference.etymology_section_text_excerpt
   - wiktionary_reference.expected_chain_per_wiktionary
   - wiktionary_reference.alternative_theories
+  - wiktionary_reference.link_audit (NEW — see tests/fixtures/wiktionary/LINK_AUDIT.md)
   - known_gaps (per-key override)
   - meta.notes (append/replace)
 
@@ -41,11 +42,51 @@ PHASE2: dict[str, dict[str, Any]] = {
                         "(← Proto-Italic *wīnom ← PIE *wóyh₁nom); this is the path our /chain captures.",
              "kaikki_template_present": True},
         ],
+        # Worked-example link audit. Each entry mirrors a chain entry plus the
+        # alternative-borrowing-path ancestors (Latin → Proto-Italic → PIE). See
+        # tests/fixtures/wiktionary/LINK_AUDIT.md for the schema and methodology.
+        "link_audit": [
+            {"lang": "Middle English", "word": "wyn",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/wyn",
+             "namespace": "main", "page_exists": True,
+             "note": "main-namespace entry; also lists 'wynn' as a variant marker"},
+            {"lang": "Old English", "word": "wīn",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/w%C4%ABn",
+             "namespace": "main", "page_exists": True},
+            {"lang": "Proto-West Germanic", "word": "*wīn",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/Reconstruction:Proto-West_Germanic/w%C4%ABn",
+             "namespace": "Reconstruction", "page_exists": True,
+             "note": "asterisk-prefixed reconstruction lives in Reconstruction:"},
+            {"lang": "Proto-Germanic", "word": "*wīną",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/Reconstruction:Proto-Germanic/w%C4%ABn%C4%85",
+             "namespace": "Reconstruction", "page_exists": True},
+            {"lang": "Latin", "word": "vīnum",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/vinum",
+             "namespace": "main", "page_exists": True,
+             "note": "macron stripped in URL (Wiktionary normalizes to vinum)"},
+            {"lang": "Proto-Italic", "word": "*wīnom",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/Reconstruction:Proto-Italic/w%C4%ABnom",
+             "namespace": "Reconstruction", "page_exists": True,
+             "note": "reached only via the Latin-borrowing branch"},
+            {"lang": "Proto-Indo-European", "word": "*wóyh₁nom",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/Reconstruction:Proto-Indo-European/w%C3%B3yh%E2%82%81nom",
+             "namespace": "Reconstruction", "page_exists": True,
+             "note": "PIE root; Wiktionary's wine page derives this from deeper "
+                     "*weh₁y- ('to twist; to wrap'). System chain stops at *wóyh₁nom."},
+            {"lang": "Proto-Indo-European", "word": "*weh₁y-",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/Reconstruction:Proto-Indo-European/weh%E2%82%81y-",
+             "namespace": "Reconstruction", "page_exists": True,
+             "note": "deeper PIE root mentioned in prose; some sources suggest "
+                     "*wéyh₁ō may have been borrowed from Proto-West Semitic or "
+                     "Proto-Kartvelian — a Q1-style alternative our system misses"},
+        ],
         "gaps": {"missing_alternative_origins": True, "missing_doublet_link": True},
         "notes": ("Phase 2: Wiktionary presents 'either/or' between direct PIE inheritance and "
                   "early Latin borrowing. Our /chain commits to the borrowing path "
                   "(*wīną ← der ← vīnum). Doublet 'vine' present as `doublet` template, not "
-                  "surfaced as graph edge."),
+                  "surfaced as graph edge. Link audit reveals a deeper-still root "
+                  "(*weh₁y-) and a non-IE borrowing hypothesis (Semitic/Kartvelian) "
+                  "neither of which appears in our chain."),
     },
     "hound": {
         "excerpt": (
@@ -64,12 +105,39 @@ PHASE2: dict[str, dict[str, Any]] = {
             {"lang": "Proto-Indo-European", "word": "*ḱwṓ"},
         ],
         "alternative_theories": [],
+        "link_audit": [
+            {"lang": "Middle English", "word": "hound",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/hound",
+             "namespace": "main", "page_exists": True,
+             "note": "shares the page with the English entry — different language sections"},
+            {"lang": "Old English", "word": "hund",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/hund",
+             "namespace": "main", "page_exists": True,
+             "note": "multilingual page; Old English section"},
+            {"lang": "Proto-West Germanic", "word": "*hund",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/Reconstruction:Proto-West_Germanic/hund",
+             "namespace": "Reconstruction", "page_exists": True},
+            {"lang": "Proto-Germanic", "word": "*hundaz",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/Reconstruction:Proto-Germanic/hundaz",
+             "namespace": "Reconstruction", "page_exists": True},
+            {"lang": "Pre-Germanic", "word": "*kun-tós",
+             "wiktionary_url": None,
+             "namespace": "missing", "page_exists": False,
+             "note": "Pre-Germanic is not a Wiktionary language — no link target. "
+                     "The form is mentioned in prose on the PGmc *hundaz page only."},
+            {"lang": "Proto-Indo-European", "word": "*ḱwṓ",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/Reconstruction:Proto-Indo-European/%E1%B8%B1w%E1%B9%93",
+             "namespace": "Reconstruction", "page_exists": True,
+             "note": "URL path is heavily percent-encoded (ḱ → %E1%B8%B1, ṓ → %E1%B9%93). "
+                     "Sanity-check that our node IDs preserve the un-encoded form."},
+        ],
         "gaps": {},
         "notes": ("Phase 2: Pre-Germanic *kun-tós/*ḱwn̥tós described in prose only — "
                   "no template, so our chain jumps PGmc → PIE directly. Cognates "
                   "(Old Armenian սկունդ etc.) listed inline as `cog` templates, visible in "
                   "tree_inh_bor_der_cog but not /chain. Q13 fix verified: *hundaz resolves "
-                  "via the asterisk-normalised lookup."),
+                  "via the asterisk-normalised lookup. Link audit confirms Pre-Germanic "
+                  "has no Wiktionary page — Q8 is upstream (Wiktionary), not just our gap."),
     },
     "cheese": {
         "excerpt": (
@@ -129,6 +197,37 @@ PHASE2: dict[str, dict[str, Any]] = {
              "note": "deeper root — system chain stops at χυμείᾱ"},
         ],
         "alternative_theories": [],
+        "link_audit": [
+            {"lang": "Middle English", "word": "alkamye",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/alkamye",
+             "namespace": "main", "page_exists": False,
+             "note": "no Wiktionary entry confirmed via search — Q3 dead link. "
+                     "Wiktionary's `alchemy` etymology references the ME form only in prose."},
+            {"lang": "Old French", "word": "alkimie",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/alkimie",
+             "namespace": "main", "page_exists": True,
+             "note": "verified — Old French entry exists"},
+            {"lang": "Medieval Latin", "word": "alchēmia",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/alchemia",
+             "namespace": "main", "page_exists": True,
+             "note": "Wiktionary URL strips the macron (alchēmia → alchemia); "
+                     "the entry includes the Medieval Latin section"},
+            {"lang": "Arabic", "word": "اَلْكِيمِيَاء",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/%D8%A7%D9%84%D9%83%D9%8A%D9%85%D9%8A%D8%A7%D8%A1",
+             "namespace": "main", "page_exists": True,
+             "note": "URL path encodes the bare form `الكيمياء` (no harakat). "
+                     "Our system stores it the same way, but the template arg "
+                     "carries the fully-vocalised form — the gap is at lookup time."},
+            {"lang": "Ancient Greek", "word": "χυμείᾱ",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/%CF%87%CF%85%CE%BC%CE%B5%CE%AF%CE%B1",
+             "namespace": "main", "page_exists": True,
+             "note": "Wiktionary URL drops the macron on the final alpha (χυμείᾱ → χυμεία)"},
+            {"lang": "Ancient Greek", "word": "χύμα",
+             "wiktionary_url": "https://en.wiktionary.org/wiki/%CF%87%CF%8D%CE%BC%CE%B1",
+             "namespace": "main", "page_exists": True,
+             "note": "deeper root reached only by Wiktionary's prose; our chain "
+                     "stops at χυμείᾱ"},
+        ],
         "gaps": {"missing_doublet_link": True},
         "notes": ("Phase 2: Doublet of `chemistry` via Greek χυμεία — not surfaced. "
                   "Chain truncated before deepest Greek root χύμα. Two bonus quirks "
@@ -285,6 +384,7 @@ def update_fixture(path: Path) -> None:
         "etymology_section_text_excerpt": data["excerpt"],
         "expected_chain_per_wiktionary": data["chain"],
         "alternative_theories": data["alternative_theories"],
+        "link_audit": data.get("link_audit", []),
     }
 
     # Apply known_gaps overrides on top of what the collector heuristic produced.
