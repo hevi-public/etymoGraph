@@ -158,7 +158,16 @@ def http_get_json(path: str) -> Any:
 
 
 def collect_system_output(word: str, lang: str) -> dict[str, Any]:
-    """Hit the four endpoints captured per fixture."""
+    """Hit all API endpoints captured per fixture.
+
+    - /api/words/{w}, /api/etymology/{w}/chain, /api/etymology/{w}/tree
+      (two `types=` configurations) — the etymology surface.
+    - /api/search?q=<w> — autocomplete + polysemy expansion.
+    - /api/concept-map?concept=<w> — phonetic-similarity view (often 404 for
+      compounds and other words without phonetic data; error shape gets
+      captured verbatim and is a valid regression target).
+    - /api/concepts/suggest?q=<w> — concept-name autocomplete.
+    """
     qs = urllib.parse.quote(word)
     lang_qs = urllib.parse.quote(lang)
     output: dict[str, Any] = {
@@ -169,6 +178,9 @@ def collect_system_output(word: str, lang: str) -> dict[str, Any]:
         output[key] = http_get_json(
             f"/api/etymology/{qs}/tree?lang={lang_qs}&types={urllib.parse.quote(types)}"
         )
+    output["search"] = http_get_json(f"/api/search?q={qs}")
+    output["concept_suggest"] = http_get_json(f"/api/concepts/suggest?q={qs}")
+    output["concept_map"] = http_get_json(f"/api/concept-map?concept={qs}")
     return output
 
 
