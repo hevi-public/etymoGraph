@@ -1,0 +1,34 @@
+info:
+  name: Concept Map
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{host}}/api/concept-map?concept={{concept}}&pos={{pos}}&include_etymology_edges={{include_etymology_edges}}"
+  params:
+    - name: concept
+      value: "{{concept}}"
+      type: query
+    - name: pos
+      value: "{{pos}}"
+      type: query
+    - name: include_etymology_edges
+      value: "{{include_etymology_edges}}"
+      type: query
+  auth: inherit
+
+runtime:
+  variables:
+    - name: concept
+      value: fire
+    - name: pos
+      value: noun
+    - name: include_etymology_edges
+      value: "true"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

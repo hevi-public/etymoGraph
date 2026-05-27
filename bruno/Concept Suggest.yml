@@ -1,0 +1,29 @@
+info:
+  name: Concept Suggest
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: "{{host}}/api/concepts/suggest?q={{q}}&limit={{limit}}"
+  params:
+    - name: q
+      value: "{{q}}"
+      type: query
+    - name: limit
+      value: "{{limit}}"
+      type: query
+  auth: inherit
+
+runtime:
+  variables:
+    - name: q
+      value: fir
+    - name: limit
+      value: "10"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
