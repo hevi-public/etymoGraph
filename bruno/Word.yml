@@ -1,0 +1,31 @@
+info:
+  name: Word
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{host}}/api/words/{{word}}?lang={{lang}}&etym={{etym}}"
+  params:
+    - name: lang
+      value: "{{lang}}"
+      type: query
+    - name: etym
+      value: "{{etym}}"
+      type: query
+  auth: inherit
+
+runtime:
+  variables:
+    - name: word
+      value: apple
+    - name: lang
+      value: English
+    - name: etym
+      value: "1"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,4 @@
+name: Mac Mini Tailscale
+variables:
+  - name: host
+    value: http://mac-mini.marmoset-artichoke.ts.net:8080
