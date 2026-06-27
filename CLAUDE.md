@@ -163,16 +163,20 @@ claude mcp get mongodb  # Shows details for specific server
 
 ## Current Status
 
-**Phase**: MVP complete + Phase 2 in progress
-**Last completed**: Shareable links with History API URL routing (SPC-00003)
-**Next task**: Remaining Phase 2 nice-to-haves (see docs/FEATURES.md for status)
+**Phase**: Core product complete (vis.js etymology graph + phonetic concept map); roadmap drafted
+**Last completed**: SPC-00013 Phases 1–3 (Wiktionary fixture + characterization/consistency tests)
+**Next task**: SPC-00014 (native `descendants` + inflection-aware search) — the keystone of the
+2026-06 audit roadmap. See `docs/AUDIT-2026-06.md`.
 
-**Recent**: Implemented shareable links (SPC-00003) with:
-- `router.js` — view-scoped URL parameter registry with History API integration
-- URL reflects current state (word, language, filters, view, concept map settings)
-- Browser back/forward navigates between word searches and view switches
-- Page refresh restores full state from URL
-- Vitest unit tests (17 tests) + Playwright E2E tests (10 tests)
+**Recent**:
+- Feature audit `docs/AUDIT-2026-06.md` (2026-06-27): full audit + prioritized, audience-tagged
+  roadmap. Drafted specs SPC-00014–00019; reclaimed SPC-00005 and deprecated the abandoned G6
+  renderer line (SPC-00005–00010 — no G6 code ever merged; vis.js is the sole renderer).
+- SPC-00011 (chain normalization + polysemy), SPC-00012 (precomputed compound edges), SPC-00013
+  (fixture/characterization test machinery) all shipped since SPC-00003/00004.
+- **Implemented specs:** 00001–00004, 00011, 00012, 00013 (Phases 1–3). **Deprecated:** 00005–00010
+  (G6). **Draft (roadmap):** 00014–00020. SPC-00020 (Tiered Testing Architecture) applies the
+  `bdd-tiered-testing` skill to this stack and is the home for the audit's R2 (untested core engine).
 
 ## Documentation
 
@@ -220,7 +224,7 @@ Every spec folder **must** include a `decision-log.md` alongside `spec.md`. The 
 3. **Decision & Rationale** — what was chosen and why alternatives were eliminated
 4. **Participants** — who contributed to the decision (human, agents, roles)
 
-See `specs/00005-g6-experimental-renderer/decision-log.md` for the canonical example.
+See `specs/00012-precompute-compound-edges/decision-log.md` for the canonical example.
 
 ### Spec Header
 

@@ -5,7 +5,7 @@
 | **Status** | implemented |
 | **Created** | 2026-02-09 |
 | **Modifies** | SPC-00002 (adds URL routing for concept map state) |
-| **Modified-by** | — |
+| **Modified-by** | SPC-00019 (adds copy-share-link + in-app history trail) |
 
 ---
 

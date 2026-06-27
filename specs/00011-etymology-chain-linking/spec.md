@@ -5,7 +5,7 @@
 | **Status** | implemented |
 | **Created** | 2026-03-22 |
 | **Modifies** | SPC-00001 (edge resolution from templates) |
-| **Modified-by** | — |
+| **Modified-by** | SPC-00014 (native descendants + descendant-match normalization) |
 
 ## Problem Statement
 

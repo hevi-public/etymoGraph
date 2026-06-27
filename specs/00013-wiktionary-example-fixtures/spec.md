@@ -5,7 +5,7 @@
 | **Status** | Phase 1 (PR #6) + Phase 2 (PR #7) merged; Phase 3 in progress |
 | **Created** | 2026-05-22 |
 | **Modifies** | — |
-| **Modified-by** | — |
+| **Modified-by** | SPC-00020 (fixtures reused as hermetic Acceptance-tier expectations) |
 
 ## Summary
 

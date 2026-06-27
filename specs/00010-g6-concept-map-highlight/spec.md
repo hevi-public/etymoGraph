@@ -2,10 +2,13 @@
 
 | Field | Value |
 |---|---|
-| **Status** | draft |
+| **Status** | deprecated |
 | **Created** | 2026-02-11 |
 | **Modifies** | SPC-00005 (adds highlight dimming to G6 concept map) |
 | **Modified-by** | — |
+
+> **DEPRECATED (2026-06-27):** Part of the abandoned G6 renderer line (see
+> [SPC-00005](../00005-g6-experimental-renderer/spec.md)). No G6 code exists in the tree.
 
 ## Summary
 
