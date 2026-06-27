@@ -5,7 +5,7 @@
 | **Status** | implemented |
 | **Created** | 2026-03-23 |
 | **Modifies** | SPC-00011 (extends chain linking with compound decomposition) |
-| **Modified-by** | — |
+| **Modified-by** | SPC-00014 (descendant edge sourcing via native `descendants`) |
 
 ## Problem
 

@@ -2,10 +2,17 @@
 
 | Field | Value |
 |---|---|
-| **Status** | draft |
+| **Status** | deprecated |
 | **Created** | 2026-02-11 |
 | **Modifies** | SPC-00005 (enables G6 reuse of BFS hop-distance computation) |
 | **Modified-by** | — |
+
+> **DEPRECATED (2026-06-27):** Part of the abandoned G6 renderer line (see
+> [SPC-00005](../00005-g6-experimental-renderer/spec.md)). **Note:** the underlying idea — extracting
+> shared graph utilities so `graph.js` and `concept-map.js` stop duplicating hop-distance /
+> trackpad / LOD logic — remains valid for the **vis.js** code today and is tracked as structural
+> debt in [AUDIT-2026-06](../../docs/AUDIT-2026-06.md#a5--ux--accessibility--polish). If revived,
+> respec it renderer-agnostically.
 
 ## Summary
 

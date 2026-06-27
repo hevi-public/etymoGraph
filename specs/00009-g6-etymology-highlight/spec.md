@@ -2,11 +2,14 @@
 
 | Field | Value |
 |---|---|
-| **Status** | draft |
+| **Status** | deprecated |
 | **Created** | 2026-02-11 |
 | **Modifies** | SPC-00005 (adds Phase 2 hop-based opacity feature to G6 renderer) |
 | **Modified-by** | — |
 | **Depends on** | SPC-00007 (shared `computeHopDistances`) |
+
+> **DEPRECATED (2026-06-27):** Part of the abandoned G6 renderer line (see
+> [SPC-00005](../00005-g6-experimental-renderer/spec.md)). No G6 code exists in the tree.
 
 ## Summary
 
