@@ -201,18 +201,25 @@ class TreeBuilder:
 
         parent_id = node_id(word, lang)
 
-        cursor = self.col.find(
-            {
-                "etymology_templates": {
-                    "$elemMatch": {
-                        "name": {"$in": list(self.allowed_types)},
-                        "args.2": lc,
-                        "args.3": word,
+        cursor = (
+            self.col.find(
+                {
+                    "etymology_templates": {
+                        "$elemMatch": {
+                            "name": {"$in": list(self.allowed_types)},
+                            "args.2": lc,
+                            "args.3": word,
+                        }
                     }
-                }
-            },
-            {"_id": 0, "word": 1, "lang": 1, "lang_code": 1, "etymology_templates": 1},
-        ).limit(MAX_DESCENDANTS_PER_NODE)
+                },
+                {"_id": 0, "word": 1, "lang": 1, "lang_code": 1, "etymology_templates": 1},
+            )
+            # Sort operates on the full doc pre-projection, so word/lang dedup order and
+            # which docs survive the cap are both deterministic across runs (content-based
+            # tie-break, never _id — that changes across data reloads). SPC-00021 R1.
+            .sort([("word", 1), ("lang", 1), ("pos", 1), ("etymology_number", 1)])
+            .limit(MAX_DESCENDANTS_PER_NODE)
+        )
 
         docs = await cursor.to_list(length=MAX_DESCENDANTS_PER_NODE)
 
