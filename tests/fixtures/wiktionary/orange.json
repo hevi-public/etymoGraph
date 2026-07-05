@@ -8,8 +8,8 @@
     "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
-    "collected_at": "2026-05-23T12:10:33+00:00",
-    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "collected_at": "2026-07-05T11:34:09+00:00",
+    "etymograph_git_sha": "6a79a4cfe5f3fc19aa82c8f9281bb078d1bada00",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
     "notes": "Phase 2: Three quirks observed. (Q4) System captured Etymology 1 (fruit); Etymology 2 (color, sense extension within English) not represented. (Q5) Foreign-script ancestors نَارَنْج (Arabic), नारङ्ग (Sanskrit) preserved in node IDs. (Q6) Calque relationship 'calqued from Old Italian melarancio' captured as `der` edge in our chain, losing the calque semantic — system has no `cal` edge label. Also: 'influenced by the place name Orange' dropped entirely. Bonus finding: lang_cache returns raw codes for `roa-oit` (Old Italian) and `fa-cls` (Early Classical Persian) instead of human-readable names.",
@@ -781,8 +781,28 @@
           "to": "نَارَنْگْ:fa-cls"
         },
         {
+          "from": "i-orenji:Xhosa",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
           "from": "oran:Marshallese",
           "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "oranĝo:Esperanto",
+          "label": "der",
+          "to": "orange:English"
+        },
+        {
+          "from": "oranjo:Ido",
+          "label": "bor",
+          "to": "oranĝo:Esperanto"
+        },
+        {
+          "from": "oranġjo:Maltese",
+          "label": "der",
           "to": "orange:English"
         },
         {
@@ -801,18 +821,8 @@
           "to": "orange:English"
         },
         {
-          "from": "oranĝo:Esperanto",
-          "label": "der",
-          "to": "orange:English"
-        },
-        {
-          "from": "oranjo:Ido",
+          "from": "orenji:Xhosa",
           "label": "bor",
-          "to": "oranĝo:Esperanto"
-        },
-        {
-          "from": "oyen:Malay",
-          "label": "der",
           "to": "orange:English"
         },
         {
@@ -821,37 +831,12 @@
           "to": "orange:English"
         },
         {
-          "from": "오렌지:Korean",
-          "label": "bor",
-          "to": "orange:English"
-        },
-        {
-          "from": "orenji:Xhosa",
-          "label": "bor",
-          "to": "orange:English"
-        },
-        {
-          "from": "i-orenji:Xhosa",
-          "label": "bor",
-          "to": "orange:English"
-        },
-        {
-          "from": "ólentsi:Hopi",
-          "label": "bor",
-          "to": "orange:English"
-        },
-        {
-          "from": "umolintji:Swazi",
-          "label": "bor",
-          "to": "orange:English"
-        },
-        {
           "from": "orentji:Southern Ndebele",
           "label": "bor",
           "to": "orange:English"
         },
         {
-          "from": "oranġjo:Maltese",
+          "from": "oyen:Malay",
           "label": "der",
           "to": "orange:English"
         },
@@ -861,7 +846,17 @@
           "to": "orange:English"
         },
         {
-          "from": "އޮރެންޖުކުލަ:Dhivehi",
+          "from": "umolintji:Swazi",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "òlënch:Unami",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "ólentsi:Hopi",
           "label": "bor",
           "to": "orange:English"
         },
@@ -871,7 +866,12 @@
           "to": "orange:English"
         },
         {
-          "from": "òlënch:Unami",
+          "from": "އޮރެންޖުކުލަ:Dhivehi",
+          "label": "bor",
+          "to": "orange:English"
+        },
+        {
+          "from": "오렌지:Korean",
           "label": "bor",
           "to": "orange:English"
         },
@@ -891,6 +891,16 @@
           "to": "نَارَنْج:Arabic"
         },
         {
+          "from": "arantium:Latin",
+          "label": "bor",
+          "to": "arancia:Italian"
+        },
+        {
+          "from": "aråntschat:Cimbrian",
+          "label": "der",
+          "to": "arancia:Italian"
+        },
+        {
           "from": "oransje:Norwegian Bokmål",
           "label": "der",
           "to": "arancia:Italian"
@@ -901,14 +911,29 @@
           "to": "arancia:Italian"
         },
         {
-          "from": "arantium:Latin",
-          "label": "bor",
-          "to": "arancia:Italian"
+          "from": "aranciu:Sicilian",
+          "label": "der",
+          "to": "نَارَنْج:Arabic"
         },
         {
-          "from": "aråntschat:Cimbrian",
+          "from": "aranzada:English",
+          "label": "bor",
+          "to": "aranciu:Sicilian"
+        },
+        {
+          "from": "auranja:Old Occitan",
+          "label": "bor",
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "aurantius:Latin",
           "label": "der",
-          "to": "arancia:Italian"
+          "to": "نَارَنْج:Arabic"
+        },
+        {
+          "from": "Aurantium:Translingual",
+          "label": "der",
+          "to": "aurantius:Latin"
         },
         {
           "from": "laranja:Basque",
@@ -926,31 +951,6 @@
           "to": "pomarańcza:Polish"
         },
         {
-          "from": "aurantius:Latin",
-          "label": "der",
-          "to": "نَارَنْج:Arabic"
-        },
-        {
-          "from": "Aurantium:Translingual",
-          "label": "der",
-          "to": "aurantius:Latin"
-        },
-        {
-          "from": "auranja:Old Occitan",
-          "label": "bor",
-          "to": "نَارَنْج:Arabic"
-        },
-        {
-          "from": "aranciu:Sicilian",
-          "label": "der",
-          "to": "نَارَنْج:Arabic"
-        },
-        {
-          "from": "aranzada:English",
-          "label": "bor",
-          "to": "aranciu:Sicilian"
-        },
-        {
           "from": "arancio:Italian",
           "label": "der",
           "to": "नारङ्ग:Sanskrit"
@@ -961,7 +961,7 @@
           "to": "arancio:Italian"
         },
         {
-          "from": "नारंगी:Hindi",
+          "from": "نارنج:Arabic",
           "label": "der",
           "to": "नारङ्ग:Sanskrit"
         },
@@ -986,7 +986,7 @@
           "to": "نارنگ:Persian"
         },
         {
-          "from": "نارنج:Arabic",
+          "from": "नारंगी:Hindi",
           "label": "der",
           "to": "नारङ्ग:Sanskrit"
         },
@@ -1126,14 +1126,14 @@
           "to": "ನಾರಂಗಿ:Kannada"
         },
         {
-          "from": "नारंगी:Hindi",
-          "label": "cog",
-          "to": "نارنج:Persian"
-        },
-        {
           "from": "narynç:Turkmen",
           "label": "cog",
           "to": "narınc:Azerbaijani"
+        },
+        {
+          "from": "नारंगी:Hindi",
+          "label": "cog",
+          "to": "نارنج:Persian"
         },
         {
           "from": "നാരം:Malayalam",
@@ -1209,9 +1209,37 @@
           "uncertainty": null
         },
         {
+          "id": "i-orenji:Xhosa",
+          "label": "i-orenji",
+          "language": "Xhosa",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
           "id": "oran:Marshallese",
           "label": "oran",
           "language": "Marshallese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "oranĝo:Esperanto",
+          "label": "oranĝo",
+          "language": "Esperanto",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "oranjo:Ido",
+          "label": "oranjo",
+          "language": "Ido",
+          "level": 2,
+          "uncertainty": null
+        },
+        {
+          "id": "oranġjo:Maltese",
+          "label": "oranġjo",
+          "language": "Maltese",
           "level": 1,
           "uncertainty": null
         },
@@ -1237,23 +1265,9 @@
           "uncertainty": null
         },
         {
-          "id": "oranĝo:Esperanto",
-          "label": "oranĝo",
-          "language": "Esperanto",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "oranjo:Ido",
-          "label": "oranjo",
-          "language": "Ido",
-          "level": 2,
-          "uncertainty": null
-        },
-        {
-          "id": "oyen:Malay",
-          "label": "oyen",
-          "language": "Malay",
+          "id": "orenji:Xhosa",
+          "label": "orenji",
+          "language": "Xhosa",
           "level": 1,
           "uncertainty": null
         },
@@ -1265,41 +1279,6 @@
           "uncertainty": null
         },
         {
-          "id": "오렌지:Korean",
-          "label": "오렌지",
-          "language": "Korean",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "orenji:Xhosa",
-          "label": "orenji",
-          "language": "Xhosa",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "i-orenji:Xhosa",
-          "label": "i-orenji",
-          "language": "Xhosa",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "ólentsi:Hopi",
-          "label": "ólentsi",
-          "language": "Hopi",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "umolintji:Swazi",
-          "label": "umolintji",
-          "language": "Swazi",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
           "id": "orentji:Southern Ndebele",
           "label": "orentji",
           "language": "Southern Ndebele",
@@ -1307,9 +1286,9 @@
           "uncertainty": null
         },
         {
-          "id": "oranġjo:Maltese",
-          "label": "oranġjo",
-          "language": "Maltese",
+          "id": "oyen:Malay",
+          "label": "oyen",
+          "language": "Malay",
           "level": 1,
           "uncertainty": null
         },
@@ -1321,9 +1300,23 @@
           "uncertainty": null
         },
         {
-          "id": "އޮރެންޖުކުލަ:Dhivehi",
-          "label": "އޮރެންޖުކުލަ",
-          "language": "Dhivehi",
+          "id": "umolintji:Swazi",
+          "label": "umolintji",
+          "language": "Swazi",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "òlënch:Unami",
+          "label": "òlënch",
+          "language": "Unami",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "ólentsi:Hopi",
+          "label": "ólentsi",
+          "language": "Hopi",
           "level": 1,
           "uncertainty": null
         },
@@ -1335,9 +1328,16 @@
           "uncertainty": null
         },
         {
-          "id": "òlënch:Unami",
-          "label": "òlënch",
-          "language": "Unami",
+          "id": "އޮރެންޖުކުލަ:Dhivehi",
+          "label": "އޮރެންޖުކުލަ",
+          "language": "Dhivehi",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "오렌지:Korean",
+          "label": "오렌지",
+          "language": "Korean",
           "level": 1,
           "uncertainty": null
         },
@@ -1356,6 +1356,20 @@
           "uncertainty": null
         },
         {
+          "id": "arantium:Latin",
+          "label": "arantium",
+          "language": "Latin",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "aråntschat:Cimbrian",
+          "label": "aråntschat",
+          "language": "Cimbrian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
           "id": "oransje:Norwegian Bokmål",
           "label": "oransje",
           "language": "Norwegian Bokmål",
@@ -1370,16 +1384,30 @@
           "uncertainty": null
         },
         {
-          "id": "arantium:Latin",
-          "label": "arantium",
-          "language": "Latin",
+          "id": "aranciu:Sicilian",
+          "label": "aranciu",
+          "language": "Sicilian",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "aranzada:English",
+          "label": "aranzada",
+          "language": "English",
           "level": -3,
           "uncertainty": null
         },
         {
-          "id": "aråntschat:Cimbrian",
-          "label": "aråntschat",
-          "language": "Cimbrian",
+          "id": "aurantius:Latin",
+          "label": "aurantius",
+          "language": "Latin",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "Aurantium:Translingual",
+          "label": "Aurantium",
+          "language": "Translingual",
           "level": -3,
           "uncertainty": null
         },
@@ -1405,34 +1433,6 @@
           "uncertainty": null
         },
         {
-          "id": "aurantius:Latin",
-          "label": "aurantius",
-          "language": "Latin",
-          "level": -4,
-          "uncertainty": null
-        },
-        {
-          "id": "Aurantium:Translingual",
-          "label": "Aurantium",
-          "language": "Translingual",
-          "level": -3,
-          "uncertainty": null
-        },
-        {
-          "id": "aranciu:Sicilian",
-          "label": "aranciu",
-          "language": "Sicilian",
-          "level": -4,
-          "uncertainty": null
-        },
-        {
-          "id": "aranzada:English",
-          "label": "aranzada",
-          "language": "English",
-          "level": -3,
-          "uncertainty": null
-        },
-        {
           "id": "arancio:Italian",
           "label": "arancio",
           "language": "Italian",
@@ -1447,9 +1447,9 @@
           "uncertainty": null
         },
         {
-          "id": "नारंगी:Hindi",
-          "label": "नारंगी",
-          "language": "Hindi",
+          "id": "نارنج:Arabic",
+          "label": "نارنج",
+          "language": "Arabic",
           "level": -6,
           "uncertainty": null
         },
@@ -1482,9 +1482,9 @@
           "uncertainty": null
         },
         {
-          "id": "نارنج:Arabic",
-          "label": "نارنج",
-          "language": "Arabic",
+          "id": "नारंगी:Hindi",
+          "label": "नारंगी",
+          "language": "Hindi",
           "level": -6,
           "uncertainty": null
         },
@@ -1538,17 +1538,17 @@
           "uncertainty": null
         },
         {
-          "id": "نارنج:Persian",
-          "label": "نارنج",
-          "language": "Persian",
-          "level": -6,
-          "uncertainty": null
-        },
-        {
           "id": "narınc:Azerbaijani",
           "label": "narınc",
           "language": "Azerbaijani",
           "level": -5,
+          "uncertainty": null
+        },
+        {
+          "id": "نارنج:Persian",
+          "label": "نارنج",
+          "language": "Persian",
+          "level": -6,
           "uncertainty": null
         },
         {

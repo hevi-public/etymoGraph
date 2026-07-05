@@ -8,8 +8,8 @@
     "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
-    "collected_at": "2026-05-23T12:10:32+00:00",
-    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "collected_at": "2026-07-05T11:34:07+00:00",
+    "etymograph_git_sha": "6a79a4cfe5f3fc19aa82c8f9281bb078d1bada00",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
     "notes": "Phase 2: Doublet of `chemistry` via Greek χυμεία — not surfaced. Chain truncated before deepest Greek root χύμα. Two bonus quirks found: (a) lang_cache miss for `la-med` (Medieval Latin); (b) Arabic diacritic stripping — system stores bare form `كيمياء` while Wiktionary template uses fully-vocalised `اَلْكِيمِيَاء`. Middle English alkamye absent from chain because Kaikki has no ME→OE `inh` template (jumps English ← Old French directly).",
@@ -498,17 +498,32 @@
           "to": "alchemy:English"
         },
         {
-          "from": "alchemy:English",
-          "label": "der",
-          "to": "alkimie:Old French"
-        },
-        {
           "from": "alchemie:Dutch",
           "label": "der",
           "to": "alkimie:Old French"
         },
         {
+          "from": "alchemy:English",
+          "label": "der",
+          "to": "alkimie:Old French"
+        },
+        {
+          "from": "Alchemie:German",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "alquímia:Catalan",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
           "from": "chemia:Latin",
+          "label": "der",
+          "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "chemicus:Latin",
           "label": "der",
           "to": "كيمياء:Arabic"
         },
@@ -528,26 +543,6 @@
           "to": "كيمياء:Arabic"
         },
         {
-          "from": "Alchemie:German",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "ալքիմիա:Middle Armenian",
-          "label": "bor",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "ալքիմիա:Armenian",
-          "label": "der",
-          "to": "ալքիմիա:Middle Armenian"
-        },
-        {
-          "from": "alquímia:Catalan",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
           "from": "алхимия:Bulgarian",
           "label": "der",
           "to": "كيمياء:Arabic"
@@ -563,9 +558,19 @@
           "to": "كيمياء:Arabic"
         },
         {
-          "from": "chemicus:Latin",
-          "label": "der",
+          "from": "ալքիմիա:Middle Armenian",
+          "label": "bor",
           "to": "كيمياء:Arabic"
+        },
+        {
+          "from": "ալքիմիա:Armenian",
+          "label": "der",
+          "to": "ալքիմիա:Middle Armenian"
+        },
+        {
+          "from": "alchemia:Latin",
+          "label": "der",
+          "to": "χυμείᾱ:Ancient Greek"
         },
         {
           "from": "química:Catalan",
@@ -575,11 +580,6 @@
         {
           "from": "كيمياء:Arabic",
           "label": "bor",
-          "to": "χυμείᾱ:Ancient Greek"
-        },
-        {
-          "from": "alchemia:Latin",
-          "label": "der",
           "to": "χυμείᾱ:Ancient Greek"
         },
         {
@@ -638,12 +638,12 @@
           "to": "alquimia:Old Spanish"
         },
         {
-          "from": "alquimia:Old Spanish",
+          "from": "alkimiya:Tagalog",
           "label": "der",
           "to": "اَلْكِيمْيَا:Andalusian Arabic"
         },
         {
-          "from": "alkimiya:Tagalog",
+          "from": "alquimia:Old Spanish",
           "label": "der",
           "to": "اَلْكِيمْيَا:Andalusian Arabic"
         },
@@ -704,8 +704,29 @@
           "uncertainty": null
         },
         {
+          "id": "Alchemie:German",
+          "label": "Alchemie",
+          "language": "German",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "alquímia:Catalan",
+          "label": "alquímia",
+          "language": "Catalan",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
           "id": "chemia:Latin",
           "label": "chemia",
+          "language": "Latin",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "chemicus:Latin",
+          "label": "chemicus",
           "language": "Latin",
           "level": -2,
           "uncertainty": null
@@ -732,34 +753,6 @@
           "uncertainty": null
         },
         {
-          "id": "Alchemie:German",
-          "label": "Alchemie",
-          "language": "German",
-          "level": -2,
-          "uncertainty": null
-        },
-        {
-          "id": "ալքիմիա:Middle Armenian",
-          "label": "ալքիմիա",
-          "language": "Middle Armenian",
-          "level": -2,
-          "uncertainty": null
-        },
-        {
-          "id": "ալքիմիա:Armenian",
-          "label": "ալքիմիա",
-          "language": "Armenian",
-          "level": -1,
-          "uncertainty": null
-        },
-        {
-          "id": "alquímia:Catalan",
-          "label": "alquímia",
-          "language": "Catalan",
-          "level": -2,
-          "uncertainty": null
-        },
-        {
           "id": "алхимия:Bulgarian",
           "label": "алхимия",
           "language": "Bulgarian",
@@ -781,23 +774,30 @@
           "uncertainty": null
         },
         {
-          "id": "chemicus:Latin",
-          "label": "chemicus",
-          "language": "Latin",
+          "id": "ալքիմիա:Middle Armenian",
+          "label": "ալքիմիա",
+          "language": "Middle Armenian",
           "level": -2,
           "uncertainty": null
         },
         {
-          "id": "química:Catalan",
-          "label": "química",
-          "language": "Catalan",
-          "level": -3,
+          "id": "ալքիմիա:Armenian",
+          "label": "ալքիմիա",
+          "language": "Armenian",
+          "level": -1,
           "uncertainty": null
         },
         {
           "id": "alchemia:Latin",
           "label": "alchemia",
           "language": "Latin",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "química:Catalan",
+          "label": "química",
+          "language": "Catalan",
           "level": -3,
           "uncertainty": null
         },
