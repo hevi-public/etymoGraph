@@ -205,14 +205,42 @@ def git_head_sha() -> str | None:
         return None
 
 
-def build_fixture(entry: dict[str, Any], client: MongoClient) -> dict[str, Any]:
-    """Assemble the full fixture dict for one word."""
+def load_existing(path: Path) -> dict[str, Any] | None:
+    """Return the previously committed fixture at `path`, or None if there isn't one."""
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def build_fixture(
+    entry: dict[str, Any], client: MongoClient, existing: dict[str, Any] | None
+) -> dict[str, Any]:
+    """Assemble the full fixture dict for one word.
+
+    When `existing` is given (the previously committed fixture), the
+    hand-curated fields — `known_gaps`, `wiktionary_reference`, `meta.notes`
+    — carry over verbatim instead of being regenerated, so a re-collection
+    doesn't clobber a human reviewer's cross-check work. Pass `existing=None`
+    (see `--reset-review`) to force fresh heuristic values for those fields.
+    """
     word, lang = entry["word"], entry["lang"]
     wiktionary_url = f"https://en.wiktionary.org/wiki/{urllib.parse.quote(word)}"
 
     raw = fetch_raw_kaikki(client, word, lang)
     system_output = collect_system_output(word, lang)
-    gaps = detect_gaps(raw, system_output)
+
+    if existing is not None:
+        known_gaps = existing["known_gaps"]
+        wiktionary_reference = existing["wiktionary_reference"]
+        notes = existing["meta"]["notes"]
+    else:
+        known_gaps = detect_gaps(raw, system_output)
+        wiktionary_reference = {
+            "etymology_section_text_excerpt": None,
+            "expected_chain_per_wiktionary": [],
+            "alternative_theories": [],
+        }
+        notes = entry["notes"]
 
     return {
         "meta": {
@@ -223,18 +251,14 @@ def build_fixture(entry: dict[str, Any], client: MongoClient) -> dict[str, Any]:
             "wiktionary_revision_seen": None,
             "collected_at": datetime.now(UTC).isoformat(timespec="seconds"),
             "etymograph_git_sha": git_head_sha(),
-            "notes": entry["notes"],
+            "notes": notes,
         },
         "query": {"word": word, "lang": lang},
         "quirks_covered": entry["quirks"],
-        "wiktionary_reference": {
-            "etymology_section_text_excerpt": None,
-            "expected_chain_per_wiktionary": [],
-            "alternative_theories": [],
-        },
+        "wiktionary_reference": wiktionary_reference,
         "raw_kaikki": raw,
         "system_output": system_output,
-        "known_gaps": gaps,
+        "known_gaps": known_gaps,
     }
 
 
@@ -290,6 +314,14 @@ def main() -> int:
     parser.add_argument(
         "--diff", action="store_true", help="Do not write; report drift against existing fixtures."
     )
+    parser.add_argument(
+        "--reset-review",
+        action="store_true",
+        help=(
+            "Discard existing known_gaps/wiktionary_reference/meta.notes and regenerate them "
+            "heuristically instead of carrying them over from the committed fixture."
+        ),
+    )
     args = parser.parse_args()
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -313,7 +345,8 @@ def main() -> int:
     for entry in targets:
         word = entry["word"]
         path = OUT_DIR / f"{word}.json"
-        fixture = build_fixture(entry, client)
+        existing = None if args.reset_review else load_existing(path)
+        fixture = build_fixture(entry, client, existing)
         if args.diff:
             action = diff_fixture(fixture, path)
             if action == "DRIFT":

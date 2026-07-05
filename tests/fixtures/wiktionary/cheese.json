@@ -8,8 +8,8 @@
     "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
-    "collected_at": "2026-05-23T12:10:31+00:00",
-    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "collected_at": "2026-07-05T12:09:56+00:00",
+    "etymograph_git_sha": "b20fb70543be0382c0e45b7df4ef9d96817c01c6",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
     "notes": "Phase 2: Clean borrowing chain matches Wiktionary. Doublets with queso (Spanish), Käse (German), kaas (Dutch) via shared Latin root are present as `doublet` template, not surfaced as edges. Q13 fix verified: ċīese with diacritic resolves.",
@@ -742,24 +742,14 @@
           "to": "ċīese:Old English"
         },
         {
-          "from": "cheese:English",
+          "from": "ċīese:Old English",
           "label": "inh",
-          "to": "chese:Middle English"
+          "to": "Chiswick:English"
         },
         {
-          "from": "Chiswick:English",
+          "from": "*kāsī:Proto-West Germanic",
           "label": "inh",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "chese:Middle English",
-          "label": "inh",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "ciese:Old English",
-          "label": "inh",
-          "to": "*kāsī:Proto-West Germanic"
+          "to": "ciese:Old English"
         }
       ],
       "nodes": [
@@ -830,229 +820,174 @@
           "to": "*kāsī:Proto-West Germanic"
         },
         {
-          "from": "sis:Tok Pisin",
-          "label": "der",
-          "to": "cheese:English"
-        },
-        {
-          "from": "sisi:Samoan",
-          "label": "der",
-          "to": "cheese:English"
-        },
-        {
-          "from": "hihi:Tokelauan",
+          "from": "cheese:English",
           "label": "bor",
-          "to": "sisi:Samoan"
-        },
-        {
-          "from": "chizi:Shona",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "치즈:Korean",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "芝士:Chinese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "jiss:Somali",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "cihs:Mohegan-Pequot",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "起司:Chinese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "起士:Chinese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "chiz:Abenaki",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "吉士:Chinese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "itshizi:Xhosa",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "ushizi:Zulu",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "jiij:Marshallese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "tsís:Mohawk",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "čidᶻ:Lushootseed",
-          "label": "bor",
-          "to": "cheese:English"
+          "to": "chiz:Abenaki"
         },
         {
           "from": "cheese:English",
-          "label": "inh",
-          "to": "chese:Middle English"
-        },
-        {
-          "from": "Chisholm:English",
-          "label": "der",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "Chiswick:English",
-          "label": "inh",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "chese:Middle English",
-          "label": "inh",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "kæsa:Icelandic",
-          "label": "der",
-          "to": "*kāsī:Proto-West Germanic"
-        },
-        {
-          "from": "ciese:Old English",
-          "label": "inh",
-          "to": "*kāsī:Proto-West Germanic"
-        },
-        {
-          "from": "cash:Aromanian",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "قاشر:Ottoman Turkish",
           "label": "bor",
+          "to": "chizi:Shona"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "cihs:Mohegan-Pequot"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "itshizi:Xhosa"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "jiij:Marshallese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "jiss:Somali"
+        },
+        {
+          "from": "cheese:English",
+          "label": "der",
+          "to": "sis:Tok Pisin"
+        },
+        {
+          "from": "cheese:English",
+          "label": "der",
+          "to": "sisi:Samoan"
+        },
+        {
+          "from": "sisi:Samoan",
+          "label": "bor",
+          "to": "hihi:Tokelauan"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "tsís:Mohawk"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "ushizi:Zulu"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "čidᶻ:Lushootseed"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "吉士:Chinese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "芝士:Chinese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "起司:Chinese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "起士:Chinese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "치즈:Korean"
+        },
+        {
+          "from": "ċīese:Old English",
+          "label": "der",
+          "to": "Chisholm:English"
+        },
+        {
+          "from": "ċīese:Old English",
+          "label": "inh",
+          "to": "Chiswick:English"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "inh",
+          "to": "ciese:Old English"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "der",
+          "to": "kæsa:Icelandic"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "cacio:Italian"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "caciu:Sicilian"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "der",
+          "to": "caseo:Interlingua"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
           "to": "cash:Aromanian"
         },
         {
-          "from": "kaşar:Turkish",
-          "label": "inh",
+          "from": "cash:Aromanian",
+          "label": "bor",
           "to": "قاشر:Ottoman Turkish"
         },
         {
-          "from": "keso:Tagalog",
+          "from": "قاشر:Ottoman Turkish",
+          "label": "inh",
+          "to": "kaşar:Turkish"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "caso:Neapolitan"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "casu:Sardinian"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "casu:Sicilian"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "caș:Romanian"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "chis:Dalmatian"
+        },
+        {
+          "from": "cāseus:Latin",
           "label": "der",
-          "to": "cāseus:Latin"
+          "to": "kazeina:Polish"
         },
         {
-          "from": "caso:Neapolitan",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "casu:Sardinian",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "casu:Sicilian",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "kisu:Tausug",
+          "from": "cāseus:Latin",
           "label": "der",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "cacio:Italian",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "queijo:Old Galician-Portuguese",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "queixo:Galician",
-          "label": "inh",
-          "to": "queijo:Old Galician-Portuguese"
-        },
-        {
-          "from": "queijo:Portuguese",
-          "label": "inh",
-          "to": "queijo:Old Galician-Portuguese"
-        },
-        {
-          "from": "keju:Malay",
-          "label": "bor",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "keiju:Tetum",
-          "label": "bor",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "kiju:Sundanese",
-          "label": "bor",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "kiju:Tausug",
-          "label": "der",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "queixhu:Fala",
-          "label": "inh",
-          "to": "queijo:Old Galician-Portuguese"
-        },
-        {
-          "from": "queixu:Fala",
-          "label": "inh",
-          "to": "queijo:Old Galician-Portuguese"
-        },
-        {
-          "from": "chis:Dalmatian",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "caseo:Interlingua",
-          "label": "der",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "caș:Romanian",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "kazeina:Polish",
-          "label": "der",
-          "to": "cāseus:Latin"
+          "to": "keso:Tagalog"
         },
         {
           "from": "cheese:English",
@@ -1082,12 +1017,52 @@
         {
           "from": "hihi:Tokelauan",
           "label": "cog",
+          "to": "sisi:Samoan"
+        },
+        {
+          "from": "hihi:Tokelauan",
+          "label": "cog",
           "to": "hihi:Tuvaluan"
         },
         {
           "from": "kæsa:Icelandic",
           "label": "cog",
           "to": "kæsa:Faroese"
+        },
+        {
+          "from": "caciu:Sicilian",
+          "label": "cog",
+          "to": "cacio:Italian"
+        },
+        {
+          "from": "caciu:Sicilian",
+          "label": "cog",
+          "to": "caso:Neapolitan"
+        },
+        {
+          "from": "caciu:Sicilian",
+          "label": "cog",
+          "to": "casu:Sardinian"
+        },
+        {
+          "from": "caciu:Sicilian",
+          "label": "cog",
+          "to": "queso:an,es"
+        },
+        {
+          "from": "caciu:Sicilian",
+          "label": "cog",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "caciu:Sicilian",
+          "label": "cog",
+          "to": "cash:Aromanian"
+        },
+        {
+          "from": "caciu:Sicilian",
+          "label": "cog",
+          "to": "caș:Romanian"
         },
         {
           "from": "cash:Aromanian",
@@ -1145,89 +1120,24 @@
           "to": "caș:Romanian"
         },
         {
-          "from": "kisu:Tausug",
-          "label": "cog",
-          "to": "keso:Cebuano"
-        },
-        {
-          "from": "kisu:Tausug",
-          "label": "cog",
-          "to": "keso:Tagalog"
-        },
-        {
-          "from": "queijo:Old Galician-Portuguese",
-          "label": "cog",
-          "to": "keso:Old Leonese"
-        },
-        {
-          "from": "queijo:Old Galician-Portuguese",
-          "label": "cog",
-          "to": "queso:Old Spanish"
-        },
-        {
-          "from": "queixo:Galician",
-          "label": "cog",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "queixo:Galician",
-          "label": "cog",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "queijo:Portuguese",
-          "label": "cog",
-          "to": "queixo:Galician"
-        },
-        {
-          "from": "queijo:Portuguese",
-          "label": "cog",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "queijo:Portuguese",
-          "label": "cog",
-          "to": "cacio:Italian"
-        },
-        {
-          "from": "queijo:Portuguese",
-          "label": "cog",
-          "to": "caș:Romanian"
-        },
-        {
-          "from": "queijo:Portuguese",
-          "label": "cog",
-          "to": "cheese:English"
-        },
-        {
-          "from": "queixhu:Fala",
-          "label": "cog",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "queixu:Fala",
-          "label": "cog",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "chis:Dalmatian",
-          "label": "cog",
-          "to": "cacio:Italian"
-        },
-        {
-          "from": "chis:Dalmatian",
-          "label": "cog",
-          "to": "caș:Romanian"
-        },
-        {
-          "from": "chis:Dalmatian",
-          "label": "cog",
-          "to": "queso:Spanish"
-        },
-        {
           "from": "caș:Romanian",
           "label": "cog",
           "to": "cash:Aromanian"
+        },
+        {
+          "from": "chis:Dalmatian",
+          "label": "cog",
+          "to": "cacio:Italian"
+        },
+        {
+          "from": "chis:Dalmatian",
+          "label": "cog",
+          "to": "caș:Romanian"
+        },
+        {
+          "from": "chis:Dalmatian",
+          "label": "cog",
+          "to": "queso:Spanish"
         },
         {
           "from": "kazeina:Polish",
@@ -1255,22 +1165,12 @@
           "to": "kīse:Old Frisian"
         },
         {
-          "from": "Síes:Saterland Frisian",
-          "label": "inh",
-          "to": "kīse:Old Frisian"
-        },
-        {
           "from": "tzīse:Old Frisian",
           "label": "inh",
           "to": "tsiis:West Frisian"
         },
         {
           "from": "*kāsī:Proto-West Germanic",
-          "label": "inh",
-          "to": "tzīse:Old Frisian"
-        },
-        {
-          "from": "tsiis:West Frisian",
           "label": "inh",
           "to": "tzīse:Old Frisian"
         },
@@ -1290,29 +1190,24 @@
           "to": "*kāsi:Old Dutch"
         },
         {
-          "from": "kaas:Afrikaans",
+          "from": "kaas:Dutch",
           "label": "inh",
-          "to": "kaas:Dutch"
+          "to": "kaas:Afrikaans"
         },
         {
-          "from": "kasi:Sranan Tongo",
+          "from": "kaas:Dutch",
           "label": "bor",
-          "to": "kaas:Dutch"
-        },
-        {
-          "from": "kääs:Jersey Dutch",
-          "label": "inh",
-          "to": "kaas:Dutch"
+          "to": "kasi:Sranan Tongo"
         },
         {
           "from": "kaas:Dutch",
           "label": "inh",
-          "to": "câse:Middle Dutch"
+          "to": "kääs:Jersey Dutch"
         },
         {
-          "from": "case:Middle Dutch",
+          "from": "*kāsi:Old Dutch",
           "label": "inh",
-          "to": "*kāsi:Old Dutch"
+          "to": "case:Middle Dutch"
         },
         {
           "from": "kæse:Middle High German",
@@ -1330,104 +1225,144 @@
           "to": "kāsi:Old High German"
         },
         {
-          "from": "Kase:English",
+          "from": "Käse:German",
           "label": "bor",
-          "to": "Käse:German"
-        },
-        {
-          "from": "kazeo:Esperanto",
-          "label": "der",
-          "to": "Käse:German"
+          "to": "Kase:English"
         },
         {
           "from": "Käse:German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "Kies:Central Franconian",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "kas:Mòcheno",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "קעז:Yiddish",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "Kéis:Luxembourgish",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "kȳz:Vilamovian",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "Chääs:Alemannic German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "Kaes:Pennsylvania German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "khéeze:Cimbrian",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "cheisch:Alemannic German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "chìŝch:Alemannic German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "kase:Bavarian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "kese:Cimbrian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "khes:Cimbrian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "khase:Bavarian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "ckaas:Bavarian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "Kaas:Bavarian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
+          "label": "der",
+          "to": "kazeo:Esperanto"
         },
         {
           "from": "kæse:Middle High German",
           "label": "inh",
-          "to": "kāsi:Old High German"
+          "to": "Chääs:Alemannic German"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "Kaes:Pennsylvania German"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "Kies:Central Franconian"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "Kéis:Luxembourgish"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "cheisch:Alemannic German"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "chìŝch:Alemannic German"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "kas:Mòcheno"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "khéeze:Cimbrian"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "kȳz:Vilamovian"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "קעז:Yiddish"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "Kaas:Bavarian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "ckaas:Bavarian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "kase:Bavarian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "kese:Cimbrian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "khase:Bavarian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "khes:Cimbrian"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "inh",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "queijo:Old Galician-Portuguese"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "bor",
+          "to": "keiju:Tetum"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "bor",
+          "to": "keju:Malay"
+        },
+        {
+          "from": "keju:Malay",
+          "label": "inh",
+          "to": "keju:Indonesian"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "bor",
+          "to": "kiju:Sundanese"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "der",
+          "to": "kiju:Tausug"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "inh",
+          "to": "queixhu:Fala"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "inh",
+          "to": "queixo:Galician"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "inh",
+          "to": "queixu:Fala"
         },
         {
           "from": "queso:Old Spanish",
@@ -1440,94 +1375,14 @@
           "to": "queso:Old Spanish"
         },
         {
-          "from": "keso:Cebuano",
+          "from": "queso:Spanish",
           "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "keso:Swedish",
-          "label": "der",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "keso:Waray-Waray",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kesò:Guerrero Amuzgo",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "quiiz:Seri",
-          "label": "der",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kiso:Maranao",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kiso:Sambali",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kisu:Quechua",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kešu:Rayón Zoque",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kàsuʼúna:Taos",
-          "label": "der",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "géeso:Navajo",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "géésu:Jemez",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "ques:Zoogocho Zapotec",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "quiexo:Tetelcingo Nahuatl",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "quéexiu:Huichol",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "ᎨᏒ:Cherokee",
-          "label": "bor",
-          "to": "queso:Spanish"
+          "to": "géeso:Navajo"
         },
         {
           "from": "queso:Spanish",
-          "label": "inh",
-          "to": "queso:Old Spanish"
-        },
-        {
-          "from": "kézo:Ladino",
-          "label": "inh",
-          "to": "queso:Old Spanish"
+          "label": "bor",
+          "to": "géésu:Jemez"
         },
         {
           "from": "queso:Spanish",
@@ -1535,14 +1390,74 @@
           "to": "keso:Cebuano"
         },
         {
-          "from": "cāseum:Latin",
-          "label": "inh",
-          "to": "queso:Old Spanish"
+          "from": "queso:Spanish",
+          "label": "der",
+          "to": "keso:Swedish"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "keso:Waray-Waray"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kesò:Guerrero Amuzgo"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kešu:Rayón Zoque"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kiso:Maranao"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kiso:Sambali"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kisu:Quechua"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "der",
+          "to": "kàsuʼúna:Taos"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "ques:Zoogocho Zapotec"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "quiexo:Tetelcingo Nahuatl"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "der",
+          "to": "quiiz:Seri"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "quéexiu:Huichol"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "ᎨᏒ:Cherokee"
         },
         {
           "from": "queso:Old Spanish",
           "label": "inh",
-          "to": "cāseum:Latin"
+          "to": "kézo:Ladino"
         },
         {
           "from": "caséine:French",
@@ -1555,11 +1470,6 @@
           "to": "caséine:French"
         },
         {
-          "from": "casein:English",
-          "label": "bor",
-          "to": "caséine:French"
-        },
-        {
           "from": "Síes:Saterland Frisian",
           "label": "cog",
           "to": "Käse:German"
@@ -1568,66 +1478,121 @@
           "from": "Síes:Saterland Frisian",
           "label": "cog",
           "to": "tsiis:West Frisian"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "queixo:Galician"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "cacio:Italian"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "caș:Romanian"
+        },
+        {
+          "from": "queijo:Portuguese",
+          "label": "cog",
+          "to": "cheese:English"
+        },
+        {
+          "from": "Kaes:Pennsylvania German",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "Kaes:Pennsylvania German",
+          "label": "cog",
+          "to": "kaas:Dutch"
+        },
+        {
+          "from": "Kaes:Pennsylvania German",
+          "label": "cog",
+          "to": "cheese:English"
+        },
+        {
+          "from": "Kaes:Pennsylvania German",
+          "label": "cog",
+          "to": "tsiis:West Frisian"
+        },
+        {
+          "from": "kas:Mòcheno",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "kas:Mòcheno",
+          "label": "cog",
+          "to": "cheese:English"
+        },
+        {
+          "from": "khéeze:Cimbrian",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "khéeze:Cimbrian",
+          "label": "cog",
+          "to": "cheese:English"
+        },
+        {
+          "from": "קעז:Yiddish",
+          "label": "cog",
+          "to": "Käse:German"
+        },
+        {
+          "from": "קעז:Yiddish",
+          "label": "cog",
+          "to": "kaas:Dutch"
+        },
+        {
+          "from": "קעז:Yiddish",
+          "label": "cog",
+          "to": "cheese:English"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "cog",
+          "to": "keso:Old Leonese"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "cog",
+          "to": "queso:Old Spanish"
+        },
+        {
+          "from": "queixhu:Fala",
+          "label": "cog",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "queixo:Galician",
+          "label": "cog",
+          "to": "queijo:Portuguese"
+        },
+        {
+          "from": "queixo:Galician",
+          "label": "cog",
+          "to": "queso:Spanish"
+        },
+        {
+          "from": "queixu:Fala",
+          "label": "cog",
+          "to": "queijo:Portuguese"
         },
         {
           "from": "queso:Old Spanish",
           "label": "cog",
           "to": "keso:Old Leonese"
-        },
-        {
-          "from": "kas:Mòcheno",
-          "label": "cog",
-          "to": "Käse:German"
-        },
-        {
-          "from": "kas:Mòcheno",
-          "label": "cog",
-          "to": "cheese:English"
-        },
-        {
-          "from": "קעז:Yiddish",
-          "label": "cog",
-          "to": "Käse:German"
-        },
-        {
-          "from": "קעז:Yiddish",
-          "label": "cog",
-          "to": "kaas:Dutch"
-        },
-        {
-          "from": "קעז:Yiddish",
-          "label": "cog",
-          "to": "cheese:English"
-        },
-        {
-          "from": "Kaes:Pennsylvania German",
-          "label": "cog",
-          "to": "Käse:German"
-        },
-        {
-          "from": "Kaes:Pennsylvania German",
-          "label": "cog",
-          "to": "kaas:Dutch"
-        },
-        {
-          "from": "Kaes:Pennsylvania German",
-          "label": "cog",
-          "to": "cheese:English"
-        },
-        {
-          "from": "Kaes:Pennsylvania German",
-          "label": "cog",
-          "to": "tsiis:West Frisian"
-        },
-        {
-          "from": "khéeze:Cimbrian",
-          "label": "cog",
-          "to": "Käse:German"
-        },
-        {
-          "from": "khéeze:Cimbrian",
-          "label": "cog",
-          "to": "cheese:English"
         }
       ],
       "nodes": [
@@ -1667,6 +1632,48 @@
           "uncertainty": null
         },
         {
+          "id": "chiz:Abenaki",
+          "label": "chiz",
+          "language": "Abenaki",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "chizi:Shona",
+          "label": "chizi",
+          "language": "Shona",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "cihs:Mohegan-Pequot",
+          "label": "cihs",
+          "language": "Mohegan-Pequot",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "itshizi:Xhosa",
+          "label": "itshizi",
+          "language": "Xhosa",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "jiij:Marshallese",
+          "label": "jiij",
+          "language": "Marshallese",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "jiss:Somali",
+          "label": "jiss",
+          "language": "Somali",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
           "id": "sis:Tok Pisin",
           "label": "sis",
           "language": "Tok Pisin",
@@ -1688,16 +1695,30 @@
           "uncertainty": null
         },
         {
-          "id": "chizi:Shona",
-          "label": "chizi",
-          "language": "Shona",
+          "id": "tsís:Mohawk",
+          "label": "tsís",
+          "language": "Mohawk",
           "level": 1,
           "uncertainty": null
         },
         {
-          "id": "치즈:Korean",
-          "label": "치즈",
-          "language": "Korean",
+          "id": "ushizi:Zulu",
+          "label": "ushizi",
+          "language": "Zulu",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "čidᶻ:Lushootseed",
+          "label": "čidᶻ",
+          "language": "Lushootseed",
+          "level": 1,
+          "uncertainty": null
+        },
+        {
+          "id": "吉士:Chinese",
+          "label": "吉士",
+          "language": "Chinese",
           "level": 1,
           "uncertainty": null
         },
@@ -1705,20 +1726,6 @@
           "id": "芝士:Chinese",
           "label": "芝士",
           "language": "Chinese",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "jiss:Somali",
-          "label": "jiss",
-          "language": "Somali",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "cihs:Mohegan-Pequot",
-          "label": "cihs",
-          "language": "Mohegan-Pequot",
           "level": 1,
           "uncertainty": null
         },
@@ -1737,51 +1744,9 @@
           "uncertainty": null
         },
         {
-          "id": "chiz:Abenaki",
-          "label": "chiz",
-          "language": "Abenaki",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "吉士:Chinese",
-          "label": "吉士",
-          "language": "Chinese",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "itshizi:Xhosa",
-          "label": "itshizi",
-          "language": "Xhosa",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "ushizi:Zulu",
-          "label": "ushizi",
-          "language": "Zulu",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "jiij:Marshallese",
-          "label": "jiij",
-          "language": "Marshallese",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "tsís:Mohawk",
-          "label": "tsís",
-          "language": "Mohawk",
-          "level": 1,
-          "uncertainty": null
-        },
-        {
-          "id": "čidᶻ:Lushootseed",
-          "label": "čidᶻ",
-          "language": "Lushootseed",
+          "id": "치즈:Korean",
+          "label": "치즈",
+          "language": "Korean",
           "level": 1,
           "uncertainty": null
         },
@@ -1800,6 +1765,13 @@
           "uncertainty": null
         },
         {
+          "id": "ciese:Old English",
+          "label": "ciese",
+          "language": "Old English",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
           "id": "kæsa:Icelandic",
           "label": "kæsa",
           "language": "Icelandic",
@@ -1807,10 +1779,24 @@
           "uncertainty": null
         },
         {
-          "id": "ciese:Old English",
-          "label": "ciese",
-          "language": "Old English",
-          "level": -2,
+          "id": "cacio:Italian",
+          "label": "cacio",
+          "language": "Italian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "caciu:Sicilian",
+          "label": "caciu",
+          "language": "Sicilian",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "caseo:Interlingua",
+          "label": "caseo",
+          "language": "Interlingua",
+          "level": -3,
           "uncertainty": null
         },
         {
@@ -1835,13 +1821,6 @@
           "uncertainty": null
         },
         {
-          "id": "keso:Tagalog",
-          "label": "keso",
-          "language": "Tagalog",
-          "level": -3,
-          "uncertainty": null
-        },
-        {
           "id": "caso:Neapolitan",
           "label": "caso",
           "language": "Neapolitan",
@@ -1863,80 +1842,10 @@
           "uncertainty": null
         },
         {
-          "id": "kisu:Tausug",
-          "label": "kisu",
-          "language": "Tausug",
+          "id": "caș:Romanian",
+          "label": "caș",
+          "language": "Romanian",
           "level": -3,
-          "uncertainty": null
-        },
-        {
-          "id": "cacio:Italian",
-          "label": "cacio",
-          "language": "Italian",
-          "level": -3,
-          "uncertainty": null
-        },
-        {
-          "id": "queijo:Old Galician-Portuguese",
-          "label": "queijo",
-          "language": "Old Galician-Portuguese",
-          "level": -3,
-          "uncertainty": null
-        },
-        {
-          "id": "queixo:Galician",
-          "label": "queixo",
-          "language": "Galician",
-          "level": -2,
-          "uncertainty": null
-        },
-        {
-          "id": "queijo:Portuguese",
-          "label": "queijo",
-          "language": "Portuguese",
-          "level": -2,
-          "uncertainty": null
-        },
-        {
-          "id": "keju:Malay",
-          "label": "keju",
-          "language": "Malay",
-          "level": -1,
-          "uncertainty": null
-        },
-        {
-          "id": "keiju:Tetum",
-          "label": "keiju",
-          "language": "Tetum",
-          "level": -1,
-          "uncertainty": null
-        },
-        {
-          "id": "kiju:Sundanese",
-          "label": "kiju",
-          "language": "Sundanese",
-          "level": -1,
-          "uncertainty": null
-        },
-        {
-          "id": "kiju:Tausug",
-          "label": "kiju",
-          "language": "Tausug",
-          "level": -1,
-          "uncertainty": null
-        },
-        {
-          "id": "queixhu:Fala",
-          "label": "queixhu",
-          "language": "Fala",
-          "level": -2,
-          "uncertainty": null
-        },
-        {
-          "id": "queixu:Fala",
-          "label": "queixu",
-          "language": "Fala",
-          "level": -2,
           "uncertainty": null
         },
         {
@@ -1947,23 +1856,16 @@
           "uncertainty": null
         },
         {
-          "id": "caseo:Interlingua",
-          "label": "caseo",
-          "language": "Interlingua",
-          "level": -3,
-          "uncertainty": null
-        },
-        {
-          "id": "caș:Romanian",
-          "label": "caș",
-          "language": "Romanian",
-          "level": -3,
-          "uncertainty": null
-        },
-        {
           "id": "kazeina:Polish",
           "label": "kazeina",
           "language": "Polish",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "keso:Tagalog",
+          "label": "keso",
+          "language": "Tagalog",
           "level": -3,
           "uncertainty": null
         },
@@ -2017,13 +1919,6 @@
           "uncertainty": null
         },
         {
-          "id": "queso:Spanish",
-          "label": "queso",
-          "language": "Spanish",
-          "level": -3,
-          "uncertainty": null
-        },
-        {
           "id": "queso:an,es",
           "label": "queso",
           "language": "an,es",
@@ -2031,23 +1926,16 @@
           "uncertainty": null
         },
         {
-          "id": "keso:Cebuano",
-          "label": "keso",
-          "language": "Cebuano",
+          "id": "queijo:Portuguese",
+          "label": "queijo",
+          "language": "Portuguese",
           "level": -3,
           "uncertainty": null
         },
         {
-          "id": "keso:Old Leonese",
-          "label": "keso",
-          "language": "Old Leonese",
-          "level": -3,
-          "uncertainty": null
-        },
-        {
-          "id": "queso:Old Spanish",
+          "id": "queso:Spanish",
           "label": "queso",
-          "language": "Old Spanish",
+          "language": "Spanish",
           "level": -3,
           "uncertainty": null
         },
@@ -2157,41 +2045,6 @@
           "uncertainty": null
         },
         {
-          "id": "Kies:Central Franconian",
-          "label": "Kies",
-          "language": "Central Franconian",
-          "level": 0,
-          "uncertainty": null
-        },
-        {
-          "id": "kas:Mòcheno",
-          "label": "kas",
-          "language": "Mòcheno",
-          "level": 0,
-          "uncertainty": null
-        },
-        {
-          "id": "קעז:Yiddish",
-          "label": "קעז",
-          "language": "Yiddish",
-          "level": 0,
-          "uncertainty": null
-        },
-        {
-          "id": "Kéis:Luxembourgish",
-          "label": "Kéis",
-          "language": "Luxembourgish",
-          "level": 0,
-          "uncertainty": null
-        },
-        {
-          "id": "kȳz:Vilamovian",
-          "label": "kȳz",
-          "language": "Vilamovian",
-          "level": 0,
-          "uncertainty": null
-        },
-        {
           "id": "Chääs:Alemannic German",
           "label": "Chääs",
           "language": "Alemannic German",
@@ -2206,9 +2059,16 @@
           "uncertainty": null
         },
         {
-          "id": "khéeze:Cimbrian",
-          "label": "khéeze",
-          "language": "Cimbrian",
+          "id": "Kies:Central Franconian",
+          "label": "Kies",
+          "language": "Central Franconian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Kéis:Luxembourgish",
+          "label": "Kéis",
+          "language": "Luxembourgish",
           "level": 0,
           "uncertainty": null
         },
@@ -2227,6 +2087,48 @@
           "uncertainty": null
         },
         {
+          "id": "kas:Mòcheno",
+          "label": "kas",
+          "language": "Mòcheno",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "khéeze:Cimbrian",
+          "label": "khéeze",
+          "language": "Cimbrian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "kȳz:Vilamovian",
+          "label": "kȳz",
+          "language": "Vilamovian",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "קעז:Yiddish",
+          "label": "קעז",
+          "language": "Yiddish",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "Kaas:Bavarian",
+          "label": "Kaas",
+          "language": "Bavarian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "ckaas:Bavarian",
+          "label": "ckaas",
+          "language": "Bavarian",
+          "level": -1,
+          "uncertainty": null
+        },
+        {
           "id": "kase:Bavarian",
           "label": "kase",
           "language": "Bavarian",
@@ -2241,13 +2143,6 @@
           "uncertainty": null
         },
         {
-          "id": "khes:Cimbrian",
-          "label": "khes",
-          "language": "Cimbrian",
-          "level": -1,
-          "uncertainty": null
-        },
-        {
           "id": "khase:Bavarian",
           "label": "khase",
           "language": "Bavarian",
@@ -2255,17 +2150,101 @@
           "uncertainty": null
         },
         {
-          "id": "ckaas:Bavarian",
-          "label": "ckaas",
-          "language": "Bavarian",
+          "id": "khes:Cimbrian",
+          "label": "khes",
+          "language": "Cimbrian",
           "level": -1,
           "uncertainty": null
         },
         {
-          "id": "Kaas:Bavarian",
-          "label": "Kaas",
-          "language": "Bavarian",
+          "id": "queijo:Old Galician-Portuguese",
+          "label": "queijo",
+          "language": "Old Galician-Portuguese",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "keiju:Tetum",
+          "label": "keiju",
+          "language": "Tetum",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "keju:Malay",
+          "label": "keju",
+          "language": "Malay",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "keju:Indonesian",
+          "label": "keju",
+          "language": "Indonesian",
           "level": -1,
+          "uncertainty": null
+        },
+        {
+          "id": "kiju:Sundanese",
+          "label": "kiju",
+          "language": "Sundanese",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "kiju:Tausug",
+          "label": "kiju",
+          "language": "Tausug",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "queixhu:Fala",
+          "label": "queixhu",
+          "language": "Fala",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "queixo:Galician",
+          "label": "queixo",
+          "language": "Galician",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "queixu:Fala",
+          "label": "queixu",
+          "language": "Fala",
+          "level": -3,
+          "uncertainty": null
+        },
+        {
+          "id": "queso:Old Spanish",
+          "label": "queso",
+          "language": "Old Spanish",
+          "level": -4,
+          "uncertainty": null
+        },
+        {
+          "id": "géeso:Navajo",
+          "label": "géeso",
+          "language": "Navajo",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "géésu:Jemez",
+          "label": "géésu",
+          "language": "Jemez",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "keso:Cebuano",
+          "label": "keso",
+          "language": "Cebuano",
+          "level": -2,
           "uncertainty": null
         },
         {
@@ -2290,9 +2269,9 @@
           "uncertainty": null
         },
         {
-          "id": "quiiz:Seri",
-          "label": "quiiz",
-          "language": "Seri",
+          "id": "kešu:Rayón Zoque",
+          "label": "kešu",
+          "language": "Rayón Zoque",
           "level": -2,
           "uncertainty": null
         },
@@ -2318,30 +2297,9 @@
           "uncertainty": null
         },
         {
-          "id": "kešu:Rayón Zoque",
-          "label": "kešu",
-          "language": "Rayón Zoque",
-          "level": -2,
-          "uncertainty": null
-        },
-        {
           "id": "kàsuʼúna:Taos",
           "label": "kàsuʼúna",
           "language": "Taos",
-          "level": -2,
-          "uncertainty": null
-        },
-        {
-          "id": "géeso:Navajo",
-          "label": "géeso",
-          "language": "Navajo",
-          "level": -2,
-          "uncertainty": null
-        },
-        {
-          "id": "géésu:Jemez",
-          "label": "géésu",
-          "language": "Jemez",
           "level": -2,
           "uncertainty": null
         },
@@ -2356,6 +2314,13 @@
           "id": "quiexo:Tetelcingo Nahuatl",
           "label": "quiexo",
           "language": "Tetelcingo Nahuatl",
+          "level": -2,
+          "uncertainty": null
+        },
+        {
+          "id": "quiiz:Seri",
+          "label": "quiiz",
+          "language": "Seri",
           "level": -2,
           "uncertainty": null
         },
@@ -2381,9 +2346,9 @@
           "uncertainty": null
         },
         {
-          "id": "cāseum:Latin",
-          "label": "cāseum",
-          "language": "Latin",
+          "id": "keso:Old Leonese",
+          "label": "keso",
+          "language": "Old Leonese",
           "level": -4,
           "uncertainty": null
         }
