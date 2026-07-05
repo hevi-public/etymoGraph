@@ -3,6 +3,18 @@
 from typing import Any
 
 import pytest
+from app.services import lang_cache
+
+
+@pytest.fixture(autouse=True)
+def _reset_lang_cache():
+    """lang_cache is a module-global cache by explicit design (SPC-00020); reset it
+    around every test so no test depends on load order or a prior test's state."""
+    lang_cache._code_to_name.clear()
+    lang_cache._name_to_code.clear()
+    yield
+    lang_cache._code_to_name.clear()
+    lang_cache._name_to_code.clear()
 
 
 @pytest.fixture
