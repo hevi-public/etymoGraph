@@ -172,19 +172,29 @@ fa2, engine). No endpoints yet — `/tree`/`/concept-map` are still byte-identic
 cache collection, nginx unbuffering config, then Phase 3+4 frontend integration.
 
 **Recent**:
+- SPC-00021 follow-ups merged (2026-07-05): two background tasks spawned from the Phase 0+1 work
+  landed as separate PRs (#14, #15) and were reunified onto this branch. #14 fixes the
+  `find_descendants` reverse-edge bug described below (ancestor→descendant direction restored,
+  matching `_build_ancestor_chain`); #15 adds a merge-preserving mode to
+  `collect_wiktionary_examples.py` (no longer clobbers hand-curated `known_gaps`/notes on
+  `--force`) and regenerates all 11 fixtures incorporating both fixes. `docs/FEATURES.md`'s
+  now-obsolete "duplicate reverse edges" limitation entry was removed. While resolving a stale
+  review note on `chemistry.json`, found and separately flagged another gap: `ANCESTRY_TYPES`
+  doesn't recognize `"derived"` as an alias of `"der"`, so some words' ancestor chains (chemistry's
+  Latin/Arabic/Greek ancestry, specifically) are invisible to `/chain` even though the compound-edge
+  path (`/tree`'s `component` edges) already works correctly.
 - SPC-00021 Phase 0+1 (2026-07-05): `find_descendants` deterministic sort (fixture regen deferred —
   the collector script clobbers hand-curated `known_gaps`/notes on `--force`, needs a
-  merge-preserving mode first); SPC-00020 Steps 1–3 DI seam (lifespan Motor client + Depends);
-  `FakeWordsCollection` + real TreeBuilder tests; JS layout goldens
+  merge-preserving mode first — since fixed, see above); SPC-00020 Steps 1–3 DI seam (lifespan
+  Motor client + Depends); `FakeWordsCollection` + real TreeBuilder tests; JS layout goldens
   (`frontend/tests/layout-goldens.test.js`, fixed two latent Vitest/jsdom harness bugs along the
   way — missing `localStorage`, silently-dropped `eval()`-scope globals); the full numpy layout
   engine with formulas pinned directly from vis-network's own source (not just its options docs).
   Cupboard-scale (940 nodes) solves in ~1.3s, within budget, after reformulating the O(n²)
   repulsion as a BLAS matmul (the first cut missed the 1.5s budget by 4x). Found and separately
-  flagged (not fixed in this pass): a pre-existing bug where `find_descendants` adds
+  flagged (fixed above in #14): a pre-existing bug where `find_descendants` adds
   ancestor/descendant edges in the reverse direction from `_build_ancestor_chain`, producing
-  duplicate reverse edges in most multi-hop etymology chains — see `docs/FEATURES.md` Known
-  Limitations #10.
+  duplicate reverse edges in most multi-hop etymology chains.
 - SPC-00021 (2026-07-04, approved): move graph layout from vis.js client physics to a backend
   numpy solver streaming states over SSE; frontend tweens between frames with physics disabled;
   client physics kept as `layoutMode=client` fallback. Modifies SPC-00004/00002; pulls SPC-00014's

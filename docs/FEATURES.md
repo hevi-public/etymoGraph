@@ -659,8 +659,6 @@ make test       # Run pytest
 
 9. **Rapid back/forward**: The popstate handler does not debounce, so rapid back/forward button presses may trigger multiple concurrent API calls. Each resolves independently but intermediate states may flash briefly.
 
-10. **Duplicate reverse edges in multi-hop etymology chains**: `TreeBuilder.find_descendants` adds ancestor/descendant edges in the opposite direction from `_build_ancestor_chain`/`/api/etymology/{word}/chain`, so a searched word's own document, when it also satisfies its immediate parent's descendant query (which happens for essentially every multi-level `inh`/`bor`/`der` chain), produces a second edge in the reverse direction. Confirmed live in `tests/fixtures/wiktionary/cheese.json`: at least 13 of 164 `tree_inh_bor_der_cog` edges are reverse-duplicates of another edge already present. Found while writing SPC-00021 Phase 0 tests; not yet fixed (tracked separately, out of scope for that pass).
-
 ---
 
 *Stack: MongoDB + FastAPI + vis.js + Docker Compose*
