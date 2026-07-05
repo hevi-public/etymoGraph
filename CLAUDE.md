@@ -192,6 +192,22 @@ then the numpy layout engine.
 - `docs/CODING_STANDARDS.md` — Python and JavaScript coding standards with enforcement details.
 - `specs/` — Feature specifications. **Read below for conventions.**
 
+## Claude Code Skills (`.claude/skills/`)
+
+Project-local skills, auto-loaded by Claude Code. Consult the matching skill **before** working in
+its area. The four testing/stack skills are adapted from the HAIP project (hevi-public/haip) for
+this Python/FastAPI/Motor + vanilla-JS stack:
+
+- `bdd-tiered-testing` — the testing philosophy: tiers, the single IO seam, discovery mode,
+  log-as-contract, de-flaking. Companion to SPC-00020. Read before writing any test.
+- `fastapi-acceptance-bdd` — hermetic acceptance wiring (httpx ASGITransport, dependency_overrides,
+  seeded fakes, SSE contract tests, rail tests) + the Playwright E2E layer.
+- `mongodb-motor-data` — the Mongo/Motor layer: seam/DI, query gotchas (sort-before-limit,
+  collation, projections), indexes, bounded recursion, precompute-collection pattern, test-DB tiers.
+- `vanilla-js-frontend` — no-build-step frontend conventions: script load order, pure-core/DOM-glue
+  split, Vitest eval harness, stable test hooks, asset pinning, SSE/Worker patterns.
+- `vis-docs` — vis.js Network & DataSet API reference for the graph views.
+
 ## Specs
 
 Every feature or significant change must have a spec before implementation. Specs live in `specs/` as numbered folders.
