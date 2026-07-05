@@ -434,9 +434,9 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 
 ---
 
-### 16. Server-Side Layout Engine (SPC-00021 Phase 0–1, not yet wired to any endpoint)
+### 16. Server-Side Layout Engine (SPC-00021 Phase 0–2)
 
-A Python/numpy port of the client-side layout engine, built so far as a standalone package with no HTTP surface — `/api/etymology/{word}/tree` and `/api/concept-map` are unaffected and remain byte-identical. This lays the groundwork for streaming server-computed positions over SSE (Phase 2+), replacing the client-side physics jank on large graphs.
+A Python/numpy port of the client-side layout engine, now exposed over additive HTTP endpoints that stream server-computed positions via Server-Sent Events. `/api/etymology/{word}/tree` and `/api/concept-map` are unaffected and remain byte-identical — all layout features ship on new `.../layout` and `.../layout/stream` endpoints. Frontend integration (the `layoutMode` flag, tweening, filter re-solve) is Phase 3+ and not yet wired, so the browser still uses client-side physics today.
 
 **What exists:**
 - `backend/app/services/layout/families.py` — language-family classification and era-tier machinery (`classify_lang`, `get_era_tier`, family-cluster X positions, era-layered invisible intra-family springs), golden-tested against `frontend/public/js/graph.js`.
@@ -448,9 +448,39 @@ A Python/numpy port of the client-side layout engine, built so far as a standalo
 
 **Performance:** a synthetic cupboard-scale graph (940 nodes) solves in ~1.3s for force-directed, ~2.2s for era-layered — within the spec's budget.
 
-**Determinism:** seeded RNG (sha256 of the sorted node-id set + algorithm version) makes repeated solves of the same graph bit-identical — required for shareable links and caching in later phases.
+**Determinism:** seeded RNG (sha256 of the sorted node-id set + algorithm version) makes repeated solves of the same graph bit-identical — required for shareable links and the cache below.
 
-**Not yet built:** the SSE streaming endpoints, the `layouts` cache collection, and all frontend integration (the `layoutMode` flag, tweening, filter re-solve). See `specs/00021-server-side-layout-streaming/spec.md` §10 for the phase plan.
+**Endpoints (Phase 2):** four additive endpoints, each mounted under `/api`:
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /api/etymology/{word}/tree/layout` | Settled positions in one response: `{nodes, edges, positions, meta}`. Same params as `/tree` plus `layout=force-directed\|era-layered`; nodes carry additive `family`/`tier`. Snapshot / curl / cache-warming surface. |
+| `GET /api/etymology/{word}/tree/layout/stream` | The UI's single request: SSE stream of the solve. |
+| `GET /api/concept-map/layout` | Settled concept-map layout. Takes `concepts=` (comma-separated — the server replicates the client's multi-concept merge/dedupe), `pos`, `threshold`, `include_etymology_edges`. |
+| `GET /api/concept-map/layout/stream` | SSE stream of the concept-map solve; the `graph` event carries populated `phonetic_edges` (computed server-side, no Web Worker). |
+
+**SSE protocol** (`text/event-stream`):
+
+```
+event: graph   data: {nodes/words, edges, meta:{layout, algo_version, node_count, edge_count, cache:"hit"|"miss"}}
+event: frame   data: {i, t_ms, positions: {"word:Lang":[x,y], …}}   # full positions, ~5–15 per solve
+event: final   data: frame shape + {converged, iterations, solve_ms, algo_version}   # always emitted (incl. cache hit, then 0 frames)
+event: error   data: {message}                                      # on solve failure, then close
+: ping                                                              # heartbeat every 15s
+```
+
+The first event carries the full graph (same shape `/tree`/`/concept-map` return, plus the additive fields). Topology is built on the event loop via Motor; the numpy solve runs in a thread and pushes throttled frames through an `asyncio.Queue` (frames droppable/latest-wins, `final` never dropped). A client disconnect cancels the solve. Positions are rounded to 1 dp, so the streamed `final` and the plain-GET response are byte-for-byte identical for the same request.
+
+**Cache:** solved layouts are written through to a Mongo `layouts` collection, keyed by a sha256 of the canonical request (including `algo_version`). A stored fingerprint of the *built graph* — its node-id set **and** its position-affecting edges (etymology edge endpoints; for concept maps the phonetic-similarity values derived from `dolgo_*` fields) — is re-validated on read, so a data reload that changes the graph self-invalidates a stale layout; an `algo_version` bump orphans all old entries. Concept requests are solved in a request-order-independent order, so `concepts=fire,water` and `concepts=water,fire` share one cache entry and one deterministic layout. Cache writes are best-effort (a failure logs at WARN, never fails the request).
+
+**nginx:** the `/api/` proxy block sets `proxy_http_version 1.1`, clears the `Connection` header, and raises `proxy_read_timeout` so SSE frames flow incrementally. Buffering stays on for normal endpoints; the backend opts a single response out per-request via `X-Accel-Buffering: no`.
+
+**Known limitations:**
+- The overlap-avoidance radius is estimated from label length (`clamp(12 + 3.5·len, 20, 60)`) — the server can't measure rendered node boxes, so overlap is approximate vs. the client.
+- Final layouts differ somewhat from vis.js despite matching constants and seeds; the acceptance bar is visual equivalence, not positional equality (spec §11).
+- 940-node graphs solve well within budget but do not always reach `minVelocity` within the iteration cap; positions at the cap are still a good layout. Barnes-Hut repulsion for the 1500+ regime is a deferred follow-up behind the `repulsion_fn` seam.
+
+**Not yet built:** frontend integration — the `layoutMode` flag, rAF tweening between frames, filter re-solve, and the `client`→`server` default flip (Phases 3–5). See `specs/00021-server-side-layout-streaming/spec.md` §10 for the phase plan.
 
 ---
 
@@ -465,6 +495,10 @@ A Python/numpy port of the client-side layout engine, built so far as a standalo
 | `GET /api/search?q=wine&limit=20` | Prefix search, deduplicated by word |
 | `GET /api/concept-map?concept=fire&pos=noun` | Concept map with phonetic similarity edges, etymology edges, and clusters |
 | `GET /api/concepts/suggest?q=fi&limit=10` | Concept autocomplete (English entries with translations) |
+| `GET /api/etymology/{word}/tree/layout?types=inh&layout=force-directed` | Server-solved etymology layout: `{nodes, edges, positions, meta}` (SPC-00021) |
+| `GET /api/etymology/{word}/tree/layout/stream?types=inh` | SSE stream of the etymology layout solve (`graph`→`frame*`→`final`) |
+| `GET /api/concept-map/layout?concepts=fire,water&threshold=0.3` | Server-solved concept-map layout with populated phonetic edges |
+| `GET /api/concept-map/layout/stream?concepts=fire` | SSE stream of the concept-map layout solve |
 | `GET /docs` | Swagger UI (auto-generated) |
 
 ---

@@ -102,6 +102,19 @@ _FORCE_DIRECTED_SEED_SCALE = 0.35
 _CONCEPT_SEED_SCALE = 0.30
 
 
+def iteration_budget(layout: str) -> int:
+    """Return the solver's iteration cap for a layout.
+
+    The SSE layer derives its frame cadence from this (spec §7: emit roughly
+    every ``ceil(budget / 12)`` iterations) so it stays correct if a layout's
+    cap changes.
+    """
+    if layout not in _LAYOUT_PARAMS:
+        msg = f"Unknown layout {layout!r}, expected one of {LAYOUTS}"
+        raise ValueError(msg)
+    return _LAYOUT_PARAMS[layout].max_iterations
+
+
 @dataclass
 class FrameState:
     """Shaped to match the future SSE `frame`/`final` event payloads."""
