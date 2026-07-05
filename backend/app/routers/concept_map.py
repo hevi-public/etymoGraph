@@ -16,6 +16,37 @@ from app.services.template_parser import COGNATE_TYPE, node_id
 router = APIRouter()
 
 
+async def resolve_concept_words(
+    col: AsyncIOMotorCollection,
+    concept: str,
+    pos: str | None,
+    include_etymology_edges: bool,
+) -> dict | None:
+    """Resolve one concept to its word set, intra-concept etymology edges, and
+    Turchin clusters.
+
+    Returns ``None`` when the concept has no words with phonetic data — the
+    ``/concept-map`` endpoint turns that into a 404; the SPC-00021 multi-concept
+    layout endpoint skips it and merges the rest. Extracted from the endpoint so
+    both callers share one resolution path (``/concept-map`` stays
+    byte-identical).
+    """
+    docs, resolution_method = await resolve_concept(col, concept, pos)
+    if not docs:
+        return None
+
+    words = [format_word_for_response(doc) for doc in docs]
+    clusters = build_clusters(words)
+    etymology_edges = _extract_etymology_edges(docs, words) if include_etymology_edges else []
+
+    return {
+        "resolution_method": resolution_method,
+        "words": words,
+        "etymology_edges": etymology_edges,
+        "clusters": clusters,
+    }
+
+
 @router.get("/concept-map")
 async def get_concept_map(
     concept: str = Query(..., description="The concept to map (e.g. 'fire')"),
@@ -26,32 +57,22 @@ async def get_concept_map(
     col: AsyncIOMotorCollection = Depends(get_words_collection),
 ) -> dict:
     """Build a concept map with phonetic similarity edges for a given concept."""
-    docs, resolution_method = await resolve_concept(col, concept, pos)
+    resolved = await resolve_concept_words(col, concept, pos, include_etymology_edges)
 
-    if not docs:
+    if resolved is None:
         raise HTTPException(
             status_code=404,
             detail=f"No words with phonetic data found for concept '{concept}'",
         )
 
-    words = [format_word_for_response(doc) for doc in docs]
-
-    # Turchin clusters
-    clusters = build_clusters(words)
-
-    # Etymology edges between concept map words
-    etymology_edges = []
-    if include_etymology_edges:
-        etymology_edges = _extract_etymology_edges(docs, words)
-
     return {
         "concept": concept,
-        "resolution_method": resolution_method,
-        "word_count": len(words),
-        "words": words,
+        "resolution_method": resolved["resolution_method"],
+        "word_count": len(resolved["words"]),
+        "words": resolved["words"],
         "phonetic_edges": [],  # computed client-side in Web Worker
-        "etymology_edges": etymology_edges,
-        "clusters": clusters,
+        "etymology_edges": resolved["etymology_edges"],
+        "clusters": resolved["clusters"],
     }
 
 

@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import create_mongo_client
-from app.routers import concept_map, etymology, search, words
+from app.routers import concept_map, etymology, layout, search, words
 
 
 @asynccontextmanager
@@ -30,6 +30,7 @@ app.include_router(words.router, prefix="/api")
 app.include_router(etymology.router, prefix="/api")
 app.include_router(search.router, prefix="/api")
 app.include_router(concept_map.router, prefix="/api")
+app.include_router(layout.router, prefix="/api")
 
 
 @app.get("/health")

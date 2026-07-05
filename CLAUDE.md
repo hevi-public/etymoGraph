@@ -164,14 +164,27 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: Core product complete (vis.js etymology graph + phonetic concept map); roadmap drafted
-**Last completed**: SPC-00021 Phase 0 + Phase 1 (see `specs/00021-server-side-layout-streaming/spec.md`
-§10) — determinism fix, test groundwork (JS goldens, `FakeWordsCollection`, DI seam), and the full
-numpy layout engine (`backend/app/services/layout/`: families, edge_params, phonetic_numpy, seed,
-fa2, engine). No endpoints yet — `/tree`/`/concept-map` are still byte-identical.
-**Next task**: SPC-00021 Phase 2 — SSE endpoints (`backend/app/routers/layout.py`), the `layouts`
-cache collection, nginx unbuffering config, then Phase 3+4 frontend integration.
+**Last completed**: SPC-00021 Phase 2 (see `specs/00021-server-side-layout-streaming/spec.md` §7) —
+the SSE layout endpoints (`backend/app/routers/layout.py`: 4 additive endpoints, plain-GET +
+stream × etymology/concept), the hand-rolled SSE formatter (`services/sse.py`), the `layouts`
+write-through cache (`services/layout_cache.py`, canonical sha256 key + node-id-hash
+invalidation), nginx SSE unbuffering, and the tiered tests (Tier 0 sse/cache, acceptance event
+contract + `final==GET` parity + cache hit/zero-frames + unknown-word + concept merge + disconnect
+cancellation, live characterization). `/tree`/`/chain` verified byte-identical; `/concept-map`
+behavior-identical (its byte order is pre-existing Mongo natural-order nondeterminism). Verified
+live against the 10.4M-doc DB: `fire` (271 nodes) streams graph→frames→final cold, graph→final
+zero-frames warm.
+**Next task**: SPC-00021 Phase 3+4 — frontend integration (`frontend/public/js/layout-stream.js`,
+`layoutMode` flag, rAF tweening, filter re-solve, E2E), then Phase 5 flip default to `server`.
 
 **Recent**:
+- SPC-00021 Phase 2 (2026-07-05): endpoints + SSE + `layouts` cache + nginx + acceptance/
+  characterization tests. Refactored `etymology.py`/`concept_map.py` to extract shared
+  `build_tree`/`resolve_concept_words` so the layout endpoints reuse the exact topology path (no
+  drift). Extended `FakeWordsCollection` with `$or`/`$ne`/`$regex` + `replace_one` for concept
+  acceptance + cache tests; added the missing `concept_resolver._concept_cache` autouse reset.
+  Backend suite: 117 pass (the 2 `slow` perf-budget tests are hardware-sensitive and flake on
+  slow/BLAS-less numpy — unrelated to Phase 2).
 - SPC-00021 follow-ups merged (2026-07-05): two background tasks spawned from the Phase 0+1 work
   landed as separate PRs (#14, #15) and were reunified onto this branch. #14 fixes the
   `find_descendants` reverse-edge bug described below (ancestor→descendant direction restored,

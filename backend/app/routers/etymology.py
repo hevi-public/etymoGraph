@@ -67,17 +67,22 @@ async def get_etymology_chain(
     return {"nodes": list(nodes.values()), "edges": edges}
 
 
-@router.get("/etymology/{word}/tree")
-async def get_etymology_tree(
+async def build_tree(
+    col: AsyncIOMotorCollection,
     word: str,
-    lang: str = "English",
-    max_ancestor_depth: int = 10,
-    max_descendant_depth: int = Query(3, ge=1, le=5),
-    types: str = Query("inh", description="Comma-separated connection types: inh,bor,der,cog"),
-    etym: int | None = None,
-    col: AsyncIOMotorCollection = Depends(get_words_collection),
-):
-    """Build a full tree: trace up to the root, then find all descendants at each level."""
+    lang: str,
+    max_ancestor_depth: int,
+    max_descendant_depth: int,
+    types: str,
+    etym: int | None,
+) -> dict:
+    """Build the etymology tree graph: trace up to the root, then find all
+    descendants at each level.
+
+    Extracted from the ``/tree`` endpoint so the SPC-00021 layout endpoints
+    build identical, deterministic topology from the exact same code path (the
+    ``/tree`` response stays byte-identical — this is a pure move).
+    """
     await lang_cache.ensure_loaded(col)
 
     requested_types = set(types.split(",")) if types.strip() else set()
@@ -95,3 +100,19 @@ async def get_etymology_tree(
         await builder.expand_cognates()
 
     return builder.result()
+
+
+@router.get("/etymology/{word}/tree")
+async def get_etymology_tree(
+    word: str,
+    lang: str = "English",
+    max_ancestor_depth: int = 10,
+    max_descendant_depth: int = Query(3, ge=1, le=5),
+    types: str = Query("inh", description="Comma-separated connection types: inh,bor,der,cog"),
+    etym: int | None = None,
+    col: AsyncIOMotorCollection = Depends(get_words_collection),
+):
+    """Build a full tree: trace up to the root, then find all descendants at each level."""
+    return await build_tree(
+        col, word, lang, max_ancestor_depth, max_descendant_depth, types, etym
+    )

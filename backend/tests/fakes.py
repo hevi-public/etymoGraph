@@ -13,6 +13,7 @@ against real Mongo (not yet added in this pass).
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 
@@ -26,29 +27,60 @@ def _get_path(doc: dict, path: str) -> Any:
     return value
 
 
-def _matches_condition(value: Any, condition: Any) -> bool:
-    if isinstance(condition, dict) and "$in" in condition:
-        return value in condition["$in"]
-    return value == condition
+def _op_regex(value: Any, operand: Any, condition: dict) -> bool:
+    flags = re.IGNORECASE if "i" in condition.get("$options", "") else 0
+    return isinstance(value, str) and re.search(operand, value, flags) is not None
+
+
+def _op_elem_match(value: Any, operand: Any, _condition: dict) -> bool:
+    elems = value if isinstance(value, list) else []
+    return any(_matches_elem_match(elem, operand) for elem in elems)
+
+
+# Operators the services actually issue; each returns whether the value matches.
+_OPERATORS = {
+    "$in": lambda value, operand, _cond: value in operand,
+    "$ne": lambda value, operand, _cond: value != operand,
+    "$exists": lambda value, operand, _cond: (value is not None) == operand,
+    "$regex": _op_regex,
+    "$elemMatch": _op_elem_match,
+}
+
+
+def _matches_field(value: Any, condition: Any) -> bool:
+    """Match one field value against a condition: scalar equality, or an
+    operator dict ($in/$ne/$exists/$regex/$elemMatch).
+
+    Unknown operators fall back to whole-dict equality, so a query using an
+    operator the fake doesn't model fails loudly in a test rather than silently
+    matching everything.
+    """
+    if not isinstance(condition, dict):
+        return value == condition
+    for op, operand in condition.items():
+        if op == "$options":
+            continue  # consumed alongside $regex
+        handler = _OPERATORS.get(op)
+        if handler is None:
+            return value == condition
+        if not handler(value, operand, condition):
+            return False
+    return True
 
 
 def _matches_elem_match(elem: Any, conditions: dict) -> bool:
     if not isinstance(elem, dict):
         return False
-    return all(_matches_condition(_get_path(elem, key), cond) for key, cond in conditions.items())
+    return all(_matches_field(_get_path(elem, key), cond) for key, cond in conditions.items())
 
 
 def _matches_filter(doc: dict, filt: dict) -> bool:
     for key, condition in filt.items():
-        if isinstance(condition, dict) and "$elemMatch" in condition:
-            elems = _get_path(doc, key) or []
-            if not any(_matches_elem_match(elem, condition["$elemMatch"]) for elem in elems):
+        if key == "$or":
+            if not any(_matches_filter(doc, sub) for sub in condition):
                 return False
-        elif isinstance(condition, dict) and "$exists" in condition:
-            exists = _get_path(doc, key) is not None
-            if exists != condition["$exists"]:
-                return False
-        elif _get_path(doc, key) != condition:
+            continue
+        if not _matches_field(_get_path(doc, key), condition):
             return False
     return True
 
@@ -120,6 +152,20 @@ class FakeCollection:
     def find(self, filt: dict, projection: dict | None = None) -> FakeCursor:
         matched = [_project(doc, projection) for doc in self._docs if _matches_filter(doc, filt)]
         return FakeCursor(matched)
+
+    async def replace_one(self, filt: dict, replacement: dict, upsert: bool = False) -> None:
+        """Replace the first matching doc, or insert on upsert.
+
+        Enough of Motor's replace_one for the SPC-00021 layouts write-through
+        cache (keyed by ``{"_id": ...}``); return value is unused by callers so
+        it is omitted.
+        """
+        for idx, doc in enumerate(self._docs):
+            if _matches_filter(doc, filt):
+                self._docs[idx] = dict(replacement)
+                return
+        if upsert:
+            self._docs.append(dict(replacement))
 
 
 class FakeDatabase:
