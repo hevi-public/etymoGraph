@@ -178,6 +178,15 @@ zero-frames warm.
 `layoutMode` flag, rAF tweening, filter re-solve, E2E), then Phase 5 flip default to `server`.
 
 **Recent**:
+- fix (2026-07-05): closed the `"derived"`-alias gap flagged below. `ANCESTRY_TYPES` didn't
+  recognize Wiktionary's spelled-out `derived` template as an alias of `der` (same relationship,
+  just not abbreviated — confirmed via Wiktionary's own template docs), so chemistry's
+  Latin/Arabic/Greek ancestry stayed invisible to `/chain` and to `/tree`'s descendant search.
+  Added `ANCESTRY_TYPE_ALIASES`/`expand_ancestry_types()` in template_parser.py (mirrors the
+  existing `suf`/`suffix` pattern); wired into `TreeBuilder.find_descendants`'s Mongo query and
+  `etymology_classifier`'s ancestry-exclusion set. `chemistry.json`'s `system_output.chain` and the
+  ancestor-chain portion of `tree_inh_bor_der_cog` are regenerated; further descendant/compound
+  fan-out from the newly-visible ancestor nodes still needs a live-stack fixture regen to confirm.
 - SPC-00021 Phase 2 (2026-07-05): endpoints + SSE + `layouts` cache + nginx + acceptance/
   characterization tests. Refactored `etymology.py`/`concept_map.py` to extract shared
   `build_tree`/`resolve_concept_words` so the layout endpoints reuse the exact topology path (no

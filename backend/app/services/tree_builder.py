@@ -3,6 +3,7 @@
 from app.services import lang_cache
 from app.services.etymology_classifier import classify_etymology, extract_word_mentions
 from app.services.template_parser import (
+    expand_ancestry_types,
     extract_ancestry,
     extract_cognates,
     node_id,
@@ -206,7 +207,7 @@ class TreeBuilder:
                 {
                     "etymology_templates": {
                         "$elemMatch": {
-                            "name": {"$in": list(self.allowed_types)},
+                            "name": {"$in": list(expand_ancestry_types(self.allowed_types))},
                             "args.2": lc,
                             "args.3": word,
                         }

@@ -4,6 +4,7 @@ import re
 from dataclasses import dataclass
 
 from app.services import lang_cache
+from app.services.template_parser import ANCESTRY_TYPES, expand_ancestry_types
 
 # --- Uncertainty detection constants ---
 
@@ -56,8 +57,10 @@ AFFIX_TEMPLATES = {
     "blend",
 }
 
-# Ancestry templates (for exclusion from mentions)
-ANCESTRY_TEMPLATES = {"inh", "bor", "der"}
+# Ancestry templates (for exclusion from mentions). Includes Kaikki's raw
+# template-name aliases (e.g. "derived" for "der") so a word already counted
+# as an ancestor isn't also double-counted as a mention.
+ANCESTRY_TEMPLATES = expand_ancestry_types(ANCESTRY_TYPES)
 
 
 @dataclass

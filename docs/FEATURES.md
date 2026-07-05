@@ -69,7 +69,7 @@ Checkboxes in the Filters popover (click "Filters ▾" button in header):
 |------|---------|---------|
 | `inh` (Inherited) | Direct ancestor in the same language lineage | Checked |
 | `bor` (Borrowed) | Loanword from another language | Checked |
-| `der` (Derived) | General derivation | Checked |
+| `der` (Derived) | General derivation (incl. `derived` full-name alias) | Checked |
 | `cog` (Cognate) | Related word from the same root in another language | Checked |
 
 Changing the filter re-fetches the tree immediately. Borrowed edges are shown with dashed lines. Cognate edges are shown with gold dashed lines.
