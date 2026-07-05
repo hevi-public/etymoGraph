@@ -164,12 +164,27 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: Core product complete (vis.js etymology graph + phonetic concept map); roadmap drafted
-**Last completed**: SPC-00021 spec approved (server-side graph layout + SSE streaming)
-**Next task**: Implement SPC-00021 phase by phase (see `specs/00021-server-side-layout-streaming/spec.md`
-§10) — starts with the `find_descendants` determinism fix + fixture regen, then test groundwork,
-then the numpy layout engine.
+**Last completed**: SPC-00021 Phase 0 + Phase 1 (see `specs/00021-server-side-layout-streaming/spec.md`
+§10) — determinism fix, test groundwork (JS goldens, `FakeWordsCollection`, DI seam), and the full
+numpy layout engine (`backend/app/services/layout/`: families, edge_params, phonetic_numpy, seed,
+fa2, engine). No endpoints yet — `/tree`/`/concept-map` are still byte-identical.
+**Next task**: SPC-00021 Phase 2 — SSE endpoints (`backend/app/routers/layout.py`), the `layouts`
+cache collection, nginx unbuffering config, then Phase 3+4 frontend integration.
 
 **Recent**:
+- SPC-00021 Phase 0+1 (2026-07-05): `find_descendants` deterministic sort (fixture regen deferred —
+  the collector script clobbers hand-curated `known_gaps`/notes on `--force`, needs a
+  merge-preserving mode first); SPC-00020 Steps 1–3 DI seam (lifespan Motor client + Depends);
+  `FakeWordsCollection` + real TreeBuilder tests; JS layout goldens
+  (`frontend/tests/layout-goldens.test.js`, fixed two latent Vitest/jsdom harness bugs along the
+  way — missing `localStorage`, silently-dropped `eval()`-scope globals); the full numpy layout
+  engine with formulas pinned directly from vis-network's own source (not just its options docs).
+  Cupboard-scale (940 nodes) solves in ~1.3s, within budget, after reformulating the O(n²)
+  repulsion as a BLAS matmul (the first cut missed the 1.5s budget by 4x). Found and separately
+  flagged (not fixed in this pass): a pre-existing bug where `find_descendants` adds
+  ancestor/descendant edges in the reverse direction from `_build_ancestor_chain`, producing
+  duplicate reverse edges in most multi-hop etymology chains — see `docs/FEATURES.md` Known
+  Limitations #10.
 - SPC-00021 (2026-07-04, approved): move graph layout from vis.js client physics to a backend
   numpy solver streaming states over SSE; frontend tweens between frames with physics disabled;
   client physics kept as `layoutMode=client` fallback. Modifies SPC-00004/00002; pulls SPC-00014's

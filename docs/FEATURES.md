@@ -434,6 +434,26 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 
 ---
 
+### 16. Server-Side Layout Engine (SPC-00021 Phase 0–1, not yet wired to any endpoint)
+
+A Python/numpy port of the client-side layout engine, built so far as a standalone package with no HTTP surface — `/api/etymology/{word}/tree` and `/api/concept-map` are unaffected and remain byte-identical. This lays the groundwork for streaming server-computed positions over SSE (Phase 2+), replacing the client-side physics jank on large graphs.
+
+**What exists:**
+- `backend/app/services/layout/families.py` — language-family classification and era-tier machinery (`classify_lang`, `get_era_tier`, family-cluster X positions, era-layered invisible intra-family springs), golden-tested against `frontend/public/js/graph.js`.
+- `backend/app/services/layout/edge_params.py` — degree-based per-edge length/springConstant for both the etymology graph and the concept map, golden-tested against `graph.js`/`concept-map.js`.
+- `backend/app/services/layout/phonetic_numpy.py` — a numpy-vectorized twin of `phonetic_similarity.build_similarity_edges`, exact-equality-tested against it.
+- `backend/app/services/layout/seed.py` — the BFS/radial/linear tree-position seeding engine (`compute_tree_positions`), ported line-for-line from `graph.js`'s `computeTreePositions`, including the barycentric refinement pass.
+- `backend/app/services/layout/fa2.py` — the numeric force solver. Formulas pinned directly from vis-network's own source (not just its public options docs): asymmetric degree-weighted repulsion, distance-independent central gravity, Newton's-third-law springs, semi-implicit Euler integration. Exact O(n²) pairwise repulsion (not vis's Barnes-Hut tree), vectorized via BLAS matmul for speed.
+- `backend/app/services/layout/engine.py` — orchestration wiring the above into one `solve(layout, nodes, edges, ...)` entry point per layout (`force-directed`, `era-layered`, `concept`), yielding a position frame per solver iteration.
+
+**Performance:** a synthetic cupboard-scale graph (940 nodes) solves in ~1.3s for force-directed, ~2.2s for era-layered — within the spec's budget.
+
+**Determinism:** seeded RNG (sha256 of the sorted node-id set + algorithm version) makes repeated solves of the same graph bit-identical — required for shareable links and caching in later phases.
+
+**Not yet built:** the SSE streaming endpoints, the `layouts` cache collection, and all frontend integration (the `layoutMode` flag, tweening, filter re-solve). See `specs/00021-server-side-layout-streaming/spec.md` §10 for the phase plan.
+
+---
+
 ## API Endpoints
 
 | Endpoint | Description |
@@ -638,6 +658,8 @@ make test       # Run pytest
 8. **Pairwise similarity is O(N^2)**: Runs in a Web Worker off the main thread. For ~350 words (~61K pairs), computation takes ~60ms in the browser and does not block the UI. Nodes render immediately; edges fade in when the worker finishes.
 
 9. **Rapid back/forward**: The popstate handler does not debounce, so rapid back/forward button presses may trigger multiple concurrent API calls. Each resolves independently but intermediate states may flash briefly.
+
+10. **Duplicate reverse edges in multi-hop etymology chains**: `TreeBuilder.find_descendants` adds ancestor/descendant edges in the opposite direction from `_build_ancestor_chain`/`/api/etymology/{word}/chain`, so a searched word's own document, when it also satisfies its immediate parent's descendant query (which happens for essentially every multi-level `inh`/`bor`/`der` chain), produces a second edge in the reverse direction. Confirmed live in `tests/fixtures/wiktionary/cheese.json`: at least 13 of 164 `tree_inh_bor_der_cog` edges are reverse-duplicates of another edge already present. Found while writing SPC-00021 Phase 0 tests; not yet fixed (tracked separately, out of scope for that pass).
 
 ---
 
