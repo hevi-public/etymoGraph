@@ -88,6 +88,13 @@ Each fixture's `quirks_covered` field references one or more of these. See `spec
 
 ## Regenerating fixtures
 
+By default, re-collecting an already-committed word **preserves** its hand-curated
+review content — `known_gaps`, `wiktionary_reference`, and `meta.notes` are carried
+over verbatim from the existing file. Only `system_output`, `raw_kaikki`,
+`meta.collected_at`, and `meta.etymograph_git_sha` are refreshed. This lets you
+pick up system/data drift (e.g. a determinism fix in the tree builder) via `--force`
+without re-doing the human cross-check pass.
+
 ```bash
 # Preconditions: make run, and Mongo populated (make load).
 pip install pymongo
@@ -95,13 +102,19 @@ pip install pymongo
 # Collect all configured words (writes only missing files):
 make collect-fixtures
 
-# Overwrite existing fixtures:
+# Overwrite existing fixtures, preserving known_gaps/wiktionary_reference/meta.notes:
 python scripts/collect_wiktionary_examples.py --all --force
 
 # Re-collect one word:
 python scripts/collect_wiktionary_examples.py --word dog --force
 
-# Drift check (no writes; exit 1 if any fixture differs ignoring timestamp):
+# Discard the existing review content and regenerate it heuristically from scratch
+# (e.g. when a fixture is being redone entirely, not just refreshed):
+python scripts/collect_wiktionary_examples.py --word dog --force --reset-review
+
+# Drift check (no writes; exit 1 if any fixture differs ignoring timestamp).
+# Also respects the preserve-by-default merge, so drift reflects only
+# system/data changes, not review-content noise:
 python scripts/collect_wiktionary_examples.py --all --diff
 
 # Override defaults (e.g., when Mongo or backend is on a non-default port):
@@ -113,7 +126,8 @@ python scripts/collect_wiktionary_examples.py --all
 
 ## Human cross-check workflow
 
-After regeneration, **before committing**:
+For a **new** fixture (no existing file, or collected with `--reset-review`),
+**before committing**:
 
 1. Open each fixture's `meta.wiktionary_url` (use WebSearch — sandbox blocks direct WebFetch).
 2. Read the Etymology section. Fill `wiktionary_reference.etymology_section_text_excerpt` with the first 1–3 sentences.
@@ -121,6 +135,14 @@ After regeneration, **before committing**:
 4. For words with `Q1` (disjunctive origins), fill `wiktionary_reference.alternative_theories` with each "perhaps from..." / "possibly..." branch.
 5. Review the heuristic flags in `known_gaps`. Adjust where the heuristic guessed wrong. Add free-form `notes`.
 6. Commit.
+
+For a **refresh** of an existing fixture (the common case — picking up a system-side
+fix or data drift), the review content above carries over automatically. Instead:
+
+1. Run `--diff` first and read the reported drift.
+2. Check whether any `known_gaps` flag is now stale given the new `system_output`
+   (e.g. a gap that used to be `true` may now be closed) — update it by hand if so.
+3. Commit with a message noting what drove the regen (e.g. the fix's spec/commit).
 
 The follow-up integration-test PR will then assert:
 - `system_output` matches the committed snapshot byte-for-byte (regression guard).
