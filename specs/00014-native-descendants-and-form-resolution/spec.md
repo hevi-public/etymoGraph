@@ -5,7 +5,7 @@
 | **Status** | draft |
 | **Created** | 2026-06-27 |
 | **Modifies** | SPC-00011 (changes descendant discovery + normalization), SPC-00012 (descendant edge sourcing) |
-| **Modified-by** | SPC-00020 (test architecture: tiering, single Mongo seam, shared fixtures) |
+| **Modified-by** | SPC-00020 (test architecture: tiering, single Mongo seam, shared fixtures); SPC-00021 (pulls the R3 deterministic-cap slice forward as an interim alphabetical sort-before-limit; out-degree ranking remains here) |
 
 ## Problem
 

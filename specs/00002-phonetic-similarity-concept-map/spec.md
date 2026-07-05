@@ -5,7 +5,7 @@
 | **Status** | implemented |
 | **Created** | 2026-02-07 |
 | **Modifies** | — |
-| **Modified-by** | SPC-00003 (adds URL routing for concept map state) |
+| **Modified-by** | SPC-00003 (adds URL routing for concept map state); SPC-00021 (concept map layout computed server-side with SSE streaming; phonetic edges move from the browser Web Worker to the backend, Worker retained as client-mode fallback) |
 
 ---
 

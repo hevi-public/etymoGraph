@@ -5,7 +5,7 @@
 | **Status** | implemented |
 | **Created** | 2026-02-10 |
 | **Modifies** | — |
-| **Modified-by** | Reverted concept-map.js changes (smooth, minVelocity, improvedLayout, physics freeze) — these optimizations were scoped to graph.js per constraint 12 but were incorrectly also applied to concept-map.js, causing edges to become invisible |
+| **Modified-by** | Reverted concept-map.js changes (smooth, minVelocity, improvedLayout, physics freeze) — these optimizations were scoped to graph.js per constraint 12 but were incorrectly also applied to concept-map.js, causing edges to become invisible; SPC-00021 (supersedes the client-physics premise and constraint 12 — layout moves to the backend with SSE streaming; R1–R4 rendering mitigations survive, R5/R7 physics behavior becomes the client-mode fallback) |
 
 ---
 
