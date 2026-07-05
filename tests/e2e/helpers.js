@@ -22,6 +22,14 @@ export async function waitForConceptMap(page, timeout = 15000) {
     );
 }
 
+/** Wait until a server-mode layout stream has applied its terminal `final` frame. */
+export async function waitForFinalFrame(page, timeout = 15000) {
+    await page.waitForFunction(
+        () => window.__lastLayoutFinal !== undefined && window.__lastLayoutFinal !== null,
+        { timeout }
+    );
+}
+
 /** Return the number of nodes in the etymology graph. */
 export async function getNodeCount(page) {
     return await page.evaluate(() => {

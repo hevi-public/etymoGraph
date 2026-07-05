@@ -3,7 +3,9 @@
    searchWords, selectNodeById,
    getConceptMap, getConceptSuggestions, updateConceptMap, updateConceptEdges,
    destroyConceptMap, currentSimilarityThreshold,
-   router
+   router,
+   getLayoutMode, openLayoutStream, closeLayoutStream, applyLayoutFrame,
+   applyConceptLayoutFrame, buildEtymologyLayoutStreamURL, buildConceptLayoutStreamURL
 */
 
 let currentWord = "wine";
@@ -43,8 +45,18 @@ async function selectWord(word, lang, skipRoute = false, etym = null) {
     currentWord = word;
     currentLang = lang;
     currentEtym = etym;
+    const types = getSelectedTypes();
+
+    // Server mode (SPC-00021): one SSE request streams graph → frames → final.
+    if (getLayoutMode() === "server") {
+        loadEtymologyServer(word, lang, types, etym);
+        if (!skipRoute) {
+            router.push({ view: "etymology", word, lang, etym: etym || "" });
+        }
+        return;
+    }
+
     try {
-        const types = getSelectedTypes();
         const data = await getEtymologyTree(word, lang, types, etym);
         if (data.nodes.length === 0) {
             data.nodes = [{ id: `${word}:${lang}`, label: word, language: lang, level: 0 }];
@@ -58,10 +70,54 @@ async function selectWord(word, lang, skipRoute = false, etym = null) {
     }
 }
 
+/** Ensure a non-empty node set so an unknown word still renders one orphan node. */
+function ensureOrphanNode(nodes, word, lang) {
+    return (nodes && nodes.length)
+        ? nodes
+        : [{ id: `${word}:${lang}`, label: word, language: lang, level: 0 }];
+}
+
+/**
+ * Server-mode etymology load: open the layout stream, build the graph from the
+ * first `graph` event (physics off), tween each frame, and settle on `final`.
+ * Any stream error or first-graph timeout falls back to today's client path.
+ */
+function loadEtymologyServer(word, lang, types, etym) {
+    const url = buildEtymologyLayoutStreamURL(word, lang, types, currentLayout, etym);
+    window.__lastLayoutFinal = null;  // reset the E2E "final applied" hook per request
+    openLayoutStream(url, {
+        onGraph: (g) => {
+            updateGraph(
+                { nodes: ensureOrphanNode(g.nodes, word, lang), edges: g.edges || [] },
+                { serverMode: true }
+            );
+        },
+        onFrame: (f) => applyLayoutFrame(f.positions, { final: false }),
+        onFinal: (f) => {
+            applyLayoutFrame(f.positions, { final: true });
+            window.__lastLayoutFinal = f;
+        },
+        onError: () => loadEtymologyClientFallback(word, lang, types, etym),
+    });
+}
+
+/** Fallback: today's exact client path (fetch /tree + client physics). */
+async function loadEtymologyClientFallback(word, lang, types, etym) {
+    try {
+        const data = await getEtymologyTree(word, lang, types, etym);
+        data.nodes = ensureOrphanNode(data.nodes, word, lang);
+        updateGraph(data, { serverMode: false });
+    } catch (e) {
+        console.error("Failed to load etymology (fallback):", e);
+    }
+}
+
 // --- View switching ---
 
 function switchView(view, skipRoute = false) {
     if (view === activeView) return;
+    // Cancel any in-flight layout stream from the view we're leaving.
+    if (typeof closeLayoutStream === "function") closeLayoutStream();
     activeView = view;
 
     const etymControls = document.getElementById("etymology-controls");
@@ -163,41 +219,61 @@ function buildConceptColorMap() {
     return map;
 }
 
+/** Merge per-concept API results: dedupe words by id (tagging membership),
+ *  dedupe etymology edges by endpoint pair. Mirrors the server-side merge. */
+function mergeConceptResults(results) {
+    const mergedWords = new Map();
+    const mergedEtymEdges = [];
+    const seenEdges = new Set();
+    for (let i = 0; i < results.length; i++) {
+        const data = results[i];
+        const conceptName = activeConcepts[i].concept;
+        for (const w of data.words) {
+            if (mergedWords.has(w.id)) {
+                mergedWords.get(w.id)._concepts.push(conceptName);
+            } else {
+                mergedWords.set(w.id, { ...w, _concepts: [conceptName] });
+            }
+        }
+        for (const e of (data.etymology_edges || [])) {
+            const key = [e.source, e.target].sort().join("|");
+            if (!seenEdges.has(key)) {
+                seenEdges.add(key);
+                mergedEtymEdges.push(e);
+            }
+        }
+    }
+    return {
+        words: Array.from(mergedWords.values()),
+        etymology_edges: mergedEtymEdges,
+        _conceptColorMap: buildConceptColorMap(),
+    };
+}
+
 async function reloadConceptMap(skipRoute = false) {
     if (activeConcepts.length === 0) return;
     const pos = getSelectedPos();
+
+    // Server mode (SPC-00021): one SSE request handles the multi-concept merge,
+    // phonetic edges, and solve. The legend/route are the same in both modes.
+    if (getLayoutMode() === "server") {
+        loadConceptServer(pos);
+        updateConceptLegend();
+        if (!skipRoute) {
+            router.push({
+                view: "concept",
+                concepts: activeConcepts.map((c) => c.concept).join(","),
+                pos: pos || "",
+            });
+        }
+        return;
+    }
+
     try {
         const results = await Promise.all(
             activeConcepts.map((c) => getConceptMap(c.concept, pos || null))
         );
-        // Merge: deduplicate words by ID, tag with concept membership
-        const mergedWords = new Map();
-        const mergedEtymEdges = [];
-        const seenEdges = new Set();
-        for (let i = 0; i < results.length; i++) {
-            const data = results[i];
-            const conceptName = activeConcepts[i].concept;
-            for (const w of data.words) {
-                if (mergedWords.has(w.id)) {
-                    mergedWords.get(w.id)._concepts.push(conceptName);
-                } else {
-                    mergedWords.set(w.id, { ...w, _concepts: [conceptName] });
-                }
-            }
-            for (const e of (data.etymology_edges || [])) {
-                const key = [e.source, e.target].sort().join("|");
-                if (!seenEdges.has(key)) {
-                    seenEdges.add(key);
-                    mergedEtymEdges.push(e);
-                }
-            }
-        }
-        const mergedData = {
-            words: Array.from(mergedWords.values()),
-            etymology_edges: mergedEtymEdges,
-            _conceptColorMap: buildConceptColorMap(),
-        };
-        updateConceptMap(mergedData);
+        updateConceptMap(mergeConceptResults(results));
         updateConceptLegend();
         if (!skipRoute) {
             router.push({
@@ -208,6 +284,53 @@ async function reloadConceptMap(skipRoute = false) {
         }
     } catch (e) {
         console.error("Failed to load concept map:", e);
+    }
+}
+
+/**
+ * Server-mode concept load: stream `/concept-map/layout` for the joined concept
+ * list at the current threshold/pos/etym-edges. The `graph` event carries the
+ * merged words + precomputed phonetic edges; frames tween in. Errors fall back
+ * to the per-concept client merge + worker path.
+ */
+function loadConceptServer(pos) {
+    const concepts = activeConcepts.map((c) => c.concept).join(",");
+    const includeEtym = document.getElementById("show-etymology-edges").checked;
+    const url = buildConceptLayoutStreamURL(concepts, {
+        pos: pos || null,
+        threshold: currentSimilarityThreshold,
+        includeEtymologyEdges: includeEtym,
+    });
+    window.__lastLayoutFinal = null;  // reset the E2E "final applied" hook per request
+    openLayoutStream(url, {
+        onGraph: (g) => {
+            updateConceptMap({
+                words: g.words || [],
+                etymology_edges: g.etymology_edges || [],
+                phonetic_edges: g.phonetic_edges || [],
+                clusters: g.clusters || [],
+                _conceptColorMap: buildConceptColorMap(),
+            }, { serverMode: true });
+        },
+        onFrame: (f) => applyConceptLayoutFrame(f.positions, { final: false }),
+        onFinal: (f) => {
+            applyConceptLayoutFrame(f.positions, { final: true });
+            window.__lastLayoutFinal = f;
+        },
+        onError: () => loadConceptClientFallback(pos),
+    });
+}
+
+/** Fallback: today's exact per-concept client merge + Web Worker path. */
+async function loadConceptClientFallback(pos) {
+    try {
+        const results = await Promise.all(
+            activeConcepts.map((c) => getConceptMap(c.concept, pos || null))
+        );
+        updateConceptMap(mergeConceptResults(results), { serverMode: false });
+        updateConceptLegend();
+    } catch (e) {
+        console.error("Failed to load concept map (fallback):", e);
     }
 }
 
@@ -363,18 +486,32 @@ document.addEventListener("click", (e) => {
 const similaritySlider = document.getElementById("similarity-slider");
 const similarityValue = document.getElementById("similarity-value");
 
+let similarityResolveTimer = null;
 similaritySlider.addEventListener("input", () => {
     const val = parseInt(similaritySlider.value) / 100;
     similarityValue.textContent = val.toFixed(2);
     currentSimilarityThreshold = val;
+    // Both modes filter the displayed edges instantly. Server mode additionally
+    // re-solves on the backend, debounced ~300 ms so a slider drag doesn't spam
+    // requests; the streamed frames then tween from the current positions.
     updateConceptEdges();
     router.replace({ similarity: parseInt(similaritySlider.value) });
+    if (getLayoutMode() === "server" && activeConcepts.length > 0) {
+        clearTimeout(similarityResolveTimer);
+        similarityResolveTimer = setTimeout(() => reloadConceptMap(true), 300);
+    }
 });
 
 // Etymology edges checkbox
 document.getElementById("show-etymology-edges").addEventListener("change", (e) => {
-    updateConceptEdges();
     router.replace({ etymEdges: e.target.checked });
+    // Toggling etym edges changes the solve inputs, so server mode re-solves;
+    // client mode just swaps the displayed edge set.
+    if (getLayoutMode() === "server" && activeConcepts.length > 0) {
+        reloadConceptMap(true);
+    } else {
+        updateConceptEdges();
+    }
 });
 
 // POS filter radio
@@ -450,6 +587,16 @@ router.onNavigate((state) => {
 
 // Capture original URL before router.initialize() modifies it via replaceState.
 const originalParams = new URLSearchParams(window.location.search);
+
+// The layout mode flag is not a view-scoped router param, so persist an explicit
+// ?layoutMode= into localStorage before the router normalizes the URL away.
+// getLayoutMode() then reads it (URL > localStorage > "client") and publishes
+// window.__layoutMode for E2E.
+const urlLayoutMode = originalParams.get("layoutMode");
+if (urlLayoutMode === "server" || urlLayoutMode === "client") {
+    try { localStorage.setItem("layoutMode", urlLayoutMode); } catch { /* private mode */ }
+}
+getLayoutMode();
 
 // Initialize router (parses URL, normalizes, attaches popstate listener)
 router.initialize();

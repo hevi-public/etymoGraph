@@ -47,7 +47,8 @@ etymo_graph/
 │   │       ├── graph.js     # vis.js graph, zoom, trackpad, detail panel
 │   │       ├── search.js    # Search autocomplete
 │   │       ├── concept-map.js # Concept map view
-│   │       └── api.js       # API client
+│   │       ├── api.js       # API client
+│   │       └── layout-stream.js # SSE layout-stream client + rAF tween (SPC-00021)
 │   └── tests/
 │       └── router.test.js   # Vitest unit tests for router.js
 ├── tests/
@@ -164,20 +165,31 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: Core product complete (vis.js etymology graph + phonetic concept map); roadmap drafted
-**Last completed**: SPC-00021 Phase 2 (see `specs/00021-server-side-layout-streaming/spec.md` §7) —
-the SSE layout endpoints (`backend/app/routers/layout.py`: 4 additive endpoints, plain-GET +
-stream × etymology/concept), the hand-rolled SSE formatter (`services/sse.py`), the `layouts`
-write-through cache (`services/layout_cache.py`, canonical sha256 key + node-id-hash
-invalidation), nginx SSE unbuffering, and the tiered tests (Tier 0 sse/cache, acceptance event
-contract + `final==GET` parity + cache hit/zero-frames + unknown-word + concept merge + disconnect
-cancellation, live characterization). `/tree`/`/chain` verified byte-identical; `/concept-map`
-behavior-identical (its byte order is pre-existing Mongo natural-order nondeterminism). Verified
-live against the 10.4M-doc DB: `fire` (271 nodes) streams graph→frames→final cold, graph→final
-zero-frames warm.
-**Next task**: SPC-00021 Phase 3+4 — frontend integration (`frontend/public/js/layout-stream.js`,
-`layoutMode` flag, rAF tweening, filter re-solve, E2E), then Phase 5 flip default to `server`.
+**Last completed**: SPC-00021 Phase 3+4 (see `specs/00021-server-side-layout-streaming/spec.md`
+§8–9) — frontend integration of the Phase 2 SSE endpoints, default-`client` (opt-in via
+`?layoutMode=server`). New `frontend/public/js/layout-stream.js` (singleton EventSource wrapper with
+first-`graph` timeout + no-reconnect-after-`final`; a pure, unit-tested rAF position tween);
+`graph.js`/`concept-map.js` gained a server-mode path (physics disabled at construction, client seed
+kept as frame-0, frames tweened, drag physics-off, concept map skips the Web Worker and takes
+phonetic edges from the `graph` event); `app.js` routes search + every filter through the stream
+with client-path fallback on error/timeout, and position continuity so re-solves morph; `index.html`
+pins `vis-network@9.1.9`. Tests: `frontend/tests/layout-stream.test.js` (17: flag precedence,
+interpolation math, tween frame application over a fake DataSet) + 2 server-mode option-construction
+tests in `graph-perf.test.js` (Vitest 62 pass); new `tests/e2e/server-layout.spec.js` +
+`waitForFinalFrame` helper; existing large-graph E2E pinned to `?layoutMode=client` so they keep
+covering the fallback architecture after the Phase 5 flip.
+**Next task**: SPC-00021 Phase 5 — flip the `layoutMode` default from `client` to `server` (one line)
+and record the before/after settle-time table (spec §10).
 
 **Recent**:
+- SPC-00021 Phase 3+4 (2026-07-05): frontend integration described above. Flag is read URL >
+  localStorage > default (`client`); it is intentionally NOT a view-scoped router param (that would
+  reset on view switch and break the router's `.toEqual` unit tests), so an explicit `?layoutMode=`
+  is persisted to localStorage on load to survive URL normalization. Known gap carried forward:
+  server-mode multi-concept nodes render with base language color (the server merge drops per-word
+  concept membership) — documented in `docs/FEATURES.md`. E2E requires the live stack, so this phase
+  was verified via lint (0 errors) + the full Vitest suite; browser-level assertions ship as
+  `server-layout.spec.js` for `make test-e2e`.
 - SPC-00021 Phase 2 (2026-07-05): endpoints + SSE + `layouts` cache + nginx + acceptance/
   characterization tests. Refactored `etymology.py`/`concept_map.py` to extract shared
   `build_tree`/`resolve_concept_words` so the layout endpoints reuse the exact topology path (no

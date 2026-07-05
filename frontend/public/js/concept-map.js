@@ -3,7 +3,9 @@
  * Sibling view to the etymology graph, sharing vis.js + language family colors.
  */
 
-/* global vis, classifyLang, langColor, showDetail, selectWord, switchView, LANG_FAMILIES, computeTreePositions, getTouchDistance, getTouchCenter */
+/* global vis, classifyLang, langColor, showDetail, selectWord, switchView, LANG_FAMILIES,
+   computeTreePositions, getTouchDistance, getTouchCenter,
+   getLayoutMode, createPositionTween, closeLayoutStream */
 
 let conceptNetwork = null;
 let conceptNodesDS = null;
@@ -16,6 +18,10 @@ let conceptColorMap = {};  // concept name → accent color
 let currentSimilarityThreshold = 1.0;
 let conceptLodActive = false;
 let similarityWorker = null;
+
+// --- Server-side layout streaming (SPC-00021 Phase 3+4) ---
+let conceptLayoutTween = null;         // active tween handle (server mode)
+const conceptDraggingIds = new Set();  // nodes the user currently owns
 
 const CONCEPT_LOD_THRESHOLD = 0.4;
 
@@ -46,8 +52,26 @@ function initConceptMap() {
     }
 }
 
-function updateConceptMap(data) {
+function updateConceptMap(data, opts) {
+    opts = opts || {};
+    // Server mode (SPC-00021): phonetic edges arrive precomputed in the `graph`
+    // SSE event (no Web Worker), positions stream in and are tweened, and the
+    // barnesHut solver stays disabled. `opts.serverMode` lets the fallback path
+    // force the client (worker + physics) path even when the flag says "server".
+    const serverMode = opts.serverMode !== undefined
+        ? opts.serverMode
+        : (typeof getLayoutMode === "function" && getLayoutMode() === "server");
+
+    // Capture the outgoing positions so a threshold/etym re-solve (same word set)
+    // morphs from where nodes already are instead of restarting from the seed.
+    let priorPositions = null;
+    if (serverMode && conceptNetwork) {
+        try { priorPositions = conceptNetwork.getPositions(); } catch { priorPositions = null; }
+    }
+
     initConceptMap();
+    if (conceptLayoutTween) { conceptLayoutTween.stop(); conceptLayoutTween = null; }
+    conceptDraggingIds.clear();
 
     // Deduplicate words by ID (same word+lang may appear with different POS)
     const seenIds = new Set();
@@ -61,7 +85,9 @@ function updateConceptMap(data) {
 
     conceptWords = uniqueWords;
     conceptColorMap = data._conceptColorMap || {};
-    allPhoneticEdges = [];  // populated async by Web Worker
+    // Client mode fills phonetic edges from the Web Worker; server mode receives
+    // them precomputed (all pairs ≥ the display floor) in the `graph` event.
+    allPhoneticEdges = serverMode ? (data.phonetic_edges || []) : [];
     allEtymologyEdges = data.etymology_edges || [];
 
     const hasMultipleConcepts = Object.keys(conceptColorMap).length > 1;
@@ -91,8 +117,13 @@ function updateConceptMap(data) {
         };
     });
 
-    // Render etymology edges immediately; phonetic edges arrive from worker
-    const visEdges = buildConceptEdges([], allEtymologyEdges);
+    // Client mode renders etymology edges first (phonetic arrive from the
+    // worker); server mode already has phonetic edges, so render them filtered
+    // to the current threshold.
+    const initialPhonetic = serverMode
+        ? filterPhoneticEdges(allPhoneticEdges, currentSimilarityThreshold)
+        : [];
+    const visEdges = buildConceptEdges(initialPhonetic, allEtymologyEdges);
 
     // Tree-based initial positioning: pick highest-degree node as center
     if (visEdges.length > 0) {
@@ -114,6 +145,14 @@ function updateConceptMap(data) {
                 const pos = positions[vn.id];
                 if (pos) { vn.x = (pos.x - cx) * scale; vn.y = (pos.y - cy) * scale; }
             }
+        }
+    }
+
+    // Server-mode continuity: surviving nodes keep their previous coordinates.
+    if (serverMode && priorPositions) {
+        for (const vn of visNodes) {
+            const prev = priorPositions[vn.id];
+            if (prev) { vn.x = prev.x; vn.y = prev.y; }
         }
     }
 
@@ -145,6 +184,7 @@ function updateConceptMap(data) {
             margin: 10,
         },
         physics: {
+            enabled: !serverMode,
             solver: "barnesHut",
             barnesHut: {
                 gravitationalConstant: -8000,
@@ -170,6 +210,27 @@ function updateConceptMap(data) {
         { nodes: conceptNodesDS, edges: conceptEdgesDS },
         options
     );
+
+    // Server mode: tween streamed frames; keep physics off (a threshold change
+    // re-solves on the backend rather than running the client barnesHut engine).
+    if (serverMode && typeof createPositionTween === "function") {
+        conceptLayoutTween = createPositionTween(conceptNodesDS, {
+            getSkip: () => conceptDraggingIds,
+        });
+        try { conceptLayoutTween.seedCurrent(conceptNetwork.getPositions()); } catch { /* fresh */ }
+        conceptNetwork.on("dragStart", (params) => {
+            if (params?.nodes) params.nodes.forEach((id) => conceptDraggingIds.add(id));
+        });
+        conceptNetwork.on("dragEnd", (params) => {
+            if (params?.nodes) {
+                // Re-sync the tween baseline to the dropped position (see graph.js).
+                if (conceptLayoutTween) {
+                    conceptLayoutTween.syncCurrent(conceptNetwork.getPositions(params.nodes));
+                }
+                params.nodes.forEach((id) => conceptDraggingIds.delete(id));
+            }
+        });
+    }
 
     // Show word count status
     const statusEl = document.getElementById("concept-status");
@@ -257,22 +318,41 @@ function updateConceptMap(data) {
         if (e.touches.length < 2) conceptTouchState = null;
     }, { passive: true });
 
-    // Spawn Web Worker for O(n^2) phonetic similarity (non-blocking)
-    if (similarityWorker) similarityWorker.terminate();
-    similarityWorker = new Worker("js/similarity-worker.js");
-    similarityWorker.onmessage = (msg) => {
-        allPhoneticEdges = msg.data.edges;
-        updateConceptEdges();
-        similarityWorker = null;
-    };
-    similarityWorker.postMessage({
-        words: uniqueWords.map((w) => ({
-            id: w.id,
-            dolgo_consonants: w.dolgo_consonants || "",
-            dolgo_first2: w.dolgo_first2 || "",
-        })),
-        threshold: 0.3,
-    });
+    // Client mode only: spawn the Web Worker for O(n^2) phonetic similarity
+    // (non-blocking). Server mode already has the edges from the `graph` event.
+    if (!serverMode) {
+        if (similarityWorker) similarityWorker.terminate();
+        similarityWorker = new Worker("js/similarity-worker.js");
+        similarityWorker.onmessage = (msg) => {
+            allPhoneticEdges = msg.data.edges;
+            updateConceptEdges();
+            similarityWorker = null;
+        };
+        similarityWorker.postMessage({
+            words: uniqueWords.map((w) => ({
+                id: w.id,
+                dolgo_consonants: w.dolgo_consonants || "",
+                dolgo_first2: w.dolgo_first2 || "",
+            })),
+            threshold: 0.3,
+        });
+    }
+}
+
+/**
+ * Apply a streamed concept-map layout frame in server mode by tweening node
+ * positions. No-op in client mode. Called by the app's stream glue.
+ * @param {Object<string, number[]>} positions id → [x, y] from an SSE frame
+ * @param {{final?: boolean}} [opts] final frames settle with a longer ease-out
+ */
+function applyConceptLayoutFrame(positions, opts) {
+    opts = opts || {};
+    if (!conceptLayoutTween || !positions) return;
+    if (opts.final) {
+        conceptLayoutTween.tweenTo(positions, { durationMs: 300, easing: "easeOut" });
+    } else {
+        conceptLayoutTween.tweenTo(positions, { durationMs: 150, easing: "linear" });
+    }
 }
 
 function handleConceptZoomLOD(scale) {
@@ -401,8 +481,12 @@ function updateConceptEdges() {
         };
     });
 
-    // Re-enable physics and stabilize so layout settles with new edges
-    if (conceptNetwork) {
+    // Client mode: re-enable physics and stabilize so the layout settles with
+    // the new edge set. Server mode filters edges client-side only (instant
+    // during a slider drag); a committed threshold change re-solves on the
+    // backend via the slider's release handler, not the client engine.
+    const serverMode = typeof getLayoutMode === "function" && getLayoutMode() === "server";
+    if (conceptNetwork && !serverMode) {
         conceptNetwork.setOptions({ physics: { enabled: true } });
         conceptNetwork.stabilize(100);
     }
@@ -531,6 +615,10 @@ function destroyConceptMap() {
         similarityWorker.terminate();
         similarityWorker = null;
     }
+    // Tear down any in-flight server-mode layout stream + tween.
+    if (typeof closeLayoutStream === "function") closeLayoutStream();
+    if (conceptLayoutTween) { conceptLayoutTween.stop(); conceptLayoutTween = null; }
+    conceptDraggingIds.clear();
     if (conceptNetwork) {
         conceptNetwork.destroy();
         conceptNetwork = null;
