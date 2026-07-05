@@ -8,8 +8,8 @@
     "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
-    "collected_at": "2026-07-05T11:34:07+00:00",
-    "etymograph_git_sha": "6a79a4cfe5f3fc19aa82c8f9281bb078d1bada00",
+    "collected_at": "2026-07-05T12:09:56+00:00",
+    "etymograph_git_sha": "b20fb70543be0382c0e45b7df4ef9d96817c01c6",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
     "notes": "Phase 2: System /chain is EMPTY despite Wiktionary clearly stating 'chemist + -ry'. Surprise finding: main SPC-00012 ALSO misses this — templates are `suf`/`derived` not `compound`/`suffix`, and SPC-00012 doesn't normalize those variants. So Q2 is OPEN at /tree too for chemistry. Doublet of alchemy not surfaced as edge.",
@@ -412,24 +412,24 @@
           "to": "chemistry:English"
         },
         {
-          "from": "chem:Chinese",
+          "from": "chemistry:English",
           "label": "der",
-          "to": "chemistry:English"
+          "to": "chem:Chinese"
         },
         {
-          "from": "kemistri:Cebuano",
+          "from": "chemistry:English",
           "label": "bor",
-          "to": "chemistry:English"
+          "to": "kemistri:Cebuano"
         },
         {
-          "from": "കെമിസ്ട്രി:Malayalam",
+          "from": "chemistry:English",
           "label": "bor",
-          "to": "chemistry:English"
+          "to": "കെമിസ്ട്രി:Malayalam"
         },
         {
-          "from": "케미:Korean",
+          "from": "chemistry:English",
           "label": "der",
-          "to": "chemistry:English"
+          "to": "케미:Korean"
         }
       ],
       "nodes": [

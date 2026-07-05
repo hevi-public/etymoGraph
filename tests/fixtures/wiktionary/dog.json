@@ -8,8 +8,8 @@
     "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
-    "collected_at": "2026-07-05T11:34:08+00:00",
-    "etymograph_git_sha": "6a79a4cfe5f3fc19aa82c8f9281bb078d1bada00",
+    "collected_at": "2026-07-05T12:09:57+00:00",
+    "etymograph_git_sha": "b20fb70543be0382c0e45b7df4ef9d96817c01c6",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
     "notes": "Phase 2: Classic Q1 case. Wiktionary lists THREE parallel hypotheses for docga. System surfaces only the 'dox' branch as a `der` edge. The other two (*dugan, *dokkā) appear only in prose. is_uncertain=true flag correctly set by classifier.",
@@ -1540,39 +1540,29 @@
           "to": "dogge:Middle English"
         },
         {
-          "from": "dog:Australian Kriol",
+          "from": "dog:English",
           "label": "inh",
-          "to": "dog:English"
-        },
-        {
-          "from": "dog:Bislama",
-          "label": "inh",
-          "to": "dog:English"
-        },
-        {
-          "from": "dog:Gullah",
-          "label": "inh",
-          "to": "dog:English"
-        },
-        {
-          "from": "dok:Tok Pisin",
-          "label": "inh",
-          "to": "dog:English"
+          "to": "dog:Australian Kriol"
         },
         {
           "from": "dog:English",
           "label": "inh",
-          "to": "dogge:Middle English"
+          "to": "dog:Bislama"
         },
         {
-          "from": "dug:Yola",
+          "from": "dog:English",
           "label": "inh",
-          "to": "dogge:Middle English"
+          "to": "dog:Gullah"
+        },
+        {
+          "from": "dog:English",
+          "label": "inh",
+          "to": "dok:Tok Pisin"
         },
         {
           "from": "dogge:Middle English",
           "label": "inh",
-          "to": "dogga:Old English"
+          "to": "dug:Yola"
         }
       ],
       "nodes": [
@@ -1657,129 +1647,119 @@
           "to": "dogga:Old English"
         },
         {
-          "from": "Dogge:German",
-          "label": "bor",
-          "to": "dog:English"
-        },
-        {
-          "from": "dogas:Lithuanian",
+          "from": "dog:English",
           "label": "bor",
           "to": "Dogge:German"
         },
         {
-          "from": "Kop@Inside-PalmForward 1o@Inside:American Sign Language",
-          "label": "der",
-          "to": "dog:English"
+          "from": "Dogge:German",
+          "label": "bor",
+          "to": "dogas:Lithuanian"
         },
         {
-          "from": "daag:Jamaican Creole",
+          "from": "dog:English",
           "label": "der",
-          "to": "dog:English"
+          "to": "Kop@Inside-PalmForward 1o@Inside:American Sign Language"
         },
         {
-          "from": "dagu:Sranan Tongo",
+          "from": "dog:English",
           "label": "der",
-          "to": "dog:English"
+          "to": "daag:Jamaican Creole"
         },
         {
-          "from": "dagoeblad:Dutch",
+          "from": "dog:English",
           "label": "der",
           "to": "dagu:Sranan Tongo"
         },
         {
-          "from": "dog:Australian Kriol",
-          "label": "inh",
-          "to": "dog:English"
-        },
-        {
-          "from": "dog:Bislama",
-          "label": "inh",
-          "to": "dog:English"
-        },
-        {
-          "from": "dog:Chinese",
+          "from": "dagu:Sranan Tongo",
           "label": "der",
-          "to": "dog:English"
-        },
-        {
-          "from": "dog:Gullah",
-          "label": "inh",
-          "to": "dog:English"
-        },
-        {
-          "from": "dog:Romanian",
-          "label": "der",
-          "to": "dog:English"
-        },
-        {
-          "from": "dog:Torres Strait Creole",
-          "label": "der",
-          "to": "dog:English"
-        },
-        {
-          "from": "dogg:Swedish",
-          "label": "bor",
-          "to": "dog:English"
-        },
-        {
-          "from": "doggi:Finnish",
-          "label": "bor",
-          "to": "dog:English"
-        },
-        {
-          "from": "dogo:Italian",
-          "label": "bor",
-          "to": "dog:English"
-        },
-        {
-          "from": "dogo:Esperanto",
-          "label": "bor",
-          "to": "dogo:Italian"
-        },
-        {
-          "from": "dok:Tok Pisin",
-          "label": "inh",
-          "to": "dog:English"
-        },
-        {
-          "from": "ドッグ:Japanese",
-          "label": "der",
-          "to": "dog:English"
+          "to": "dagoeblad:Dutch"
         },
         {
           "from": "dog:English",
           "label": "inh",
-          "to": "dogge:Middle English"
+          "to": "dog:Australian Kriol"
         },
         {
-          "from": "dog:Polish",
-          "label": "der",
-          "to": "dogge:Middle English"
-        },
-        {
-          "from": "dogge:English",
-          "label": "der",
-          "to": "dogge:Middle English"
-        },
-        {
-          "from": "dug:Yola",
+          "from": "dog:English",
           "label": "inh",
-          "to": "dogge:Middle English"
+          "to": "dog:Bislama"
+        },
+        {
+          "from": "dog:English",
+          "label": "der",
+          "to": "dog:Chinese"
+        },
+        {
+          "from": "dog:English",
+          "label": "inh",
+          "to": "dog:Gullah"
+        },
+        {
+          "from": "dog:English",
+          "label": "der",
+          "to": "dog:Romanian"
+        },
+        {
+          "from": "dog:English",
+          "label": "der",
+          "to": "dog:Torres Strait Creole"
+        },
+        {
+          "from": "dog:English",
+          "label": "bor",
+          "to": "dogg:Swedish"
+        },
+        {
+          "from": "dog:English",
+          "label": "bor",
+          "to": "doggi:Finnish"
+        },
+        {
+          "from": "dog:English",
+          "label": "bor",
+          "to": "dogo:Italian"
+        },
+        {
+          "from": "dogo:Italian",
+          "label": "bor",
+          "to": "dogo:Esperanto"
+        },
+        {
+          "from": "dog:English",
+          "label": "inh",
+          "to": "dok:Tok Pisin"
+        },
+        {
+          "from": "dog:English",
+          "label": "der",
+          "to": "ドッグ:Japanese"
+        },
+        {
+          "from": "dogge:Middle English",
+          "label": "der",
+          "to": "dog:Polish"
+        },
+        {
+          "from": "dogge:Middle English",
+          "label": "der",
+          "to": "dogge:English"
         },
         {
           "from": "dogge:Middle English",
           "label": "inh",
-          "to": "dogga:Old English"
+          "to": "dug:Yola"
+        },
+        {
+          "from": "dox:Old English",
+          "label": "inh",
+          "to": "dosk:Middle English"
         },
         {
           "from": "dosk:Middle English",
           "label": "inh",
-          "to": "dox:Old English"
-        },
-        {
-          "from": "dusk:English",
-          "label": "inh",
-          "to": "dosk:Middle English"
+          "to": "dusk:English"
         },
         {
           "from": "dog:English",
@@ -1867,129 +1847,24 @@
           "to": "dug:Scots"
         },
         {
-          "from": "dug:Scots",
-          "label": "inh",
-          "to": "docga:Old English"
-        },
-        {
           "from": "*duganą:Proto-Germanic",
           "label": "inh",
           "to": "*dugan:Proto-West Germanic"
         },
         {
-          "from": "dugan:Old Dutch",
-          "label": "inh",
-          "to": "*dugan:Proto-West Germanic"
-        },
-        {
-          "from": "dogen:Middle Dutch",
+          "from": "*dugan:Proto-West Germanic",
           "label": "inh",
           "to": "dugan:Old Dutch"
         },
         {
-          "from": "dogen:Dutch",
+          "from": "dugan:Old Dutch",
           "label": "inh",
           "to": "dogen:Middle Dutch"
         },
         {
-          "from": "dugan:Old English",
+          "from": "dogen:Middle Dutch",
           "label": "inh",
-          "to": "*dugan:Proto-West Germanic"
-        },
-        {
-          "from": "douen:Middle English",
-          "label": "inh",
-          "to": "dugan:Old English"
-        },
-        {
-          "from": "dow:English",
-          "label": "inh",
-          "to": "douen:Middle English"
-        },
-        {
-          "from": "dow:Scots",
-          "label": "inh",
-          "to": "douen:Middle English"
-        },
-        {
-          "from": "dugan:Old Saxon",
-          "label": "inh",
-          "to": "*dugan:Proto-West Germanic"
-        },
-        {
-          "from": "dooge:North Frisian",
-          "label": "inh",
-          "to": "*duganą:Proto-Germanic"
-        },
-        {
-          "from": "duga:Old Norse",
-          "label": "inh",
-          "to": "*duganą:Proto-Germanic"
-        },
-        {
-          "from": "due:Norwegian Bokmål",
-          "label": "der",
-          "to": "duga:Old Norse"
-        },
-        {
-          "from": "duga:Faroese",
-          "label": "inh",
-          "to": "duga:Old Norse"
-        },
-        {
-          "from": "duga:Icelandic",
-          "label": "inh",
-          "to": "duga:Old Norse"
-        },
-        {
-          "from": "duga:Norwegian Nynorsk",
-          "label": "inh",
-          "to": "duga:Old Norse"
-        },
-        {
-          "from": "duge:Norwegian Bokmål",
-          "label": "inh",
-          "to": "duga:Old Norse"
-        },
-        {
-          "from": "dugha:Old Swedish",
-          "label": "inh",
-          "to": "duga:Old Norse"
-        },
-        {
-          "from": "duga:Swedish",
-          "label": "inh",
-          "to": "dugha:Old Swedish"
-        },
-        {
-          "from": "dugan:Proto-West Germanic",
-          "label": "inh",
-          "to": "*duganą:Proto-Germanic"
-        },
-        {
-          "from": "duug:North Frisian",
-          "label": "inh",
-          "to": "*duganą:Proto-Germanic"
-        },
-        {
-          "from": "döög:North Frisian",
-          "label": "inh",
-          "to": "*duganą:Proto-Germanic"
-        },
-        {
-          "from": "tugan:Old High German",
-          "label": "inh",
-          "to": "*duganą:Proto-Germanic"
-        },
-        {
-          "from": "tugen:Middle High German",
-          "label": "inh",
-          "to": "tugan:Old High German"
-        },
-        {
-          "from": "𐌳𐌿𐌲𐌰𐌽:Gothic",
-          "label": "inh",
-          "to": "*duganą:Proto-Germanic"
+          "to": "dogen:Dutch"
         },
         {
           "from": "*dugan:Proto-West Germanic",
@@ -1997,14 +1872,99 @@
           "to": "dugan:Old English"
         },
         {
+          "from": "dugan:Old English",
+          "label": "inh",
+          "to": "douen:Middle English"
+        },
+        {
           "from": "douen:Middle English",
           "label": "inh",
           "to": "dow:English"
         },
         {
-          "from": "dugan:Old English",
+          "from": "douen:Middle English",
           "label": "inh",
-          "to": "douen:Middle English"
+          "to": "dow:Scots"
+        },
+        {
+          "from": "*dugan:Proto-West Germanic",
+          "label": "inh",
+          "to": "dugan:Old Saxon"
+        },
+        {
+          "from": "*duganą:Proto-Germanic",
+          "label": "inh",
+          "to": "dooge:North Frisian"
+        },
+        {
+          "from": "*duganą:Proto-Germanic",
+          "label": "inh",
+          "to": "duga:Old Norse"
+        },
+        {
+          "from": "duga:Old Norse",
+          "label": "der",
+          "to": "due:Norwegian Bokmål"
+        },
+        {
+          "from": "duga:Old Norse",
+          "label": "inh",
+          "to": "duga:Faroese"
+        },
+        {
+          "from": "duga:Old Norse",
+          "label": "inh",
+          "to": "duga:Icelandic"
+        },
+        {
+          "from": "duga:Old Norse",
+          "label": "inh",
+          "to": "duga:Norwegian Nynorsk"
+        },
+        {
+          "from": "duga:Old Norse",
+          "label": "inh",
+          "to": "duge:Norwegian Bokmål"
+        },
+        {
+          "from": "duga:Old Norse",
+          "label": "inh",
+          "to": "dugha:Old Swedish"
+        },
+        {
+          "from": "dugha:Old Swedish",
+          "label": "inh",
+          "to": "duga:Swedish"
+        },
+        {
+          "from": "*duganą:Proto-Germanic",
+          "label": "inh",
+          "to": "dugan:Proto-West Germanic"
+        },
+        {
+          "from": "*duganą:Proto-Germanic",
+          "label": "inh",
+          "to": "duug:North Frisian"
+        },
+        {
+          "from": "*duganą:Proto-Germanic",
+          "label": "inh",
+          "to": "döög:North Frisian"
+        },
+        {
+          "from": "*duganą:Proto-Germanic",
+          "label": "inh",
+          "to": "tugan:Old High German"
+        },
+        {
+          "from": "tugan:Old High German",
+          "label": "inh",
+          "to": "tugen:Middle High German"
+        },
+        {
+          "from": "*duganą:Proto-Germanic",
+          "label": "inh",
+          "to": "𐌳𐌿𐌲𐌰𐌽:Gothic"
         },
         {
           "from": "dōgen:Middle Dutch",
@@ -2017,19 +1977,9 @@
           "to": "dōgen:Middle Dutch"
         },
         {
-          "from": "*dugan:Proto-West Germanic",
-          "label": "inh",
-          "to": "dugan:Old Dutch"
-        },
-        {
-          "from": "deug:Afrikaans",
-          "label": "inh",
-          "to": "deugen:Dutch"
-        },
-        {
           "from": "deugen:Dutch",
           "label": "inh",
-          "to": "dōgen:Middle Dutch"
+          "to": "deug:Afrikaans"
         },
         {
           "from": "tougen:Middle High German",
@@ -2042,69 +1992,59 @@
           "to": "tougen:Middle High German"
         },
         {
-          "from": "*duganą:Proto-Germanic",
-          "label": "der",
-          "to": "tugan:Old High German"
-        },
-        {
           "from": "*dʰewgʰ-:Proto-Indo-European",
           "label": "der",
           "to": "*duganą:Proto-Germanic"
         },
         {
-          "from": "taŭgi:Esperanto",
-          "label": "bor",
-          "to": "taugen:German"
-        },
-        {
           "from": "taugen:German",
-          "label": "der",
-          "to": "tougen:Middle High German"
+          "label": "bor",
+          "to": "taŭgi:Esperanto"
         },
         {
-          "from": "taugn:Bavarian",
+          "from": "tougen:Middle High German",
           "label": "inh",
-          "to": "tougen:Middle High German"
+          "to": "taugn:Bavarian"
         },
         {
-          "from": "טויגן:Yiddish",
+          "from": "tougen:Middle High German",
           "label": "der",
-          "to": "tougen:Middle High German"
+          "to": "טויגן:Yiddish"
         },
         {
-          "from": "daugjas:Proto-Balto-Slavic",
+          "from": "*dʰewgʰ-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewgʰ-:Proto-Indo-European"
+          "to": "daugjas:Proto-Balto-Slavic"
         },
         {
-          "from": "džiaugtis:Lithuanian",
+          "from": "*dʰewgʰ-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewgʰ-:Proto-Indo-European"
+          "to": "džiaugtis:Lithuanian"
         },
         {
-          "from": "dʰawgʰ-:Proto-Indo-Iranian",
+          "from": "*dʰewgʰ-:Proto-Indo-European",
           "label": "inh",
-          "to": "*dʰewgʰ-:Proto-Indo-European"
+          "to": "dʰawgʰ-:Proto-Indo-Iranian"
         },
         {
-          "from": "τεῦχος:Ancient Greek",
-          "label": "der",
-          "to": "*dʰewgʰ-:Proto-Indo-European"
-        },
-        {
-          "from": "τεύχος:Greek",
+          "from": "*dʰewgʰ-:Proto-Indo-European",
           "label": "der",
           "to": "τεῦχος:Ancient Greek"
         },
         {
-          "from": "τιτύσκομαι:Ancient Greek",
-          "label": "inh",
-          "to": "*dʰewgʰ-:Proto-Indo-European"
+          "from": "τεῦχος:Ancient Greek",
+          "label": "der",
+          "to": "τεύχος:Greek"
         },
         {
-          "from": "दुहति:Sanskrit",
+          "from": "*dʰewgʰ-:Proto-Indo-European",
+          "label": "inh",
+          "to": "τιτύσκομαι:Ancient Greek"
+        },
+        {
+          "from": "*dʰewgʰ-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewgʰ-:Proto-Indo-European"
+          "to": "दुहति:Sanskrit"
         },
         {
           "from": "*dusnos:Proto-Celtic",
@@ -2112,24 +2052,19 @@
           "to": "donn:Old Irish"
         },
         {
-          "from": "dhone:Manx",
+          "from": "donn:Old Irish",
           "label": "inh",
-          "to": "donn:Old Irish"
-        },
-        {
-          "from": "donn:Irish",
-          "label": "inh",
-          "to": "donn:Old Irish"
-        },
-        {
-          "from": "donn:Scottish Gaelic",
-          "label": "inh",
-          "to": "donn:Old Irish"
+          "to": "dhone:Manx"
         },
         {
           "from": "donn:Old Irish",
           "label": "inh",
-          "to": "*dusnos:Proto-Celtic"
+          "to": "donn:Irish"
+        },
+        {
+          "from": "donn:Old Irish",
+          "label": "inh",
+          "to": "donn:Scottish Gaelic"
         },
         {
           "from": "*dʰwes-:Proto-Indo-European",
@@ -2142,159 +2077,154 @@
           "to": "*dʰwes-:Proto-Indo-European"
         },
         {
-          "from": "fosc:Catalan",
+          "from": "fuscus:Latin",
           "label": "inh",
-          "to": "fuscus:Latin"
+          "to": "fosc:Catalan"
         },
         {
-          "from": "fosc:Dalmatian",
+          "from": "fuscus:Latin",
           "label": "inh",
-          "to": "fuscus:Latin"
+          "to": "fosc:Dalmatian"
         },
         {
-          "from": "fosch:Ladin",
+          "from": "fuscus:Latin",
           "label": "inh",
-          "to": "fuscus:Latin"
+          "to": "fosch:Ladin"
         },
         {
-          "from": "fosco:Italian",
+          "from": "fuscus:Latin",
           "label": "inh",
-          "to": "fuscus:Latin"
+          "to": "fosco:Italian"
         },
         {
-          "from": "fusco:Portuguese",
+          "from": "fuscus:Latin",
           "label": "bor",
-          "to": "fuscus:Latin"
+          "to": "fusco:Portuguese"
         },
         {
-          "from": "fuscus:Translingual",
+          "from": "fuscus:Latin",
           "label": "bor",
-          "to": "fuscus:Latin"
+          "to": "fuscus:Translingual"
         },
         {
-          "from": "hosco:Spanish",
+          "from": "fuscus:Latin",
           "label": "inh",
-          "to": "fuscus:Latin"
-        },
-        {
-          "from": "indifuscin:English",
-          "label": "der",
-          "to": "fuscus:Latin"
-        },
-        {
-          "from": "deuzaz:Proto-Germanic",
-          "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
-        },
-        {
-          "from": "duskaz:Proto-Germanic",
-          "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
-        },
-        {
-          "from": "dusnaz:Proto-Germanic",
-          "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
-        },
-        {
-          "from": "dustą:Proto-Germanic",
-          "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
-        },
-        {
-          "from": "dusyos:Proto-Celtic",
-          "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
-        },
-        {
-          "from": "dusāną:Proto-Germanic",
-          "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
-        },
-        {
-          "from": "duxati:Proto-Slavic",
-          "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
-        },
-        {
-          "from": "dvasia:Lithuanian",
-          "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
-        },
-        {
-          "from": "dvēsele:Latvian",
-          "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
+          "to": "hosco:Spanish"
         },
         {
           "from": "fuscus:Latin",
           "label": "der",
-          "to": "*dʰwes-:Proto-Indo-European"
+          "to": "indifuscin:English"
         },
         {
-          "from": "daugan:Proto-West Germanic",
+          "from": "*dʰwes-:Proto-Indo-European",
+          "label": "der",
+          "to": "deuzaz:Proto-Germanic"
+        },
+        {
+          "from": "*dʰwes-:Proto-Indo-European",
+          "label": "der",
+          "to": "duskaz:Proto-Germanic"
+        },
+        {
+          "from": "*dʰwes-:Proto-Indo-European",
+          "label": "der",
+          "to": "dusnaz:Proto-Germanic"
+        },
+        {
+          "from": "*dʰwes-:Proto-Indo-European",
+          "label": "der",
+          "to": "dustą:Proto-Germanic"
+        },
+        {
+          "from": "*dʰwes-:Proto-Indo-European",
+          "label": "der",
+          "to": "dusyos:Proto-Celtic"
+        },
+        {
+          "from": "*dʰwes-:Proto-Indo-European",
+          "label": "der",
+          "to": "dusāną:Proto-Germanic"
+        },
+        {
+          "from": "*dʰwes-:Proto-Indo-European",
+          "label": "der",
+          "to": "duxati:Proto-Slavic"
+        },
+        {
+          "from": "*dʰwes-:Proto-Indo-European",
+          "label": "der",
+          "to": "dvasia:Lithuanian"
+        },
+        {
+          "from": "*dʰwes-:Proto-Indo-European",
+          "label": "der",
+          "to": "dvēsele:Latvian"
+        },
+        {
+          "from": "*dʰewh₂-:Proto-Indo-European",
           "label": "inh",
-          "to": "*dʰewh₂-:Proto-Indo-European"
+          "to": "daugan:Proto-West Germanic"
         },
         {
-          "from": "dawwą:Proto-Germanic",
+          "from": "*dʰewh₂-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewh₂-:Proto-Indo-European"
+          "to": "dawwą:Proto-Germanic"
         },
         {
-          "from": "duHoyéti:Proto-Anatolian",
+          "from": "*dʰewh₂-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewh₂-:Proto-Indo-European"
+          "to": "duHoyéti:Proto-Anatolian"
         },
         {
-          "from": "dujos:Lithuanian",
+          "from": "*dʰewh₂-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewh₂-:Proto-Indo-European"
+          "to": "dujos:Lithuanian"
         },
         {
-          "from": "dumati:Proto-Slavic",
+          "from": "*dʰewh₂-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewh₂-:Proto-Indo-European"
+          "to": "dumati:Proto-Slavic"
         },
         {
-          "from": "duti:Proto-Slavic",
+          "from": "*dʰewh₂-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewh₂-:Proto-Indo-European"
+          "to": "duti:Proto-Slavic"
         },
         {
-          "from": "dwemrą:Proto-Germanic",
+          "from": "*dʰewh₂-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewh₂-:Proto-Indo-European"
+          "to": "dwemrą:Proto-Germanic"
         },
         {
-          "from": "dënjë:Albanian",
+          "from": "*dʰewh₂-:Proto-Indo-European",
           "label": "der",
-          "to": "*dʰewh₂-:Proto-Indo-European"
+          "to": "dënjë:Albanian"
         },
         {
-          "from": "دھوسر:Urdu",
+          "from": "धूसर:Sanskrit",
           "label": "der",
-          "to": "धूसर:Sanskrit"
+          "to": "دھوسر:Urdu"
         },
         {
-          "from": "धुस्त्रो:Nepali",
+          "from": "धूसर:Sanskrit",
           "label": "inh",
-          "to": "धूसर:Sanskrit"
+          "to": "धुस्त्रो:Nepali"
         },
         {
-          "from": "धूसर:Hindi",
+          "from": "धूसर:Sanskrit",
           "label": "der",
-          "to": "धूसर:Sanskrit"
+          "to": "धूसर:Hindi"
         },
         {
-          "from": "ଧୂସୁରିବା:Odia",
+          "from": "धूसर:Sanskrit",
           "label": "der",
-          "to": "धूसर:Sanskrit"
+          "to": "ଧୂସୁରିବା:Odia"
         },
         {
-          "from": "தூசரம்:Tamil",
+          "from": "धूसर:Sanskrit",
           "label": "bor",
-          "to": "धूसर:Sanskrit"
+          "to": "தூசரம்:Tamil"
         },
         {
           "from": "blad:Dutch",
@@ -2302,14 +2232,9 @@
           "to": "dagublat:Sranan Tongo"
         },
         {
-          "from": "blad:Afrikaans",
+          "from": "blad:Dutch",
           "label": "inh",
-          "to": "blad:Dutch"
-        },
-        {
-          "from": "dagublat:Sranan Tongo",
-          "label": "der",
-          "to": "blad:Dutch"
+          "to": "blad:Afrikaans"
         },
         {
           "from": "dug:Scots",
@@ -2732,104 +2657,89 @@
           "to": "*þū:Proto-Germanic"
         },
         {
-          "from": "du:Danish",
+          "from": "þú:Old Norse",
           "label": "inh",
-          "to": "thu:Old Danish"
-        },
-        {
-          "from": "du:Elfdalian",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "du:Norwegian Bokmål",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "du:Norwegian Nynorsk",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "due:Norwegian Bokmål",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "duing:Norwegian Bokmål",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "dú:Jamtish",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "thu:Old Danish",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "tú:Faroese",
-          "label": "der",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "þu:Old Swedish",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "du:Swedish",
-          "label": "inh",
-          "to": "þu:Old Swedish"
-        },
-        {
-          "from": "þér:Icelandic",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "þú:Icelandic",
-          "label": "inh",
-          "to": "þú:Old Norse"
-        },
-        {
-          "from": "du:Luxembourgish",
-          "label": "inh",
-          "to": "*þū:Proto-Germanic"
-        },
-        {
-          "from": "tzo:Crimean Gothic",
-          "label": "inh",
-          "to": "*þū:Proto-Germanic"
-        },
-        {
-          "from": "þu:Old English",
-          "label": "inh",
-          "to": "*þū:Proto-Germanic"
+          "to": "du:Elfdalian"
         },
         {
           "from": "þú:Old Norse",
           "label": "inh",
-          "to": "*þū:Proto-Germanic"
+          "to": "du:Norwegian Bokmål"
         },
         {
-          "from": "þū:Proto-West Germanic",
+          "from": "þú:Old Norse",
           "label": "inh",
-          "to": "*þū:Proto-Germanic"
+          "to": "du:Norwegian Nynorsk"
         },
         {
-          "from": "𐌸𐌿:Gothic",
+          "from": "þú:Old Norse",
           "label": "inh",
-          "to": "*þū:Proto-Germanic"
+          "to": "due:Norwegian Bokmål"
         },
         {
-          "from": "towos:Proto-Italic",
+          "from": "þú:Old Norse",
           "label": "inh",
-          "to": "*túh₂:Proto-Indo-European"
+          "to": "duing:Norwegian Bokmål"
+        },
+        {
+          "from": "þú:Old Norse",
+          "label": "inh",
+          "to": "dú:Jamtish"
+        },
+        {
+          "from": "þú:Old Norse",
+          "label": "der",
+          "to": "tú:Faroese"
+        },
+        {
+          "from": "þú:Old Norse",
+          "label": "inh",
+          "to": "þu:Old Swedish"
+        },
+        {
+          "from": "þu:Old Swedish",
+          "label": "inh",
+          "to": "du:Swedish"
+        },
+        {
+          "from": "þú:Old Norse",
+          "label": "inh",
+          "to": "þér:Icelandic"
+        },
+        {
+          "from": "þú:Old Norse",
+          "label": "inh",
+          "to": "þú:Icelandic"
+        },
+        {
+          "from": "*þū:Proto-Germanic",
+          "label": "inh",
+          "to": "du:Luxembourgish"
+        },
+        {
+          "from": "*þū:Proto-Germanic",
+          "label": "inh",
+          "to": "tzo:Crimean Gothic"
+        },
+        {
+          "from": "*þū:Proto-Germanic",
+          "label": "inh",
+          "to": "þu:Old English"
+        },
+        {
+          "from": "*þū:Proto-Germanic",
+          "label": "inh",
+          "to": "þū:Proto-West Germanic"
+        },
+        {
+          "from": "*þū:Proto-Germanic",
+          "label": "inh",
+          "to": "𐌸𐌿:Gothic"
+        },
+        {
+          "from": "*túh₂:Proto-Indo-European",
+          "label": "inh",
+          "to": "towos:Proto-Italic"
         },
         {
           "from": "tugent:Middle High German",
@@ -2847,19 +2757,14 @@
           "to": "tugund:Old High German"
         },
         {
-          "from": "Tugend:German",
+          "from": "tugent:Middle High German",
           "label": "inh",
-          "to": "tugent:Middle High German"
+          "to": "tūgyt:Vilamovian"
         },
         {
-          "from": "tūgyt:Vilamovian",
+          "from": "*dugunþō:Proto-Germanic",
           "label": "inh",
-          "to": "tugent:Middle High German"
-        },
-        {
-          "from": "dugunþu:Proto-West Germanic",
-          "label": "inh",
-          "to": "*dugunþō:Proto-Germanic"
+          "to": "dugunþu:Proto-West Germanic"
         },
         {
           "from": "*tʰúkʰā:Proto-Hellenic",
@@ -2887,24 +2792,19 @@
           "to": "*tʰunkʰanō:Proto-Hellenic"
         },
         {
-          "from": "tiquismo:Spanish",
+          "from": "τύχη:Ancient Greek",
           "label": "der",
-          "to": "τύχη:Ancient Greek"
-        },
-        {
-          "from": "τύχη:Greek",
-          "label": "inh",
-          "to": "τύχη:Ancient Greek"
-        },
-        {
-          "from": "ⲧⲩⲭⲏ:Coptic",
-          "label": "bor",
-          "to": "τύχη:Ancient Greek"
+          "to": "tiquismo:Spanish"
         },
         {
           "from": "τύχη:Ancient Greek",
           "label": "inh",
-          "to": "*tʰúkʰā:Proto-Hellenic"
+          "to": "τύχη:Greek"
+        },
+        {
+          "from": "τύχη:Ancient Greek",
+          "label": "bor",
+          "to": "ⲧⲩⲭⲏ:Coptic"
         },
         {
           "from": "dúal:Old Irish",
@@ -2922,14 +2822,9 @@
           "to": "*doklos:Proto-Celtic"
         },
         {
-          "from": "dual:Irish",
+          "from": "dúal:Old Irish",
           "label": "inh",
-          "to": "dúal:Old Irish"
-        },
-        {
-          "from": "dual:Scottish Gaelic",
-          "label": "inh",
-          "to": "dúal:Old Irish"
+          "to": "dual:Scottish Gaelic"
         },
         {
           "from": "dúan:Middle Irish",
@@ -2937,14 +2832,9 @@
           "to": "duan:Scottish Gaelic"
         },
         {
-          "from": "duan:Irish",
+          "from": "dúan:Middle Irish",
           "label": "inh",
-          "to": "dúan:Middle Irish"
-        },
-        {
-          "from": "duan:Scottish Gaelic",
-          "label": "inh",
-          "to": "dúan:Middle Irish"
+          "to": "duan:Irish"
         },
         {
           "from": "*dʰéwgʰti:Proto-Indo-European",
@@ -2952,14 +2842,9 @@
           "to": "दोग्धि:Sanskrit"
         },
         {
-          "from": "dʰáwgdʰi:Proto-Indo-Iranian",
+          "from": "*dʰéwgʰti:Proto-Indo-European",
           "label": "inh",
-          "to": "*dʰéwgʰti:Proto-Indo-European"
-        },
-        {
-          "from": "दोग्धि:Sanskrit",
-          "label": "inh",
-          "to": "*dʰéwgʰti:Proto-Indo-European"
+          "to": "dʰáwgdʰi:Proto-Indo-Iranian"
         },
         {
           "from": "*daugjas:Proto-Balto-Slavic",
@@ -2972,19 +2857,14 @@
           "to": "*daugjas:Proto-Balto-Slavic"
         },
         {
-          "from": "daudz:Latgalian",
+          "from": "*daugjas:Proto-Balto-Slavic",
           "label": "der",
-          "to": "*daugjas:Proto-Balto-Slavic"
+          "to": "daudz:Latgalian"
         },
         {
-          "from": "daudz:Latvian",
-          "label": "der",
-          "to": "*daugjas:Proto-Balto-Slavic"
-        },
-        {
-          "from": "dužь:Proto-Slavic",
+          "from": "*daugjas:Proto-Balto-Slavic",
           "label": "inh",
-          "to": "*daugjas:Proto-Balto-Slavic"
+          "to": "dužь:Proto-Slavic"
         },
         {
           "from": "*dʰwes-:Proto-Indo-European",
@@ -2992,9 +2872,9 @@
           "to": "*duskaz:Proto-Germanic"
         },
         {
-          "from": "dox:Old English",
+          "from": "*duskaz:Proto-Germanic",
           "label": "inh",
-          "to": "*duskaz:Proto-Germanic"
+          "to": "dox:Old English"
         },
         {
           "from": "dufæ:Old Danish",
@@ -3012,79 +2892,54 @@
           "to": "dúfa:Old Norse"
         },
         {
-          "from": "tui:Greenlandic",
-          "label": "bor",
-          "to": "due:Danish"
-        },
-        {
           "from": "due:Danish",
-          "label": "inh",
-          "to": "dufæ:Old Danish"
+          "label": "bor",
+          "to": "tui:Greenlandic"
         },
         {
-          "from": "due:Norwegian Bokmål",
+          "from": "dúfa:Old Norse",
           "label": "inh",
-          "to": "dúfa:Old Norse"
+          "to": "due:Norwegian Bokmål"
         },
         {
-          "from": "due:Norwegian Nynorsk",
+          "from": "dúfa:Old Norse",
           "label": "der",
-          "to": "dúfa:Old Norse"
+          "to": "due:Norwegian Nynorsk"
+        },
+        {
+          "from": "dúfa:Old Norse",
+          "label": "inh",
+          "to": "duva:Old Swedish"
         },
         {
           "from": "duva:Old Swedish",
           "label": "inh",
-          "to": "dúfa:Old Norse"
+          "to": "duva:Swedish"
         },
         {
           "from": "duva:Swedish",
-          "label": "inh",
-          "to": "duva:Old Swedish"
-        },
-        {
-          "from": "Tuuva:Finnish",
           "label": "der",
-          "to": "duva:Swedish"
-        },
-        {
-          "from": "dúfa:Icelandic",
-          "label": "inh",
-          "to": "dúfa:Old Norse"
-        },
-        {
-          "from": "dúgva:Faroese",
-          "label": "der",
-          "to": "dúfa:Old Norse"
-        },
-        {
-          "from": "dúfa:Old Norse",
-          "label": "inh",
-          "to": "*dūbǭ:Proto-Germanic"
-        },
-        {
-          "from": "dūbā:Proto-West Germanic",
-          "label": "inh",
-          "to": "*dūbǭ:Proto-Germanic"
-        },
-        {
-          "from": "𐌳𐌿𐌱𐍉:Gothic",
-          "label": "inh",
-          "to": "*dūbǭ:Proto-Germanic"
-        },
-        {
-          "from": "duva:Old Swedish",
-          "label": "inh",
-          "to": "duva:Swedish"
-        },
-        {
-          "from": "dúfa:Old Norse",
-          "label": "inh",
-          "to": "duva:Old Swedish"
+          "to": "Tuuva:Finnish"
         },
         {
           "from": "dúfa:Old Norse",
           "label": "inh",
           "to": "dúfa:Icelandic"
+        },
+        {
+          "from": "dúfa:Old Norse",
+          "label": "der",
+          "to": "dúgva:Faroese"
+        },
+        {
+          "from": "*dūbǭ:Proto-Germanic",
+          "label": "inh",
+          "to": "dūbā:Proto-West Germanic"
+        },
+        {
+          "from": "*dūbǭ:Proto-Germanic",
+          "label": "inh",
+          "to": "𐌳𐌿𐌱𐍉:Gothic"
         },
         {
           "from": "duve:Middle Dutch",
@@ -3107,34 +2962,24 @@
           "to": "*dūbā:Proto-West Germanic"
         },
         {
-          "from": "doifi:Sranan Tongo",
+          "from": "duif:Dutch",
           "label": "bor",
-          "to": "duif:Dutch"
-        },
-        {
-          "from": "duif:Afrikaans",
-          "label": "inh",
-          "to": "duif:Dutch"
+          "to": "doifi:Sranan Tongo"
         },
         {
           "from": "duif:Dutch",
           "label": "inh",
-          "to": "duve:Middle Dutch"
+          "to": "duif:Afrikaans"
         },
         {
-          "from": "duve:Middle Dutch",
+          "from": "*dūbā:Proto-West Germanic",
           "label": "inh",
-          "to": "dūva:Old Dutch"
+          "to": "dufe:Old English"
         },
         {
-          "from": "dufe:Old English",
+          "from": "*dūbā:Proto-West Germanic",
           "label": "inh",
-          "to": "*dūbā:Proto-West Germanic"
-        },
-        {
-          "from": "duva:Old Dutch",
-          "label": "inh",
-          "to": "*dūbā:Proto-West Germanic"
+          "to": "duva:Old Dutch"
         },
         {
           "from": "tūbe:Middle High German",
@@ -3152,24 +2997,19 @@
           "to": "tūba:Old High German"
         },
         {
-          "from": "taube:French",
-          "label": "der",
-          "to": "Taube:German"
-        },
-        {
           "from": "Taube:German",
-          "label": "inh",
-          "to": "tūbe:Middle High German"
+          "label": "der",
+          "to": "taube:French"
         },
         {
-          "from": "Tuub:Alemannic German",
+          "from": "tūbe:Middle High German",
           "label": "inh",
-          "to": "tūbe:Middle High German"
+          "to": "Tuub:Alemannic German"
         },
         {
-          "from": "טויב:Yiddish",
+          "from": "tūbe:Middle High German",
           "label": "inh",
-          "to": "tūbe:Middle High German"
+          "to": "טויב:Yiddish"
         },
         {
           "from": "douve:Middle English",
@@ -3187,14 +3027,9 @@
           "to": "*dūfe:Old English"
         },
         {
-          "from": "dove:English",
-          "label": "inh",
-          "to": "douve:Middle English"
-        },
-        {
-          "from": "Dufton:English",
+          "from": "*dūfe:Old English",
           "label": "der",
-          "to": "*dūfe:Old English"
+          "to": "Dufton:English"
         },
         {
           "from": "fosc:Old Occitan",
@@ -3203,11 +3038,6 @@
         },
         {
           "from": "fuscus:Latin",
-          "label": "inh",
-          "to": "fosc:Old Occitan"
-        },
-        {
-          "from": "fosc:Occitan",
           "label": "inh",
           "to": "fosc:Old Occitan"
         },
@@ -3222,14 +3052,9 @@
           "to": "fosco:Old Galician-Portuguese"
         },
         {
-          "from": "fosco:Galician",
+          "from": "fosco:Old Galician-Portuguese",
           "label": "inh",
-          "to": "fosco:Old Galician-Portuguese"
-        },
-        {
-          "from": "fosco:Portuguese",
-          "label": "inh",
-          "to": "fosco:Old Galician-Portuguese"
+          "to": "fosco:Galician"
         },
         {
           "from": "*fūmos:Proto-Italic",
@@ -3242,154 +3067,154 @@
           "to": "*fūmos:Proto-Italic"
         },
         {
-          "from": "fem:Romansch",
+          "from": "fūmus:Latin",
           "label": "der",
-          "to": "fūmus:Latin"
+          "to": "fem:Romansch"
         },
         {
-          "from": "fim:Romansch",
+          "from": "fūmus:Latin",
           "label": "der",
-          "to": "fūmus:Latin"
+          "to": "fim:Romansch"
         },
         {
-          "from": "fom:Franco-Provençal",
+          "from": "fūmus:Latin",
           "label": "inh",
-          "to": "fūmus:Latin"
+          "to": "fom:Franco-Provençal"
         },
         {
-          "from": "fum:Aromanian",
+          "from": "fūmus:Latin",
           "label": "inh",
-          "to": "fūmus:Latin"
+          "to": "fum:Aromanian"
         },
         {
-          "from": "fum:Catalan",
+          "from": "fūmus:Latin",
           "label": "inh",
-          "to": "fūmus:Latin"
+          "to": "fum:Catalan"
         },
         {
-          "from": "fum:Friulian",
+          "from": "fūmus:Latin",
           "label": "inh",
-          "to": "fūmus:Latin"
+          "to": "fum:Friulian"
         },
         {
-          "from": "fum:Old French",
+          "from": "fūmus:Latin",
           "label": "inh",
-          "to": "fūmus:Latin"
-        },
-        {
-          "from": "fume:Middle English",
-          "label": "bor",
           "to": "fum:Old French"
         },
         {
-          "from": "fume:English",
-          "label": "inh",
+          "from": "fum:Old French",
+          "label": "bor",
           "to": "fume:Middle English"
         },
         {
-          "from": "fum:Romanian",
+          "from": "fume:Middle English",
           "label": "inh",
-          "to": "fūmus:Latin"
+          "to": "fume:English"
         },
         {
-          "from": "fumigène:French",
+          "from": "fūmus:Latin",
+          "label": "inh",
+          "to": "fum:Romanian"
+        },
+        {
+          "from": "fūmus:Latin",
           "label": "der",
-          "to": "fūmus:Latin"
+          "to": "fumigène:French"
         },
         {
-          "from": "fumiére:Franco-Provençal",
+          "from": "fūmus:Latin",
           "label": "der",
-          "to": "fūmus:Latin"
+          "to": "fumiére:Franco-Provençal"
         },
         {
-          "from": "fumo:Asturian",
+          "from": "fūmus:Latin",
           "label": "inh",
-          "to": "fūmus:Latin"
+          "to": "fumo:Asturian"
         },
         {
-          "from": "fumo:Italian",
+          "from": "fūmus:Latin",
           "label": "inh",
-          "to": "fūmus:Latin"
+          "to": "fumo:Italian"
         },
         {
-          "from": "fumo:Old Spanish",
-          "label": "inh",
-          "to": "fūmus:Latin"
-        },
-        {
-          "from": "humo:Spanish",
+          "from": "fūmus:Latin",
           "label": "inh",
           "to": "fumo:Old Spanish"
         },
         {
-          "from": "huma:Papiamentu",
-          "label": "der",
+          "from": "fumo:Old Spanish",
+          "label": "inh",
           "to": "humo:Spanish"
         },
         {
-          "from": "fumu:Asturian",
-          "label": "inh",
-          "to": "fūmus:Latin"
-        },
-        {
-          "from": "fumu:Corsican",
-          "label": "inh",
-          "to": "fūmus:Latin"
-        },
-        {
-          "from": "fumu:Leonese",
-          "label": "inh",
-          "to": "fūmus:Latin"
-        },
-        {
-          "from": "fumur:Romanian",
+          "from": "humo:Spanish",
           "label": "der",
-          "to": "fūmus:Latin"
+          "to": "huma:Papiamentu"
         },
         {
-          "from": "fòumo:Istriot",
+          "from": "fūmus:Latin",
           "label": "inh",
-          "to": "fūmus:Latin"
+          "to": "fumu:Asturian"
         },
         {
-          "from": "füm:Romansch",
-          "label": "der",
-          "to": "fūmus:Latin"
-        },
-        {
-          "from": "sfumatura:Italian",
-          "label": "der",
-          "to": "fūmus:Latin"
-        },
-        {
-          "from": "fumus:Latin",
-          "label": "der",
-          "to": "*fūmos:Proto-Italic"
-        },
-        {
-          "from": "fum:Venetan",
+          "from": "fūmus:Latin",
           "label": "inh",
+          "to": "fumu:Corsican"
+        },
+        {
+          "from": "fūmus:Latin",
+          "label": "inh",
+          "to": "fumu:Leonese"
+        },
+        {
+          "from": "fūmus:Latin",
+          "label": "der",
+          "to": "fumur:Romanian"
+        },
+        {
+          "from": "fūmus:Latin",
+          "label": "inh",
+          "to": "fòumo:Istriot"
+        },
+        {
+          "from": "fūmus:Latin",
+          "label": "der",
+          "to": "füm:Romansch"
+        },
+        {
+          "from": "fūmus:Latin",
+          "label": "der",
+          "to": "sfumatura:Italian"
+        },
+        {
+          "from": "*fūmos:Proto-Italic",
+          "label": "der",
           "to": "fumus:Latin"
         },
         {
-          "from": "dū́ˀmas:Proto-Balto-Slavic",
+          "from": "fumus:Latin",
           "label": "inh",
-          "to": "*dʰuh₂mós:Proto-Indo-European"
+          "to": "fum:Venetan"
         },
         {
-          "from": "fūmos:Proto-Italic",
+          "from": "*dʰuh₂mós:Proto-Indo-European",
           "label": "inh",
-          "to": "*dʰuh₂mós:Proto-Indo-European"
+          "to": "dū́ˀmas:Proto-Balto-Slavic"
         },
         {
-          "from": "tym:Albanian",
+          "from": "*dʰuh₂mós:Proto-Indo-European",
           "label": "inh",
-          "to": "*dʰuh₂mós:Proto-Indo-European"
+          "to": "fūmos:Proto-Italic"
         },
         {
-          "from": "tʰūmós:Proto-Hellenic",
+          "from": "*dʰuh₂mós:Proto-Indo-European",
           "label": "inh",
-          "to": "*dʰuh₂mós:Proto-Indo-European"
+          "to": "tym:Albanian"
+        },
+        {
+          "from": "*dʰuh₂mós:Proto-Indo-European",
+          "label": "inh",
+          "to": "tʰūmós:Proto-Hellenic"
         },
         {
           "from": "der:Middle English",
@@ -3417,104 +3242,94 @@
           "to": "*deuzą:Proto-Germanic"
         },
         {
-          "from": "dia:Sranan Tongo",
-          "label": "der",
-          "to": "deer:English"
-        },
-        {
-          "from": "diaklaroen:Dutch",
+          "from": "deer:English",
           "label": "der",
           "to": "dia:Sranan Tongo"
         },
         {
-          "from": "diera:Malagasy",
-          "label": "bor",
-          "to": "deer:English"
-        },
-        {
-          "from": "tia:Maori",
-          "label": "bor",
-          "to": "deer:English"
+          "from": "dia:Sranan Tongo",
+          "label": "der",
+          "to": "diaklaroen:Dutch"
         },
         {
           "from": "deer:English",
-          "label": "inh",
-          "to": "der:Middle English"
+          "label": "bor",
+          "to": "diera:Malagasy"
         },
         {
-          "from": "Dorricott:English",
+          "from": "deer:English",
+          "label": "bor",
+          "to": "tia:Maori"
+        },
+        {
+          "from": "dēor:Old English",
           "label": "der",
-          "to": "dēor:Old English"
+          "to": "Dorricott:English"
         },
         {
-          "from": "der:Middle English",
+          "from": "*deuʀ:Proto-West Germanic",
           "label": "inh",
-          "to": "dēor:Old English"
-        },
-        {
-          "from": "deor:Old English",
-          "label": "inh",
-          "to": "*deuʀ:Proto-West Germanic"
-        },
-        {
-          "from": "Dear:English",
-          "label": "der",
           "to": "deor:Old English"
         },
         {
-          "from": "dier:Old Dutch",
-          "label": "inh",
-          "to": "*deuʀ:Proto-West Germanic"
+          "from": "deor:Old English",
+          "label": "der",
+          "to": "Dear:English"
         },
         {
-          "from": "dier:Middle Dutch",
+          "from": "*deuʀ:Proto-West Germanic",
           "label": "inh",
           "to": "dier:Old Dutch"
         },
         {
-          "from": "deer:Limburgish",
+          "from": "dier:Old Dutch",
           "label": "inh",
           "to": "dier:Middle Dutch"
         },
         {
-          "from": "dier:Dutch",
+          "from": "dier:Middle Dutch",
           "label": "inh",
-          "to": "dier:Middle Dutch"
+          "to": "deer:Limburgish"
         },
         {
-          "from": "dior:Old Saxon",
+          "from": "dier:Middle Dutch",
           "label": "inh",
-          "to": "*deuʀ:Proto-West Germanic"
+          "to": "dier:Dutch"
         },
         {
-          "from": "tior:Old High German",
+          "from": "*deuʀ:Proto-West Germanic",
           "label": "inh",
-          "to": "*deuʀ:Proto-West Germanic"
+          "to": "dior:Old Saxon"
         },
         {
-          "from": "Déier:Luxembourgish",
-          "label": "der",
+          "from": "*deuʀ:Proto-West Germanic",
+          "label": "inh",
           "to": "tior:Old High German"
         },
         {
-          "from": "deuʀ:Proto-West Germanic",
-          "label": "inh",
-          "to": "*deuzą:Proto-Germanic"
+          "from": "tior:Old High German",
+          "label": "der",
+          "to": "Déier:Luxembourgish"
         },
         {
-          "from": "ᛞᛖᚢᛉᚨ:Proto-Norse",
+          "from": "*deuzą:Proto-Germanic",
           "label": "inh",
-          "to": "*deuzą:Proto-Germanic"
+          "to": "deuʀ:Proto-West Germanic"
         },
         {
-          "from": "𐌳𐌹𐌿𐍃:Gothic",
+          "from": "*deuzą:Proto-Germanic",
           "label": "inh",
-          "to": "*deuzą:Proto-Germanic"
+          "to": "ᛞᛖᚢᛉᚨ:Proto-Norse"
         },
         {
-          "from": "deuzą:Proto-Germanic",
+          "from": "*deuzą:Proto-Germanic",
           "label": "inh",
-          "to": "*dʰewsóm:Proto-Indo-European"
+          "to": "𐌳𐌹𐌿𐍃:Gothic"
+        },
+        {
+          "from": "*dʰewsóm:Proto-Indo-European",
+          "label": "inh",
+          "to": "deuzą:Proto-Germanic"
         },
         {
           "from": "*dʰewh₂-:Proto-Indo-European",
@@ -3522,14 +3337,14 @@
           "to": "*duti:Proto-Slavic"
         },
         {
-          "from": "duć:Polish",
+          "from": "*duti:Proto-Slavic",
           "label": "inh",
-          "to": "*duti:Proto-Slavic"
+          "to": "duć:Polish"
         },
         {
-          "from": "дуя:Bulgarian",
+          "from": "*duti:Proto-Slavic",
           "label": "inh",
-          "to": "*duti:Proto-Slavic"
+          "to": "дуя:Bulgarian"
         },
         {
           "from": "blat:Middle High German",
@@ -3552,139 +3367,129 @@
           "to": "*blad:Proto-West Germanic"
         },
         {
-          "from": "blatt:Hungarian",
-          "label": "bor",
-          "to": "Blatt:German"
-        },
-        {
-          "from": "Blatt:Alemannic German",
-          "label": "inh",
-          "to": "blat:Middle High German"
-        },
-        {
           "from": "Blatt:German",
-          "label": "inh",
-          "to": "blat:Middle High German"
+          "label": "bor",
+          "to": "blatt:Hungarian"
         },
         {
-          "from": "blat:Romanian",
+          "from": "blat:Middle High German",
+          "label": "inh",
+          "to": "Blatt:Alemannic German"
+        },
+        {
+          "from": "blat:Middle High German",
           "label": "der",
-          "to": "blat:Middle High German"
-        },
-        {
-          "from": "błot:Vilamovian",
-          "label": "inh",
-          "to": "blat:Old High German"
-        },
-        {
-          "from": "בלאַט:Yiddish",
-          "label": "der",
-          "to": "blat:Old High German"
-        },
-        {
-          "from": "blad:Old Saxon",
-          "label": "inh",
-          "to": "*blad:Proto-West Germanic"
+          "to": "blat:Romanian"
         },
         {
           "from": "blat:Old High German",
           "label": "inh",
-          "to": "*blad:Proto-West Germanic"
+          "to": "błot:Vilamovian"
+        },
+        {
+          "from": "blat:Old High German",
+          "label": "der",
+          "to": "בלאַט:Yiddish"
+        },
+        {
+          "from": "*blad:Proto-West Germanic",
+          "label": "inh",
+          "to": "blad:Old Saxon"
+        },
+        {
+          "from": "*blad:Proto-West Germanic",
+          "label": "inh",
+          "to": "bled:Old Frisian"
         },
         {
           "from": "bled:Old Frisian",
           "label": "inh",
-          "to": "*blad:Proto-West Germanic"
+          "to": "Blääd:Saterland Frisian"
         },
         {
-          "from": "Blääd:Saterland Frisian",
+          "from": "bled:Old Frisian",
           "label": "inh",
-          "to": "bled:Old Frisian"
+          "to": "bleed:North Frisian"
         },
         {
-          "from": "bleed:North Frisian",
+          "from": "bled:Old Frisian",
           "label": "inh",
-          "to": "bled:Old Frisian"
+          "to": "blêd:West Frisian"
         },
         {
-          "from": "blêd:West Frisian",
+          "from": "*blad:Proto-West Germanic",
           "label": "inh",
-          "to": "bled:Old Frisian"
+          "to": "blæd:Old English"
         },
         {
           "from": "blæd:Old English",
           "label": "inh",
-          "to": "*blad:Proto-West Germanic"
+          "to": "blad:Middle English"
         },
         {
-          "from": "blad:Middle English",
-          "label": "inh",
-          "to": "blæd:Old English"
-        },
-        {
-          "from": "blod:Manx",
+          "from": "blæd:Old English",
           "label": "der",
-          "to": "blæd:Old English"
+          "to": "blod:Manx"
         },
         {
-          "from": "Bleer:North Frisian",
+          "from": "*bladą:Proto-Germanic",
           "label": "inh",
-          "to": "*bladą:Proto-Germanic"
+          "to": "Bleer:North Frisian"
         },
         {
-          "from": "blad:Proto-West Germanic",
+          "from": "*bladą:Proto-Germanic",
           "label": "inh",
-          "to": "*bladą:Proto-Germanic"
+          "to": "blad:Proto-West Germanic"
+        },
+        {
+          "from": "*bladą:Proto-Germanic",
+          "label": "inh",
+          "to": "blað:Old Norse"
+        },
+        {
+          "from": "blað:Old Norse",
+          "label": "der",
+          "to": "blad:Danish"
+        },
+        {
+          "from": "blað:Old Norse",
+          "label": "der",
+          "to": "blad:Norwegian Bokmål"
+        },
+        {
+          "from": "blað:Old Norse",
+          "label": "der",
+          "to": "blad:Norwegian Nynorsk"
+        },
+        {
+          "from": "blað:Old Norse",
+          "label": "der",
+          "to": "blað:Faroese"
         },
         {
           "from": "blað:Old Norse",
           "label": "inh",
-          "to": "*bladą:Proto-Germanic"
+          "to": "blað:Icelandic"
         },
         {
-          "from": "blad:Danish",
-          "label": "der",
-          "to": "blað:Old Norse"
-        },
-        {
-          "from": "blad:Norwegian Bokmål",
-          "label": "der",
-          "to": "blað:Old Norse"
-        },
-        {
-          "from": "blad:Norwegian Nynorsk",
-          "label": "der",
-          "to": "blað:Old Norse"
-        },
-        {
-          "from": "blað:Faroese",
-          "label": "der",
-          "to": "blað:Old Norse"
-        },
-        {
-          "from": "blað:Icelandic",
-          "label": "inh",
-          "to": "blað:Old Norse"
-        },
-        {
-          "from": "blaþ:Old Swedish",
-          "label": "inh",
-          "to": "blað:Old Norse"
-        },
-        {
-          "from": "blad:Swedish",
+          "from": "blað:Old Norse",
           "label": "inh",
           "to": "blaþ:Old Swedish"
         },
         {
-          "from": "blees:North Frisian",
+          "from": "blaþ:Old Swedish",
           "label": "inh",
-          "to": "*bladą:Proto-Germanic"
+          "to": "blad:Swedish"
         },
         {
-          "from": "láđđi:Northern Sami",
+          "from": "*bladą:Proto-Germanic",
+          "label": "inh",
+          "to": "blees:North Frisian"
+        },
+        {
+          "from": "*bladą:Proto-Germanic",
           "label": "der",
-          "to": "*bladą:Proto-Germanic"
+          "to": "láđđi:Northern Sami"
         },
         {
           "from": "blade:Middle English",
@@ -3697,24 +3502,14 @@
           "to": "blade:Middle English"
         },
         {
-          "from": "*blad:Proto-West Germanic",
-          "label": "inh",
-          "to": "blæd:Old English"
-        },
-        {
-          "from": "blade:Dutch",
+          "from": "blade:English",
           "label": "bor",
-          "to": "blade:English"
-        },
-        {
-          "from": "bléid:Irish",
-          "label": "bor",
-          "to": "blade:English"
+          "to": "blade:Dutch"
         },
         {
           "from": "blade:English",
-          "label": "inh",
-          "to": "blade:Middle English"
+          "label": "bor",
+          "to": "bléid:Irish"
         }
       ],
       "nodes": [

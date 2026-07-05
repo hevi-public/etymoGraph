@@ -8,8 +8,8 @@
     "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
-    "collected_at": "2026-07-05T11:34:08+00:00",
-    "etymograph_git_sha": "6a79a4cfe5f3fc19aa82c8f9281bb078d1bada00",
+    "collected_at": "2026-07-05T12:09:57+00:00",
+    "etymograph_git_sha": "b20fb70543be0382c0e45b7df4ef9d96817c01c6",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
     "notes": "Phase 2: Q2 PARTIAL. /chain returns only [cupboard → cuppeborde]; the compound components 'cup' and 'board' do not appear there. They DO appear in /tree_inh_bor_der_cog (verified: cup:English, board:English with their own ancestries) thanks to main SPC-00012's precomputed etymology_edges. So /chain still has the gap; /tree closes it.",
@@ -534,11 +534,6 @@
           "from": "*burdą:Proto-Germanic",
           "label": "inh",
           "to": "*bord:Proto-West Germanic"
-        },
-        {
-          "from": "cupboard:English",
-          "label": "inh",
-          "to": "cuppeborde:Middle English"
         }
       ],
       "nodes": [
@@ -728,49 +723,44 @@
           "to": "*burdą:Proto-Germanic"
         },
         {
-          "from": "akabati:Rwanda-Rundi",
+          "from": "cupboard:English",
           "label": "der",
-          "to": "cupboard:English"
-        },
-        {
-          "from": "ikhabethe:Zulu",
-          "label": "bor",
-          "to": "cupboard:English"
-        },
-        {
-          "from": "ikhabhathi:Xhosa",
-          "label": "bor",
-          "to": "cupboard:English"
-        },
-        {
-          "from": "kāpata:Maori",
-          "label": "der",
-          "to": "cupboard:English"
-        },
-        {
-          "from": "likhabethe:Swazi",
-          "label": "bor",
-          "to": "cupboard:English"
-        },
-        {
-          "from": "كبت:Gulf Arabic",
-          "label": "bor",
-          "to": "cupboard:English"
+          "to": "akabati:Rwanda-Rundi"
         },
         {
           "from": "cupboard:English",
-          "label": "inh",
-          "to": "cuppeborde:Middle English"
+          "label": "bor",
+          "to": "ikhabethe:Zulu"
         },
         {
-          "from": "kabati:Swahili",
-          "label": "der",
-          "to": "cuppeborde:Middle English"
+          "from": "cupboard:English",
+          "label": "bor",
+          "to": "ikhabhathi:Xhosa"
         },
         {
-          "from": "kobɔɔtɩ:Farefare",
+          "from": "cupboard:English",
           "label": "der",
-          "to": "cuppeborde:Middle English"
+          "to": "kāpata:Maori"
+        },
+        {
+          "from": "cupboard:English",
+          "label": "bor",
+          "to": "likhabethe:Swazi"
+        },
+        {
+          "from": "cupboard:English",
+          "label": "bor",
+          "to": "كبت:Gulf Arabic"
+        },
+        {
+          "from": "cuppeborde:Middle English",
+          "label": "der",
+          "to": "kabati:Swahili"
+        },
+        {
+          "from": "cuppeborde:Middle English",
+          "label": "der",
+          "to": "kobɔɔtɩ:Farefare"
         },
         {
           "from": "cup:English",
@@ -948,79 +938,74 @@
           "to": "*andi:Proto-Germanic"
         },
         {
-          "from": "cop:English",
+          "from": "capiō:Latin",
           "label": "inh",
-          "to": "*coppen:Middle English"
+          "to": "cabre:Catalan"
         },
         {
-          "from": "cabre:Catalan",
+          "from": "capiō:Latin",
           "label": "inh",
-          "to": "capiō:Latin"
+          "to": "capire:Italian"
         },
         {
           "from": "capire:Italian",
-          "label": "inh",
-          "to": "capiō:Latin"
-        },
-        {
-          "from": "capir:Catalan",
           "label": "der",
-          "to": "capire:Italian"
+          "to": "capir:Catalan"
         },
         {
-          "from": "kapować:Polish",
+          "from": "capire:Italian",
           "label": "der",
-          "to": "capire:Italian"
+          "to": "kapować:Polish"
         },
         {
-          "from": "captor:English",
+          "from": "capiō:Latin",
           "label": "der",
-          "to": "capiō:Latin"
+          "to": "captor:English"
         },
         {
-          "from": "caupre:Occitan",
+          "from": "capiō:Latin",
           "label": "inh",
-          "to": "capiō:Latin"
+          "to": "caupre:Occitan"
         },
         {
-          "from": "chaver:Old French",
+          "from": "capiō:Latin",
           "label": "inh",
-          "to": "capiō:Latin"
+          "to": "chaver:Old French"
         },
         {
-          "from": "chavoir:Old French",
+          "from": "capiō:Latin",
           "label": "inh",
-          "to": "capiō:Latin"
+          "to": "chavoir:Old French"
         },
         {
-          "from": "chevoir:Old French",
+          "from": "capiō:Latin",
           "label": "inh",
-          "to": "capiō:Latin"
+          "to": "chevoir:Old French"
         },
         {
-          "from": "ncap:Aromanian",
+          "from": "capiō:Latin",
           "label": "inh",
-          "to": "capiō:Latin"
+          "to": "ncap:Aromanian"
         },
         {
-          "from": "keapje:West Frisian",
+          "from": "kāpia:Old Frisian",
           "label": "inh",
-          "to": "kāpia:Old Frisian"
+          "to": "keapje:West Frisian"
         },
         {
-          "from": "koopi:North Frisian",
+          "from": "kāpia:Old Frisian",
           "label": "der",
-          "to": "kāpia:Old Frisian"
+          "to": "koopi:North Frisian"
         },
         {
-          "from": "koopje:Saterland Frisian",
+          "from": "kāpia:Old Frisian",
           "label": "inh",
-          "to": "kāpia:Old Frisian"
+          "to": "koopje:Saterland Frisian"
         },
         {
-          "from": "kuupe:North Frisian",
+          "from": "kāpia:Old Frisian",
           "label": "der",
-          "to": "kāpia:Old Frisian"
+          "to": "kuupe:North Frisian"
         },
         {
           "from": "kopf:Middle High German",
@@ -1043,364 +1028,344 @@
           "to": "*gew-:Proto-Indo-European"
         },
         {
-          "from": "Kopf:English",
-          "label": "bor",
-          "to": "Kopf:German"
-        },
-        {
-          "from": "Chopf:Alemannic German",
-          "label": "inh",
-          "to": "kopf:Middle High German"
-        },
-        {
           "from": "Kopf:German",
-          "label": "inh",
-          "to": "kopf:Middle High German"
+          "label": "bor",
+          "to": "Kopf:English"
         },
         {
-          "from": "Kopp:Luxembourgish",
+          "from": "kopf:Middle High German",
           "label": "inh",
-          "to": "kopf:Middle High German"
+          "to": "Chopf:Alemannic German"
         },
         {
-          "from": "khopf:Cimbrian",
+          "from": "kopf:Middle High German",
           "label": "inh",
-          "to": "kopf:Middle High German"
+          "to": "Kopp:Luxembourgish"
         },
         {
-          "from": "khòpf:Cimbrian",
+          "from": "kopf:Middle High German",
           "label": "inh",
-          "to": "kopf:Middle High German"
+          "to": "khopf:Cimbrian"
         },
         {
-          "from": "קאָפּ:Yiddish",
+          "from": "kopf:Middle High German",
           "label": "inh",
-          "to": "kopf:Middle High German"
+          "to": "khòpf:Cimbrian"
         },
         {
-          "from": "atorcoppe:Old English",
+          "from": "kopf:Middle High German",
+          "label": "inh",
+          "to": "קאָפּ:Yiddish"
+        },
+        {
+          "from": "*kopp:Proto-West Germanic",
           "label": "der",
-          "to": "*kopp:Proto-West Germanic"
+          "to": "atorcoppe:Old English"
         },
         {
-          "from": "kobbe:Swedish",
+          "from": "*kuppaz:Proto-Germanic",
           "label": "der",
-          "to": "*kuppaz:Proto-Germanic"
+          "to": "kobbe:Swedish"
         },
         {
-          "from": "kopp:Proto-West Germanic",
+          "from": "*kuppaz:Proto-Germanic",
           "label": "inh",
-          "to": "*kuppaz:Proto-Germanic"
+          "to": "kopp:Proto-West Germanic"
         },
         {
-          "from": "kubb:Swedish",
+          "from": "*kuppaz:Proto-Germanic",
           "label": "der",
-          "to": "*kuppaz:Proto-Germanic"
+          "to": "kubb:Swedish"
         },
         {
-          "from": "gurnas:Lithuanian",
+          "from": "*gew-:Proto-Indo-European",
           "label": "der",
-          "to": "*gew-:Proto-Indo-European"
+          "to": "gurnas:Lithuanian"
+        },
+        {
+          "from": "*gew-:Proto-Indo-European",
+          "label": "der",
+          "to": "guttur:Latin"
+        },
+        {
+          "from": "guttur:Latin",
+          "label": "inh",
+          "to": "goitron:Old French"
+        },
+        {
+          "from": "goitron:Old French",
+          "label": "der",
+          "to": "goitre:French"
+        },
+        {
+          "from": "guttur:Latin",
+          "label": "inh",
+          "to": "goto:Galician"
+        },
+        {
+          "from": "guttur:Latin",
+          "label": "inh",
+          "to": "gozzo:Italian"
         },
         {
           "from": "guttur:Latin",
           "label": "der",
-          "to": "*gew-:Proto-Indo-European"
+          "to": "gutturale:Italian"
         },
         {
-          "from": "goitron:Old French",
-          "label": "inh",
-          "to": "guttur:Latin"
-        },
-        {
-          "from": "goitre:French",
+          "from": "guttur:Latin",
           "label": "der",
-          "to": "goitron:Old French"
+          "to": "gutturize:English"
         },
         {
-          "from": "goto:Galician",
-          "label": "inh",
-          "to": "guttur:Latin"
-        },
-        {
-          "from": "gozzo:Italian",
-          "label": "inh",
-          "to": "guttur:Latin"
-        },
-        {
-          "from": "gutturale:Italian",
+          "from": "*gew-:Proto-Indo-European",
           "label": "der",
-          "to": "guttur:Latin"
+          "to": "kauną:Proto-Germanic"
         },
         {
-          "from": "gutturize:English",
+          "from": "*gew-:Proto-Indo-European",
           "label": "der",
-          "to": "guttur:Latin"
-        },
-        {
-          "from": "kauną:Proto-Germanic",
-          "label": "der",
-          "to": "*gew-:Proto-Indo-European"
+          "to": "kur:Swedish"
         },
         {
           "from": "kur:Swedish",
-          "label": "der",
-          "to": "*gew-:Proto-Indo-European"
+          "label": "bor",
+          "to": "kuuri:Finnish"
         },
         {
-          "from": "kuuri:Finnish",
-          "label": "bor",
-          "to": "kur:Swedish"
+          "from": "*gew-:Proto-Indo-European",
+          "label": "der",
+          "to": "kwšk':Middle Persian"
         },
         {
           "from": "kwšk':Middle Persian",
           "label": "der",
-          "to": "*gew-:Proto-Indo-European"
+          "to": "كوشك:Ottoman Turkish"
+        },
+        {
+          "from": "كوشك:Ottoman Turkish",
+          "label": "inh",
+          "to": "Köşk:Turkish"
         },
         {
           "from": "كوشك:Ottoman Turkish",
           "label": "der",
-          "to": "kwšk':Middle Persian"
+          "to": "kiosque:French"
         },
         {
-          "from": "Köşk:Turkish",
+          "from": "كوشك:Ottoman Turkish",
           "label": "inh",
-          "to": "كوشك:Ottoman Turkish"
+          "to": "köşek:Turkish"
         },
         {
-          "from": "kiosque:French",
-          "label": "der",
-          "to": "كوشك:Ottoman Turkish"
-        },
-        {
-          "from": "köşek:Turkish",
+          "from": "كوشك:Ottoman Turkish",
           "label": "inh",
-          "to": "كوشك:Ottoman Turkish"
+          "to": "köşk:Turkish"
         },
         {
-          "from": "köşk:Turkish",
-          "label": "inh",
-          "to": "كوشك:Ottoman Turkish"
-        },
-        {
-          "from": "акәаскьа:Abkhaz",
+          "from": "كوشك:Ottoman Turkish",
           "label": "bor",
-          "to": "كوشك:Ottoman Turkish"
+          "to": "акәаскьа:Abkhaz"
         },
         {
-          "from": "кәашькь:Ubykh",
+          "from": "كوشك:Ottoman Turkish",
           "label": "bor",
-          "to": "كوشك:Ottoman Turkish"
+          "to": "кәашькь:Ubykh"
         },
         {
-          "from": "კოშკი:Georgian",
+          "from": "kwšk':Middle Persian",
           "label": "der",
-          "to": "kwšk':Middle Persian"
+          "to": "კოშკი:Georgian"
         },
         {
-          "from": "γυιός:Ancient Greek",
+          "from": "*gew-:Proto-Indo-European",
           "label": "der",
-          "to": "*gew-:Proto-Indo-European"
+          "to": "γυιός:Ancient Greek"
         },
         {
-          "from": "γυλιός:Ancient Greek",
+          "from": "*gew-:Proto-Indo-European",
           "label": "der",
-          "to": "*gew-:Proto-Indo-European"
-        },
-        {
-          "from": "γυλιός:Greek",
-          "label": "inh",
           "to": "γυλιός:Ancient Greek"
         },
         {
-          "from": "γυρός:Ancient Greek",
-          "label": "der",
-          "to": "*gew-:Proto-Indo-European"
-        },
-        {
-          "from": "γυῖον:Ancient Greek",
-          "label": "der",
-          "to": "*gew-:Proto-Indo-European"
-        },
-        {
-          "from": "γύαλον:Ancient Greek",
-          "label": "der",
-          "to": "*gew-:Proto-Indo-European"
-        },
-        {
-          "from": "copa:Catalan",
+          "from": "γυλιός:Ancient Greek",
           "label": "inh",
-          "to": "cuppa:la-lat"
+          "to": "γυλιός:Greek"
         },
         {
-          "from": "cope:Friulian",
+          "from": "*gew-:Proto-Indo-European",
+          "label": "der",
+          "to": "γυρός:Ancient Greek"
+        },
+        {
+          "from": "*gew-:Proto-Indo-European",
+          "label": "der",
+          "to": "γυῖον:Ancient Greek"
+        },
+        {
+          "from": "*gew-:Proto-Indo-European",
+          "label": "der",
+          "to": "γύαλον:Ancient Greek"
+        },
+        {
+          "from": "cuppa:la-lat",
           "label": "inh",
-          "to": "cuppa:la-lat"
+          "to": "copa:Catalan"
         },
         {
-          "from": "cope:Old French",
+          "from": "cuppa:la-lat",
           "label": "inh",
-          "to": "cuppa:la-lat"
-        },
-        {
-          "from": "coupe:French",
-          "label": "inh",
-          "to": "cope:Old French"
-        },
-        {
-          "from": "copagorja:Spanish",
-          "label": "der",
-          "to": "coupe:French"
-        },
-        {
-          "from": "coupe:English",
-          "label": "bor",
-          "to": "coupe:French"
-        },
-        {
-          "from": "cúp:Vietnamese",
-          "label": "bor",
-          "to": "coupe:French"
-        },
-        {
-          "from": "kupo:Ido",
-          "label": "bor",
-          "to": "coupe:French"
-        },
-        {
-          "from": "κουπ:Greek",
-          "label": "bor",
-          "to": "coupe:French"
-        },
-        {
-          "from": "couppe:Middle French",
-          "label": "der",
-          "to": "cope:Old French"
-        },
-        {
-          "from": "copete:Walloon",
-          "label": "der",
-          "to": "cuppa:la-lat"
-        },
-        {
-          "from": "copp:Old English",
-          "label": "bor",
-          "to": "cuppa:la-lat"
-        },
-        {
-          "from": "Copley:English",
-          "label": "der",
-          "to": "copp:Old English"
-        },
-        {
-          "from": "coppa:Italian",
-          "label": "inh",
-          "to": "cuppa:la-lat"
-        },
-        {
-          "from": "coppa:English",
-          "label": "bor",
-          "to": "coppa:Italian"
-        },
-        {
-          "from": "coupe:Norman",
-          "label": "der",
-          "to": "cuppa:la-lat"
-        },
-        {
-          "from": "cuppe:Old English",
-          "label": "bor",
-          "to": "cuppa:la-lat"
-        },
-        {
-          "from": "cupã:Aromanian",
-          "label": "inh",
-          "to": "cuppa:la-lat"
-        },
-        {
-          "from": "cupă:Romanian",
-          "label": "inh",
-          "to": "cuppa:la-lat"
-        },
-        {
-          "from": "купа:Bulgarian",
-          "label": "der",
-          "to": "cuppa:la-lat"
-        },
-        {
-          "from": "copela:Spanish",
-          "label": "der",
-          "to": "cūpa:Latin"
-        },
-        {
-          "from": "kūpu:Proto-West Germanic",
-          "label": "bor",
-          "to": "cūpa:Latin"
-        },
-        {
-          "from": "кювет:Russian",
-          "label": "der",
-          "to": "cūpa:Latin"
-        },
-        {
-          "from": "cupa:Latin",
-          "label": "der",
-          "to": "*kewp-:Proto-Indo-European"
-        },
-        {
-          "from": "cubo:Galician",
-          "label": "der",
-          "to": "cupa:Latin"
-        },
-        {
-          "from": "cubo:Spanish",
-          "label": "der",
-          "to": "cupa:Latin"
-        },
-        {
-          "from": "kubo:Cebuano",
-          "label": "bor",
-          "to": "cubo:Spanish"
-        },
-        {
-          "from": "cuve:Old French",
-          "label": "inh",
-          "to": "cupa:Latin"
-        },
-        {
-          "from": "cueuve:Bourguignon",
-          "label": "inh",
-          "to": "cuve:Old French"
-        },
-        {
-          "from": "cuve:French",
-          "label": "inh",
-          "to": "cuve:Old French"
-        },
-        {
-          "from": "hūbǭ:Proto-Germanic",
-          "label": "der",
-          "to": "*kewp-:Proto-Indo-European"
-        },
-        {
-          "from": "hūfi:Proto-West Germanic",
-          "label": "der",
-          "to": "*kewp-:Proto-Indo-European"
-        },
-        {
-          "from": "κύπη:Ancient Greek",
-          "label": "der",
-          "to": "*kewp-:Proto-Indo-European"
-        },
-        {
-          "from": "Cypa:Translingual",
-          "label": "bor",
-          "to": "κύπη:Ancient Greek"
+          "to": "cope:Friulian"
         },
         {
           "from": "cuppa:la-lat",
           "label": "inh",
           "to": "cope:Old French"
+        },
+        {
+          "from": "cope:Old French",
+          "label": "inh",
+          "to": "coupe:French"
+        },
+        {
+          "from": "coupe:French",
+          "label": "der",
+          "to": "copagorja:Spanish"
+        },
+        {
+          "from": "coupe:French",
+          "label": "bor",
+          "to": "coupe:English"
+        },
+        {
+          "from": "coupe:French",
+          "label": "bor",
+          "to": "cúp:Vietnamese"
+        },
+        {
+          "from": "coupe:French",
+          "label": "bor",
+          "to": "kupo:Ido"
+        },
+        {
+          "from": "coupe:French",
+          "label": "bor",
+          "to": "κουπ:Greek"
+        },
+        {
+          "from": "cope:Old French",
+          "label": "der",
+          "to": "couppe:Middle French"
+        },
+        {
+          "from": "cuppa:la-lat",
+          "label": "der",
+          "to": "copete:Walloon"
+        },
+        {
+          "from": "cuppa:la-lat",
+          "label": "inh",
+          "to": "coppa:Italian"
+        },
+        {
+          "from": "coppa:Italian",
+          "label": "bor",
+          "to": "coppa:English"
+        },
+        {
+          "from": "cuppa:la-lat",
+          "label": "der",
+          "to": "coupe:Norman"
+        },
+        {
+          "from": "cuppa:la-lat",
+          "label": "bor",
+          "to": "cuppe:Old English"
+        },
+        {
+          "from": "cuppa:la-lat",
+          "label": "inh",
+          "to": "cupã:Aromanian"
+        },
+        {
+          "from": "cuppa:la-lat",
+          "label": "inh",
+          "to": "cupă:Romanian"
+        },
+        {
+          "from": "cuppa:la-lat",
+          "label": "der",
+          "to": "купа:Bulgarian"
+        },
+        {
+          "from": "cūpa:Latin",
+          "label": "der",
+          "to": "copela:Spanish"
+        },
+        {
+          "from": "cūpa:Latin",
+          "label": "bor",
+          "to": "kūpu:Proto-West Germanic"
+        },
+        {
+          "from": "cūpa:Latin",
+          "label": "der",
+          "to": "кювет:Russian"
+        },
+        {
+          "from": "*kewp-:Proto-Indo-European",
+          "label": "der",
+          "to": "cupa:Latin"
+        },
+        {
+          "from": "cupa:Latin",
+          "label": "der",
+          "to": "cubo:Galician"
+        },
+        {
+          "from": "cupa:Latin",
+          "label": "der",
+          "to": "cubo:Spanish"
+        },
+        {
+          "from": "cubo:Spanish",
+          "label": "bor",
+          "to": "kubo:Cebuano"
+        },
+        {
+          "from": "cupa:Latin",
+          "label": "inh",
+          "to": "cuve:Old French"
+        },
+        {
+          "from": "cuve:Old French",
+          "label": "inh",
+          "to": "cueuve:Bourguignon"
+        },
+        {
+          "from": "cuve:Old French",
+          "label": "inh",
+          "to": "cuve:French"
+        },
+        {
+          "from": "*kewp-:Proto-Indo-European",
+          "label": "der",
+          "to": "hūbǭ:Proto-Germanic"
+        },
+        {
+          "from": "*kewp-:Proto-Indo-European",
+          "label": "der",
+          "to": "hūfi:Proto-West Germanic"
+        },
+        {
+          "from": "*kewp-:Proto-Indo-European",
+          "label": "der",
+          "to": "κύπη:Ancient Greek"
+        },
+        {
+          "from": "κύπη:Ancient Greek",
+          "label": "bor",
+          "to": "Cypa:Translingual"
         },
         {
           "from": "*kopp:frk",
@@ -1413,29 +1378,24 @@
           "to": "*kopp:frk"
         },
         {
-          "from": "cuppinu:Sicilian",
+          "from": "cuppa:Latin",
           "label": "der",
-          "to": "cuppa:Latin"
-        },
-        {
-          "from": "kilemschkop:Crimean Gothic",
-          "label": "der",
-          "to": "cuppa:Latin"
-        },
-        {
-          "from": "kupa:Slovene",
-          "label": "der",
-          "to": "cuppa:Latin"
-        },
-        {
-          "from": "cop:Old French",
-          "label": "bor",
-          "to": "*kopp:frk"
+          "to": "cuppinu:Sicilian"
         },
         {
           "from": "cuppa:Latin",
           "label": "der",
-          "to": "*kopp:frk"
+          "to": "kilemschkop:Crimean Gothic"
+        },
+        {
+          "from": "cuppa:Latin",
+          "label": "der",
+          "to": "kupa:Slovene"
+        },
+        {
+          "from": "*kopp:frk",
+          "label": "bor",
+          "to": "cop:Old French"
         },
         {
           "from": "kop:Old Frisian",
@@ -1444,11 +1404,6 @@
         },
         {
           "from": "*kopp:Proto-West Germanic",
-          "label": "inh",
-          "to": "kop:Old Frisian"
-        },
-        {
-          "from": "Kop:Saterland Frisian",
           "label": "inh",
           "to": "kop:Old Frisian"
         },
@@ -1463,11 +1418,6 @@
           "to": "kopp:Old Frisian"
         },
         {
-          "from": "kop:West Frisian",
-          "label": "inh",
-          "to": "kopp:Old Frisian"
-        },
-        {
           "from": "cop:Middle Dutch",
           "label": "inh",
           "to": "kop:Dutch"
@@ -1478,39 +1428,34 @@
           "to": "cop:Middle Dutch"
         },
         {
-          "from": "kop:Afrikaans",
+          "from": "kop:Dutch",
           "label": "inh",
-          "to": "kop:Dutch"
+          "to": "kop:Afrikaans"
         },
         {
-          "from": "Kop:English",
+          "from": "kop:Afrikaans",
           "label": "der",
-          "to": "kop:Afrikaans"
+          "to": "Kop:English"
         },
         {
-          "from": "kop:English",
+          "from": "kop:Afrikaans",
           "label": "bor",
-          "to": "kop:Afrikaans"
-        },
-        {
-          "from": "kop:Indonesian",
-          "label": "bor",
-          "to": "kop:Dutch"
-        },
-        {
-          "from": "コップ:Japanese",
-          "label": "bor",
-          "to": "kop:Dutch"
-        },
-        {
-          "from": "커뿌:Korean",
-          "label": "bor",
-          "to": "kop:Dutch"
+          "to": "kop:English"
         },
         {
           "from": "kop:Dutch",
-          "label": "inh",
-          "to": "cop:Middle Dutch"
+          "label": "bor",
+          "to": "kop:Indonesian"
+        },
+        {
+          "from": "kop:Dutch",
+          "label": "bor",
+          "to": "コップ:Japanese"
+        },
+        {
+          "from": "kop:Dutch",
+          "label": "bor",
+          "to": "커뿌:Korean"
         },
         {
           "from": "koppr:Old Norse",
@@ -1528,24 +1473,19 @@
           "to": "kop:Middle Low German"
         },
         {
-          "from": "kop:Danish",
+          "from": "koppr:Old Norse",
           "label": "der",
-          "to": "koppr:Old Norse"
+          "to": "kopp:Norwegian Bokmål"
         },
         {
-          "from": "kopp:Norwegian Bokmål",
+          "from": "koppr:Old Norse",
           "label": "der",
-          "to": "koppr:Old Norse"
+          "to": "kopp:Norwegian Nynorsk"
         },
         {
-          "from": "kopp:Norwegian Nynorsk",
+          "from": "koppr:Old Norse",
           "label": "der",
-          "to": "koppr:Old Norse"
-        },
-        {
-          "from": "koppur:Faroese",
-          "label": "der",
-          "to": "koppr:Old Norse"
+          "to": "koppur:Faroese"
         },
         {
           "from": "kop:Old Swedish",
@@ -1568,29 +1508,24 @@
           "to": "*kuppaz:Proto-Germanic"
         },
         {
+          "from": "kopp:Swedish",
+          "label": "bor",
+          "to": "kuppi:Finnish"
+        },
+        {
           "from": "kuppi:Finnish",
           "label": "bor",
-          "to": "kopp:Swedish"
+          "to": "koppâ:Inari Sami"
         },
         {
-          "from": "koppâ:Inari Sami",
+          "from": "kuppi:Finnish",
           "label": "bor",
-          "to": "kuppi:Finnish"
-        },
-        {
-          "from": "kuppi:Votic",
-          "label": "bor",
-          "to": "kuppi:Finnish"
-        },
-        {
-          "from": "kuppi:Ingrian",
-          "label": "der",
-          "to": "kopp:Swedish"
+          "to": "kuppi:Votic"
         },
         {
           "from": "kopp:Swedish",
-          "label": "inh",
-          "to": "kop:Old Swedish"
+          "label": "der",
+          "to": "kuppi:Ingrian"
         },
         {
           "from": "*hūfi:Proto-West Germanic",
@@ -1598,24 +1533,14 @@
           "to": "hȳf:Old English"
         },
         {
+          "from": "hȳf:Old English",
+          "label": "inh",
+          "to": "hyve:Middle English"
+        },
+        {
           "from": "hyve:Middle English",
           "label": "inh",
-          "to": "hȳf:Old English"
-        },
-        {
-          "from": "heeve:Yola",
-          "label": "inh",
-          "to": "hyve:Middle English"
-        },
-        {
-          "from": "hive:English",
-          "label": "inh",
-          "to": "hyve:Middle English"
-        },
-        {
-          "from": "hyf:Old English",
-          "label": "inh",
-          "to": "*hūfi:Proto-West Germanic"
+          "to": "heeve:Yola"
         },
         {
           "from": "hyve:Middle English",
@@ -1623,9 +1548,9 @@
           "to": "hive:English"
         },
         {
-          "from": "hȳf:Old English",
+          "from": "*hūfi:Proto-West Germanic",
           "label": "inh",
-          "to": "hyve:Middle English"
+          "to": "hyf:Old English"
         },
         {
           "from": "*kuHp-:Proto-Indo-European",
@@ -1643,79 +1568,74 @@
           "to": "*kúHpas:Proto-Indo-Aryan"
         },
         {
+          "from": "कूप:Sanskrit",
+          "label": "der",
+          "to": "kopi:Malay"
+        },
+        {
           "from": "kopi:Malay",
-          "label": "der",
-          "to": "कूप:Sanskrit"
-        },
-        {
-          "from": "kopi:Balinese",
           "label": "bor",
-          "to": "kopi:Malay"
+          "to": "kopi:Balinese"
         },
         {
-          "from": "kopi:English",
+          "from": "kopi:Malay",
           "label": "bor",
-          "to": "kopi:Malay"
+          "to": "kopi:English"
         },
         {
-          "from": "kopi:Indonesian",
+          "from": "kopi:Malay",
           "label": "inh",
-          "to": "kopi:Malay"
+          "to": "kopi:Indonesian"
         },
         {
-          "from": "kopi money:English",
+          "from": "kopi:Malay",
           "label": "bor",
-          "to": "kopi:Malay"
+          "to": "kopi money:English"
         },
         {
-          "from": "กูปี:Urak Lawoi'",
+          "from": "kopi:Malay",
           "label": "bor",
-          "to": "kopi:Malay"
+          "to": "กูปี:Urak Lawoi'"
         },
         {
-          "from": "โกปี:Urak Lawoi'",
+          "from": "kopi:Malay",
           "label": "bor",
-          "to": "kopi:Malay"
+          "to": "โกปี:Urak Lawoi'"
         },
         {
-          "from": "kupi:Malay",
+          "from": "कूप:Sanskrit",
           "label": "bor",
-          "to": "कूप:Sanskrit"
+          "to": "kupi:Malay"
         },
         {
-          "from": "kuí:Kalasha",
+          "from": "कूप:Sanskrit",
           "label": "der",
-          "to": "कूप:Sanskrit"
+          "to": "kuí:Kalasha"
         },
         {
-          "from": "कुप्पा:Hindi",
+          "from": "कूप:Sanskrit",
           "label": "der",
-          "to": "कूप:Sanskrit"
+          "to": "कुप्पा:Hindi"
         },
         {
-          "from": "कुहा:Old Marathi",
+          "from": "कूप:Sanskrit",
           "label": "der",
-          "to": "कूप:Sanskrit"
-        },
-        {
-          "from": "কুঁৱা:Assamese",
-          "label": "inh",
-          "to": "कूप:Sanskrit"
-        },
-        {
-          "from": "ꠇꠥꠀ:Sylheti",
-          "label": "inh",
-          "to": "कूप:Sanskrit"
-        },
-        {
-          "from": "𑘎𑘳𑘮𑘰:Old Marathi",
-          "label": "der",
-          "to": "कूप:Sanskrit"
+          "to": "कुहा:Old Marathi"
         },
         {
           "from": "कूप:Sanskrit",
           "label": "inh",
-          "to": "*kúHpas:Proto-Indo-Aryan"
+          "to": "কুঁৱা:Assamese"
+        },
+        {
+          "from": "कूप:Sanskrit",
+          "label": "inh",
+          "to": "ꠇꠥꠀ:Sylheti"
+        },
+        {
+          "from": "कूप:Sanskrit",
+          "label": "der",
+          "to": "𑘎𑘳𑘮𑘰:Old Marathi"
         },
         {
           "from": "-:qsb-grc",
@@ -1723,29 +1643,29 @@
           "to": "κύπελλον:Ancient Greek"
         },
         {
-          "from": "κύπελλο:Greek",
+          "from": "κύπελλον:Ancient Greek",
           "label": "inh",
-          "to": "κύπελλον:Ancient Greek"
+          "to": "κύπελλο:Greek"
         },
         {
-          "from": "dabúrintʰos:Proto-Hellenic",
+          "from": "-:qsb-grc",
           "label": "der",
-          "to": "-:qsb-grc"
+          "to": "dabúrintʰos:Proto-Hellenic"
         },
         {
-          "from": "gʷatiléus:Proto-Hellenic",
+          "from": "-:qsb-grc",
           "label": "der",
-          "to": "-:qsb-grc"
+          "to": "gʷatiléus:Proto-Hellenic"
         },
         {
-          "from": "hubristic:English",
+          "from": "-:qsb-grc",
           "label": "der",
-          "to": "-:qsb-grc"
+          "to": "hubristic:English"
         },
         {
-          "from": "kupeleko:Hawaiian",
+          "from": "-:qsb-grc",
           "label": "der",
-          "to": "-:qsb-grc"
+          "to": "kupeleko:Hawaiian"
         },
         {
           "from": "cop:English",
@@ -1935,12 +1855,12 @@
         {
           "from": "capire:Italian",
           "label": "cog",
-          "to": "capir:Catalan"
+          "to": "kapieren:German"
         },
         {
-          "from": "capire:Italian",
+          "from": "capir:Catalan",
           "label": "cog",
-          "to": "kapieren:German"
+          "to": "capire:Italian"
         },
         {
           "from": "caupre:Occitan",
@@ -2253,39 +2173,34 @@
           "to": "cōpon:Old Dutch"
         },
         {
-          "from": "copen:Middle Dutch",
+          "from": "*kaupōn:Proto-West Germanic",
           "label": "inh",
-          "to": "cōpon:Old Dutch"
+          "to": "ceapian:Old English"
         },
         {
-          "from": "ceapian:Old English",
-          "label": "inh",
-          "to": "*kaupōn:Proto-West Germanic"
-        },
-        {
-          "from": "copian:Old English",
+          "from": "*kaupōn:Proto-West Germanic",
           "label": "der",
-          "to": "*kaupōn:Proto-West Germanic"
+          "to": "copian:Old English"
         },
         {
-          "from": "copon:Old Dutch",
+          "from": "*kaupōn:Proto-West Germanic",
           "label": "inh",
-          "to": "*kaupōn:Proto-West Germanic"
+          "to": "copon:Old Dutch"
         },
         {
-          "from": "kapia:Old Frisian",
+          "from": "*kaupōn:Proto-West Germanic",
           "label": "inh",
-          "to": "*kaupōn:Proto-West Germanic"
+          "to": "kapia:Old Frisian"
         },
         {
-          "from": "koufon:Old High German",
+          "from": "*kaupōn:Proto-West Germanic",
           "label": "inh",
-          "to": "*kaupōn:Proto-West Germanic"
+          "to": "koufon:Old High German"
         },
         {
-          "from": "koupe:Limburgish",
+          "from": "*kaupōn:Proto-West Germanic",
           "label": "inh",
-          "to": "*kaupōn:Proto-West Germanic"
+          "to": "koupe:Limburgish"
         },
         {
           "from": "huve:Middle Dutch",
@@ -2308,24 +2223,14 @@
           "to": "*hūbā:Proto-West Germanic"
         },
         {
-          "from": "huif:Dutch",
+          "from": "*hūbā:Proto-West Germanic",
           "label": "inh",
-          "to": "huve:Middle Dutch"
+          "to": "hufe:Old English"
         },
         {
-          "from": "hufe:Old English",
-          "label": "inh",
-          "to": "*hūbā:Proto-West Germanic"
-        },
-        {
-          "from": "kupu:Proto-Finnic",
+          "from": "*hūbǭ:Proto-Germanic",
           "label": "bor",
-          "to": "*hūbǭ:Proto-Germanic"
-        },
-        {
-          "from": "*kaupōn:Proto-West Germanic",
-          "label": "inh",
-          "to": "ceapian:Old English"
+          "to": "kupu:Proto-Finnic"
         },
         {
           "from": "*kapa:Proto-Albanian",
@@ -2338,29 +2243,24 @@
           "to": "*kapa:Proto-Albanian"
         },
         {
-          "from": "kap:Albanian",
+          "from": "*kapa:Proto-Albanian",
           "label": "inh",
-          "to": "*kapa:Proto-Albanian"
+          "to": "kapth:Albanian"
         },
         {
-          "from": "kapth:Albanian",
-          "label": "inh",
-          "to": "*kapa:Proto-Albanian"
-        },
-        {
-          "from": "habukaz:Proto-Germanic",
+          "from": "*kap-:Proto-Indo-European",
           "label": "der",
-          "to": "*kap-:Proto-Indo-European"
+          "to": "habukaz:Proto-Germanic"
         },
         {
-          "from": "kapā́las:Proto-Indo-Iranian",
+          "from": "*kap-:Proto-Indo-European",
           "label": "inh",
-          "to": "*kap-:Proto-Indo-European"
+          "to": "kapā́las:Proto-Indo-Iranian"
         },
         {
-          "from": "kobьcь:Proto-Slavic",
+          "from": "*kap-:Proto-Indo-European",
           "label": "der",
-          "to": "*kap-:Proto-Indo-European"
+          "to": "kobьcь:Proto-Slavic"
         },
         {
           "from": "caffout:xbm",
@@ -2378,29 +2278,24 @@
           "to": "*kėβɨd:Proto-Brythonic"
         },
         {
-          "from": "kavout:Breton",
+          "from": "*gabyeti:Proto-Celtic",
           "label": "inh",
-          "to": "caffout:xbm"
+          "to": "gaibid:Old Irish"
         },
         {
           "from": "gaibid:Old Irish",
           "label": "inh",
-          "to": "*gabyeti:Proto-Celtic"
+          "to": "gabh:Irish"
         },
         {
-          "from": "gabh:Irish",
+          "from": "gaibid:Old Irish",
           "label": "inh",
-          "to": "gaibid:Old Irish"
+          "to": "gabh:Scottish Gaelic"
         },
         {
-          "from": "gabh:Scottish Gaelic",
+          "from": "gaibid:Old Irish",
           "label": "inh",
-          "to": "gaibid:Old Irish"
-        },
-        {
-          "from": "gow:Manx",
-          "label": "inh",
-          "to": "gaibid:Old Irish"
+          "to": "gow:Manx"
         },
         {
           "from": "caffael:Middle Welsh",
@@ -2443,84 +2338,79 @@
           "to": "*kageti:Proto-Celtic"
         },
         {
-          "from": "cael:Welsh",
+          "from": "cael:Middle Welsh",
           "label": "inh",
-          "to": "caffael:Middle Welsh"
+          "to": "cau:Welsh"
         },
         {
-          "from": "cau:Welsh",
+          "from": "*kagʰ-:Proto-Indo-European",
           "label": "inh",
-          "to": "cael:Middle Welsh"
+          "to": "hagô:Proto-Germanic"
         },
         {
-          "from": "hagô:Proto-Germanic",
-          "label": "inh",
-          "to": "*kagʰ-:Proto-Indo-European"
-        },
-        {
-          "from": "kageti:Proto-Celtic",
+          "from": "*kagʰ-:Proto-Indo-European",
           "label": "der",
-          "to": "*kagʰ-:Proto-Indo-European"
+          "to": "kageti:Proto-Celtic"
         },
         {
-          "from": "kánjuš:Proto-Iranian",
+          "from": "*kagʰ-:Proto-Indo-European",
           "label": "inh",
-          "to": "*kagʰ-:Proto-Indo-European"
+          "to": "kánjuš:Proto-Iranian"
+        },
+        {
+          "from": "*kagʰ-:Proto-Indo-European",
+          "label": "der",
+          "to": "कक्ष:Sanskrit"
+        },
+        {
+          "from": "कक्ष:Sanskrit",
+          "label": "inh",
+          "to": "káac̣:Phalura"
+        },
+        {
+          "from": "कक्ष:Sanskrit",
+          "label": "inh",
+          "to": "ކައް:Dhivehi"
+        },
+        {
+          "from": "कक्ष:Sanskrit",
+          "label": "inh",
+          "to": "ކިހިލި:Dhivehi"
+        },
+        {
+          "from": "कक्ष:Sanskrit",
+          "label": "inh",
+          "to": "कख:Garhwali"
+        },
+        {
+          "from": "कक्ष:Sanskrit",
+          "label": "inh",
+          "to": "कास:Marathi"
+        },
+        {
+          "from": "कक्ष:Sanskrit",
+          "label": "inh",
+          "to": "ਕੱਛ:Punjabi"
+        },
+        {
+          "from": "कक्ष:Sanskrit",
+          "label": "inh",
+          "to": "କାଖ:Odia"
         },
         {
           "from": "कक्ष:Sanskrit",
           "label": "der",
-          "to": "*kagʰ-:Proto-Indo-European"
+          "to": "கட்சி:Tamil"
         },
         {
-          "from": "káac̣:Phalura",
-          "label": "inh",
-          "to": "कक्ष:Sanskrit"
-        },
-        {
-          "from": "ކައް:Dhivehi",
-          "label": "inh",
-          "to": "कक्ष:Sanskrit"
-        },
-        {
-          "from": "ކިހިލި:Dhivehi",
-          "label": "inh",
-          "to": "कक्ष:Sanskrit"
-        },
-        {
-          "from": "कख:Garhwali",
-          "label": "inh",
-          "to": "कक्ष:Sanskrit"
-        },
-        {
-          "from": "कास:Marathi",
-          "label": "inh",
-          "to": "कक्ष:Sanskrit"
-        },
-        {
-          "from": "ਕੱਛ:Punjabi",
-          "label": "inh",
-          "to": "कक्ष:Sanskrit"
-        },
-        {
-          "from": "କାଖ:Odia",
-          "label": "inh",
-          "to": "कक्ष:Sanskrit"
-        },
-        {
-          "from": "கட்சி:Tamil",
+          "from": "कक्ष:Sanskrit",
           "label": "der",
-          "to": "कक्ष:Sanskrit"
+          "to": "കക്ഷി:Malayalam"
         },
         {
-          "from": "കക്ഷി:Malayalam",
-          "label": "der",
-          "to": "कक्ष:Sanskrit"
-        },
-        {
-          "from": "𑂍𑂰𑂀𑂎:Magahi",
+          "from": "कक्ष:Sanskrit",
           "label": "inh",
-          "to": "कक्ष:Sanskrit"
+          "to": "𑂍𑂰𑂀𑂎:Magahi"
         },
         {
           "from": "haven:Middle English",
@@ -2548,259 +2438,244 @@
           "to": "*habjaną:Proto-Germanic"
         },
         {
-          "from": "abi:Sranan Tongo",
+          "from": "have:English",
           "label": "der",
-          "to": "have:English"
-        },
-        {
-          "from": "av:Jamaican Creole",
-          "label": "der",
-          "to": "have:English"
-        },
-        {
-          "from": "havey:Tagalog",
-          "label": "der",
-          "to": "have:English"
-        },
-        {
-          "from": "havi:Esperanto",
-          "label": "bor",
-          "to": "have:English"
-        },
-        {
-          "from": "havar:Ido",
-          "label": "der",
-          "to": "havi:Esperanto"
-        },
-        {
-          "from": "ha:Yola",
-          "label": "inh",
-          "to": "haven:Middle English"
+          "to": "abi:Sranan Tongo"
         },
         {
           "from": "have:English",
-          "label": "inh",
-          "to": "haven:Middle English"
-        },
-        {
-          "from": "haven:English",
-          "label": "inh",
-          "to": "haven:Middle English"
-        },
-        {
-          "from": "have to:English",
-          "label": "inh",
-          "to": "habban:Old English"
-        },
-        {
-          "from": "afu:Sranan Tongo",
           "label": "der",
-          "to": "have to:English"
+          "to": "av:Jamaican Creole"
         },
         {
-          "from": "haffi:Jamaican Creole",
+          "from": "have:English",
           "label": "der",
-          "to": "have to:English"
+          "to": "havey:Tagalog"
+        },
+        {
+          "from": "have:English",
+          "label": "bor",
+          "to": "havi:Esperanto"
+        },
+        {
+          "from": "havi:Esperanto",
+          "label": "der",
+          "to": "havar:Ido"
         },
         {
           "from": "haven:Middle English",
           "label": "inh",
-          "to": "habban:Old English"
+          "to": "ha:Yola"
         },
         {
-          "from": "hobnob:English",
+          "from": "haven:Middle English",
           "label": "inh",
-          "to": "habban:Old English"
+          "to": "haven:English"
         },
         {
           "from": "habban:Old English",
           "label": "inh",
-          "to": "*habbjan:Proto-West Germanic"
+          "to": "have to:English"
         },
         {
-          "from": "haben:Old High German",
+          "from": "have to:English",
+          "label": "der",
+          "to": "afu:Sranan Tongo"
+        },
+        {
+          "from": "have to:English",
+          "label": "der",
+          "to": "haffi:Jamaican Creole"
+        },
+        {
+          "from": "habban:Old English",
           "label": "inh",
-          "to": "*habbjan:Proto-West Germanic"
+          "to": "hobnob:English"
+        },
+        {
+          "from": "*habbjan:Proto-West Germanic",
+          "label": "inh",
+          "to": "haben:Old High German"
+        },
+        {
+          "from": "*habbjan:Proto-West Germanic",
+          "label": "inh",
+          "to": "hebba:Old Frisian"
         },
         {
           "from": "hebba:Old Frisian",
           "label": "inh",
-          "to": "*habbjan:Proto-West Germanic"
+          "to": "haa:North Frisian"
         },
         {
-          "from": "haa:North Frisian",
+          "from": "hebba:Old Frisian",
           "label": "inh",
-          "to": "hebba:Old Frisian"
+          "to": "hawwe:West Frisian"
         },
         {
-          "from": "hawwe:West Frisian",
-          "label": "inh",
-          "to": "hebba:Old Frisian"
-        },
-        {
-          "from": "heewe:North Frisian",
+          "from": "hebba:Old Frisian",
           "label": "der",
-          "to": "hebba:Old Frisian"
+          "to": "heewe:North Frisian"
         },
         {
-          "from": "häbe:Saterland Frisian",
+          "from": "hebba:Old Frisian",
           "label": "inh",
-          "to": "hebba:Old Frisian"
+          "to": "häbe:Saterland Frisian"
         },
         {
-          "from": "hebban:Old English",
-          "label": "inh",
-          "to": "*habbjan:Proto-West Germanic"
-        },
-        {
-          "from": "heven:Middle English",
+          "from": "*habbjan:Proto-West Germanic",
           "label": "inh",
           "to": "hebban:Old English"
         },
         {
-          "from": "haves:English",
+          "from": "hebban:Old English",
           "label": "inh",
           "to": "heven:Middle English"
         },
         {
-          "from": "heave:English",
+          "from": "heven:Middle English",
           "label": "inh",
-          "to": "heven:Middle English"
+          "to": "haves:English"
         },
         {
-          "from": "heve:Yola",
+          "from": "heven:Middle English",
           "label": "inh",
-          "to": "heven:Middle English"
+          "to": "heave:English"
         },
         {
-          "from": "hebben:Old Dutch",
+          "from": "heven:Middle English",
           "label": "inh",
-          "to": "*habbjan:Proto-West Germanic"
+          "to": "heve:Yola"
         },
         {
-          "from": "hebben:Middle Dutch",
+          "from": "*habbjan:Proto-West Germanic",
           "label": "inh",
           "to": "hebben:Old Dutch"
         },
         {
-          "from": "hebben:Dutch",
+          "from": "hebben:Old Dutch",
           "label": "inh",
           "to": "hebben:Middle Dutch"
         },
         {
-          "from": "hebbian:Old Saxon",
+          "from": "hebben:Middle Dutch",
           "label": "inh",
-          "to": "*habbjan:Proto-West Germanic"
+          "to": "hebben:Dutch"
         },
         {
-          "from": "hebben:Low German",
+          "from": "*habbjan:Proto-West Germanic",
           "label": "inh",
           "to": "hebbian:Old Saxon"
         },
         {
-          "from": "heffen:Old Dutch",
+          "from": "hebbian:Old Saxon",
           "label": "inh",
-          "to": "*habbjan:Proto-West Germanic"
+          "to": "hebben:Low German"
         },
         {
-          "from": "heffen:Middle Dutch",
+          "from": "*habbjan:Proto-West Germanic",
           "label": "inh",
           "to": "heffen:Old Dutch"
         },
         {
-          "from": "heffen:Dutch",
+          "from": "heffen:Old Dutch",
           "label": "inh",
           "to": "heffen:Middle Dutch"
         },
         {
-          "from": "heffen:Old High German",
+          "from": "heffen:Middle Dutch",
           "label": "inh",
-          "to": "*habbjan:Proto-West Germanic"
+          "to": "heffen:Dutch"
         },
         {
-          "from": "habbjan:Proto-West Germanic",
+          "from": "*habbjan:Proto-West Germanic",
           "label": "inh",
-          "to": "*habjaną:Proto-Germanic"
+          "to": "heffen:Old High German"
         },
         {
-          "from": "habu:Proto-West Germanic",
+          "from": "*habjaną:Proto-Germanic",
+          "label": "inh",
+          "to": "habbjan:Proto-West Germanic"
+        },
+        {
+          "from": "*habjaną:Proto-Germanic",
           "label": "der",
-          "to": "*habjaną:Proto-Germanic"
+          "to": "habu:Proto-West Germanic"
+        },
+        {
+          "from": "*habjaną:Proto-Germanic",
+          "label": "inh",
+          "to": "hafa:Old Norse"
         },
         {
           "from": "hafa:Old Norse",
           "label": "inh",
-          "to": "*habjaną:Proto-Germanic"
+          "to": "ha:Norwegian Bokmål"
         },
         {
-          "from": "ha:Norwegian Bokmål",
+          "from": "hafa:Old Norse",
           "label": "inh",
-          "to": "hafa:Old Norse"
+          "to": "ha:Norwegian Nynorsk"
         },
         {
-          "from": "ha:Norwegian Nynorsk",
+          "from": "hafa:Old Norse",
           "label": "inh",
-          "to": "hafa:Old Norse"
+          "to": "hafa:Icelandic"
         },
         {
-          "from": "hafa:Icelandic",
-          "label": "inh",
-          "to": "hafa:Old Norse"
-        },
-        {
-          "from": "hafa:Old Danish",
+          "from": "hafa:Old Norse",
           "label": "der",
-          "to": "hafa:Old Norse"
+          "to": "hafa:Old Danish"
         },
         {
-          "from": "hava:Faroese",
+          "from": "hafa:Old Norse",
           "label": "inh",
-          "to": "hafa:Old Norse"
+          "to": "hava:Faroese"
         },
         {
-          "from": "hava:Norwegian Nynorsk",
+          "from": "hafa:Old Norse",
           "label": "inh",
-          "to": "hafa:Old Norse"
+          "to": "hava:Norwegian Nynorsk"
         },
         {
-          "from": "hava:Old Swedish",
-          "label": "inh",
-          "to": "hafa:Old Norse"
-        },
-        {
-          "from": "ha:Swedish",
+          "from": "hafa:Old Norse",
           "label": "inh",
           "to": "hava:Old Swedish"
         },
         {
-          "from": "have:Danish",
+          "from": "hava:Old Swedish",
           "label": "inh",
-          "to": "hafa:Old Norse"
+          "to": "ha:Swedish"
         },
         {
-          "from": "have:Norwegian Nynorsk",
-          "label": "der",
-          "to": "hafa:Old Norse"
-        },
-        {
-          "from": "hå:Norwegian Nynorsk",
-          "label": "der",
-          "to": "hafa:Old Norse"
-        },
-        {
-          "from": "åvå:Elfdalian",
-          "label": "der",
-          "to": "hafa:Old Norse"
-        },
-        {
-          "from": "habjaną:Proto-Germanic",
+          "from": "hafa:Old Norse",
           "label": "inh",
-          "to": "*kh₂pyéti:Proto-Indo-European"
+          "to": "have:Danish"
         },
         {
-          "from": "kapa:Proto-Albanian",
+          "from": "hafa:Old Norse",
+          "label": "der",
+          "to": "have:Norwegian Nynorsk"
+        },
+        {
+          "from": "hafa:Old Norse",
+          "label": "der",
+          "to": "hå:Norwegian Nynorsk"
+        },
+        {
+          "from": "hafa:Old Norse",
+          "label": "der",
+          "to": "åvå:Elfdalian"
+        },
+        {
+          "from": "*kh₂pyéti:Proto-Indo-European",
           "label": "inh",
-          "to": "*kh₂pyéti:Proto-Indo-European"
+          "to": "habjaną:Proto-Germanic"
+        },
+        {
+          "from": "*kh₂pyéti:Proto-Indo-European",
+          "label": "inh",
+          "to": "kapa:Proto-Albanian"
         },
         {
           "from": "*kapťō:Proto-Hellenic",
@@ -2813,19 +2688,14 @@
           "to": "*kapťō:Proto-Hellenic"
         },
         {
-          "from": "κάπτω:Ancient Greek",
+          "from": "*kapyéti:Proto-Indo-European",
           "label": "inh",
-          "to": "*kapťō:Proto-Hellenic"
+          "to": "kapjō:Proto-Italic"
         },
         {
-          "from": "kapjō:Proto-Italic",
+          "from": "*kapyéti:Proto-Indo-European",
           "label": "inh",
-          "to": "*kapyéti:Proto-Indo-European"
-        },
-        {
-          "from": "kápťō:Proto-Hellenic",
-          "label": "inh",
-          "to": "*kapyéti:Proto-Indo-European"
+          "to": "kápťō:Proto-Hellenic"
         },
         {
           "from": "houbet:Middle High German",
@@ -2853,84 +2723,69 @@
           "to": "*haubudą:Proto-Germanic"
         },
         {
-          "from": "Haupt:Plautdietsch",
-          "label": "bor",
-          "to": "Haupt:German"
-        },
-        {
           "from": "Haupt:German",
-          "label": "inh",
-          "to": "houbet:Middle High German"
-        },
-        {
-          "from": "הויפּט:Yiddish",
-          "label": "inh",
-          "to": "houbet:Middle High German"
+          "label": "bor",
+          "to": "Haupt:Plautdietsch"
         },
         {
           "from": "houbet:Middle High German",
           "label": "inh",
-          "to": "houbit:Old High German"
+          "to": "הויפּט:Yiddish"
         },
         {
-          "from": "haved:Old Frisian",
+          "from": "*haubud:Proto-West Germanic",
           "label": "inh",
-          "to": "*haubud:Proto-West Germanic"
+          "to": "haved:Old Frisian"
         },
         {
-          "from": "heafod:Old English",
+          "from": "*haubud:Proto-West Germanic",
           "label": "inh",
-          "to": "*haubud:Proto-West Germanic"
+          "to": "heafod:Old English"
         },
         {
-          "from": "houbit:Old High German",
+          "from": "*haubud:Proto-West Germanic",
           "label": "inh",
-          "to": "*haubud:Proto-West Germanic"
+          "to": "hovid:Old Saxon"
         },
         {
-          "from": "hovid:Old Saxon",
+          "from": "*haubud:Proto-West Germanic",
           "label": "inh",
-          "to": "*haubud:Proto-West Germanic"
+          "to": "hovit:Old Dutch"
         },
         {
-          "from": "hovit:Old Dutch",
+          "from": "*haubudą:Proto-Germanic",
           "label": "inh",
-          "to": "*haubud:Proto-West Germanic"
+          "to": "hiöt:Vilamovian"
         },
         {
-          "from": "hiöt:Vilamovian",
+          "from": "*haubudą:Proto-Germanic",
           "label": "inh",
-          "to": "*haubudą:Proto-Germanic"
+          "to": "hoef:Crimean Gothic"
         },
         {
-          "from": "hoef:Crimean Gothic",
+          "from": "*haubudą:Proto-Germanic",
           "label": "inh",
-          "to": "*haubudą:Proto-Germanic"
+          "to": "𐌷𐌰𐌿𐌱𐌹𐌸:Gothic"
         },
         {
-          "from": "𐌷𐌰𐌿𐌱𐌹𐌸:Gothic",
+          "from": "*káput:Proto-Indo-European",
           "label": "inh",
-          "to": "*haubudą:Proto-Germanic"
+          "to": "capitulation:English"
         },
         {
-          "from": "capitulation:English",
-          "label": "inh",
-          "to": "*káput:Proto-Indo-European"
-        },
-        {
-          "from": "haubudą:Proto-Germanic",
+          "from": "*káput:Proto-Indo-European",
           "label": "der",
-          "to": "*káput:Proto-Indo-European"
+          "to": "haubudą:Proto-Germanic"
         },
         {
-          "from": "kaput:Proto-Italic",
+          "from": "*káput:Proto-Indo-European",
           "label": "inh",
-          "to": "*káput:Proto-Indo-European"
+          "to": "kaput:Proto-Italic"
         },
         {
-          "from": "kaɸukos:Proto-Celtic",
+          "from": "*káput:Proto-Indo-European",
           "label": "der",
-          "to": "*káput:Proto-Indo-European"
+          "to": "kaɸukos:Proto-Celtic"
         },
         {
           "from": "hed:Middle English",
@@ -2948,84 +2803,79 @@
           "to": "hēafod:Old English"
         },
         {
-          "from": "ed:Jamaican Creole",
+          "from": "head:English",
           "label": "der",
-          "to": "head:English"
-        },
-        {
-          "from": "ed:Torres Strait Creole",
-          "label": "inh",
-          "to": "head:English"
-        },
-        {
-          "from": "ede:Sranan Tongo",
-          "label": "der",
-          "to": "head:English"
-        },
-        {
-          "from": "hedde:Norwegian Nynorsk",
-          "label": "bor",
-          "to": "head:English"
-        },
-        {
-          "from": "het:Tok Pisin",
-          "label": "der",
-          "to": "head:English"
-        },
-        {
-          "from": "hetman:Tok Pisin",
-          "label": "der",
-          "to": "head:English"
-        },
-        {
-          "from": "hetpilo:Tok Pisin",
-          "label": "der",
-          "to": "head:English"
-        },
-        {
-          "from": "ヘッド:Japanese",
-          "label": "bor",
-          "to": "head:English"
+          "to": "ed:Jamaican Creole"
         },
         {
           "from": "head:English",
           "label": "inh",
-          "to": "hed:Middle English"
+          "to": "ed:Torres Strait Creole"
         },
         {
-          "from": "Haston:English",
+          "from": "head:English",
           "label": "der",
-          "to": "hēafod:Old English"
+          "to": "ede:Sranan Tongo"
         },
         {
-          "from": "hade:Middle English",
-          "label": "inh",
-          "to": "hēafod:Old English"
+          "from": "head:English",
+          "label": "bor",
+          "to": "hedde:Norwegian Nynorsk"
         },
         {
-          "from": "hade:English",
+          "from": "head:English",
+          "label": "der",
+          "to": "het:Tok Pisin"
+        },
+        {
+          "from": "head:English",
+          "label": "der",
+          "to": "hetman:Tok Pisin"
+        },
+        {
+          "from": "head:English",
+          "label": "der",
+          "to": "hetpilo:Tok Pisin"
+        },
+        {
+          "from": "head:English",
+          "label": "bor",
+          "to": "ヘッド:Japanese"
+        },
+        {
+          "from": "hēafod:Old English",
+          "label": "der",
+          "to": "Haston:English"
+        },
+        {
+          "from": "hēafod:Old English",
           "label": "inh",
           "to": "hade:Middle English"
         },
         {
-          "from": "heead:English",
+          "from": "hade:Middle English",
           "label": "inh",
-          "to": "hēafod:Old English"
+          "to": "hade:English"
+        },
+        {
+          "from": "hēafod:Old English",
+          "label": "inh",
+          "to": "heead:English"
+        },
+        {
+          "from": "hēafod:Old English",
+          "label": "inh",
+          "to": "heed:Middle English"
         },
         {
           "from": "heed:Middle English",
           "label": "inh",
-          "to": "hēafod:Old English"
+          "to": "head:English"
         },
         {
-          "from": "head:English",
+          "from": "heed:Middle English",
           "label": "inh",
-          "to": "heed:Middle English"
-        },
-        {
-          "from": "heade:Yola",
-          "label": "inh",
-          "to": "heed:Middle English"
+          "to": "heade:Yola"
         },
         {
           "from": "-:la-vul",
@@ -3038,109 +2888,109 @@
           "to": "-:la-vul"
         },
         {
-          "from": "-igiano:Italian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "-igiano:Italian"
         },
         {
-          "from": "Befana:Italian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "Befana:Italian"
         },
         {
-          "from": "Ebryl:Cornish",
+          "from": "-:la-vul",
           "label": "bor",
-          "to": "-:la-vul"
+          "to": "Ebryl:Cornish"
         },
         {
-          "from": "Florii:Romanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "Florii:Romanian"
         },
         {
-          "from": "Sãrunã:Aromanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "Sãrunã:Aromanian"
         },
         {
-          "from": "acaecer:Old Galician-Portuguese",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "acaecer:Old Galician-Portuguese"
         },
         {
-          "from": "aciua:Romanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "aciua:Romanian"
         },
         {
-          "from": "adia:Romanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "adia:Romanian"
         },
         {
-          "from": "adilju:Aromanian",
+          "from": "-:la-vul",
           "label": "der",
-          "to": "-:la-vul"
+          "to": "adilju:Aromanian"
         },
         {
-          "from": "adulmeca:Romanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "adulmeca:Romanian"
         },
         {
-          "from": "afâna:Romanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "afâna:Romanian"
         },
         {
-          "from": "agadôs:Friulian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "agadôs:Friulian"
         },
         {
-          "from": "agnoni:Sardinian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "agnoni:Sardinian"
         },
         {
-          "from": "agrume:Italian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
-        },
-        {
-          "from": "agrumi:Slovene",
-          "label": "bor",
           "to": "agrume:Italian"
         },
         {
-          "from": "ajuna:Romanian",
-          "label": "inh",
-          "to": "-:la-vul"
+          "from": "agrume:Italian",
+          "label": "bor",
+          "to": "agrumi:Slovene"
         },
         {
-          "from": "alag:Aromanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "ajuna:Romanian"
         },
         {
-          "from": "albastru:Aromanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "alag:Aromanian"
         },
         {
-          "from": "albastru:Romanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "albastru:Aromanian"
         },
         {
-          "from": "albeață:Romanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "albastru:Romanian"
         },
         {
-          "from": "albi:Romanian",
+          "from": "-:la-vul",
           "label": "inh",
-          "to": "-:la-vul"
+          "to": "albeață:Romanian"
+        },
+        {
+          "from": "-:la-vul",
+          "label": "inh",
+          "to": "albi:Romanian"
         },
         {
           "from": "koufen:Middle High German",
@@ -3158,44 +3008,39 @@
           "to": "koufōn:Old High German"
         },
         {
-          "from": "kafen:Luxembourgish",
+          "from": "koufen:Middle High German",
           "label": "inh",
-          "to": "koufen:Middle High German"
+          "to": "kafen:Luxembourgish"
         },
         {
-          "from": "kaufen:German",
+          "from": "koufen:Middle High German",
           "label": "inh",
-          "to": "koufen:Middle High German"
+          "to": "khóofan:Cimbrian"
         },
         {
-          "from": "khóofan:Cimbrian",
+          "from": "koufen:Middle High German",
           "label": "inh",
-          "to": "koufen:Middle High German"
+          "to": "קויפֿן:Yiddish"
         },
         {
-          "from": "קויפֿן:Yiddish",
+          "from": "koufōn:Old High German",
           "label": "inh",
-          "to": "koufen:Middle High German"
+          "to": "kaffa:Bavarian"
         },
         {
-          "from": "kaffa:Bavarian",
+          "from": "koufōn:Old High German",
           "label": "inh",
-          "to": "koufōn:Old High German"
+          "to": "kafn:Bavarian"
         },
         {
-          "from": "kafn:Bavarian",
+          "from": "koufōn:Old High German",
           "label": "inh",
-          "to": "koufōn:Old High German"
+          "to": "kaufn:Bavarian"
         },
         {
-          "from": "kaufn:Bavarian",
+          "from": "koufōn:Old High German",
           "label": "inh",
-          "to": "koufōn:Old High German"
-        },
-        {
-          "from": "koofe:Central Franconian",
-          "label": "inh",
-          "to": "koufōn:Old High German"
+          "to": "koofe:Central Franconian"
         },
         {
           "from": "kupfe:Middle High German",
@@ -3213,11 +3058,6 @@
           "to": "kupfa:Old High German"
         },
         {
-          "from": "Kuppe:German",
-          "label": "inh",
-          "to": "kupfe:Middle High German"
-        },
-        {
           "from": "etærkop:Old Danish",
           "label": "der",
           "to": "edderkop:Danish"
@@ -3228,69 +3068,64 @@
           "to": "etærkop:Old Danish"
         },
         {
-          "from": "edderkopp:Norwegian Bokmål",
+          "from": "edderkop:Danish",
           "label": "inh",
-          "to": "edderkop:Danish"
-        },
-        {
-          "from": "edderkopp:Norwegian Nynorsk",
-          "label": "bor",
           "to": "edderkopp:Norwegian Bokmål"
         },
         {
-          "from": "edderkop:Danish",
-          "label": "der",
-          "to": "etærkop:Old Danish"
+          "from": "edderkopp:Norwegian Bokmål",
+          "label": "bor",
+          "to": "edderkopp:Norwegian Nynorsk"
         },
         {
-          "from": "aitr:Proto-West Germanic",
+          "from": "*aitrą:Proto-Germanic",
           "label": "inh",
-          "to": "*aitrą:Proto-Germanic"
+          "to": "aitr:Proto-West Germanic"
+        },
+        {
+          "from": "*aitrą:Proto-Germanic",
+          "label": "inh",
+          "to": "eitr:Old Norse"
+        },
+        {
+          "from": "eitr:Old Norse",
+          "label": "der",
+          "to": "aitran:Scots"
+        },
+        {
+          "from": "eitr:Old Norse",
+          "label": "der",
+          "to": "aittrie:Scots"
         },
         {
           "from": "eitr:Old Norse",
           "label": "inh",
-          "to": "*aitrą:Proto-Germanic"
+          "to": "eiter:Norwegian Nynorsk"
         },
         {
-          "from": "aitran:Scots",
+          "from": "eitr:Old Norse",
           "label": "der",
-          "to": "eitr:Old Norse"
+          "to": "eitur:Faroese"
         },
         {
-          "from": "aittrie:Scots",
-          "label": "der",
-          "to": "eitr:Old Norse"
-        },
-        {
-          "from": "eiter:Norwegian Nynorsk",
+          "from": "eitr:Old Norse",
           "label": "inh",
-          "to": "eitr:Old Norse"
+          "to": "eitur:Icelandic"
         },
         {
-          "from": "eitur:Faroese",
-          "label": "der",
-          "to": "eitr:Old Norse"
-        },
-        {
-          "from": "eitur:Icelandic",
+          "from": "eitr:Old Norse",
           "label": "inh",
-          "to": "eitr:Old Norse"
+          "to": "eter:Old Swedish"
         },
         {
-          "from": "eter:Old Swedish",
+          "from": "eitr:Old Norse",
           "label": "inh",
-          "to": "eitr:Old Norse"
+          "to": "etter:Swedish"
         },
         {
-          "from": "etter:Swedish",
+          "from": "կուռն:Old Armenian",
           "label": "inh",
-          "to": "eitr:Old Norse"
-        },
-        {
-          "from": "կուռ:Armenian",
-          "label": "inh",
-          "to": "կուռն:Old Armenian"
+          "to": "կուռ:Armenian"
         },
         {
           "from": "geuse:Old French",
@@ -3313,39 +3148,29 @@
           "to": "geusiae:la-lat"
         },
         {
-          "from": "gosier:French",
+          "from": "*gusia:la-vul",
           "label": "inh",
-          "to": "geuse:Old French"
-        },
-        {
-          "from": "gose:Friulian",
-          "label": "inh",
-          "to": "*gusia:la-vul"
-        },
-        {
-          "from": "gushi:Aromanian",
-          "label": "inh",
-          "to": "*gusia:la-vul"
-        },
-        {
-          "from": "gușă:Romanian",
-          "label": "inh",
-          "to": "*gusia:la-vul"
-        },
-        {
-          "from": "gushë:Albanian",
-          "label": "bor",
-          "to": "gușă:Romanian"
-        },
-        {
-          "from": "trangugiare:Italian",
-          "label": "der",
-          "to": "geusiae:Gaulish"
+          "to": "gose:Friulian"
         },
         {
           "from": "*gusia:la-vul",
           "label": "inh",
-          "to": "gose:Friulian"
+          "to": "gushi:Aromanian"
+        },
+        {
+          "from": "*gusia:la-vul",
+          "label": "inh",
+          "to": "gușă:Romanian"
+        },
+        {
+          "from": "gușă:Romanian",
+          "label": "bor",
+          "to": "gushë:Albanian"
+        },
+        {
+          "from": "geusiae:Gaulish",
+          "label": "der",
+          "to": "trangugiare:Italian"
         },
         {
           "from": "-:Gaulish",
@@ -3353,164 +3178,164 @@
           "to": "geusiae:la-lat"
         },
         {
-          "from": "-acus:Latin",
+          "from": "-:Gaulish",
           "label": "der",
-          "to": "-:Gaulish"
+          "to": "-acus:Latin"
         },
         {
-          "from": "Aduatuci:Latin",
+          "from": "-:Gaulish",
           "label": "bor",
-          "to": "-:Gaulish"
+          "to": "Aduatuci:Latin"
         },
         {
-          "from": "Andecavi:Latin",
+          "from": "-:Gaulish",
           "label": "der",
-          "to": "-:Gaulish"
+          "to": "Andecavi:Latin"
+        },
+        {
+          "from": "-:Gaulish",
+          "label": "der",
+          "to": "Arelate:Latin"
         },
         {
           "from": "Arelate:Latin",
           "label": "der",
-          "to": "-:Gaulish"
+          "to": "Arle:Catalan"
         },
         {
-          "from": "Arle:Catalan",
+          "from": "Arelate:Latin",
           "label": "der",
-          "to": "Arelate:Latin"
-        },
-        {
-          "from": "Arles:French",
-          "label": "der",
-          "to": "Arelate:Latin"
-        },
-        {
-          "from": "Arles:English",
-          "label": "bor",
           "to": "Arles:French"
         },
         {
-          "from": "Arverni:Latin",
-          "label": "der",
-          "to": "-:Gaulish"
-        },
-        {
-          "from": "Arvernus:Latin",
+          "from": "Arles:French",
           "label": "bor",
-          "to": "-:Gaulish"
+          "to": "Arles:English"
         },
         {
-          "from": "Ἄρβερνος:Ancient Greek",
+          "from": "-:Gaulish",
+          "label": "der",
+          "to": "Arverni:Latin"
+        },
+        {
+          "from": "-:Gaulish",
           "label": "bor",
           "to": "Arvernus:Latin"
         },
         {
-          "from": "Astérix:French",
-          "label": "der",
-          "to": "-:Gaulish"
+          "from": "Arvernus:Latin",
+          "label": "bor",
+          "to": "Ἄρβερνος:Ancient Greek"
         },
         {
-          "from": "Asterix:English",
-          "label": "bor",
+          "from": "-:Gaulish",
+          "label": "der",
           "to": "Astérix:French"
         },
         {
-          "from": "Autricum:Latin",
-          "label": "der",
-          "to": "-:Gaulish"
+          "from": "Astérix:French",
+          "label": "bor",
+          "to": "Asterix:English"
         },
         {
-          "from": "Axona:Latin",
+          "from": "-:Gaulish",
           "label": "der",
-          "to": "-:Gaulish"
+          "to": "Autricum:Latin"
         },
         {
-          "from": "Bellovaci:Latin",
+          "from": "-:Gaulish",
           "label": "der",
-          "to": "-:Gaulish"
+          "to": "Axona:Latin"
         },
         {
-          "from": "Beneharnum:Latin",
+          "from": "-:Gaulish",
           "label": "der",
-          "to": "-:Gaulish"
+          "to": "Bellovaci:Latin"
         },
         {
-          "from": "Bituriges:Latin",
+          "from": "-:Gaulish",
           "label": "der",
-          "to": "-:Gaulish"
+          "to": "Beneharnum:Latin"
         },
         {
-          "from": "Biturige:French",
+          "from": "-:Gaulish",
           "label": "der",
           "to": "Bituriges:Latin"
         },
         {
-          "from": "Borbetomagus:Latin",
-          "label": "bor",
-          "to": "-:Gaulish"
-        },
-        {
-          "from": "Brixellum:Latin",
+          "from": "Bituriges:Latin",
           "label": "der",
-          "to": "-:Gaulish"
+          "to": "Biturige:French"
         },
         {
-          "from": "Brescello:Italian",
+          "from": "-:Gaulish",
+          "label": "bor",
+          "to": "Borbetomagus:Latin"
+        },
+        {
+          "from": "-:Gaulish",
           "label": "der",
           "to": "Brixellum:Latin"
         },
         {
-          "from": "Burdigala:Latin",
+          "from": "Brixellum:Latin",
           "label": "der",
-          "to": "-:Gaulish"
+          "to": "Brescello:Italian"
         },
         {
-          "from": "Bordeus:Catalan",
+          "from": "-:Gaulish",
           "label": "der",
           "to": "Burdigala:Latin"
         },
         {
-          "from": "Camaracum:Latin",
+          "from": "Burdigala:Latin",
+          "label": "der",
+          "to": "Bordeus:Catalan"
+        },
+        {
+          "from": "-:Gaulish",
           "label": "bor",
-          "to": "-:Gaulish"
+          "to": "Camaracum:Latin"
+        },
+        {
+          "from": "-:Gaulish",
+          "label": "der",
+          "to": "Condate:Latin"
         },
         {
           "from": "Condate:Latin",
-          "label": "der",
-          "to": "-:Gaulish"
-        },
-        {
-          "from": "Condat:French",
           "label": "inh",
-          "to": "Condate:Latin"
+          "to": "Condat:French"
         },
         {
-          "from": "Condé:French",
+          "from": "Condate:Latin",
           "label": "inh",
-          "to": "Condate:Latin"
-        },
-        {
-          "from": "Candee:English",
-          "label": "der",
           "to": "Condé:French"
         },
         {
-          "from": "Cosne:French",
+          "from": "Condé:French",
+          "label": "der",
+          "to": "Candee:English"
+        },
+        {
+          "from": "Condate:Latin",
           "label": "inh",
-          "to": "Condate:Latin"
+          "to": "Cosne:French"
+        },
+        {
+          "from": "-:Gaulish",
+          "label": "bor",
+          "to": "Druma:Latin"
         },
         {
           "from": "Druma:Latin",
-          "label": "bor",
-          "to": "-:Gaulish"
+          "label": "der",
+          "to": "Drôme:English"
         },
         {
-          "from": "Drôme:English",
+          "from": "Druma:Latin",
           "label": "der",
-          "to": "Druma:Latin"
-        },
-        {
-          "from": "Drôme:French",
-          "label": "der",
-          "to": "Druma:Latin"
+          "to": "Drôme:French"
         },
         {
           "from": "*ǵʰew-:Proto-Indo-European",
@@ -3518,74 +3343,69 @@
           "to": "gewai:Welsh"
         },
         {
-          "from": "Seúthē:Thracian",
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "inh",
-          "to": "*ǵʰew-:Proto-Indo-European"
+          "to": "Seúthē:Thracian"
         },
         {
-          "from": "geusaną:Proto-Germanic",
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "der",
-          "to": "*ǵʰew-:Proto-Indo-European"
+          "to": "geusaną:Proto-Germanic"
         },
         {
-          "from": "gewai:Welsh",
-          "label": "der",
-          "to": "*ǵʰew-:Proto-Indo-European"
-        },
-        {
-          "from": "ku-:Tocharian A",
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "inh",
-          "to": "*ǵʰew-:Proto-Indo-European"
+          "to": "ku-:Tocharian A"
         },
         {
-          "from": "ku-:Tocharian B",
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "inh",
-          "to": "*ǵʰew-:Proto-Indo-European"
+          "to": "ku-:Tocharian B"
         },
         {
-          "from": "käutk-:Proto-Tocharian",
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "der",
-          "to": "*ǵʰew-:Proto-Indo-European"
+          "to": "käutk-:Proto-Tocharian"
         },
         {
-          "from": "χοῦς:Ancient Greek",
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "der",
-          "to": "*ǵʰew-:Proto-Indo-European"
-        },
-        {
-          "from": "chous:English",
-          "label": "bor",
           "to": "χοῦς:Ancient Greek"
         },
         {
-          "from": "χόανος:Ancient Greek",
+          "from": "χοῦς:Ancient Greek",
+          "label": "bor",
+          "to": "chous:English"
+        },
+        {
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "der",
-          "to": "*ǵʰew-:Proto-Indo-European"
+          "to": "χόανος:Ancient Greek"
         },
         {
-          "from": "χύτλον:Ancient Greek",
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "der",
-          "to": "*ǵʰew-:Proto-Indo-European"
+          "to": "χύτλον:Ancient Greek"
         },
         {
-          "from": "ձագար:Old Armenian",
-          "label": "inh",
-          "to": "*ǵʰew-:Proto-Indo-European"
-        },
-        {
-          "from": "ձագար:Armenian",
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "inh",
           "to": "ձագար:Old Armenian"
         },
         {
-          "from": "हव्य:Sanskrit",
-          "label": "der",
-          "to": "*ǵʰew-:Proto-Indo-European"
+          "from": "ձագար:Old Armenian",
+          "label": "inh",
+          "to": "ձագար:Armenian"
         },
         {
-          "from": "ಹವ್ಯಕ:Kannada",
+          "from": "*ǵʰew-:Proto-Indo-European",
           "label": "der",
           "to": "हव्य:Sanskrit"
+        },
+        {
+          "from": "हव्य:Sanskrit",
+          "label": "der",
+          "to": "ಹವ್ಯಕ:Kannada"
         },
         {
           "from": "-:Low German",
@@ -3608,469 +3428,469 @@
           "to": "*gew-:Proto-Indo-European"
         },
         {
-          "from": "kaŭri:Esperanto",
+          "from": "kauern:German",
           "label": "bor",
-          "to": "kauern:German"
+          "to": "kaŭri:Esperanto"
         },
         {
-          "from": "'n:German",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "'n:German"
         },
         {
-          "from": "'n Appel und 'n Ei:German",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "'n Appel und 'n Ei:German"
         },
         {
-          "from": "Anne:German",
+          "from": "-:Low German",
           "label": "bor",
-          "to": "-:Low German"
+          "to": "Anne:German"
         },
         {
-          "from": "Barch:English",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Barch:English"
         },
         {
-          "from": "Bedarf:German",
+          "from": "-:Low German",
           "label": "bor",
-          "to": "-:Low German"
+          "to": "Bedarf:German"
         },
         {
-          "from": "Belt:English",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Belt:English"
         },
         {
-          "from": "Bodden:German",
+          "from": "-:Low German",
           "label": "bor",
-          "to": "-:Low German"
+          "to": "Bodden:German"
         },
         {
-          "from": "Boden:English",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Boden:English"
         },
         {
-          "from": "Bohei:German",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Bohei:German"
         },
         {
-          "from": "Brinkmann:German",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
-        },
-        {
-          "from": "Brinkmann:English",
-          "label": "bor",
           "to": "Brinkmann:German"
         },
         {
-          "from": "Bruening:English",
-          "label": "der",
-          "to": "-:Low German"
-        },
-        {
-          "from": "Bruning:English",
-          "label": "der",
-          "to": "-:Low German"
-        },
-        {
-          "from": "Bucht:German",
+          "from": "Brinkmann:German",
           "label": "bor",
-          "to": "-:Low German"
+          "to": "Brinkmann:English"
         },
         {
-          "from": "Bunde:English",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Bruening:English"
         },
         {
-          "from": "Bøll:Danish",
+          "from": "-:Low German",
+          "label": "der",
+          "to": "Bruning:English"
+        },
+        {
+          "from": "-:Low German",
           "label": "bor",
-          "to": "-:Low German"
+          "to": "Bucht:German"
         },
         {
-          "from": "Boll:English",
+          "from": "-:Low German",
+          "label": "der",
+          "to": "Bunde:English"
+        },
+        {
+          "from": "-:Low German",
           "label": "bor",
           "to": "Bøll:Danish"
         },
         {
+          "from": "Bøll:Danish",
+          "label": "bor",
+          "to": "Boll:English"
+        },
+        {
+          "from": "-:Low German",
+          "label": "der",
+          "to": "Donau:German"
+        },
+        {
           "from": "Donau:German",
-          "label": "der",
-          "to": "-:Low German"
-        },
-        {
-          "from": "Donau:Danish",
           "label": "bor",
-          "to": "Donau:German"
+          "to": "Donau:Danish"
         },
         {
-          "from": "Donau:Dutch",
+          "from": "Donau:German",
           "label": "bor",
-          "to": "Donau:German"
+          "to": "Donau:Dutch"
         },
         {
-          "from": "Donau:Swedish",
+          "from": "Donau:German",
           "label": "bor",
-          "to": "Donau:German"
+          "to": "Donau:Swedish"
         },
         {
-          "from": "多瑙:Chinese",
+          "from": "Donau:German",
           "label": "bor",
-          "to": "Donau:German"
+          "to": "多瑙:Chinese"
         },
         {
-          "from": "Dove:English",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Dove:English"
         },
         {
-          "from": "Erpel:German",
+          "from": "-:Low German",
           "label": "bor",
-          "to": "-:Low German"
+          "to": "Erpel:German"
         },
         {
-          "from": "Ess:English",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Ess:English"
         },
         {
-          "from": "Fick:English",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Fick:English"
         },
         {
-          "from": "Ficke:English",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Ficke:English"
         },
         {
-          "from": "Fiete:German",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Fiete:German"
         },
         {
-          "from": "Fietse:German",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Fietse:German"
         },
         {
-          "from": "Flagge:German",
+          "from": "-:Low German",
           "label": "bor",
-          "to": "-:Low German"
+          "to": "Flagge:German"
         },
         {
-          "from": "Fünen:German",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Fünen:German"
         },
         {
-          "from": "Gesa:German",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Gesa:German"
         },
         {
-          "from": "Gest:German",
-          "label": "der",
-          "to": "-:Low German"
-        },
-        {
-          "from": "gisto:Esperanto",
+          "from": "-:Low German",
           "label": "der",
           "to": "Gest:German"
         },
         {
-          "from": "Greve:English",
+          "from": "Gest:German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "gisto:Esperanto"
         },
         {
-          "from": "Grothendieck:German",
-          "label": "bor",
-          "to": "-:Low German"
+          "from": "-:Low German",
+          "label": "der",
+          "to": "Greve:English"
         },
         {
-          "from": "Grothendieck:English",
+          "from": "-:Low German",
           "label": "bor",
           "to": "Grothendieck:German"
         },
         {
-          "from": "Gütersloh:German",
-          "label": "der",
-          "to": "-:Low German"
+          "from": "Grothendieck:German",
+          "label": "bor",
+          "to": "Grothendieck:English"
         },
         {
-          "from": "Gütersloh:English",
-          "label": "bor",
+          "from": "-:Low German",
+          "label": "der",
           "to": "Gütersloh:German"
+        },
+        {
+          "from": "Gütersloh:German",
+          "label": "bor",
+          "to": "Gütersloh:English"
+        },
+        {
+          "from": "-:Low German",
+          "label": "bor",
+          "to": "Hantel:German"
         },
         {
           "from": "Hantel:German",
           "label": "bor",
-          "to": "-:Low German"
+          "to": "hantel:Azerbaijani"
         },
         {
-          "from": "hantel:Azerbaijani",
+          "from": "Hantel:German",
           "label": "bor",
-          "to": "Hantel:German"
+          "to": "hantel:Swedish"
         },
         {
-          "from": "hantel:Swedish",
-          "label": "bor",
-          "to": "Hantel:German"
-        },
-        {
-          "from": "ჰანტელი:Georgian",
+          "from": "Hantel:German",
           "label": "der",
-          "to": "Hantel:German"
+          "to": "ჰანტელი:Georgian"
         },
         {
-          "from": "Hart:English",
+          "from": "-:Low German",
           "label": "der",
-          "to": "-:Low German"
+          "to": "Hart:English"
         },
         {
-          "from": "kúra:Icelandic",
+          "from": "kūren:Middle Low German",
           "label": "der",
-          "to": "kūren:Middle Low German"
+          "to": "kúra:Icelandic"
         },
         {
-          "from": "-ken:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "-ken:German"
         },
         {
-          "from": "-s:German",
+          "from": "-:German Low German",
           "label": "der",
-          "to": "-:German Low German"
+          "to": "-s:German"
         },
         {
-          "from": "Behörde:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Behörde:German"
         },
         {
-          "from": "Beitel:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Beitel:German"
         },
         {
-          "from": "Blag:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Blag:German"
         },
         {
-          "from": "Boofke:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Boofke:German"
         },
         {
-          "from": "Brise:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Brise:German"
         },
         {
-          "from": "Bulle:German",
+          "from": "-:German Low German",
           "label": "der",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "bulík:Czech",
-          "label": "bor",
           "to": "Bulle:German"
         },
         {
-          "from": "Butter bei die Fische:German",
+          "from": "Bulle:German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "bulík:Czech"
         },
         {
-          "from": "Drift:German",
-          "label": "der",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "Dutt:German",
-          "label": "der",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "Fleet:German",
-          "label": "der",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "Geest:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Butter bei die Fische:German"
         },
         {
-          "from": "geest:English",
+          "from": "-:German Low German",
+          "label": "der",
+          "to": "Drift:German"
+        },
+        {
+          "from": "-:German Low German",
+          "label": "der",
+          "to": "Dutt:German"
+        },
+        {
+          "from": "-:German Low German",
+          "label": "der",
+          "to": "Fleet:German"
+        },
+        {
+          "from": "-:German Low German",
           "label": "bor",
           "to": "Geest:German"
         },
         {
-          "from": "Gesine:German",
+          "from": "Geest:German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "geest:English"
         },
         {
-          "from": "Göre:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Gesine:German"
         },
         {
-          "from": "Hallig:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Göre:German"
         },
         {
-          "from": "Hallig:English",
+          "from": "-:German Low German",
           "label": "bor",
           "to": "Hallig:German"
         },
         {
-          "from": "Happen:German",
+          "from": "Hallig:German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Hallig:English"
         },
         {
-          "from": "Happs:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Happen:German"
         },
         {
-          "from": "Kaddig:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Happs:German"
         },
         {
-          "from": "Klops:German",
+          "from": "-:German Low German",
+          "label": "bor",
+          "to": "Kaddig:German"
+        },
+        {
+          "from": "-:German Low German",
           "label": "der",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "klops:Polish",
-          "label": "bor",
           "to": "Klops:German"
         },
         {
-          "from": "Klunte:German",
+          "from": "Klops:German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "klops:Polish"
         },
         {
-          "from": "Knofi:German",
+          "from": "-:German Low German",
+          "label": "bor",
+          "to": "Klunte:German"
+        },
+        {
+          "from": "-:German Low German",
           "label": "der",
-          "to": "-:German Low German"
+          "to": "Knofi:German"
         },
         {
-          "from": "Knopp:German",
-          "label": "bor",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "Knopp:English",
+          "from": "-:German Low German",
           "label": "bor",
           "to": "Knopp:German"
         },
         {
-          "from": "Knubbel:German",
-          "label": "der",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "Küken:German",
-          "label": "der",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "Maat:German",
-          "label": "der",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "Pelle:German",
-          "label": "der",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "Puste:German",
+          "from": "Knopp:German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "Knopp:English"
         },
         {
-          "from": "Riege:German",
-          "label": "bor",
-          "to": "-:German Low German"
-        },
-        {
-          "from": "Roggen:German",
+          "from": "-:German Low German",
           "label": "der",
-          "to": "-:German Low German"
+          "to": "Knubbel:German"
+        },
+        {
+          "from": "-:German Low German",
+          "label": "der",
+          "to": "Küken:German"
+        },
+        {
+          "from": "-:German Low German",
+          "label": "der",
+          "to": "Maat:German"
+        },
+        {
+          "from": "-:German Low German",
+          "label": "der",
+          "to": "Pelle:German"
+        },
+        {
+          "from": "-:German Low German",
+          "label": "bor",
+          "to": "Puste:German"
+        },
+        {
+          "from": "-:German Low German",
+          "label": "bor",
+          "to": "Riege:German"
+        },
+        {
+          "from": "-:German Low German",
+          "label": "der",
+          "to": "Roggen:German"
+        },
+        {
+          "from": "-:German Low German",
+          "label": "der",
+          "to": "Stöpsel:German"
         },
         {
           "from": "Stöpsel:German",
           "label": "der",
-          "to": "-:German Low German"
+          "to": "støpsel:Norwegian Bokmål"
         },
         {
-          "from": "støpsel:Norwegian Bokmål",
+          "from": "Stöpsel:German",
           "label": "der",
-          "to": "Stöpsel:German"
+          "to": "støpsel:Norwegian Nynorsk"
         },
         {
-          "from": "støpsel:Norwegian Nynorsk",
-          "label": "der",
-          "to": "Stöpsel:German"
-        },
-        {
-          "from": "töpseli:Finnish",
+          "from": "Stöpsel:German",
           "label": "bor",
-          "to": "Stöpsel:German"
+          "to": "töpseli:Finnish"
         },
         {
-          "from": "შტეფსელი:Georgian",
+          "from": "Stöpsel:German",
           "label": "der",
-          "to": "Stöpsel:German"
+          "to": "შტეფსელი:Georgian"
         },
         {
-          "from": "achter-:German",
+          "from": "-:German Low German",
           "label": "der",
-          "to": "-:German Low German"
+          "to": "achter-:German"
         },
         {
-          "from": "achterer:German",
+          "from": "-:German Low German",
           "label": "der",
-          "to": "-:German Low German"
+          "to": "achterer:German"
         },
         {
-          "from": "aufdröseln:German",
+          "from": "-:German Low German",
           "label": "der",
-          "to": "-:German Low German"
+          "to": "aufdröseln:German"
         },
         {
-          "from": "ausladend:German",
+          "from": "-:German Low German",
           "label": "der",
-          "to": "-:German Low German"
+          "to": "ausladend:German"
         },
         {
-          "from": "bekunden:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "bekunden:German"
         },
         {
-          "from": "beschwichtigen:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "beschwichtigen:German"
         },
         {
-          "from": "brackig:German",
+          "from": "-:German Low German",
           "label": "bor",
-          "to": "-:German Low German"
+          "to": "brackig:German"
         },
         {
           "from": "couren:Middle English",
@@ -4093,154 +3913,144 @@
           "to": "-:gmq"
         },
         {
-          "from": "cower:English",
-          "label": "inh",
-          "to": "couren:Middle English"
-        },
-        {
-          "from": "couren:Middle English",
+          "from": "-:gmq",
           "label": "bor",
-          "to": "kûren:Middle Low German"
+          "to": "Aagaard:English"
         },
         {
-          "from": "Aagaard:English",
+          "from": "-:gmq",
           "label": "bor",
-          "to": "-:gmq"
+          "to": "Agard:English"
         },
         {
-          "from": "Agard:English",
+          "from": "-:gmq",
+          "label": "der",
+          "to": "Bro:English"
+        },
+        {
+          "from": "-:gmq",
+          "label": "der",
+          "to": "Cramlington:English"
+        },
+        {
+          "from": "-:gmq",
+          "label": "der",
+          "to": "Dolph:English"
+        },
+        {
+          "from": "-:gmq",
+          "label": "der",
+          "to": "Fisker:English"
+        },
+        {
+          "from": "-:gmq",
+          "label": "der",
+          "to": "Hake:English"
+        },
+        {
+          "from": "-:gmq",
           "label": "bor",
-          "to": "-:gmq"
+          "to": "Kirsten:English"
         },
         {
-          "from": "Bro:English",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "Leake:English"
         },
         {
-          "from": "Cramlington:English",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
-        },
-        {
-          "from": "Dolph:English",
-          "label": "der",
-          "to": "-:gmq"
-        },
-        {
-          "from": "Fisker:English",
-          "label": "der",
-          "to": "-:gmq"
-        },
-        {
-          "from": "Hake:English",
-          "label": "der",
-          "to": "-:gmq"
-        },
-        {
-          "from": "Kirsten:English",
-          "label": "bor",
-          "to": "-:gmq"
-        },
-        {
-          "from": "Leake:English",
-          "label": "der",
-          "to": "-:gmq"
+          "to": "Louvain:French"
         },
         {
           "from": "Louvain:French",
-          "label": "der",
-          "to": "-:gmq"
-        },
-        {
-          "from": "Louvain:English",
           "label": "bor",
-          "to": "Louvain:French"
+          "to": "Louvain:English"
         },
         {
-          "from": "Լուվեն:Armenian",
+          "from": "Louvain:French",
           "label": "bor",
-          "to": "Louvain:French"
+          "to": "Լուվեն:Armenian"
         },
         {
-          "from": "Lure:German",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "Lure:German"
         },
         {
-          "from": "Magnuson:English",
+          "from": "-:gmq",
           "label": "bor",
-          "to": "-:gmq"
+          "to": "Magnuson:English"
         },
         {
-          "from": "Main:English",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "Main:English"
         },
         {
-          "from": "Manson:English",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "Manson:English"
         },
         {
-          "from": "Tang:German",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "Tang:German"
         },
         {
-          "from": "Thorp:English",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "Thorp:English"
         },
         {
-          "from": "Vang:English",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "Vang:English"
         },
         {
-          "from": "Warcop:English",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "Warcop:English"
         },
         {
-          "from": "bace:English",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "bace:English"
         },
         {
-          "from": "bankiz:Turkish",
+          "from": "-:gmq",
           "label": "der",
-          "to": "-:gmq"
+          "to": "bankiz:Turkish"
         },
         {
-          "from": "güşə:Azerbaijani",
+          "from": "گوشه:Persian",
           "label": "bor",
-          "to": "گوشه:Persian"
+          "to": "güşə:Azerbaijani"
         },
         {
-          "from": "köşe:Crimean Tatar",
+          "from": "گوشه:Persian",
           "label": "der",
-          "to": "گوشه:Persian"
+          "to": "köşe:Crimean Tatar"
         },
         {
-          "from": "ćošak:Serbo-Croatian",
+          "from": "گوشه:Persian",
           "label": "der",
-          "to": "گوشه:Persian"
+          "to": "ćošak:Serbo-Croatian"
         },
         {
-          "from": "ћошак:Serbo-Croatian",
+          "from": "گوشه:Persian",
           "label": "der",
-          "to": "گوشه:Persian"
+          "to": "ћошак:Serbo-Croatian"
         },
         {
-          "from": "گۈشە:Uyghur",
+          "from": "گوشه:Persian",
           "label": "bor",
-          "to": "گوشه:Persian"
+          "to": "گۈشە:Uyghur"
         },
         {
-          "from": "ქჲოშე:Laz",
+          "from": "گوشه:Persian",
           "label": "der",
-          "to": "گوشه:Persian"
+          "to": "ქჲოშე:Laz"
         },
         {
           "from": "kiosque:French",
@@ -4268,94 +4078,89 @@
           "to": "کوشْک:fa-cls"
         },
         {
-          "from": "キオスク:Japanese",
+          "from": "kiosk:English",
           "label": "bor",
-          "to": "kiosk:English"
-        },
-        {
-          "from": "키오스크:Korean",
-          "label": "bor",
-          "to": "kiosk:English"
-        },
-        {
-          "from": "ki-ốt:Vietnamese",
-          "label": "bor",
-          "to": "kiosque:French"
-        },
-        {
-          "from": "kiosk:Dutch",
-          "label": "bor",
-          "to": "kiosque:French"
-        },
-        {
-          "from": "kios:Indonesian",
-          "label": "bor",
-          "to": "kiosk:Dutch"
-        },
-        {
-          "from": "kios:Ternate",
-          "label": "bor",
-          "to": "kios:Indonesian"
+          "to": "キオスク:Japanese"
         },
         {
           "from": "kiosk:English",
           "label": "bor",
-          "to": "kiosque:French"
+          "to": "키오스크:Korean"
         },
         {
-          "from": "kiosk:Norwegian Bokmål",
+          "from": "kiosque:French",
           "label": "bor",
-          "to": "kiosque:French"
+          "to": "ki-ốt:Vietnamese"
         },
         {
-          "from": "kiosk:Swedish",
-          "label": "der",
-          "to": "kiosque:French"
-        },
-        {
-          "from": "kioski:Finnish",
-          "label": "der",
-          "to": "kiosque:French"
-        },
-        {
-          "from": "kiosque:Norman",
+          "from": "kiosque:French",
           "label": "bor",
-          "to": "kiosque:French"
+          "to": "kiosk:Dutch"
         },
         {
-          "from": "kiyosko:Tagalog",
-          "label": "der",
-          "to": "kiosque:French"
-        },
-        {
-          "from": "Kiosk:German",
-          "label": "der",
-          "to": "chiosco:Italian"
-        },
-        {
-          "from": "kiosk:Danish",
+          "from": "kiosk:Dutch",
           "label": "bor",
-          "to": "Kiosk:German"
+          "to": "kios:Indonesian"
         },
         {
-          "from": "kioszk:Hungarian",
+          "from": "kios:Indonesian",
           "label": "bor",
-          "to": "Kiosk:German"
+          "to": "kios:Ternate"
         },
         {
-          "from": "кіоск:Ukrainian",
+          "from": "kiosque:French",
           "label": "bor",
-          "to": "Kiosk:German"
+          "to": "kiosk:Norwegian Bokmål"
         },
         {
-          "from": "kiosk:Polish",
+          "from": "kiosque:French",
           "label": "der",
-          "to": "chiosco:Italian"
+          "to": "kiosk:Swedish"
+        },
+        {
+          "from": "kiosque:French",
+          "label": "der",
+          "to": "kioski:Finnish"
+        },
+        {
+          "from": "kiosque:French",
+          "label": "bor",
+          "to": "kiosque:Norman"
+        },
+        {
+          "from": "kiosque:French",
+          "label": "der",
+          "to": "kiyosko:Tagalog"
         },
         {
           "from": "chiosco:Italian",
           "label": "der",
-          "to": "کوشْک:fa-cls"
+          "to": "Kiosk:German"
+        },
+        {
+          "from": "Kiosk:German",
+          "label": "bor",
+          "to": "kiosk:Danish"
+        },
+        {
+          "from": "Kiosk:German",
+          "label": "bor",
+          "to": "kioszk:Hungarian"
+        },
+        {
+          "from": "Kiosk:German",
+          "label": "bor",
+          "to": "кіоск:Ukrainian"
+        },
+        {
+          "from": "chiosco:Italian",
+          "label": "der",
+          "to": "kiosk:Polish"
+        },
+        {
+          "from": "کوشْک:fa-cls",
+          "label": "der",
+          "to": "chiosco:Italian"
         },
         {
           "from": "copa:Old Spanish",
@@ -4373,39 +4178,29 @@
           "to": "cŭppa:la-lat"
         },
         {
-          "from": "copa:Spanish",
-          "label": "inh",
-          "to": "copa:Old Spanish"
-        },
-        {
           "from": "*kubu:Proto-Malayo-Polynesian",
-          "label": "inh",
-          "to": "kubu:Malay"
-        },
-        {
-          "from": "kubu:Indonesian",
           "label": "inh",
           "to": "kubu:Malay"
         },
         {
           "from": "kubu:Malay",
           "label": "inh",
-          "to": "*kubu:Proto-Malayo-Polynesian"
+          "to": "kubu:Indonesian"
+        },
+        {
+          "from": "*kubu:Proto-Malayo-Polynesian",
+          "label": "inh",
+          "to": "kuwu:Old Javanese"
+        },
+        {
+          "from": "kuwu:Old Javanese",
+          "label": "der",
+          "to": "kuwu:Indonesian"
         },
         {
           "from": "kuwu:Old Javanese",
           "label": "inh",
-          "to": "*kubu:Proto-Malayo-Polynesian"
-        },
-        {
-          "from": "kuwu:Indonesian",
-          "label": "der",
-          "to": "kuwu:Old Javanese"
-        },
-        {
-          "from": "ꦏꦸꦮꦸ:Javanese",
-          "label": "inh",
-          "to": "kuwu:Old Javanese"
+          "to": "ꦏꦸꦮꦸ:Javanese"
         },
         {
           "from": "قهوه:Ottoman Turkish",
@@ -4418,739 +4213,734 @@
           "to": "قهوه:Ottoman Turkish"
         },
         {
-          "from": "cafè:Romagnol",
+          "from": "kahve:Turkish",
           "label": "der",
-          "to": "kahve:Turkish"
+          "to": "cafè:Romagnol"
         },
         {
-          "from": "café:Champenois",
+          "from": "قهوه:Ottoman Turkish",
           "label": "der",
-          "to": "قهوه:Ottoman Turkish"
+          "to": "café:Champenois"
+        },
+        {
+          "from": "قهوه:Ottoman Turkish",
+          "label": "der",
+          "to": "café:French"
+        },
+        {
+          "from": "café:French",
+          "label": "bor",
+          "to": "Kaafe:Alemannic German"
+        },
+        {
+          "from": "café:French",
+          "label": "bor",
+          "to": "Kaffee:Bavarian"
+        },
+        {
+          "from": "café:French",
+          "label": "bor",
+          "to": "Kaffee:German"
+        },
+        {
+          "from": "Kaffee:German",
+          "label": "der",
+          "to": "kaffe:Livonian"
+        },
+        {
+          "from": "café:French",
+          "label": "bor",
+          "to": "Kafää:Bavarian"
         },
         {
           "from": "café:French",
           "label": "der",
-          "to": "قهوه:Ottoman Turkish"
+          "to": "Nescafé:English"
         },
         {
-          "from": "Kaafe:Alemannic German",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "Kaffee:Bavarian",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "Kaffee:German",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "kaffe:Livonian",
+          "from": "café:French",
           "label": "der",
-          "to": "Kaffee:German"
+          "to": "cafestol:English"
         },
         {
-          "from": "Kafää:Bavarian",
+          "from": "café:French",
           "label": "bor",
-          "to": "café:French"
+          "to": "café:Norman"
         },
         {
-          "from": "Nescafé:English",
+          "from": "café:French",
+          "label": "bor",
+          "to": "kafe:Crimean Tatar"
+        },
+        {
+          "from": "café:French",
           "label": "der",
-          "to": "café:French"
+          "to": "kafe:Haitian Creole"
         },
         {
-          "from": "cafestol:English",
+          "from": "café:French",
+          "label": "bor",
+          "to": "kafe:Kumak"
+        },
+        {
+          "from": "café:French",
+          "label": "bor",
+          "to": "kafe:Moore"
+        },
+        {
+          "from": "café:French",
+          "label": "bor",
+          "to": "kafe:Turkish"
+        },
+        {
+          "from": "café:French",
+          "label": "bor",
+          "to": "kafe:West Uvean"
+        },
+        {
+          "from": "café:French",
           "label": "der",
-          "to": "café:French"
+          "to": "kaffi:Norwegian Nynorsk"
         },
         {
-          "from": "café:Norman",
+          "from": "café:French",
           "label": "bor",
-          "to": "café:French"
+          "to": "kafiꞌ:Chickasaw"
         },
         {
-          "from": "kafe:Crimean Tatar",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "kafe:Haitian Creole",
+          "from": "café:French",
           "label": "der",
-          "to": "café:French"
+          "to": "kafo:Esperanto"
         },
         {
-          "from": "kafe:Kumak",
+          "from": "café:French",
           "label": "bor",
-          "to": "café:French"
+          "to": "kafé:Lingala"
         },
         {
-          "from": "kafe:Moore",
+          "from": "café:French",
           "label": "bor",
-          "to": "café:French"
+          "to": "kafé:Swedish"
         },
         {
-          "from": "kafe:Turkish",
+          "from": "café:French",
           "label": "bor",
-          "to": "café:French"
+          "to": "kafɛ:Nzadi"
         },
         {
-          "from": "kafe:West Uvean",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "kaffi:Norwegian Nynorsk",
+          "from": "café:French",
           "label": "der",
-          "to": "café:French"
+          "to": "kape:Tagalog"
         },
         {
-          "from": "kafiꞌ:Chickasaw",
+          "from": "café:French",
           "label": "bor",
-          "to": "café:French"
+          "to": "kav fes:White Hmong"
         },
         {
-          "from": "kafo:Esperanto",
+          "from": "café:French",
           "label": "der",
-          "to": "café:French"
+          "to": "кафе:Mongolian"
         },
         {
-          "from": "kafé:Lingala",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "kafé:Swedish",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "kafɛ:Nzadi",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "kape:Tagalog",
+          "from": "café:French",
           "label": "der",
-          "to": "café:French"
+          "to": "кафе:Ukrainian"
         },
         {
-          "from": "kav fes:White Hmong",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "кафе:Mongolian",
+          "from": "café:French",
           "label": "der",
-          "to": "café:French"
+          "to": "קאַפֿע:Yiddish"
         },
         {
-          "from": "кафе:Ukrainian",
+          "from": "café:French",
+          "label": "bor",
+          "to": "קפה:Hebrew"
+        },
+        {
+          "from": "café:French",
+          "label": "bor",
+          "to": "كافيه:Gulf Arabic"
+        },
+        {
+          "from": "café:French",
+          "label": "bor",
+          "to": "كافيه:Hijazi Arabic"
+        },
+        {
+          "from": "café:French",
           "label": "der",
-          "to": "café:French"
+          "to": "कैफ़े:Hindi"
         },
         {
-          "from": "קאַפֿע:Yiddish",
+          "from": "café:French",
+          "label": "bor",
+          "to": "ກາເຟ:Lao"
+        },
+        {
+          "from": "café:French",
           "label": "der",
-          "to": "café:French"
+          "to": "კაფე:Georgian"
         },
         {
-          "from": "קפה:Hebrew",
+          "from": "café:French",
           "label": "bor",
-          "to": "café:French"
+          "to": "កាហ្វេ:Khmer"
         },
         {
-          "from": "كافيه:Gulf Arabic",
+          "from": "café:French",
           "label": "bor",
-          "to": "café:French"
+          "to": "カフェ:Japanese"
         },
         {
-          "from": "كافيه:Hijazi Arabic",
+          "from": "café:French",
           "label": "bor",
-          "to": "café:French"
+          "to": "咖啡:Chinese"
         },
         {
-          "from": "कैफ़े:Hindi",
+          "from": "café:French",
+          "label": "bor",
+          "to": "카페:Korean"
+        },
+        {
+          "from": "قهوه:Ottoman Turkish",
+          "label": "bor",
+          "to": "kafe:Albanian"
+        },
+        {
+          "from": "قهوه:Ottoman Turkish",
           "label": "der",
-          "to": "café:French"
+          "to": "kaffe:Danish"
         },
         {
-          "from": "ກາເຟ:Lao",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "კაფე:Georgian",
+          "from": "قهوه:Ottoman Turkish",
           "label": "der",
-          "to": "café:French"
-        },
-        {
-          "from": "កាហ្វេ:Khmer",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "カフェ:Japanese",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "咖啡:Chinese",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "카페:Korean",
-          "label": "bor",
-          "to": "café:French"
-        },
-        {
-          "from": "kafe:Albanian",
-          "label": "bor",
-          "to": "قهوه:Ottoman Turkish"
-        },
-        {
-          "from": "kaffe:Danish",
-          "label": "der",
-          "to": "قهوه:Ottoman Turkish"
-        },
-        {
-          "from": "kaffe:Swedish",
-          "label": "der",
-          "to": "قهوه:Ottoman Turkish"
-        },
-        {
-          "from": "kahvi:Finnish",
-          "label": "bor",
           "to": "kaffe:Swedish"
         },
         {
-          "from": "kähvi:Inari Sami",
+          "from": "kaffe:Swedish",
           "label": "bor",
           "to": "kahvi:Finnish"
         },
         {
-          "from": "kaffi:Icelandic",
-          "label": "der",
-          "to": "قهوه:Ottoman Turkish"
-        },
-        {
-          "from": "kafè:Maltese",
-          "label": "der",
-          "to": "قهوه:Ottoman Turkish"
-        },
-        {
-          "from": "kahve:Turkish",
-          "label": "inh",
-          "to": "قهوه:Ottoman Turkish"
-        },
-        {
-          "from": "kava:Lithuanian",
-          "label": "der",
-          "to": "قهوه:Ottoman Turkish"
-        },
-        {
-          "from": "kava:Slovene",
+          "from": "kahvi:Finnish",
           "label": "bor",
-          "to": "قهوه:Ottoman Turkish"
+          "to": "kähvi:Inari Sami"
         },
         {
-          "from": "kawa:Polish",
+          "from": "قهوه:Ottoman Turkish",
           "label": "der",
-          "to": "قهوه:Ottoman Turkish"
+          "to": "kaffi:Icelandic"
         },
         {
-          "from": "קאַווע:Yiddish",
+          "from": "قهوه:Ottoman Turkish",
+          "label": "der",
+          "to": "kafè:Maltese"
+        },
+        {
+          "from": "قهوه:Ottoman Turkish",
+          "label": "der",
+          "to": "kava:Lithuanian"
+        },
+        {
+          "from": "قهوه:Ottoman Turkish",
           "label": "bor",
+          "to": "kava:Slovene"
+        },
+        {
+          "from": "قهوه:Ottoman Turkish",
+          "label": "der",
           "to": "kawa:Polish"
         },
         {
-          "from": "koffie:Dutch",
-          "label": "der",
-          "to": "قهوه:Ottoman Turkish"
+          "from": "kawa:Polish",
+          "label": "bor",
+          "to": "קאַווע:Yiddish"
         },
         {
-          "from": "fika:Swedish",
-          "label": "bor",
+          "from": "قهوه:Ottoman Turkish",
+          "label": "der",
           "to": "koffie:Dutch"
         },
         {
-          "from": "fiikata:Finnish",
+          "from": "koffie:Dutch",
           "label": "bor",
           "to": "fika:Swedish"
         },
         {
-          "from": "koffie:Afrikaans",
-          "label": "inh",
-          "to": "koffie:Dutch"
+          "from": "fika:Swedish",
+          "label": "bor",
+          "to": "fiikata:Finnish"
         },
         {
-          "from": "ikofu:Xhosa",
-          "label": "bor",
+          "from": "koffie:Dutch",
+          "label": "inh",
           "to": "koffie:Afrikaans"
         },
         {
-          "from": "kofi:Ternate",
-          "label": "der",
-          "to": "koffie:Dutch"
-        },
-        {
-          "from": "kopi:Sundanese",
-          "label": "der",
-          "to": "koffie:Dutch"
-        },
-        {
-          "from": "kupi:Brunei Malay",
-          "label": "der",
-          "to": "koffie:Dutch"
-        },
-        {
-          "from": "kupi:Iban",
-          "label": "der",
-          "to": "koffie:Dutch"
-        },
-        {
-          "from": "кофе:Ukrainian",
-          "label": "der",
-          "to": "koffie:Dutch"
-        },
-        {
-          "from": "コーヒー:Japanese",
+          "from": "koffie:Afrikaans",
           "label": "bor",
-          "to": "koffie:Dutch"
+          "to": "ikofu:Xhosa"
         },
         {
-          "from": "kohi:Palauan",
+          "from": "koffie:Dutch",
+          "label": "der",
+          "to": "kofi:Ternate"
+        },
+        {
+          "from": "koffie:Dutch",
+          "label": "der",
+          "to": "kopi:Sundanese"
+        },
+        {
+          "from": "koffie:Dutch",
+          "label": "der",
+          "to": "kupi:Brunei Malay"
+        },
+        {
+          "from": "koffie:Dutch",
+          "label": "der",
+          "to": "kupi:Iban"
+        },
+        {
+          "from": "koffie:Dutch",
+          "label": "der",
+          "to": "кофе:Ukrainian"
+        },
+        {
+          "from": "koffie:Dutch",
           "label": "bor",
           "to": "コーヒー:Japanese"
         },
         {
-          "from": "kofje:West Frisian",
-          "label": "der",
-          "to": "قهوه:Ottoman Turkish"
+          "from": "コーヒー:Japanese",
+          "label": "bor",
+          "to": "kohi:Palauan"
         },
         {
-          "from": "kopejs:Latgalian",
+          "from": "قهوه:Ottoman Turkish",
           "label": "der",
-          "to": "قهوه:Ottoman Turkish"
+          "to": "kofje:West Frisian"
         },
         {
-          "from": "cafea:Romanian",
+          "from": "قهوه:Ottoman Turkish",
           "label": "der",
-          "to": "قَهْوَة:Arabic"
+          "to": "kopejs:Latgalian"
+        },
+        {
+          "from": "قَهْوَة:Arabic",
+          "label": "der",
+          "to": "cafea:Romanian"
+        },
+        {
+          "from": "قَهْوَة:Arabic",
+          "label": "der",
+          "to": "caffè:Italian"
+        },
+        {
+          "from": "caffè:Italian",
+          "label": "bor",
+          "to": "caffè:English"
         },
         {
           "from": "caffè:Italian",
           "label": "der",
-          "to": "قَهْوَة:Arabic"
+          "to": "caffè mocha:English"
         },
         {
-          "from": "caffè:English",
-          "label": "bor",
-          "to": "caffè:Italian"
-        },
-        {
-          "from": "caffè mocha:English",
+          "from": "caffè:Italian",
           "label": "der",
-          "to": "caffè:Italian"
-        },
-        {
-          "from": "café:Dutch",
-          "label": "der",
-          "to": "caffè:Italian"
-        },
-        {
-          "from": "kafe:Indonesian",
-          "label": "bor",
           "to": "café:Dutch"
         },
         {
-          "from": "café:Portuguese",
-          "label": "der",
-          "to": "caffè:Italian"
+          "from": "café:Dutch",
+          "label": "bor",
+          "to": "kafe:Indonesian"
         },
         {
-          "from": "kafé:Tetum",
-          "label": "bor",
+          "from": "caffè:Italian",
+          "label": "der",
           "to": "café:Portuguese"
+        },
+        {
+          "from": "café:Portuguese",
+          "label": "bor",
+          "to": "kafé:Tetum"
+        },
+        {
+          "from": "caffè:Italian",
+          "label": "der",
+          "to": "café:Spanish"
+        },
+        {
+          "from": "café:Spanish",
+          "label": "bor",
+          "to": "ahwééh:Navajo"
+        },
+        {
+          "from": "café:Spanish",
+          "label": "bor",
+          "to": "cafe:Eastern Huasteca Nahuatl"
+        },
+        {
+          "from": "café:Spanish",
+          "label": "bor",
+          "to": "cafen:Northern Puebla Nahuatl"
+        },
+        {
+          "from": "café:Spanish",
+          "label": "bor",
+          "to": "cafe̱n:Highland Puebla Nahuatl"
+        },
+        {
+          "from": "café:Spanish",
+          "label": "bor",
+          "to": "cafie:Tetelcingo Nahuatl"
+        },
+        {
+          "from": "café:Spanish",
+          "label": "bor",
+          "to": "capej:Mecayapan Nahuatl"
+        },
+        {
+          "from": "café:Spanish",
+          "label": "bor",
+          "to": "capel:Highland Popoluca"
         },
         {
           "from": "café:Spanish",
           "label": "der",
-          "to": "caffè:Italian"
+          "to": "chʼil ahwééh:Navajo"
         },
         {
-          "from": "ahwééh:Navajo",
+          "from": "café:Spanish",
           "label": "bor",
-          "to": "café:Spanish"
+          "to": "gahwé:Jemez"
         },
         {
-          "from": "cafe:Eastern Huasteca Nahuatl",
+          "from": "café:Spanish",
           "label": "bor",
-          "to": "café:Spanish"
+          "to": "kajwe:Western Highland Chatino"
         },
         {
-          "from": "cafen:Northern Puebla Nahuatl",
+          "from": "café:Spanish",
           "label": "bor",
-          "to": "café:Spanish"
+          "to": "kajé:Central Tarahumara"
         },
         {
-          "from": "cafe̱n:Highland Puebla Nahuatl",
+          "from": "café:Spanish",
           "label": "bor",
-          "to": "café:Spanish"
+          "to": "kape:Cebuano"
         },
         {
-          "from": "cafie:Tetelcingo Nahuatl",
+          "from": "café:Spanish",
           "label": "bor",
-          "to": "café:Spanish"
+          "to": "kape:Hiligaynon"
         },
         {
-          "from": "capej:Mecayapan Nahuatl",
+          "from": "café:Spanish",
           "label": "bor",
-          "to": "café:Spanish"
+          "to": "kape:Waray-Waray"
         },
         {
-          "from": "capel:Highland Popoluca",
+          "from": "café:Spanish",
           "label": "bor",
-          "to": "café:Spanish"
+          "to": "kapi:Karao"
         },
         {
-          "from": "chʼil ahwééh:Navajo",
+          "from": "café:Spanish",
+          "label": "bor",
+          "to": "kawe:Chamicuro"
+        },
+        {
+          "from": "café:Spanish",
           "label": "der",
-          "to": "café:Spanish"
+          "to": "kopháne:Taos"
         },
         {
-          "from": "gahwé:Jemez",
+          "from": "caffè:Italian",
           "label": "bor",
-          "to": "café:Spanish"
+          "to": "caife:Irish"
         },
         {
-          "from": "kajwe:Western Highland Chatino",
+          "from": "caffè:Italian",
           "label": "bor",
-          "to": "café:Spanish"
+          "to": "caifé:Irish"
         },
         {
-          "from": "kajé:Central Tarahumara",
-          "label": "bor",
-          "to": "café:Spanish"
-        },
-        {
-          "from": "kape:Cebuano",
-          "label": "bor",
-          "to": "café:Spanish"
-        },
-        {
-          "from": "kape:Hiligaynon",
-          "label": "bor",
-          "to": "café:Spanish"
-        },
-        {
-          "from": "kape:Waray-Waray",
-          "label": "bor",
-          "to": "café:Spanish"
-        },
-        {
-          "from": "kapi:Karao",
-          "label": "bor",
-          "to": "café:Spanish"
-        },
-        {
-          "from": "kawe:Chamicuro",
-          "label": "bor",
-          "to": "café:Spanish"
-        },
-        {
-          "from": "kopháne:Taos",
+          "from": "caffè:Italian",
           "label": "der",
-          "to": "café:Spanish"
-        },
-        {
-          "from": "caife:Irish",
-          "label": "bor",
-          "to": "caffè:Italian"
-        },
-        {
-          "from": "caifé:Irish",
-          "label": "bor",
-          "to": "caffè:Italian"
+          "to": "coffee:English"
         },
         {
           "from": "coffee:English",
           "label": "der",
-          "to": "caffè:Italian"
+          "to": "caffe:Interlingua"
         },
         {
-          "from": "caffe:Interlingua",
+          "from": "coffee:English",
           "label": "der",
-          "to": "coffee:English"
+          "to": "chʼil gohwéhí:Navajo"
         },
         {
-          "from": "chʼil gohwéhí:Navajo",
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "cofaidh:Scottish Gaelic"
+        },
+        {
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "coffi:Welsh"
+        },
+        {
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "gabi:Gamilaraay"
+        },
+        {
+          "from": "coffee:English",
           "label": "der",
-          "to": "coffee:English"
+          "to": "gohwééh:Navajo"
         },
         {
-          "from": "cofaidh:Scottish Gaelic",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "ikofi:Phuthi"
         },
         {
-          "from": "coffi:Welsh",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "kafeo:Ido"
         },
         {
-          "from": "gabi:Gamilaraay",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "kafi:Choctaw"
         },
         {
-          "from": "gohwééh:Navajo",
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "kawhi:Maori"
+        },
+        {
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "kofi:Chuukese"
+        },
+        {
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "kofi:Hausa"
+        },
+        {
+          "from": "coffee:English",
           "label": "der",
-          "to": "coffee:English"
+          "to": "kofi:Tok Pisin"
         },
         {
-          "from": "ikofi:Phuthi",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "kofi:Tongan"
         },
         {
-          "from": "kafeo:Ido",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "kope:Hawaiian"
         },
         {
-          "from": "kafi:Choctaw",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "kopeen:Yurok"
         },
         {
-          "from": "kawhi:Maori",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "kofi:Chuukese",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "kofi:Hausa",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "kofi:Tok Pisin",
+          "from": "coffee:English",
           "label": "der",
-          "to": "coffee:English"
+          "to": "kopi:Maia"
         },
         {
-          "from": "kofi:Tongan",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "kope:Hawaiian",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "kopeen:Yurok",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "kopi:Maia",
+          "from": "coffee:English",
           "label": "der",
-          "to": "coffee:English"
+          "to": "kopi:Malay"
         },
         {
-          "from": "kopi:Malay",
+          "from": "coffee:English",
           "label": "der",
-          "to": "coffee:English"
+          "to": "kopi:Tok Pisin"
         },
         {
-          "from": "kopi:Tok Pisin",
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "ko̧pe:Marshallese"
+        },
+        {
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "kvfi:Choctaw"
+        },
+        {
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "ká꞉fih:Cayuga"
+        },
+        {
+          "from": "coffee:English",
           "label": "der",
-          "to": "coffee:English"
+          "to": "köfi:Xârâcùù"
         },
         {
-          "from": "ko̧pe:Marshallese",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "kövi:Ajië"
         },
         {
-          "from": "kvfi:Choctaw",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "ká꞉fih:Cayuga",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "köfi:Xârâcùù",
+          "from": "coffee:English",
           "label": "der",
-          "to": "coffee:English"
+          "to": "kɔfi:Krio"
         },
         {
-          "from": "kövi:Ajië",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "likhofi:Swazi"
         },
         {
-          "from": "kɔfi:Krio",
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "காபி:Tamil"
+        },
+        {
+          "from": "coffee:English",
+          "label": "bor",
+          "to": "ཁོ་ཕི:Tibetan"
+        },
+        {
+          "from": "coffee:English",
           "label": "der",
-          "to": "coffee:English"
+          "to": "ཇ་ཀོབ་པི:Tibetan"
         },
         {
-          "from": "likhofi:Swazi",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "ၵႃႇၽီႇ:Shan"
         },
         {
-          "from": "காபி:Tamil",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "ᎧᏫ:Cherokee"
         },
         {
-          "from": "ཁོ་ཕི:Tibetan",
+          "from": "coffee:English",
           "label": "bor",
-          "to": "coffee:English"
+          "to": "ᎪᏫ:Cherokee"
         },
         {
-          "from": "ཇ་ཀོབ་པི:Tibetan",
+          "from": "caffè:Italian",
           "label": "der",
-          "to": "coffee:English"
+          "to": "kaffi:Faroese"
         },
         {
-          "from": "ၵႃႇၽီႇ:Shan",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "ᎧᏫ:Cherokee",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "ᎪᏫ:Cherokee",
-          "label": "bor",
-          "to": "coffee:English"
-        },
-        {
-          "from": "kaffi:Faroese",
+          "from": "caffè:Italian",
           "label": "der",
-          "to": "caffè:Italian"
+          "to": "kaffie:West Flemish"
         },
         {
-          "from": "kaffie:West Flemish",
-          "label": "der",
-          "to": "caffè:Italian"
-        },
-        {
-          "from": "kafè:Mòcheno",
+          "from": "caffè:Italian",
           "label": "bor",
-          "to": "caffè:Italian"
+          "to": "kafè:Mòcheno"
         },
         {
-          "from": "kupi:Banjarese",
+          "from": "caffè:Italian",
           "label": "der",
-          "to": "caffè:Italian"
+          "to": "kupi:Banjarese"
         },
         {
-          "from": "kupi:Betawi",
+          "from": "caffè:Italian",
           "label": "der",
-          "to": "caffè:Italian"
+          "to": "kupi:Betawi"
+        },
+        {
+          "from": "caffè:Italian",
+          "label": "bor",
+          "to": "latte:English"
         },
         {
           "from": "latte:English",
           "label": "bor",
-          "to": "caffè:Italian"
+          "to": "ลัตเต:Thai"
         },
         {
-          "from": "ลัตเต:Thai",
+          "from": "latte:English",
           "label": "bor",
-          "to": "latte:English"
+          "to": "拿鐵:Chinese"
         },
         {
-          "from": "拿鐵:Chinese",
+          "from": "caffè:Italian",
+          "label": "der",
+          "to": "кафе:Russian"
+        },
+        {
+          "from": "caffè:Italian",
+          "label": "der",
+          "to": "кофе:Mongolian"
+        },
+        {
+          "from": "قَهْوَة:Arabic",
           "label": "bor",
-          "to": "latte:English"
+          "to": "caoua:French"
         },
         {
-          "from": "кафе:Russian",
+          "from": "قَهْوَة:Arabic",
           "label": "der",
-          "to": "caffè:Italian"
+          "to": "gahwa:Juba Arabic"
         },
         {
-          "from": "кофе:Mongolian",
-          "label": "der",
-          "to": "caffè:Italian"
-        },
-        {
-          "from": "caoua:French",
+          "from": "قَهْوَة:Arabic",
           "label": "bor",
-          "to": "قَهْوَة:Arabic"
+          "to": "ghawa syndrome:English"
         },
         {
-          "from": "gahwa:Juba Arabic",
+          "from": "قَهْوَة:Arabic",
           "label": "der",
-          "to": "قَهْوَة:Arabic"
+          "to": "kafa:Serbo-Croatian"
         },
         {
-          "from": "ghawa syndrome:English",
-          "label": "bor",
-          "to": "قَهْوَة:Arabic"
-        },
-        {
-          "from": "kafa:Serbo-Croatian",
+          "from": "قَهْوَة:Arabic",
           "label": "der",
-          "to": "قَهْوَة:Arabic"
+          "to": "kaffe:Norwegian Bokmål"
         },
         {
-          "from": "kaffe:Norwegian Bokmål",
+          "from": "قَهْوَة:Arabic",
           "label": "der",
-          "to": "قَهْوَة:Arabic"
+          "to": "kahawa:Tausug"
         },
         {
-          "from": "kahawa:Tausug",
+          "from": "قَهْوَة:Arabic",
           "label": "der",
-          "to": "قَهْوَة:Arabic"
+          "to": "kahva:Serbo-Croatian"
         },
         {
-          "from": "kahva:Serbo-Croatian",
+          "from": "قَهْوَة:Arabic",
           "label": "der",
-          "to": "قَهْوَة:Arabic"
+          "to": "kahwa:Malay"
         },
         {
           "from": "kahwa:Malay",
-          "label": "der",
-          "to": "قَهْوَة:Arabic"
-        },
-        {
-          "from": "kahawa:Maranao",
           "label": "bor",
-          "to": "kahwa:Malay"
+          "to": "kahawa:Maranao"
         },
         {
-          "from": "kahawa:Yakan",
+          "from": "kahwa:Malay",
           "label": "bor",
-          "to": "kahwa:Malay"
+          "to": "kahawa:Yakan"
         },
         {
-          "from": "kahwa:Indonesian",
+          "from": "kahwa:Malay",
           "label": "inh",
-          "to": "kahwa:Malay"
+          "to": "kahwa:Indonesian"
         },
         {
-          "from": "kahweol:English",
+          "from": "قَهْوَة:Arabic",
           "label": "bor",
-          "to": "قَهْوَة:Arabic"
+          "to": "kahweol:English"
         },
         {
           "from": "कुआ:Old Hindi",
@@ -5173,24 +4963,19 @@
           "to": "कूपक:Sanskrit"
         },
         {
-          "from": "कुआँ:Hindi",
+          "from": "𑀓𑀽𑀯𑀅:pra-sau",
           "label": "inh",
-          "to": "कुआ:Old Hindi"
+          "to": "કૂવો:Gujarati"
         },
         {
-          "from": "કૂવો:Gujarati",
+          "from": "कूपक:Sanskrit",
           "label": "inh",
-          "to": "𑀓𑀽𑀯𑀅:pra-sau"
+          "to": "ކުނބު:Dhivehi"
         },
         {
-          "from": "ކުނބު:Dhivehi",
+          "from": "कूपक:Sanskrit",
           "label": "inh",
-          "to": "कूपक:Sanskrit"
-        },
-        {
-          "from": "𑂍𑂳𑂅𑂄𑂀:Magahi",
-          "label": "inh",
-          "to": "कूपक:Sanskrit"
+          "to": "𑂍𑂳𑂅𑂄𑂀:Magahi"
         }
       ],
       "nodes": [
@@ -6047,13 +5832,6 @@
           "label": "copete",
           "language": "Walloon",
           "level": -6,
-          "uncertainty": null
-        },
-        {
-          "id": "Copley:English",
-          "label": "Copley",
-          "language": "English",
-          "level": -5,
           "uncertainty": null
         },
         {

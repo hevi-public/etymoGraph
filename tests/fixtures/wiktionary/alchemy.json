@@ -8,8 +8,8 @@
     "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
-    "collected_at": "2026-07-05T11:34:07+00:00",
-    "etymograph_git_sha": "6a79a4cfe5f3fc19aa82c8f9281bb078d1bada00",
+    "collected_at": "2026-07-05T12:09:56+00:00",
+    "etymograph_git_sha": "b20fb70543be0382c0e45b7df4ef9d96817c01c6",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
     "notes": "Phase 2: Doublet of `chemistry` via Greek χυμεία — not surfaced. Chain truncated before deepest Greek root χύμα. Two bonus quirks found: (a) lang_cache miss for `la-med` (Medieval Latin); (b) Arabic diacritic stripping — system stores bare form `كيمياء` while Wiktionary template uses fully-vocalised `اَلْكِيمِيَاء`. Middle English alkamye absent from chain because Kaikki has no ME→OE `inh` template (jumps English ← Old French directly).",
@@ -493,99 +493,89 @@
           "to": "كيمياء:Arabic"
         },
         {
-          "from": "alkemi:Cornish",
-          "label": "bor",
-          "to": "alchemy:English"
-        },
-        {
-          "from": "alchemie:Dutch",
-          "label": "der",
-          "to": "alkimie:Old French"
-        },
-        {
           "from": "alchemy:English",
-          "label": "der",
-          "to": "alkimie:Old French"
-        },
-        {
-          "from": "Alchemie:German",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "alquímia:Catalan",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "chemia:Latin",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "chemicus:Latin",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "química:Galician",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "química:Portuguese",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "química:Spanish",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "алхимия:Bulgarian",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "алхимия:Kazakh",
-          "label": "der",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "алхимия:Russian",
           "label": "bor",
-          "to": "كيمياء:Arabic"
+          "to": "alkemi:Cornish"
         },
         {
-          "from": "ալքիմիա:Middle Armenian",
-          "label": "bor",
-          "to": "كيمياء:Arabic"
-        },
-        {
-          "from": "ալքիմիա:Armenian",
+          "from": "alkimie:Old French",
           "label": "der",
-          "to": "ալքիմիա:Middle Armenian"
+          "to": "alchemie:Dutch"
         },
         {
-          "from": "alchemia:Latin",
+          "from": "كيمياء:Arabic",
           "label": "der",
-          "to": "χυμείᾱ:Ancient Greek"
+          "to": "Alchemie:German"
         },
         {
-          "from": "química:Catalan",
+          "from": "كيمياء:Arabic",
           "label": "der",
-          "to": "χυμείᾱ:Ancient Greek"
+          "to": "alquímia:Catalan"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "chemia:Latin"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "chemicus:Latin"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "química:Galician"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "química:Portuguese"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "química:Spanish"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "алхимия:Bulgarian"
+        },
+        {
+          "from": "كيمياء:Arabic",
+          "label": "der",
+          "to": "алхимия:Kazakh"
         },
         {
           "from": "كيمياء:Arabic",
           "label": "bor",
-          "to": "χυμείᾱ:Ancient Greek"
+          "to": "алхимия:Russian"
         },
         {
-          "from": "ქიმია:Georgian",
+          "from": "كيمياء:Arabic",
+          "label": "bor",
+          "to": "ալքիմիա:Middle Armenian"
+        },
+        {
+          "from": "ալքիմիա:Middle Armenian",
           "label": "der",
-          "to": "χυμείᾱ:Ancient Greek"
+          "to": "ալքիմիա:Armenian"
+        },
+        {
+          "from": "χυμείᾱ:Ancient Greek",
+          "label": "der",
+          "to": "alchemia:Latin"
+        },
+        {
+          "from": "χυμείᾱ:Ancient Greek",
+          "label": "der",
+          "to": "química:Catalan"
+        },
+        {
+          "from": "χυμείᾱ:Ancient Greek",
+          "label": "der",
+          "to": "ქიმია:Georgian"
         },
         {
           "from": "alchemy:English",
@@ -633,19 +623,9 @@
           "to": "alchemia:la-med"
         },
         {
-          "from": "alquimia:Spanish",
-          "label": "inh",
-          "to": "alquimia:Old Spanish"
-        },
-        {
-          "from": "alkimiya:Tagalog",
+          "from": "اَلْكِيمْيَا:Andalusian Arabic",
           "label": "der",
-          "to": "اَلْكِيمْيَا:Andalusian Arabic"
-        },
-        {
-          "from": "alquimia:Old Spanish",
-          "label": "der",
-          "to": "اَلْكِيمْيَا:Andalusian Arabic"
+          "to": "alkimiya:Tagalog"
         },
         {
           "from": "alkimiya:Tagalog",

@@ -8,8 +8,8 @@
     "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
-    "collected_at": "2026-07-05T11:34:07+00:00",
-    "etymograph_git_sha": "6a79a4cfe5f3fc19aa82c8f9281bb078d1bada00",
+    "collected_at": "2026-07-05T12:09:56+00:00",
+    "etymograph_git_sha": "b20fb70543be0382c0e45b7df4ef9d96817c01c6",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
     "notes": "Phase 2: Clean borrowing chain matches Wiktionary. Doublets with queso (Spanish), Käse (German), kaas (Dutch) via shared Latin root are present as `doublet` template, not surfaced as edges. Q13 fix verified: ċīese with diacritic resolves.",
@@ -742,24 +742,14 @@
           "to": "ċīese:Old English"
         },
         {
-          "from": "cheese:English",
+          "from": "ċīese:Old English",
           "label": "inh",
-          "to": "chese:Middle English"
+          "to": "Chiswick:English"
         },
         {
-          "from": "Chiswick:English",
+          "from": "*kāsī:Proto-West Germanic",
           "label": "inh",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "chese:Middle English",
-          "label": "inh",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "ciese:Old English",
-          "label": "inh",
-          "to": "*kāsī:Proto-West Germanic"
+          "to": "ciese:Old English"
         }
       ],
       "nodes": [
@@ -830,184 +820,174 @@
           "to": "*kāsī:Proto-West Germanic"
         },
         {
-          "from": "chiz:Abenaki",
+          "from": "cheese:English",
           "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "chizi:Shona",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "cihs:Mohegan-Pequot",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "itshizi:Xhosa",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "jiij:Marshallese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "jiss:Somali",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "sis:Tok Pisin",
-          "label": "der",
-          "to": "cheese:English"
-        },
-        {
-          "from": "sisi:Samoan",
-          "label": "der",
-          "to": "cheese:English"
-        },
-        {
-          "from": "hihi:Tokelauan",
-          "label": "bor",
-          "to": "sisi:Samoan"
-        },
-        {
-          "from": "tsís:Mohawk",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "ushizi:Zulu",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "čidᶻ:Lushootseed",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "吉士:Chinese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "芝士:Chinese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "起司:Chinese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "起士:Chinese",
-          "label": "bor",
-          "to": "cheese:English"
-        },
-        {
-          "from": "치즈:Korean",
-          "label": "bor",
-          "to": "cheese:English"
+          "to": "chiz:Abenaki"
         },
         {
           "from": "cheese:English",
-          "label": "inh",
-          "to": "chese:Middle English"
-        },
-        {
-          "from": "Chisholm:English",
-          "label": "der",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "Chiswick:English",
-          "label": "inh",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "chese:Middle English",
-          "label": "inh",
-          "to": "ċīese:Old English"
-        },
-        {
-          "from": "ciese:Old English",
-          "label": "inh",
-          "to": "*kāsī:Proto-West Germanic"
-        },
-        {
-          "from": "kæsa:Icelandic",
-          "label": "der",
-          "to": "*kāsī:Proto-West Germanic"
-        },
-        {
-          "from": "cacio:Italian",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "caciu:Sicilian",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "caseo:Interlingua",
-          "label": "der",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "cash:Aromanian",
-          "label": "inh",
-          "to": "cāseus:Latin"
-        },
-        {
-          "from": "قاشر:Ottoman Turkish",
           "label": "bor",
+          "to": "chizi:Shona"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "cihs:Mohegan-Pequot"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "itshizi:Xhosa"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "jiij:Marshallese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "jiss:Somali"
+        },
+        {
+          "from": "cheese:English",
+          "label": "der",
+          "to": "sis:Tok Pisin"
+        },
+        {
+          "from": "cheese:English",
+          "label": "der",
+          "to": "sisi:Samoan"
+        },
+        {
+          "from": "sisi:Samoan",
+          "label": "bor",
+          "to": "hihi:Tokelauan"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "tsís:Mohawk"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "ushizi:Zulu"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "čidᶻ:Lushootseed"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "吉士:Chinese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "芝士:Chinese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "起司:Chinese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "起士:Chinese"
+        },
+        {
+          "from": "cheese:English",
+          "label": "bor",
+          "to": "치즈:Korean"
+        },
+        {
+          "from": "ċīese:Old English",
+          "label": "der",
+          "to": "Chisholm:English"
+        },
+        {
+          "from": "ċīese:Old English",
+          "label": "inh",
+          "to": "Chiswick:English"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "inh",
+          "to": "ciese:Old English"
+        },
+        {
+          "from": "*kāsī:Proto-West Germanic",
+          "label": "der",
+          "to": "kæsa:Icelandic"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "cacio:Italian"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "caciu:Sicilian"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "der",
+          "to": "caseo:Interlingua"
+        },
+        {
+          "from": "cāseus:Latin",
+          "label": "inh",
           "to": "cash:Aromanian"
         },
         {
-          "from": "kaşar:Turkish",
-          "label": "inh",
+          "from": "cash:Aromanian",
+          "label": "bor",
           "to": "قاشر:Ottoman Turkish"
         },
         {
-          "from": "caso:Neapolitan",
+          "from": "قاشر:Ottoman Turkish",
           "label": "inh",
-          "to": "cāseus:Latin"
+          "to": "kaşar:Turkish"
         },
         {
-          "from": "casu:Sardinian",
+          "from": "cāseus:Latin",
           "label": "inh",
-          "to": "cāseus:Latin"
+          "to": "caso:Neapolitan"
         },
         {
-          "from": "casu:Sicilian",
+          "from": "cāseus:Latin",
           "label": "inh",
-          "to": "cāseus:Latin"
+          "to": "casu:Sardinian"
         },
         {
-          "from": "caș:Romanian",
+          "from": "cāseus:Latin",
           "label": "inh",
-          "to": "cāseus:Latin"
+          "to": "casu:Sicilian"
         },
         {
-          "from": "chis:Dalmatian",
+          "from": "cāseus:Latin",
           "label": "inh",
-          "to": "cāseus:Latin"
+          "to": "caș:Romanian"
         },
         {
-          "from": "kazeina:Polish",
+          "from": "cāseus:Latin",
+          "label": "inh",
+          "to": "chis:Dalmatian"
+        },
+        {
+          "from": "cāseus:Latin",
           "label": "der",
-          "to": "cāseus:Latin"
+          "to": "kazeina:Polish"
         },
         {
-          "from": "keso:Tagalog",
+          "from": "cāseus:Latin",
           "label": "der",
-          "to": "cāseus:Latin"
+          "to": "keso:Tagalog"
         },
         {
           "from": "cheese:English",
@@ -1033,6 +1013,11 @@
           "from": "cheese:English",
           "label": "cog",
           "to": "Käse:German"
+        },
+        {
+          "from": "hihi:Tokelauan",
+          "label": "cog",
+          "to": "sisi:Samoan"
         },
         {
           "from": "hihi:Tokelauan",
@@ -1180,22 +1165,12 @@
           "to": "kīse:Old Frisian"
         },
         {
-          "from": "Síes:Saterland Frisian",
-          "label": "inh",
-          "to": "kīse:Old Frisian"
-        },
-        {
           "from": "tzīse:Old Frisian",
           "label": "inh",
           "to": "tsiis:West Frisian"
         },
         {
           "from": "*kāsī:Proto-West Germanic",
-          "label": "inh",
-          "to": "tzīse:Old Frisian"
-        },
-        {
-          "from": "tsiis:West Frisian",
           "label": "inh",
           "to": "tzīse:Old Frisian"
         },
@@ -1215,29 +1190,24 @@
           "to": "*kāsi:Old Dutch"
         },
         {
-          "from": "kaas:Afrikaans",
+          "from": "kaas:Dutch",
           "label": "inh",
-          "to": "kaas:Dutch"
+          "to": "kaas:Afrikaans"
         },
         {
-          "from": "kasi:Sranan Tongo",
+          "from": "kaas:Dutch",
           "label": "bor",
-          "to": "kaas:Dutch"
-        },
-        {
-          "from": "kääs:Jersey Dutch",
-          "label": "inh",
-          "to": "kaas:Dutch"
+          "to": "kasi:Sranan Tongo"
         },
         {
           "from": "kaas:Dutch",
           "label": "inh",
-          "to": "câse:Middle Dutch"
+          "to": "kääs:Jersey Dutch"
         },
         {
-          "from": "case:Middle Dutch",
+          "from": "*kāsi:Old Dutch",
           "label": "inh",
-          "to": "*kāsi:Old Dutch"
+          "to": "case:Middle Dutch"
         },
         {
           "from": "kæse:Middle High German",
@@ -1255,104 +1225,94 @@
           "to": "kāsi:Old High German"
         },
         {
-          "from": "Kase:English",
+          "from": "Käse:German",
           "label": "bor",
-          "to": "Käse:German"
-        },
-        {
-          "from": "kazeo:Esperanto",
-          "label": "der",
-          "to": "Käse:German"
-        },
-        {
-          "from": "Chääs:Alemannic German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "Kaes:Pennsylvania German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "Kies:Central Franconian",
-          "label": "inh",
-          "to": "kæse:Middle High German"
+          "to": "Kase:English"
         },
         {
           "from": "Käse:German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "Kéis:Luxembourgish",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "cheisch:Alemannic German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "chìŝch:Alemannic German",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "kas:Mòcheno",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "khéeze:Cimbrian",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "kȳz:Vilamovian",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "קעז:Yiddish",
-          "label": "inh",
-          "to": "kæse:Middle High German"
-        },
-        {
-          "from": "Kaas:Bavarian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "ckaas:Bavarian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "kase:Bavarian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "kese:Cimbrian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "khase:Bavarian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
-        },
-        {
-          "from": "khes:Cimbrian",
-          "label": "inh",
-          "to": "kāsi:Old High German"
+          "label": "der",
+          "to": "kazeo:Esperanto"
         },
         {
           "from": "kæse:Middle High German",
           "label": "inh",
-          "to": "kāsi:Old High German"
+          "to": "Chääs:Alemannic German"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "Kaes:Pennsylvania German"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "Kies:Central Franconian"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "Kéis:Luxembourgish"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "cheisch:Alemannic German"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "chìŝch:Alemannic German"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "kas:Mòcheno"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "khéeze:Cimbrian"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "kȳz:Vilamovian"
+        },
+        {
+          "from": "kæse:Middle High German",
+          "label": "inh",
+          "to": "קעז:Yiddish"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "Kaas:Bavarian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "ckaas:Bavarian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "kase:Bavarian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "kese:Cimbrian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "khase:Bavarian"
+        },
+        {
+          "from": "kāsi:Old High German",
+          "label": "inh",
+          "to": "khes:Cimbrian"
         },
         {
           "from": "queijo:Old Galician-Portuguese",
@@ -1365,49 +1325,44 @@
           "to": "queijo:Old Galician-Portuguese"
         },
         {
-          "from": "keiju:Tetum",
+          "from": "queijo:Portuguese",
           "label": "bor",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "keju:Malay",
-          "label": "bor",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "keju:Indonesian",
-          "label": "inh",
-          "to": "keju:Malay"
-        },
-        {
-          "from": "kiju:Sundanese",
-          "label": "bor",
-          "to": "queijo:Portuguese"
-        },
-        {
-          "from": "kiju:Tausug",
-          "label": "der",
-          "to": "queijo:Portuguese"
+          "to": "keiju:Tetum"
         },
         {
           "from": "queijo:Portuguese",
-          "label": "inh",
-          "to": "queijo:Old Galician-Portuguese"
+          "label": "bor",
+          "to": "keju:Malay"
         },
         {
-          "from": "queixhu:Fala",
+          "from": "keju:Malay",
           "label": "inh",
-          "to": "queijo:Old Galician-Portuguese"
+          "to": "keju:Indonesian"
         },
         {
-          "from": "queixo:Galician",
-          "label": "inh",
-          "to": "queijo:Old Galician-Portuguese"
+          "from": "queijo:Portuguese",
+          "label": "bor",
+          "to": "kiju:Sundanese"
         },
         {
-          "from": "queixu:Fala",
+          "from": "queijo:Portuguese",
+          "label": "der",
+          "to": "kiju:Tausug"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
           "label": "inh",
-          "to": "queijo:Old Galician-Portuguese"
+          "to": "queixhu:Fala"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "inh",
+          "to": "queixo:Galician"
+        },
+        {
+          "from": "queijo:Old Galician-Portuguese",
+          "label": "inh",
+          "to": "queixu:Fala"
         },
         {
           "from": "queso:Old Spanish",
@@ -1420,94 +1375,89 @@
           "to": "queso:Old Spanish"
         },
         {
-          "from": "géeso:Navajo",
+          "from": "queso:Spanish",
           "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "géésu:Jemez",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "keso:Cebuano",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "keso:Swedish",
-          "label": "der",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "keso:Waray-Waray",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kesò:Guerrero Amuzgo",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kešu:Rayón Zoque",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kiso:Maranao",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kiso:Sambali",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kisu:Quechua",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kàsuʼúna:Taos",
-          "label": "der",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "ques:Zoogocho Zapotec",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "quiexo:Tetelcingo Nahuatl",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "quiiz:Seri",
-          "label": "der",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "quéexiu:Huichol",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "ᎨᏒ:Cherokee",
-          "label": "bor",
-          "to": "queso:Spanish"
-        },
-        {
-          "from": "kézo:Ladino",
-          "label": "inh",
-          "to": "queso:Old Spanish"
+          "to": "géeso:Navajo"
         },
         {
           "from": "queso:Spanish",
+          "label": "bor",
+          "to": "géésu:Jemez"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "keso:Cebuano"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "der",
+          "to": "keso:Swedish"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "keso:Waray-Waray"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kesò:Guerrero Amuzgo"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kešu:Rayón Zoque"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kiso:Maranao"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kiso:Sambali"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "kisu:Quechua"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "der",
+          "to": "kàsuʼúna:Taos"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "ques:Zoogocho Zapotec"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "quiexo:Tetelcingo Nahuatl"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "der",
+          "to": "quiiz:Seri"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "quéexiu:Huichol"
+        },
+        {
+          "from": "queso:Spanish",
+          "label": "bor",
+          "to": "ᎨᏒ:Cherokee"
+        },
+        {
+          "from": "queso:Old Spanish",
           "label": "inh",
-          "to": "queso:Old Spanish"
+          "to": "kézo:Ladino"
         },
         {
           "from": "caséine:French",
@@ -1517,11 +1467,6 @@
         {
           "from": "cāseus:Latin",
           "label": "der",
-          "to": "caséine:French"
-        },
-        {
-          "from": "casein:English",
-          "label": "bor",
           "to": "caséine:French"
         },
         {
