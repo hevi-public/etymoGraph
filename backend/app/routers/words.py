@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
+from motor.motor_asyncio import AsyncIOMotorCollection
 
 from app.database import get_words_collection
 from app.services.etymology_classifier import classify_etymology, extract_word_mentions
@@ -40,9 +41,13 @@ def extract_audio_urls(doc: dict) -> list[dict]:
 
 
 @router.get("/words/{word}")
-async def get_word(word: str, lang: str = "English", etym: int | None = Query(None)) -> dict:
+async def get_word(
+    word: str,
+    lang: str = "English",
+    etym: int | None = Query(None),
+    col: AsyncIOMotorCollection = Depends(get_words_collection),
+) -> dict:
     """Fetch a word entry with definitions, pronunciation, and etymology details."""
-    col = get_words_collection()
     query = {"word": word, "lang": lang}
     if etym is not None:
         query["etymology_number"] = etym

@@ -37,6 +37,13 @@ ignore = [
     "PLR2004", # Magic value comparisons (common in tests)
 ]
 
+[tool.ruff.lint.flake8-bugbear]
+# fastapi.Depends() in an argument default is the framework's DI pattern, not a
+# mutable-default bug — FastAPI re-invokes it per request rather than once at
+# def time. (fastapi.Query/Path/Body etc. are already exempted by ruff's B008
+# default allowlist; Depends is not, so it needs an explicit extend.)
+extend-immutable-calls = ["fastapi.Depends"]
+
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"

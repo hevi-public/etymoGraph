@@ -2,7 +2,8 @@
 
 from collections import defaultdict
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
+from motor.motor_asyncio import AsyncIOMotorCollection
 
 from app.database import get_words_collection
 from app.services.concept_resolver import resolve_concept, suggest_concepts
@@ -22,10 +23,9 @@ async def get_concept_map(
     include_etymology_edges: bool = Query(
         True, description="Include known etymological connections"
     ),
+    col: AsyncIOMotorCollection = Depends(get_words_collection),
 ) -> dict:
     """Build a concept map with phonetic similarity edges for a given concept."""
-    col = get_words_collection()
-
     docs, resolution_method = await resolve_concept(col, concept, pos)
 
     if not docs:
@@ -59,9 +59,9 @@ async def get_concept_map(
 async def get_concept_suggestions(
     q: str = Query(..., min_length=1, description="Partial concept name"),
     limit: int = Query(10, ge=1, le=50),
+    col: AsyncIOMotorCollection = Depends(get_words_collection),
 ) -> dict:
     """Autocomplete endpoint for concept search."""
-    col = get_words_collection()
     suggestions = await suggest_concepts(col, q, limit)
     return {"suggestions": suggestions}
 

@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
+from motor.motor_asyncio import AsyncIOMotorCollection
 
 from app.database import get_words_collection
 from app.services import lang_cache
@@ -16,10 +17,13 @@ router = APIRouter()
 
 @router.get("/etymology/{word}/chain")
 async def get_etymology_chain(
-    word: str, lang: str = "English", max_depth: int = 10, etym: int | None = None
+    word: str,
+    lang: str = "English",
+    max_depth: int = 10,
+    etym: int | None = None,
+    col: AsyncIOMotorCollection = Depends(get_words_collection),
 ):
     """Trace ancestry chain upward from a word to its root."""
-    col = get_words_collection()
     await lang_cache.ensure_loaded(col)
     nodes = {}
     edges = []
@@ -71,9 +75,9 @@ async def get_etymology_tree(
     max_descendant_depth: int = Query(3, ge=1, le=5),
     types: str = Query("inh", description="Comma-separated connection types: inh,bor,der,cog"),
     etym: int | None = None,
+    col: AsyncIOMotorCollection = Depends(get_words_collection),
 ):
     """Build a full tree: trace up to the root, then find all descendants at each level."""
-    col = get_words_collection()
     await lang_cache.ensure_loaded(col)
 
     requested_types = set(types.split(",")) if types.strip() else set()

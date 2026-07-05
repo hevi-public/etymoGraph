@@ -1,9 +1,23 @@
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.database import create_mongo_client
 from app.routers import concept_map, etymology, search, words
 
-app = FastAPI(title="Etymology Explorer API")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    app.state.mongo_client = create_mongo_client()
+    try:
+        yield
+    finally:
+        app.state.mongo_client.close()
+
+
+app = FastAPI(title="Etymology Explorer API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
