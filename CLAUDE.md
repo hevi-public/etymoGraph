@@ -164,19 +164,25 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: Core product complete (vis.js etymology graph + phonetic concept map); roadmap drafted
-**Last completed**: SPC-00013 Phases 1–3 (Wiktionary fixture + characterization/consistency tests)
-**Next task**: SPC-00014 (native `descendants` + inflection-aware search) — the keystone of the
-2026-06 audit roadmap. See `docs/AUDIT-2026-06.md`.
+**Last completed**: SPC-00021 spec approved (server-side graph layout + SSE streaming)
+**Next task**: Implement SPC-00021 phase by phase (see `specs/00021-server-side-layout-streaming/spec.md`
+§10) — starts with the `find_descendants` determinism fix + fixture regen, then test groundwork,
+then the numpy layout engine.
 
 **Recent**:
+- SPC-00021 (2026-07-04, approved): move graph layout from vis.js client physics to a backend
+  numpy solver streaming states over SSE; frontend tweens between frames with physics disabled;
+  client physics kept as `layoutMode=client` fallback. Modifies SPC-00004/00002; pulls SPC-00014's
+  R3 determinism slice and SPC-00020's Steps 1–3 forward.
 - Feature audit `docs/AUDIT-2026-06.md` (2026-06-27): full audit + prioritized, audience-tagged
   roadmap. Drafted specs SPC-00014–00019; reclaimed SPC-00005 and deprecated the abandoned G6
   renderer line (SPC-00005–00010 — no G6 code ever merged; vis.js is the sole renderer).
 - SPC-00011 (chain normalization + polysemy), SPC-00012 (precomputed compound edges), SPC-00013
   (fixture/characterization test machinery) all shipped since SPC-00003/00004.
 - **Implemented specs:** 00001–00004, 00011, 00012, 00013 (Phases 1–3). **Deprecated:** 00005–00010
-  (G6). **Draft (roadmap):** 00014–00020. SPC-00020 (Tiered Testing Architecture) applies the
-  `bdd-tiered-testing` skill to this stack and is the home for the audit's R2 (untested core engine).
+  (G6). **Draft (roadmap):** 00014–00020. **Approved:** 00021 (server-side layout + SSE).
+  SPC-00020 (Tiered Testing Architecture) applies the `bdd-tiered-testing` skill to this stack and
+  is the home for the audit's R2 (untested core engine).
 
 ## Documentation
 
@@ -185,6 +191,22 @@ claude mcp get mongodb  # Shows details for specific server
 - `docs/IMPLEMENTATION_PLAN.md` — Original implementation plan with task breakdowns.
 - `docs/CODING_STANDARDS.md` — Python and JavaScript coding standards with enforcement details.
 - `specs/` — Feature specifications. **Read below for conventions.**
+
+## Claude Code Skills (`.claude/skills/`)
+
+Project-local skills, auto-loaded by Claude Code. Consult the matching skill **before** working in
+its area. The four testing/stack skills are adapted from the HAIP project (hevi-public/haip) for
+this Python/FastAPI/Motor + vanilla-JS stack:
+
+- `bdd-tiered-testing` — the testing philosophy: tiers, the single IO seam, discovery mode,
+  log-as-contract, de-flaking. Companion to SPC-00020. Read before writing any test.
+- `fastapi-acceptance-bdd` — hermetic acceptance wiring (httpx ASGITransport, dependency_overrides,
+  seeded fakes, SSE contract tests, rail tests) + the Playwright E2E layer.
+- `mongodb-motor-data` — the Mongo/Motor layer: seam/DI, query gotchas (sort-before-limit,
+  collation, projections), indexes, bounded recursion, precompute-collection pattern, test-DB tiers.
+- `vanilla-js-frontend` — no-build-step frontend conventions: script load order, pure-core/DOM-glue
+  split, Vitest eval harness, stable test hooks, asset pinning, SSE/Worker patterns.
+- `vis-docs` — vis.js Network & DataSet API reference for the graph views.
 
 ## Specs
 

@@ -5,7 +5,7 @@
 | **Status** | draft |
 | **Created** | 2026-06-27 |
 | **Modifies** | SPC-00013 (recharacterizes the integration suite as a hermetic Acceptance tier), SPC-00014 (supersedes its ad-hoc §5 test plan with the shared tier model) |
-| **Modified-by** | — |
+| **Modified-by** | SPC-00021 (implements Steps 1–3 DI seam, pytest tier markers, and the "smaller intermediate option" FakeWordsCollection early; Step 4 repository port remains here) |
 
 > Adapts the **`bdd-tiered-testing`** philosophy (a Kotlin/Spring skill) to this Python/FastAPI/Motor/JS
 > stack. Its load-bearing rule — **mock at exactly one seam, the IO boundary; run real code above it** —
