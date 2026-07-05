@@ -245,7 +245,7 @@ class TreeBuilder:
             edge_type = first_ancestry[0]["type"]
             did = node_id(dw, dl)
 
-            if not self.add_edge(did, parent_id, edge_type):
+            if not self.add_edge(parent_id, did, edge_type):
                 continue
 
             self.add_node(dw, dl, parent_level + 1)

@@ -153,7 +153,7 @@ async def test_find_descendants_finds_immediate_children():
     result = builder.result()
     assert "stemmer:English" in builder.nodes
     assert builder.nodes["stemmer:English"]["level"] == 1
-    assert {"from": "stemmer:English", "to": "stem:English", "label": "der"} in result["edges"]
+    assert {"from": "stem:English", "to": "stemmer:English", "label": "der"} in result["edges"]
 
 
 @pytest.mark.tier2
@@ -183,6 +183,53 @@ async def test_find_descendants_only_includes_immediate_parent():
 
     assert "notachild:English" not in builder.nodes
     assert builder.result()["edges"] == []
+
+
+@pytest.mark.tier2
+@pytest.mark.asyncio
+async def test_find_descendants_does_not_reverse_ancestor_chain_edge():
+    """A word's own doc satisfying its parent's descendant query must not
+    produce a reverse-direction duplicate of the ancestor-chain edge.
+
+    "cheese" (English) is inh-derived from "chese" (Middle English). When
+    expand_word walks the ancestor chain, _build_ancestor_chain adds the edge
+    chese -> cheese. It then calls find_descendants("chese", ...), which
+    queries for any doc whose etymology_templates point back at "chese" --
+    and "cheese"'s own document satisfies that query, since it IS the
+    immediate child. Regression test for a bug where find_descendants added
+    edges as descendant -> ancestor instead of ancestor -> descendant,
+    producing a spurious reverse edge (cheese -> chese) alongside the
+    correct one (chese -> cheese) for every multi-hop chain.
+    """
+    _seed_lang_codes()
+    col = FakeWordsCollection(
+        [
+            {
+                "word": "cheese",
+                "lang": "English",
+                "lang_code": "en",
+                "etymology_templates": [
+                    {"name": "inh", "args": {"1": "en", "2": "enm", "3": "chese"}}
+                ],
+            },
+            {
+                "word": "chese",
+                "lang": "Middle English",
+                "lang_code": "enm",
+                "etymology_templates": [],
+            },
+        ]
+    )
+    builder = TreeBuilder(col, {"inh"}, max_ancestor_depth=10, max_descendant_depth=3)
+
+    await builder.expand_word("cheese", "English", base_level=0)
+
+    chese_id = "chese:Middle English"
+    cheese_id = "cheese:English"
+    pair_edges = [
+        e for e in builder.result()["edges"] if {e["from"], e["to"]} == {chese_id, cheese_id}
+    ]
+    assert pair_edges == [{"from": chese_id, "to": cheese_id, "label": "inh"}]
 
 
 @pytest.mark.tier2
