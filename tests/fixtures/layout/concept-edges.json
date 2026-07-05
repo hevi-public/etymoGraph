@@ -1,0 +1,51 @@
+[
+  {
+    "from": "fire:English",
+    "to": "feuer:German",
+    "dashes": [
+      5,
+      5
+    ],
+    "color": {
+      "color": "rgba(180,180,200,0.82)",
+      "highlight": "rgba(200,200,220,1.02)"
+    },
+    "width": 1.58,
+    "length": 189.39850002884623,
+    "springConstant": 0.004,
+    "title": "82% similar",
+    "edgeType": "phonetic"
+  },
+  {
+    "from": "fire:English",
+    "to": "ignis:Latin",
+    "dashes": [
+      5,
+      5
+    ],
+    "color": {
+      "color": "rgba(180,180,200,0.35)",
+      "highlight": "rgba(200,200,220,0.55)"
+    },
+    "width": 0.8749999999999999,
+    "length": 272.87712379549447,
+    "springConstant": 0.004,
+    "title": "35% similar (Turchin match)",
+    "edgeType": "phonetic"
+  },
+  {
+    "from": "fire:English",
+    "to": "feuer:German",
+    "dashes": false,
+    "color": {
+      "color": "rgba(245,200,66,0.7)",
+      "highlight": "rgba(245,200,66,1)"
+    },
+    "width": 2.5,
+    "arrows": "to",
+    "length": 223.39850002884623,
+    "springConstant": 0.004,
+    "title": "cognate",
+    "edgeType": "etymology"
+  }
+]

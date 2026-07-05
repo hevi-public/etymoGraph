@@ -41,12 +41,41 @@ function loadGraph() {
 
     // Stub vis global (graph.js doesn't use it at load time, but just in case)
     window.vis = window.vis || { DataSet: class {}, Network: class {} };
-    // Stub localStorage
+    // Stub localStorage: newer jsdom/Vitest combinations don't forward jsdom's
+    // window.localStorage onto the test global at all (it's not in Vitest's
+    // hardcoded key-forwarding allowlist), so provide a minimal in-memory one.
+    if (!window.localStorage) {
+        const store = {};
+        window.localStorage = {
+            getItem: (k) => (k in store ? store[k] : null),
+            setItem: (k, v) => {
+                store[k] = String(v);
+            },
+            removeItem: (k) => delete store[k],
+            clear: () => {
+                for (const k of Object.keys(store)) delete store[k];
+            },
+        };
+    }
     if (!window.localStorage.getItem("graphLayout")) {
         window.localStorage.setItem("graphLayout", "era-layered");
     }
 
-    eval(graphSource);
+    // Vitest's jsdom environment only forwards a fixed allowlist of web-platform
+    // globals onto the test's window/global — a plain eval(source) leaves
+    // graph.js's declarations reachable only *during* the eval call, not after
+    // it returns (some symbols happen to survive, others silently don't). So
+    // the evaluated source explicitly assigns what these tests need onto
+    // window as its own last statement, in the eval's own scope.
+    eval(
+        graphSource +
+            `
+        Object.assign(window, {
+            classifyLang, LAYOUTS, baseGraphOptions, applyPerformanceOverrides,
+            LOD_SCALE_THRESHOLD, CLUSTER_THRESHOLD, DECLUSTER_THRESHOLD, CLUSTER_MIN_NODES,
+        });
+        `
+    );
 }
 
 beforeAll(() => {
