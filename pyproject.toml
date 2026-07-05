@@ -48,3 +48,12 @@ testpaths = ["backend/tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+markers = [
+    "tier0: pure logic, no IO",
+    "tier1: real ephemeral Mongo",
+    "tier2: orchestration against the one fake",
+    "acceptance: in-process ASGI app tests",
+    "live: opt-in tests against a running stack",
+    "slow: long-running (perf) tests",
+    "discovery: red-first spec, does not break the build",
+]
