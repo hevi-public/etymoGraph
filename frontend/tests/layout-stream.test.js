@@ -35,15 +35,18 @@ describe("getLayoutMode", () => {
         window.history.replaceState(null, "", "/");
     });
 
-    it("defaults to client with no URL param and no localStorage", () => {
-        expect(window.getLayoutMode()).toBe("client");
-        expect(window.__layoutMode).toBe("client");
+    it("defaults to server with no URL param and no localStorage", () => {
+        // SPC-00021 Phase 5: server-side layout is the default.
+        expect(window.getLayoutMode()).toBe("server");
+        expect(window.__layoutMode).toBe("server");
     });
 
     it("reads the ?layoutMode= URL param", () => {
-        window.history.replaceState(null, "", "/?layoutMode=server");
-        expect(window.getLayoutMode()).toBe("server");
-        expect(window.__layoutMode).toBe("server");
+        // "client" so this differs from the (server) default — the test would
+        // otherwise pass with URL parsing deleted.
+        window.history.replaceState(null, "", "/?layoutMode=client");
+        expect(window.getLayoutMode()).toBe("client");
+        expect(window.__layoutMode).toBe("client");
     });
 
     it("URL param wins over localStorage", () => {
@@ -53,13 +56,14 @@ describe("getLayoutMode", () => {
     });
 
     it("falls back to localStorage when no URL param", () => {
-        window.localStorage.setItem("layoutMode", "server");
-        expect(window.getLayoutMode()).toBe("server");
+        // "client" so this proves localStorage is read, not just the default.
+        window.localStorage.setItem("layoutMode", "client");
+        expect(window.getLayoutMode()).toBe("client");
     });
 
     it("ignores junk values and returns the default", () => {
         window.history.replaceState(null, "", "/?layoutMode=banana");
-        expect(window.getLayoutMode()).toBe("client");
+        expect(window.getLayoutMode()).toBe("server");
     });
 });
 

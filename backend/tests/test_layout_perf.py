@@ -9,7 +9,12 @@ import pytest
 from app.services.layout import engine
 
 CUPBOARD_SCALE_NODE_COUNT = 940
-BUDGET_SECONDS = 1.5
+# A regression tripwire, not a target: the solve runs ~1.3 s on an idle M2 but
+# 1.5-1.7 s under ambient load or on BLAS-poor numpy, which made a 1.5 s budget
+# flake (RA follow-up on the SPC-00021 merge; observed again during Phase 5).
+# Real regressions (e.g. losing the BLAS-matmul repulsion) show as 4-5x, so 2x
+# headroom keeps the tripwire meaningful.
+BUDGET_SECONDS = 3.0
 
 
 def _synthetic_etymology_graph(node_count: int):
@@ -74,9 +79,9 @@ def test_cupboard_scale_force_directed_solves_within_budget():
     elapsed = time.perf_counter() - start
 
     assert len(frames) > 0
-    assert elapsed < BUDGET_SECONDS, (
-        f"force-directed solve took {elapsed:.2f}s, budget is {BUDGET_SECONDS}s"
-    )
+    assert (
+        elapsed < BUDGET_SECONDS
+    ), f"force-directed solve took {elapsed:.2f}s, budget is {BUDGET_SECONDS}s"
 
 
 @pytest.mark.tier0

@@ -41,6 +41,24 @@ Repulsion (ForceAtlas2BasedRepulsionSolver._calculateForces):
     # both axes for a better-conditioned nudge; the *mechanism* (seeded, so
     # reruns are bit-identical) matters here, not byte parity with vis's jitter.
 
+Repulsion, barnesHut law (BarnesHutSolver._calculateForces, v9.1.9) — the law
+the concept map's client solver runs, selected via
+SolverParams.repulsion_law="barneshut". Constants calibrated for one law are
+dimensionally wrong under the other: concept's G=-8000 under the FA2 1/d law
+overpowers its springs ~100x at typical distances and every concept solve
+expands to a velocity-clamp-limited square (the SPC-00021 Phase 5 blow-up;
+see test_concept_solve_extent_stays_at_display_scale):
+    # same overlap-avoidance distance transform as FA2 (shared parent class)
+    gravityForce = G * mass_i * mass_j / distance_eff**3
+    force_on_i += (pos_j - pos_i) * gravityForce         # ∝ 1/d² magnitude
+                                                          # (vs FA2's 1/d); NO
+                                                          # degree factor
+    # distance == 0: vis sets distance = dx = 0.1 deterministically (no Alea
+    # here, unlike FA2). This port reuses its seeded-jitter correction for
+    # both laws — same mechanism-over-byte-parity rationale as above.
+    # vis's quadtree (theta) approximation is NOT mirrored: this port does
+    # exact pairwise repulsion for both laws, which is strictly more accurate.
+
 This module does exact O(n^2) pairwise repulsion (row-chunked to bound
 temporaries), not vis's Barnes-Hut spatial tree approximation — a deliberate
 simplification the spec sanctions for the <1500-node regime this ships for;
@@ -118,7 +136,13 @@ class SolverParams:
     central_gravity_variant selects between vis's two gravity solvers (see
     module docstring): "fa2" (ForceAtlas2BasedCentralGravitySolver — solver
     type forceAtlas2Based, the etymology layouts) or "base"
-    (CentralGravitySolver — every other solver type, the concept map)."""
+    (CentralGravitySolver — every other solver type, the concept map).
+
+    repulsion_law likewise follows the layout's client solver type: "fa2"
+    (ForceAtlas2BasedRepulsionSolver's 1/d law with the degree factor — the
+    etymology layouts) or "barneshut" (BarnesHutSolver's 1/d² law, no degree
+    factor — the concept map). Constants are calibrated per law; mixing them
+    is the Phase 5 blow-up documented in the module docstring."""
 
     gravitational_constant: float
     central_gravity: float
@@ -130,11 +154,15 @@ class SolverParams:
     dt: float = 0.5
     max_iterations: int = 300
     central_gravity_variant: Literal["fa2", "base"] = "fa2"
+    repulsion_law: Literal["fa2", "barneshut"] = "fa2"
 
     def __post_init__(self) -> None:
         # A typo'd variant would otherwise silently pick one law or the other.
         if self.central_gravity_variant not in ("fa2", "base"):
             msg = f"Unknown central_gravity_variant {self.central_gravity_variant!r}"
+            raise ValueError(msg)
+        if self.repulsion_law not in ("fa2", "barneshut"):
+            msg = f"Unknown repulsion_law {self.repulsion_law!r}"
             raise ValueError(msg)
 
 
@@ -158,6 +186,7 @@ def default_repulsion_fn(
     avoid_overlap: float,
     rng: np.random.Generator,
     block_size: int = REPULSION_BLOCK_SIZE,
+    law: Literal["fa2", "barneshut"] = "fa2",
 ) -> np.ndarray:
     """Exact O(n^2) pairwise repulsion, row-chunked to bound temporaries.
 
@@ -170,11 +199,14 @@ def default_repulsion_fn(
         mass: (n,) node masses.
         degree: (n,) node degrees (edge count + 1), used asymmetrically per
             vis's own source (force on i from j scales with degree_i only).
+            Ignored under the "barneshut" law, which has no degree factor.
         radius: (n,) estimated node radii for avoidOverlap.
         gravitational_constant: G (typically negative — repulsion).
         avoid_overlap: 0-1, vis's avoidOverlap option.
         rng: seeded generator for coincident-point jitter (determinism).
         block_size: row-chunk size bounding the (block, n) temporary matrices.
+        law: which vis repulsion law to apply (see module docstring): "fa2"
+            (1/d magnitude, degree factor) or "barneshut" (1/d², no degree).
 
     Returns:
         (n, 2) force array.
@@ -241,14 +273,15 @@ def default_repulsion_fn(
         else:
             dist_eff = dist
 
-        # gravityForce[bi, j] = G * mass[bi] * mass[j] * degree[bi] / dist_eff^2
-        gravity_force = (
-            gravitational_constant
-            * block_mass[:, np.newaxis]
-            * mass[np.newaxis, :]
-            * block_degree[:, np.newaxis]
-            / dist_eff**2
-        )
+        # fa2:       gravityForce[bi, j] = G * mass[bi] * mass[j] * degree[bi] / dist_eff^2
+        # barneshut: gravityForce[bi, j] = G * mass[bi] * mass[j] / dist_eff^3
+        # (each then multiplies the raw displacement, so the magnitudes go as
+        # 1/d and 1/d² respectively — see module docstring)
+        gravity_force = gravitational_constant * block_mass[:, np.newaxis] * mass[np.newaxis, :]
+        if law == "barneshut":
+            gravity_force = gravity_force / dist_eff**3
+        else:
+            gravity_force = gravity_force * block_degree[:, np.newaxis] / dist_eff**2
         gravity_force[row_idx, self_cols] = 0  # self column: exactly zero, not just ~0
 
         # sum_j gravityForce[bi,j] * (pos[j] - block_pos[bi])
@@ -259,7 +292,7 @@ def default_repulsion_fn(
 
     if coincident_pairs:
         _apply_coincident_jitter(
-            forces, pos, mass, degree, gravitational_constant, coincident_pairs, rng
+            forces, pos, mass, degree, gravitational_constant, coincident_pairs, rng, law
         )
 
     return forces
@@ -273,6 +306,7 @@ def _apply_coincident_jitter(
     gravitational_constant: float,
     pairs: list[tuple[int, int]],
     rng: np.random.Generator,
+    law: Literal["fa2", "barneshut"] = "fa2",
 ) -> None:
     """Sparse correction for exactly-coincident node pairs: the bulk matmul
     path can't give these a push direction (see default_repulsion_fn's
@@ -281,8 +315,12 @@ def _apply_coincident_jitter(
     jitter = 0.1 * rng.random(size=(len(pairs), 2)).astype(pos.dtype)
     distance = np.sqrt((jitter**2).sum(axis=-1))
     for (i, j), d, jit in zip(pairs, distance, jitter, strict=True):
-        gravity_force_i = gravitational_constant * mass[i] * mass[j] * degree[i] / d**2
-        gravity_force_j = gravitational_constant * mass[j] * mass[i] * degree[j] / d**2
+        if law == "barneshut":
+            gravity_force_i = gravitational_constant * mass[i] * mass[j] / d**3
+            gravity_force_j = gravity_force_i  # no degree factor — symmetric
+        else:
+            gravity_force_i = gravitational_constant * mass[i] * mass[j] * degree[i] / d**2
+            gravity_force_j = gravitational_constant * mass[j] * mass[i] * degree[j] / d**2
         forces[i] += jit * gravity_force_i
         forces[j] -= jit * gravity_force_j
 
@@ -365,7 +403,9 @@ def run(
         edge_length: (m,) float64 per-edge rest length.
         params: solver constants for this layout.
         rng: seeded numpy Generator (determinism — same seed, same run, every time).
-        repulsion_fn: swappable repulsion implementation (Barnes-Hut seam).
+        repulsion_fn: swappable repulsion implementation (quadtree/grid seam);
+            must accept the same signature as default_repulsion_fn, including
+            the `law` keyword.
         cancel: optional threading.Event; solve stops (final SolverStep marked
             not converged) as soon as it's set, checked once per iteration.
 
@@ -385,7 +425,14 @@ def run(
             return
 
         forces = repulsion_fn(
-            cur_pos, mass, degree, radius, params.gravitational_constant, params.avoid_overlap, rng
+            cur_pos,
+            mass,
+            degree,
+            radius,
+            params.gravitational_constant,
+            params.avoid_overlap,
+            rng,
+            law=params.repulsion_law,
         )
         forces += _central_gravity_forces(
             cur_pos, params.central_gravity, params.central_gravity_variant, mass, degree

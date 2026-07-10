@@ -207,7 +207,10 @@ async def _build_concept_job(
 ) -> _SolveJob:
     """Resolve one-or-more comma-separated concepts, merge them exactly as
     ``app.js`` does (dedupe words by id, dedupe etymology edges by endpoint
-    pair), compute phonetic edges server-side, and package for a concept solve."""
+    pair, tag each word with the concepts it belongs to), compute phonetic
+    edges server-side, and package for a concept solve. The per-word
+    ``concepts`` membership is what lets the client tint words shared across
+    concepts (the client-mode merge tags the same thing as ``_concepts``)."""
     concept_list = [c.strip() for c in concepts.split(",") if c.strip()]
 
     merged_words: dict[str, dict] = {}
@@ -220,7 +223,13 @@ async def _build_concept_job(
             continue
         resolution_method = resolution_method or resolved["resolution_method"]
         for word in resolved["words"]:
-            merged_words.setdefault(word["id"], word)
+            entry = merged_words.get(word["id"])
+            if entry is None:
+                # Copy before tagging: resolver results may be shared/cached,
+                # so the per-request membership list must never mutate them.
+                merged_words[word["id"]] = {**word, "concepts": [concept]}
+            elif concept not in entry["concepts"]:
+                entry["concepts"].append(concept)
         for edge in resolved["etymology_edges"]:
             key = (min(edge["source"], edge["target"]), max(edge["source"], edge["target"]))
             if key not in seen_etym:
@@ -412,9 +421,7 @@ def _run_solver(job: _SolveJob, cancel: threading.Event, offer) -> None:
         if final_state is not None:
             offer(("final", _final_payload(final_state)))
     except Exception:
-        logger.warning(
-            "layout solve failed", exc_info=True, extra={"event": "layout.solve.failed"}
-        )
+        logger.warning("layout solve failed", exc_info=True, extra={"event": "layout.solve.failed"})
         offer(("error", {"message": "layout solve failed"}))
     finally:
         offer(("done", None))

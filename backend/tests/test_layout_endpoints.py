@@ -118,7 +118,9 @@ async def make_client():
         app.dependency_overrides.clear()
 
 
-async def _collect_sse(client: httpx.AsyncClient, url: str, *, timeout: float = 15.0) -> list[tuple]:
+async def _collect_sse(
+    client: httpx.AsyncClient, url: str, *, timeout: float = 15.0
+) -> list[tuple]:
     """Consume an SSE stream to its natural end, returning [(event, data), ...].
 
     Reads until the server closes the stream (so the write-through completes),
@@ -300,6 +302,8 @@ async def test_concept_stream_populates_phonetic_edges_without_worker(make_clien
     graph = events[0][1]
     assert graph["meta"]["layout"] == "concept"
     assert {w["id"] for w in graph["words"]} == {"fire:English", "feuer:German", "fuego:Spanish"}
+    # Every word carries its concept membership (the client tints from this).
+    assert all(w["concepts"] == ["fire"] for w in graph["words"])
     # Server computes phonetic edges (the client Worker does this in client mode).
     assert len(graph["phonetic_edges"]) >= 1
     assert all({"source", "target", "similarity"} <= e.keys() for e in graph["phonetic_edges"])
@@ -322,6 +326,91 @@ async def test_concept_layout_merges_multiple_concepts(make_client):
         "wasser:German",
     }
     assert set(body["positions"]) == {w["id"] for w in body["words"]}
+
+
+# fire + water hubs whose translations share one word ("brand"), so the merge's
+# per-word membership tagging is observable — membership comes from the hub
+# translations. (The resolver's gloss-search fallback also runs here — each hub
+# yields < 10 words — but FakeWordsCollection's dotted-path matcher does not
+# traverse the `senses` array, so gloss search matches nothing through the fake
+# no matter what glosses these docs carry; the real gloss query is Tier-1
+# territory per the bdd-tiered-testing skill.)
+SHARED_WORD_CONCEPT_DOCS = [
+    {
+        "word": "fire",
+        "lang": "English",
+        "lang_code": "en",
+        "pos": "noun",
+        "translations": [
+            {"word": "feuer", "lang": "German"},
+            {"word": "brand", "lang": "German"},
+        ],
+        "phonetic": {"ipa": "/fire/", "dolgo_consonants": "PR", "dolgo_first2": "PR"},
+        "senses": [{"glosses": ["fire"]}],
+    },
+    {
+        "word": "water",
+        "lang": "English",
+        "lang_code": "en",
+        "pos": "noun",
+        "translations": [
+            {"word": "wasser", "lang": "German"},
+            {"word": "brand", "lang": "German"},
+        ],
+        "phonetic": {"ipa": "/water/", "dolgo_consonants": "TR", "dolgo_first2": "TR"},
+        "senses": [{"glosses": ["water"]}],
+    },
+    {
+        "word": "feuer",
+        "lang": "German",
+        "lang_code": "de",
+        "pos": "noun",
+        "phonetic": {"ipa": "/feuer/", "dolgo_consonants": "PR", "dolgo_first2": "PR"},
+        "senses": [{"glosses": ["fire"]}],
+    },
+    {
+        "word": "wasser",
+        "lang": "German",
+        "lang_code": "de",
+        "pos": "noun",
+        "phonetic": {"ipa": "/wasser/", "dolgo_consonants": "TR", "dolgo_first2": "TR"},
+        "senses": [{"glosses": ["water"]}],
+    },
+    {
+        "word": "brand",
+        "lang": "German",
+        "lang_code": "de",
+        "pos": "noun",
+        "phonetic": {"ipa": "/brand/", "dolgo_consonants": "PRNT", "dolgo_first2": "PR"},
+        "senses": [{"glosses": ["conflagration"]}],
+    },
+]
+
+
+@pytest.mark.acceptance
+@pytest.mark.asyncio
+async def test_concept_layout_tags_per_word_concept_membership(make_client):
+    """A word reachable from multiple concepts lists every concept it belongs
+    to, in request order — the client tints shared words from this membership
+    (SPC-00021 Phase 5; the client-mode merge tags the same as `_concepts`)."""
+    client = await make_client(
+        FakeWordsCollection(list(SHARED_WORD_CONCEPT_DOCS), languages=LANGUAGES)
+    )
+    body = (await client.get("/api/concept-map/layout?concepts=fire,water")).json()
+
+    memberships = {w["id"]: w["concepts"] for w in body["words"]}
+    assert memberships["brand:German"] == ["fire", "water"]
+    assert memberships["feuer:German"] == ["fire"]
+    assert memberships["wasser:German"] == ["water"]
+
+    # A repeat request (resolver cache warm, layout cache hit) returns the
+    # identical membership. This pins output stability across the cache-hit
+    # path; it can NOT prove the defensive copy in _build_concept_job is
+    # load-bearing (the resolver formats fresh word dicts per request, so
+    # in-place tagging would also pass — the copy guards a future that caches
+    # formatted words).
+    repeat = (await client.get("/api/concept-map/layout?concepts=fire,water")).json()
+    assert {w["id"]: w["concepts"] for w in repeat["words"]} == memberships
 
 
 @pytest.mark.acceptance

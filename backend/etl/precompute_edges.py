@@ -18,10 +18,9 @@ import sys
 import time
 from functools import lru_cache
 
-from pymongo import MongoClient
-
 from app.services.etymology_classifier import AFFIX_TEMPLATES
 from app.services.template_parser import normalize_word
+from pymongo import MongoClient
 
 MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017/etymology")
 BATCH_SIZE = 5000
