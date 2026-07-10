@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Status** | approved |
+| **Status** | implemented |
 | **Created** | 2026-07-04 |
 | **Modifies** | SPC-00004 (supersedes its client-physics premise and constraint 12 "all changes in graph.js, do not modify the backend"; its LOD/clustering/straight-edge mitigations survive), SPC-00002 (concept map physics moves server-side; phonetic edges computed by the backend instead of the Web Worker), SPC-00014 (pulls its R3 deterministic-cap slice forward as an interim alphabetical sort), SPC-00020 (implements its Steps 1–3 DI seam + tier markers early; Step 4 port unchanged) |
 | **Modified-by** | — |
@@ -234,7 +234,9 @@ backend's `X-Accel-Buffering: no`, so normal endpoints keep proxy buffering. Ver
 ## 8. R5 — Frontend integration
 
 - **Flag** `layoutMode=server|client`: precedence URL param (registered in `router.js`) >
-  `localStorage.layoutMode` > default (`client` until the final flip). `window.__layoutMode`
+  `localStorage.layoutMode` > default (`client` until the final flip; `server` since Phase 5 —
+  as built, the param is deliberately NOT view-scoped in `router.js`, see §10 note in
+  `docs/FEATURES.md`: it persists to localStorage on load instead). `window.__layoutMode`
   exposed for E2E.
 - **New `frontend/public/js/layout-stream.js`** (plain script tag):
   - `openLayoutStream(url, {onGraph, onFrame, onFinal, onError, graphTimeoutMs: 10000})` —
@@ -312,15 +314,15 @@ Ordered commit groups (each green + revertible), branch `claude/visjs-graph-perf
 6. **Phase 3+4**: frontend integration (default `client`) + E2E + docs.
 7. **Phase 5**: flip default to `server`; before/after table below.
 
-**Baseline (Phase 0d, measured 2026-07-10):**
+**Baseline (Phase 0d, measured 2026-07-10) and server columns (Phase 5, measured 2026-07-10):**
 
-| Graph | Nodes | Baseline settle (client physics) | Server cold | Server warm |
+| Graph | Nodes | Baseline settle (client physics) | Server cold² | Server warm² |
 |---|---|---|---|---|
-| cheese | 108 | force-directed 11.65 s; era-layered never stabilizes¹ | | |
-| fire | 271 | force-directed 25.37 s; era-layered never stabilizes¹ | target < 1.2 s | |
-| hound | 326 | force-directed 15.26 s; era-layered never stabilizes¹ | | |
-| wine | 534 | force-directed 72.83 s; era-layered never stabilizes¹ | | |
-| cupboard | 779 | force-directed 143.16 s; era-layered never stabilizes¹ | target < 2.5 s | target < 0.8 s |
+| cheese | 108 | force-directed 11.65 s; era-layered never stabilizes¹ | era 0.42 s / force 0.38 s (109 nodes) | 0.29 s / 0.30 s |
+| fire | 271 | force-directed 25.37 s; era-layered never stabilizes¹ (target < 1.2 s cold) | era 1.66 s / force 1.13 s (413 nodes) | 0.26 s / 0.26 s |
+| hound | 326 | force-directed 15.26 s; era-layered never stabilizes¹ | era 0.52 s / force 0.44 s (204 nodes) | 0.27 s / 0.27 s |
+| wine | 534 | force-directed 72.83 s; era-layered never stabilizes¹ | era 1.38 s / force 0.99 s (544 nodes) | 0.25 s / 0.25 s |
+| cupboard | 779 | force-directed 143.16 s; era-layered never stabilizes¹ (targets < 2.5 s cold / < 0.8 s warm) | era 6.98 s / force 4.45 s (1028 nodes)³ | 0.22 s / 0.23 s |
 
 Measurement conditions: `make bench-layout-baseline` (Apple M2, macOS 26.5, headless Chromium /
 Playwright 1.58), median of 3 runs; metric per §5 (`stabilized` event − network creation). Run
@@ -344,11 +346,47 @@ SPC-00004 R5 physics freeze never engages for the default layout, so client phys
 indefinitely. The server engine's era-layered iteration cap (§6) is what first gives this layout
 a bounded settle at all.
 
+² Server columns measured with `make bench-layout-server` (Apple M2, Docker Desktop backend,
+algo_version 3): settle := network creation → `final` applied + the fixed 300 ms terminal tween;
+run 1 against an empty `layouts` collection is cold, warm is the median of runs 2–3 (cache hit,
+zero frames). Measured against the **live post-reload DB**, whose trees drifted from the
+SPC-00013 fixture topologies the client baselines and targets were set on — per-cell live node
+counts shown. Fire's 1.66/1.13 s cold vs the < 1.2 s target is on a tree 52% larger than the
+fixture (413 vs 271 nodes). Warm beats the < 0.8 s target everywhere. Concept maps (not in the
+client table — client concept baseline still deferred): cold ≤ 1.0 s, warm ≤ 0.47 s across the
+five words' concept maps (54–365 nodes). Long (> 33 ms) frames during server settle were 0–4
+everywhere except wine era cold (17), fire concept cold (17), and cupboard (see ³).
+
+³ Cupboard's live tree grew to 1,028 nodes (fixture: 779; +74% O(n²) repulsion work), past the
+"940-node tightest estimate" the < 2.5 s cold target was budgeted for (§11 risk 3). The solve
+itself is 6.6 s (era) / 4.3 s (force) of the cold time, with 59/35 dropped frames while the
+streamed updates render. The 1000+ regime is explicitly the §11 Barnes-Hut/grid follow-up's
+territory; warm hits (0.22 s) and every smaller graph meet their targets, and the client
+comparison on the same live tree would be strictly worse than the fixture-tree 143 s (era-layered
+still never settles at all).
+
+**Phase 5 note — concept repulsion law (algo_version 3):** the Phase 5 side-by-side screenshots
+caught every server concept solve expanding into a velocity-clamp-limited ±7.7–11.4k px square (even
+54-node maps; nodes at display scale sit within ±1.5k px). Cause: the engine ran the FA2
+repulsion law (∝ 1/d, with the degree factor) for all three layouts, but concept's G=-8000 was
+lifted from concept-map.js's **barnesHut** options, whose law is ∝ 1/d² with no degree factor —
+at typical distances repulsion overpowered the springs ~100x. Phase 5 adds
+`SolverParams.repulsion_law` ("fa2" | "barneshut", pinned from vis-network v9.1.9
+BarnesHutSolver._calculateForces), selects it per layout like the central-gravity variant, and
+bumps LAYOUT_ALGO_VERSION to "3". Regression: `test_concept_solve_extent_stays_at_display_scale`.
+
 **Acceptance** ("settled" := today's `stabilized` event; server := `final` applied + tween done):
 targets above; no > 16 ms main-thread frames during server-mode settle; first paint not slower
 than today; era bands / family cluster ordering / root-at-origin visually equivalent (side-by-side
 screenshots in `docs/screenshots/`); all existing E2E green under `?layoutMode=client`;
 `curl -N` shows incremental frames through nginx.
+
+*Phase 5 outcome:* all criteria met at target scale except the frame budget, which is met only
+approximately — measured as dropped rAF frames (> 33 ms gaps, i.e. a missed 60 Hz deadline, the
+observable form of the 16 ms budget): 0–4 per settle on most graphs, 17 on wine-era/fire-concept
+cold, 35–59 on cupboard cold (1,028 live nodes, above the spec's sizing) while the streamed
+updates render — against a client baseline whose settle monopolizes the main thread for minutes
+or forever. The residual heavy-frame cost at 1000+ nodes moves with the §11 Barnes-Hut follow-up.
 
 **Rollback**: flag default is a 1-line revert; endpoints are additive; `/tree`/`/concept-map`
 byte-identical; `layouts` collection droppable; solver changes ship as `algo_version` bumps.

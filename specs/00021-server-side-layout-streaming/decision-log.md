@@ -160,3 +160,58 @@ all.
 **Participants:** Claude (autonomous implementation session, 2026-07-10) — harness, measurements,
 this addendum. Human decision still owed: restoring the local dataset (`make update`) and rerunning
 `make bench-layout-baseline` for the concept-map column.
+
+## Addendum — Phase 5: default flip, membership fix, and the concept repulsion-law defect (2026-07-10)
+
+**Starting question:** Phase 5 was scoped as "flip `layoutMode`'s default to `server` (one line)
+and fill the §10 before/after table", plus one RA-flagged pre-flip item: server-mode multi-concept
+maps lost the per-word concept tint (the backend merge dropped membership).
+
+**What the acceptance pass found.** The §10 side-by-side screenshots — the first live visual
+inspection of the server *concept* layout at real scale — showed every concept solve exploding
+into a near-perfect ±7.7–11.4 k px square (wine 137 nodes: ±8.6 k; even hound's 54 nodes: ±7.7 k),
+while the etymology layouts paired up cleanly with their client counterparts. The square is the
+signature of clamp-limited isotropic expansion: max_velocity 50 × dt 0.5 × 300 iterations = 7,500 px
+of travel. Root cause: the engine applied vis's **FA2 repulsion law** (magnitude ∝ G·degree/d) to
+all three layouts, while concept's G=-8000 came from concept-map.js's **barnesHut** options, whose
+law is ∝ G/d² with no degree factor — at d≈200 that's a ~100–1000x repulsion overdose relative to
+what the constant was calibrated for. Phase 2's acceptance tests asserted event contracts and
+plain-GET/stream parity on 3–5-node fixtures, so nothing ever checked layout *quality* at scale.
+
+**Alternatives considered for the fix:**
+1. **Recalibrate G for the FA2 law** (e.g. G≈-40) — rejected: the FA2 law's degree factor makes
+   any single constant graph-dependent (concept graphs have wildly varying phonetic degree), and
+   it abandons the "constants copied verbatim from the client configs" property that made the
+   port reviewable.
+2. **Keep client mode as the concept-map default; flip etymology only** — rejected: splits the
+   flag semantics, ships a known-broken opt-in path, and the fix turned out to be small.
+3. **Implement the barnesHut law behind the existing seam** (chosen) — the engine already selects
+   the central-gravity law per layout by client solver type; repulsion now does the same
+   (`SolverParams.repulsion_law`), with the formula pinned from vis-network v9.1.9
+   `BarnesHutSolver._calculateForces` (fetched and read at the tag, same discipline as the FA2
+   port). Exact pairwise, no quadtree — same sanctioned simplification as the FA2 path.
+   LAYOUT_ALGO_VERSION bumped to "3" (cache-key invalidation, as designed).
+
+**Red-first regression:** `test_concept_solve_extent_stays_at_display_scale` (54-node
+Turchin-clique graph) failed at ±7,500 px pre-fix, passes at display scale post-fix. Post-fix
+screenshots show the server wine map settling into the same clustered structure as settled client
+physics, in 0.45 s cold vs minutes.
+
+**Membership fix shape:** `_build_concept_job` now tags each merged word with the `concepts` it
+resolved from (copy-on-first-insert so resolver-cached dicts are never mutated); the `graph` SSE
+event and plain GET carry it; `concept-map.js` normalizes server `concepts` onto the client
+merge's `_concepts` convention in one pure function (`normalizeConceptMembership`), so the
+tint/tooltip pipeline has a single source. Verified live: 977/977 fire,water words tagged and
+tinted identically in both modes.
+
+**Measured outcome (table in spec §10):** cold settles 0.35–1.7 s for every graph at or below the
+scale the targets were budgeted for; warm 0.22–0.47 s everywhere (target < 0.8 s); cupboard's
+live tree outgrew its fixture (779 → 1,028 nodes) and its cold solve (6.98 s era / 4.45 s force)
+lands in the §11 Barnes-Hut follow-up's 1000+ regime. The default-flip UX risk that remains:
+an explicit `?layoutMode=` URL param still rewrites localStorage permanently (sticky shared
+links — pre-existing, flagged as a follow-up; it bit the screenshot harness itself, which now
+uses a fresh browser context per shot).
+
+**Participants:** Claude (autonomous implementation session, 2026-07-10) — flip, membership fix,
+defect diagnosis + law fix, measurements, screenshots, this addendum. Human decisions owed: none
+blocking; the 1000+-node cold-solve budget belongs to the deferred Barnes-Hut spec.

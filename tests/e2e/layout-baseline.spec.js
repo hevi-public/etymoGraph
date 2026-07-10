@@ -35,6 +35,22 @@ import { fileURLToPath } from "node:url";
  * graph topology and lets the client baseline run without a loaded DB.
  * Concept-map runs are skipped in fixture mode (no captured concept-map
  * responses exist; concept resolution needs the live DB).
+ *
+ * LAYOUT_BASELINE_MODE=server (SPC-00021 Phase 5) measures the streamed
+ * server layout instead: per §10, "settled" is the `final` frame applied
+ * (`window.__lastLayoutFinal` set — the same anchor, network creation, starts
+ * the window) plus the fixed 300 ms terminal ease-out tween. Long frames use
+ * the same > 33 ms rAF-gap counter — a gap past two 60 Hz periods means a
+ * dropped frame, the observable form of the §10 "no > 16 ms main-thread
+ * frames" budget. Requires the live stack (the stream solves server-side).
+ * Cold vs warm: run 1 against an empty `layouts` cache is the cold solve and
+ * is reported separately; runs 2+ hit the cache (`final` arrives with zero
+ * frames) and report as warm. Drop the `layouts` collection before a cold
+ * sweep, e.g.:
+ *
+ *   docker exec <mongo> mongosh etymology --eval 'db.layouts.drop()'
+ *   LAYOUT_BASELINE=1 LAYOUT_BASELINE_MODE=server npx playwright test \
+ *       tests/e2e/layout-baseline.spec.js --workers=1
  */
 
 const RUNS = 3;
@@ -57,6 +73,13 @@ const TYPES = "inh,bor,der,cog";
 const FIXTURE_MODE = !!process.env.LAYOUT_BASELINE_FIXTURES;
 const FIXTURES_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "fixtures", "wiktionary");
 
+// client (default) measures vis.js physics to `stabilized`; server measures the
+// SPC-00021 streamed layout to `final`-applied + tween.
+const MODE = process.env.LAYOUT_BASELINE_MODE === "server" ? "server" : "client";
+// layout-stream.js's terminal ease-out tween duration — part of "settled".
+const SERVER_TWEEN_MS = 300;
+const SERVER_SETTLE_TIMEOUT_MS = 30_000;
+
 /** rows accumulated across tests (single worker), printed as the §10 table in afterAll */
 const results = [];
 
@@ -75,7 +98,7 @@ const results = [];
  * every false→true transition of `network.physics.stabilized` (the Worker
  * round trip re-stabilizes, so the *last* transition is the real settle).
  */
-function installBenchProbes(longFrameMs) {
+function installBenchProbes({ longFrameMs, mode, serverTweenMs }) {
     // --- etymology graph probe ---
     window.__layoutBench = null;
     let currentNetwork = null;
@@ -88,11 +111,30 @@ function installBenchProbes(longFrameMs) {
             const bench = {
                 createdAt: performance.now(),
                 stabilizedAt: null,
+                finalAt: null,      // server mode: `final` frame applied
                 longFrames: 0,
                 frames: 0,
                 clampFrames: 0, // frames where some node rides the maxVelocity clamp
             };
             window.__layoutBench = bench;
+            if (mode === "server") {
+                // Settle = __lastLayoutFinal set (app.js resets it per request
+                // before the network exists) + the terminal tween. Long frames
+                // are counted through the tween's end.
+                let last = bench.createdAt;
+                const tick = (now) => {
+                    if (bench.finalAt !== null && now >= bench.finalAt + serverTweenMs) return;
+                    bench.frames += 1;
+                    if (now - last > longFrameMs) bench.longFrames += 1;
+                    last = now;
+                    if (bench.finalAt === null && window.__lastLayoutFinal) {
+                        bench.finalAt = now;
+                    }
+                    requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
+                return;
+            }
             network.on("stabilized", () => {
                 if (bench.stabilizedAt === null) bench.stabilizedAt = performance.now();
             });
@@ -122,6 +164,7 @@ function installBenchProbes(longFrameMs) {
         createdAt: null,
         lastSettle: null,   // { t, longFrames } at the most recent false→true transition
         stabilizedNow: false,
+        finalAt: null,      // server mode: `final` frame applied
         longFrames: 0,
         frames: 0,
         nodeCount: 0,
@@ -142,15 +185,27 @@ function installBenchProbes(longFrameMs) {
                 conceptLast = now;
                 wasStabilized = false;
             } else {
+                // Server mode: freeze the counters once the settle (final +
+                // tween) completes, like the etymology probe.
+                if (mode === "server" && concept.finalAt !== null
+                    && now >= concept.finalAt + serverTweenMs) {
+                    return;
+                }
                 concept.frames += 1;
                 if (now - conceptLast > longFrameMs) concept.longFrames += 1;
                 conceptLast = now;
-                const stabilized = network.physics && network.physics.stabilized === true;
-                if (stabilized && !wasStabilized) {
-                    concept.lastSettle = { t: now, longFrames: concept.longFrames };
+                if (mode === "server") {
+                    if (concept.finalAt === null && window.__lastLayoutFinal) {
+                        concept.finalAt = now;
+                    }
+                } else {
+                    const stabilized = network.physics && network.physics.stabilized === true;
+                    if (stabilized && !wasStabilized) {
+                        concept.lastSettle = { t: now, longFrames: concept.longFrames };
+                    }
+                    wasStabilized = stabilized;
+                    concept.stabilizedNow = stabilized;
                 }
-                wasStabilized = stabilized;
-                concept.stabilizedNow = stabilized;
                 concept.nodeCount = network.body.data.nodes.length;
             }
         }
@@ -203,7 +258,10 @@ function median(values) {
  */
 async function measureEtymologyRun(page, word, layout) {
     await page.goto("about:blank");
-    await page.goto(`/?view=etymology&word=${word}&lang=English&types=${TYPES}&layout=${layout}`);
+    // Pin client mode explicitly: since the Phase 5 flip the app defaults to
+    // server (physics disabled — `stabilized` never fires), which would burn
+    // the full settle timeout on every cell and report garbage.
+    await page.goto(`/?view=etymology&word=${word}&lang=English&types=${TYPES}&layout=${layout}&layoutMode=client`);
     try {
         await page.waitForFunction(
             () => window.__layoutBench && window.__layoutBench.stabilizedAt !== null,
@@ -230,7 +288,8 @@ async function measureEtymologyRun(page, word, layout) {
 /** One concept-map run; null if it never settled within the timeout. */
 async function measureConceptRun(page, word) {
     await page.goto("about:blank");
-    await page.goto(`/?view=concept&concepts=${word}`);
+    // layoutMode=client pinned for the same reason as measureEtymologyRun.
+    await page.goto(`/?view=concept&concepts=${word}&layoutMode=client`);
     try {
         await page.waitForFunction(
             (quietMs) => {
@@ -250,6 +309,90 @@ async function measureConceptRun(page, word) {
         longFrames: window.__conceptBench.lastSettle.longFrames,
         nodeCount: window.__conceptBench.nodeCount,
     }));
+}
+
+/**
+ * One server-mode etymology run. Settle := `final` applied
+ * (`window.__lastLayoutFinal` set) + the fixed terminal tween; the window
+ * starts at network creation, same anchor as the client metric. On timeout,
+ * reports whether the flag resolved to server and whether a `final` ever
+ * arrived (a `layoutMode: "client"` here means the fallback engaged).
+ */
+async function measureServerEtymologyRun(page, word, layout) {
+    await page.goto("about:blank");
+    await page.goto(`/?view=etymology&word=${word}&lang=English&types=${TYPES}&layout=${layout}`);
+    try {
+        await page.waitForFunction(
+            () => window.__layoutBench && window.__layoutBench.finalAt !== null,
+            undefined,
+            { timeout: SERVER_SETTLE_TIMEOUT_MS }
+        );
+    } catch {
+        return await page.evaluate(() => ({
+            settled: false,
+            layoutMode: window.__layoutMode ?? null,
+            finalSeen: !!window.__lastLayoutFinal,
+            nodeCount: window.__etymoNodesDS ? window.__etymoNodesDS.length : 0,
+        }));
+    }
+    // Let the terminal tween finish so its frames are in the long-frame count
+    // (the probe freezes the counters at finalAt + tween).
+    await page.waitForTimeout(SERVER_TWEEN_MS + 100);
+    return await page.evaluate((tweenMs) => ({
+        settled: true,
+        settleMs: (window.__layoutBench.finalAt - window.__layoutBench.createdAt) + tweenMs,
+        longFrames: window.__layoutBench.longFrames,
+        layoutMode: window.__layoutMode,
+        nodeCount: window.__etymoNodesDS ? window.__etymoNodesDS.length : 0,
+    }), SERVER_TWEEN_MS);
+}
+
+/** One server-mode concept-map run; same settle definition as the etymology run. */
+async function measureServerConceptRun(page, word) {
+    await page.goto("about:blank");
+    await page.goto(`/?view=concept&concepts=${word}`);
+    try {
+        await page.waitForFunction(
+            () => window.__conceptBench && window.__conceptBench.finalAt !== null,
+            undefined,
+            { timeout: SERVER_SETTLE_TIMEOUT_MS }
+        );
+    } catch {
+        return await page.evaluate(() => ({
+            settled: false,
+            layoutMode: window.__layoutMode ?? null,
+            finalSeen: !!window.__lastLayoutFinal,
+            nodeCount: window.__conceptBench ? window.__conceptBench.nodeCount : 0,
+        }));
+    }
+    await page.waitForTimeout(SERVER_TWEEN_MS + 100);
+    return await page.evaluate((tweenMs) => ({
+        settled: true,
+        settleMs: (window.__conceptBench.finalAt - window.__conceptBench.createdAt) + tweenMs,
+        longFrames: window.__conceptBench.longFrames,
+        layoutMode: window.__layoutMode,
+        nodeCount: window.__conceptBench.nodeCount,
+    }), SERVER_TWEEN_MS);
+}
+
+/**
+ * Server-mode cold/warm cell. Run 1 (empty `layouts` cache) is the cold
+ * solve; runs 2+ are cache hits ("warm"). E.g.
+ * "cold 1.42 s / warm 0.61 s (0/0 long frames)".
+ */
+function summarizeServer(runs) {
+    const [cold, ...warmRuns] = runs;
+    const warm = warmRuns.filter((r) => r && r.settled);
+    const part = (r) => (r && r.settled ? `${(r.settleMs / 1000).toFixed(2)} s` : "did not settle");
+    const warmCell = warm.length
+        ? `${(median(warm.map((r) => r.settleMs)) / 1000).toFixed(2)} s`
+        : "did not settle";
+    const longs = `${cold && cold.settled ? cold.longFrames : "?"}/${
+        warm.length ? Math.round(median(warm.map((r) => r.longFrames))) : "?"}`;
+    return {
+        cell: `cold ${part(cold)} / warm ${warmCell} (${longs} long frames)`,
+        nodeCount: runs.find((r) => r && r.nodeCount)?.nodeCount ?? null,
+    };
 }
 
 /** Median-of-runs summary cell, e.g. "2.31 s (14 long frames, 3/3 runs)". */
@@ -278,13 +421,19 @@ function summarize(runs, timeoutMs = ETYMOLOGY_SETTLE_TIMEOUT_MS) {
 test.describe("Layout perf baseline (SPC-00021 §5/§10)", () => {
     // Measurement harness, not a test — opt-in only, deliberately never in CI.
     test.skip(!process.env.LAYOUT_BASELINE, "opt-in perf harness: set LAYOUT_BASELINE=1 (never runs in CI)");
+    // The server layout streams from the live backend; fixtures can't serve it.
+    test.skip(MODE === "server" && FIXTURE_MODE,
+        "LAYOUT_BASELINE_MODE=server needs the live stack; unset LAYOUT_BASELINE_FIXTURES");
 
     for (const word of WORDS) {
         test(`baseline: ${word}`, async ({ page }) => {
-            test.setTimeout(
-                RUNS * (GRAPH_LAYOUTS.length * ETYMOLOGY_SETTLE_TIMEOUT_MS + CONCEPT_SETTLE_TIMEOUT_MS) + 60_000
+            test.setTimeout(MODE === "server"
+                ? RUNS * (GRAPH_LAYOUTS.length + 1) * SERVER_SETTLE_TIMEOUT_MS + 60_000
+                : RUNS * (GRAPH_LAYOUTS.length * ETYMOLOGY_SETTLE_TIMEOUT_MS + CONCEPT_SETTLE_TIMEOUT_MS) + 60_000
             );
-            await page.addInitScript(installBenchProbes, LONG_FRAME_MS);
+            await page.addInitScript(installBenchProbes, {
+                longFrameMs: LONG_FRAME_MS, mode: MODE, serverTweenMs: SERVER_TWEEN_MS,
+            });
             if (FIXTURE_MODE) await routeApiFromFixtures(page);
 
             const row = { word, nodeCount: null, layouts: {}, concept: null };
@@ -292,17 +441,22 @@ test.describe("Layout perf baseline (SPC-00021 §5/§10)", () => {
             for (const layout of GRAPH_LAYOUTS) {
                 const runs = [];
                 for (let i = 0; i < RUNS; i++) {
-                    const run = await measureEtymologyRun(page, word, layout);
+                    const run = MODE === "server"
+                        ? await measureServerEtymologyRun(page, word, layout)
+                        : await measureEtymologyRun(page, word, layout);
                     runs.push(run);
                     console.log(`  ${word} × ${layout} run ${i + 1}/${RUNS}: ${run.settled
                         ? `${(run.settleMs / 1000).toFixed(2)} s, ${run.longFrames} long frames, ${run.nodeCount} nodes`
-                        : `no stabilized event within ${ETYMOLOGY_SETTLE_TIMEOUT_MS / 1000} s ` +
-                          `(${Math.round((run.clampFraction ?? 0) * 100)}% of frames at the velocity clamp)`}`);
+                        : MODE === "server"
+                            ? `no final within ${SERVER_SETTLE_TIMEOUT_MS / 1000} s ` +
+                              `(layoutMode=${run.layoutMode}, finalSeen=${run.finalSeen})`
+                            : `no stabilized event within ${ETYMOLOGY_SETTLE_TIMEOUT_MS / 1000} s ` +
+                              `(${Math.round((run.clampFraction ?? 0) * 100)}% of frames at the velocity clamp)`}`);
                     // Layouts run with a fixed randomSeed, so a timed-out run would
                     // repeat identically — re-running only burns another timeout.
-                    if (!run.settled) break;
+                    if (!run.settled && MODE !== "server") break;
                 }
-                const summary = summarize(runs);
+                const summary = MODE === "server" ? summarizeServer(runs) : summarize(runs);
                 row.layouts[layout] = summary.cell;
                 row.nodeCount = row.nodeCount ?? summary.nodeCount;
             }
@@ -310,6 +464,17 @@ test.describe("Layout perf baseline (SPC-00021 §5/§10)", () => {
             if (FIXTURE_MODE) {
                 row.concept = "skipped (fixture mode)";
                 console.log(`  ${word} × concept-map: skipped in fixture mode (needs live DB)`);
+            } else if (MODE === "server") {
+                const runs = [];
+                for (let i = 0; i < RUNS; i++) {
+                    const run = await measureServerConceptRun(page, word);
+                    runs.push(run);
+                    console.log(`  ${word} × concept-map run ${i + 1}/${RUNS}: ${run.settled
+                        ? `${(run.settleMs / 1000).toFixed(2)} s, ${run.longFrames} long frames, ${run.nodeCount} nodes`
+                        : `no final within ${SERVER_SETTLE_TIMEOUT_MS / 1000} s ` +
+                          `(layoutMode=${run.layoutMode}, finalSeen=${run.finalSeen})`}`);
+                }
+                row.concept = summarizeServer(runs).cell;
             } else {
                 const runs = [];
                 for (let i = 0; i < RUNS; i++) {
@@ -329,10 +494,13 @@ test.describe("Layout perf baseline (SPC-00021 §5/§10)", () => {
 
     test.afterAll(() => {
         if (results.length === 0) return;
+        const header = MODE === "server"
+            ? `Layout baseline — server streaming (settle = final applied + ${SERVER_TWEEN_MS} ms tween), ` +
+              `run 1 = cold cache, warm = median of runs 2–${RUNS}`
+            : `Layout baseline — client physics, median of ${RUNS} runs`;
         const lines = [
             "",
-            `Layout baseline — client physics, median of ${RUNS} runs` +
-                (FIXTURE_MODE ? " (trees served from SPC-00013 fixtures)" : " (live stack)"),
+            header + (FIXTURE_MODE ? " (trees served from SPC-00013 fixtures)" : " (live stack)"),
             "",
             "| Graph | Nodes | era-layered settle | force-directed settle | concept map settle |",
             "|---|---|---|---|---|",

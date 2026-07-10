@@ -434,9 +434,9 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 
 ---
 
-### 16. Server-Side Layout Engine (SPC-00021 Phase 0–4)
+### 16. Server-Side Layout Engine (SPC-00021, implemented — Phases 0–5)
 
-A Python/numpy port of the client-side layout engine, exposed over additive HTTP endpoints that stream server-computed positions via Server-Sent Events, plus the frontend that consumes them. `/api/etymology/{word}/tree` and `/api/concept-map` are unaffected and remain byte-identical — all layout features ship on new `.../layout` and `.../layout/stream` endpoints. The frontend is wired behind a `layoutMode` feature flag whose **default is `client`** (today's physics), so server streaming is opt-in until the Phase 5 flip.
+A Python/numpy port of the client-side layout engine, exposed over additive HTTP endpoints that stream server-computed positions via Server-Sent Events, plus the frontend that consumes them. `/api/etymology/{word}/tree` and `/api/concept-map` are unaffected and remain byte-identical — all layout features ship on new `.../layout` and `.../layout/stream` endpoints. The frontend is wired behind a `layoutMode` feature flag whose **default is `server`** (SPC-00021 Phase 5); `?layoutMode=client` selects the legacy client-physics path, which also remains the automatic fallback when the stream fails.
 
 **What exists:**
 - `backend/app/services/layout/families.py` — language-family classification and era-tier machinery (`classify_lang`, `get_era_tier`, family-cluster X positions, era-layered invisible intra-family springs), golden-tested against `frontend/public/js/graph.js`.
@@ -477,21 +477,23 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 
 **Frontend integration (Phase 3+4):** the browser consumes the stream through a thin, view-agnostic module and a feature flag.
 
-- **`layoutMode` flag** (`server` | `client`): precedence is URL `?layoutMode=` > `localStorage.layoutMode` > default `client`. An explicit `?layoutMode=` is persisted to `localStorage` on load (so it survives URL normalization — the flag is a global toggle, not a view-scoped router param). `window.__layoutMode` mirrors the resolved value for E2E.
+- **`layoutMode` flag** (`server` | `client`): precedence is URL `?layoutMode=` > `localStorage.layoutMode` > default `server` (flipped in Phase 5). An explicit `?layoutMode=` is persisted to `localStorage` on load (so it survives URL normalization — the flag is a global toggle, not a view-scoped router param). `window.__layoutMode` mirrors the resolved value for E2E.
 - **`frontend/public/js/layout-stream.js`** — `getLayoutMode()`, a singleton `openLayoutStream(url, {onGraph,onFrame,onFinal,onError,graphTimeoutMs})` EventSource wrapper (closes any prior stream; guards a 10 s first-`graph` timeout; closes on `final` *before* the handler runs so EventSource's post-close auto-reconnect can't re-run a solve), and `createPositionTween(nodesDataSet)` — a single rAF loop that interpolates node positions between frames (the frames carry the FA2 dynamics; the tween only bridges them — linear between frames, 300 ms ease-out onto `final`). Nodes being dragged are user-owned and skipped. The interpolation math is pure and unit-tested.
 - **Etymology (`graph.js`) & concept map (`concept-map.js`):** in server mode `updateGraph`/`updateConceptMap` build the network with `physics.enabled = false`, keep the existing client seed as frame-0 (identical first paint), and tween each streamed frame via `applyLayoutFrame`/`applyConceptLayoutFrame`. Concept mode takes phonetic edges from the `graph` event (no Web Worker spawn). Drag is physics-off in server mode (SPC-00021 risk #6) so a nudge doesn't pull the solved layout toward the client equilibrium.
 - **Filters re-solve on the backend** (`app.js`): etymology type checkboxes and the layout dropdown re-request the etymology stream; the concept similarity slider filters displayed edges instantly and, debounced ~300 ms, re-requests a solve at the new `threshold`; the etymology-edges toggle and POS filter re-request too. Each change closes the in-flight stream (the server cancels the orphaned solve) and opens a new one; cache keys cover every param, so revisiting a combination is a warm hit. Surviving nodes keep their prior coordinates across a re-solve, so the layout **morphs** instead of restarting.
 - **Fallback:** any stream error, or no `graph` event within 10 s, closes the stream and runs today's exact client path (`/tree` + client physics for etymology; per-concept merge + Web Worker for the concept map). One shared code path, selected by flag or fallback.
 - **Asset pin:** `index.html` pins `vis-network@9.1.9` (was floating `latest`) to remove CDN drift from E2E.
 
+**Per-word concept membership (Phase 5):** the multi-concept merge tags every word with the concepts it resolved from — the `graph` SSE event and plain `GET .../concept-map/layout` carry a `concepts: ["fire", "water"]` list per word (request order). `concept-map.js` normalizes this onto the client merge's `_concepts` convention (`normalizeConceptMembership`), so server mode renders the same accent-blended tints and multi-concept tooltips as the client path.
+
 **Known limitations:**
 - The overlap-avoidance radius is estimated from label length (`clamp(12 + 3.5·len, 20, 60)`) — the server can't measure rendered node boxes, so overlap is approximate vs. the client.
 - Final layouts differ somewhat from vis.js despite matching constants and seeds; the acceptance bar is visual equivalence, not positional equality (spec §11).
-- 940-node graphs solve well within budget but do not always reach `minVelocity` within the iteration cap; positions at the cap are still a good layout. Barnes-Hut repulsion for the 1500+ regime is a deferred follow-up behind the `repulsion_fn` seam.
-- **Server-mode multi-concept tinting:** the server merges concepts into one word set without per-word concept membership, so in server mode a word shared across concepts renders with its base language color rather than the accent-blended tint the client path applies. The legend still lists all concepts. Single-concept maps are unaffected.
+- Graphs past ~1000 nodes solve beyond the cold targets (live cupboard, 1,028 nodes: 6.98 s era / 4.45 s force cold; warm 0.22 s) and do not always reach `minVelocity` within the iteration cap; positions at the cap are still a good layout. Barnes-Hut/grid repulsion for the 1000+ regime is a deferred follow-up behind the `repulsion_fn` seam.
 - The concept similarity slider incurs a solve round-trip on release (debounced); the instant client-side edge filter still runs during the drag, so only the settle is deferred.
+- An explicit `?layoutMode=` in a shared link permanently rewrites the recipient's `localStorage` preference (sticky links — follow-up).
 
-**Phase 5 (not yet done):** flip the `layoutMode` default from `client` to `server` (a one-line change) and record the before/after settle-time table. See `specs/00021-server-side-layout-streaming/spec.md` §10.
+**Phase 5 (2026-07-10, done):** `layoutMode` default flipped to `server`; before/after settle table recorded in spec §10 (headline: live cheese era-layered 0.42 s cold / 0.29 s warm vs client physics *never stabilizing*; force-directed 11.65 s → 0.38 s). The Phase 5 acceptance screenshots caught a concept-layout defect — the FA2 repulsion law applied to barnesHut-calibrated constants blew every concept solve up to a ±7.7–11.4k px square — fixed by a per-layout `repulsion_law` (vis v9.1.9 BarnesHutSolver law for concept), `LAYOUT_ALGO_VERSION` bumped to `"3"`. Side-by-side screenshots: `docs/screenshots/spc00021-p5-*.png`. Server settle is measurable via `make bench-layout-server`.
 
 ---
 
@@ -531,6 +533,7 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 | `make test-e2e` | Run Playwright E2E tests (requires `make run`) |
 | `make test-all` | Run all tests (pytest + Vitest + Playwright) |
 | `make bench-layout-baseline` | Measure the client-physics layout settle baseline (SPC-00021 §10; opt-in perf harness, requires `make run`, never runs in CI) |
+| `make bench-layout-server` | Measure the server-streamed layout settle, cold + warm (SPC-00021 §10; drop the `layouts` collection first for a true cold sweep) |
 | `make logs` | Tail all service logs |
 | `make clean` | Remove containers and data |
 | `./scripts/init.sh` | Check prerequisites, create dirs, build images |

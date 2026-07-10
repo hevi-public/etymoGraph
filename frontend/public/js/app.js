@@ -595,7 +595,7 @@ const originalParams = new URLSearchParams(window.location.search);
 
 // The layout mode flag is not a view-scoped router param, so persist an explicit
 // ?layoutMode= into localStorage before the router normalizes the URL away.
-// getLayoutMode() then reads it (URL > localStorage > "client") and publishes
+// getLayoutMode() then reads it (URL > localStorage > "server") and publishes
 // window.__layoutMode for E2E.
 const urlLayoutMode = originalParams.get("layoutMode");
 if (urlLayoutMode === "server" || urlLayoutMode === "client") {

@@ -1,4 +1,4 @@
-.PHONY: setup run stop clean download load logs build update setup-dev lint test acceptance format precompute-phonetic precompute-edges test-frontend test-e2e test-integration test-all collect-fixtures bench-layout-baseline
+.PHONY: setup run stop clean download load logs build update setup-dev lint test acceptance format precompute-phonetic precompute-edges test-frontend test-e2e test-integration test-all collect-fixtures bench-layout-baseline bench-layout-server
 
 setup: build download load
 	@echo "Setup complete! Run 'make run' to start."
@@ -90,3 +90,6 @@ collect-fixtures:  ## Regenerate Wiktionary example fixtures (SPC-00013, require
 
 bench-layout-baseline:  ## Measure client-physics layout baseline (SPC-00021 §10, requires make run; never in CI)
 	LAYOUT_BASELINE=1 npx playwright test tests/e2e/layout-baseline.spec.js --workers=1 $(FLAGS)
+
+bench-layout-server:  ## Measure server-streamed layout settle, cold+warm (SPC-00021 §10; drop the layouts collection first for cold)
+	LAYOUT_BASELINE=1 LAYOUT_BASELINE_MODE=server npx playwright test tests/e2e/layout-baseline.spec.js --workers=1 $(FLAGS)

@@ -164,31 +164,35 @@ claude mcp get mongodb  # Shows details for specific server
 
 ## Current Status
 
-**Phase**: Core product complete (vis.js etymology graph + phonetic concept map); roadmap drafted
-**Last completed**: SPC-00021 Phase 0d — the perf baseline harness
-(`tests/e2e/layout-baseline.spec.js`, opt-in via `LAYOUT_BASELINE=1`, never in CI;
-`make bench-layout-baseline`) and the measured §10 baseline table. Headline numbers (client
-physics, Apple M2): force-directed settles in 11.65 s (cheese, 108 nodes) → 143.16 s (cupboard,
-779 nodes) vs the < 2.5 s cold target; **era-layered — the default layout — never fires
-`stabilized` at all** (clamp-locked `avoidOverlap` oscillation on the fixed-Y tiers; spec §11
-risk 2 is live production behavior and the SPC-00004 R5 physics freeze never engages for it).
-Before that: SPC-00021 Phase 3+4 (see `specs/00021-server-side-layout-streaming/spec.md`
-§8–9) — frontend integration of the Phase 2 SSE endpoints, default-`client` (opt-in via
-`?layoutMode=server`). New `frontend/public/js/layout-stream.js` (singleton EventSource wrapper with
-first-`graph` timeout + no-reconnect-after-`final`; a pure, unit-tested rAF position tween);
-`graph.js`/`concept-map.js` gained a server-mode path (physics disabled at construction, client seed
-kept as frame-0, frames tweened, drag physics-off, concept map skips the Web Worker and takes
-phonetic edges from the `graph` event); `app.js` routes search + every filter through the stream
-with client-path fallback on error/timeout, and position continuity so re-solves morph; `index.html`
-pins `vis-network@9.1.9`. Tests: `frontend/tests/layout-stream.test.js` (17: flag precedence,
-interpolation math, tween frame application over a fake DataSet) + 2 server-mode option-construction
-tests in `graph-perf.test.js` (Vitest 62 pass); new `tests/e2e/server-layout.spec.js` +
-`waitForFinalFrame` helper; existing large-graph E2E pinned to `?layoutMode=client` so they keep
-covering the fallback architecture after the Phase 5 flip.
-**Next task**: SPC-00021 Phase 5 — flip the `layoutMode` default from `client` to `server` (one line)
-and record the before/after settle-time table (spec §10).
+**Phase**: Core product complete (vis.js etymology graph + phonetic concept map); SPC-00021
+(server-side layout + SSE) fully implemented — all phases done, spec status `implemented`
+**Last completed**: SPC-00021 Phase 5 — `layoutMode` default flipped to `server` (client stays the
+explicit/fallback path), §10 server cold/warm table measured live (`make bench-layout-server`:
+cheese era 0.42 s cold / 0.29 s warm vs client-physics *never stabilizing*; every graph at target
+scale within targets; live cupboard grew to 1,028 nodes and its 6.98 s cold solve belongs to the
+deferred §11 Barnes-Hut follow-up). Two defects closed on the way: (1) the RA-flagged server-mode
+multi-concept tint loss — `_build_concept_job` now tags per-word `concepts` membership
+(copy-on-insert; resolver cache never mutated), `concept-map.js` normalizes it onto `_concepts`
+via pure `normalizeConceptMembership`; (2) **a concept-layout blow-up caught by the Phase 5
+acceptance screenshots** — the engine ran the FA2 repulsion law (∝ degree/d) for all layouts, but
+concept's G=-8000 is barnesHut-calibrated (∝ 1/d², no degree), so every concept solve expanded to
+a clamp-limited ±7.7–11.4k px square; fixed with `SolverParams.repulsion_law` (barnesHut law pinned
+from vis-network v9.1.9 source), `LAYOUT_ALGO_VERSION` → `"3"`, red-first regression
+`test_concept_solve_extent_stays_at_display_scale`. Acceptance evidence: side-by-side screenshots
+`docs/screenshots/spc00021-p5-*.png`, `curl -N` incremental frames through nginx, full E2E green
+(22 pass; a latent popover bug in `server-layout.spec.js`'s slider test fixed — first live run of
+the suite since the merge), backend 168 pass, Vitest 68 pass.
+**Next task**: SPC-00021 post-merge follow-ups (spec §9 gaps: SSE cadence-policy test,
+`tests/fixtures/layout/final/` characterization snapshots; hardware-flaky 1.5 s cupboard budget in
+`test_layout_perf.py`; concept re-solve rebuilds the vis.Network instead of in-place edge swap;
+sticky `?layoutMode=` localStorage rewrite; `chemistry.json` live regen; `find_descendants`
+derived-alias FakeWordsCollection test) — or start a roadmap spec (SPC-00014–00020).
 
 **Recent**:
+- SPC-00021 Phase 5 (2026-07-10): described above. Measurement harness gained
+  `LAYOUT_BASELINE_MODE=server` (settle := `final` applied + 300 ms tween, cold = run 1 on an
+  empty `layouts` collection, warm = median of runs 2–3) + `make bench-layout-server`. Details in
+  spec §10 footnotes 2–3 + decision-log addendum.
 - SPC-00021 Phase 0d (2026-07-10): baseline harness + measured table (spec §10, decision-log
   addendum). Probes install via `page.addInitScript` (an accessor on `window.__etymoNetwork`; the
   concept map needs an rAF poller instead — its `conceptNetwork` was a top-level `let`, so the
@@ -253,8 +257,8 @@ and record the before/after settle-time table (spec §10).
   renderer line (SPC-00005–00010 — no G6 code ever merged; vis.js is the sole renderer).
 - SPC-00011 (chain normalization + polysemy), SPC-00012 (precomputed compound edges), SPC-00013
   (fixture/characterization test machinery) all shipped since SPC-00003/00004.
-- **Implemented specs:** 00001–00004, 00011, 00012, 00013 (Phases 1–3). **Deprecated:** 00005–00010
-  (G6). **Draft (roadmap):** 00014–00020. **Approved:** 00021 (server-side layout + SSE).
+- **Implemented specs:** 00001–00004, 00011, 00012, 00013 (Phases 1–3), 00021 (server-side layout
+  + SSE). **Deprecated:** 00005–00010 (G6). **Draft (roadmap):** 00014–00020.
   SPC-00020 (Tiered Testing Architecture) applies the `bdd-tiered-testing` skill to this stack and
   is the home for the audit's R2 (untested core engine).
 

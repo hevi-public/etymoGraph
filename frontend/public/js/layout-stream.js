@@ -22,8 +22,9 @@
 
     /**
      * Resolve the layout mode. Precedence: URL `?layoutMode=` > localStorage
-     * `layoutMode` > "client" (the Phase 3+4 default; Phase 5 flips it). The
-     * resolved value is mirrored on `window.__layoutMode` for E2E assertions.
+     * `layoutMode` > "server" (the Phase 5 default; `client` is the explicit
+     * fallback/legacy-physics path). The resolved value is mirrored on
+     * `window.__layoutMode` for E2E assertions.
      * @returns {"server"|"client"}
      */
     function getLayoutMode() {
@@ -39,7 +40,7 @@
         } catch {
             // location/localStorage may be unavailable in some test contexts.
         }
-        mode = mode || "client";
+        mode = mode || "server";
         window.__layoutMode = mode;
         return mode;
     }
