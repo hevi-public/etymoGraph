@@ -43,3 +43,23 @@ async function getConceptSuggestions(query) {
     if (!res.ok) throw new Error(`Concept suggestions failed (${res.status})`);
     return res.json();
 }
+
+// --- Server-side layout streaming (SPC-00021) ---
+// These build EventSource URLs (consumed by layout-stream.js), not fetch()ed.
+
+function buildEtymologyLayoutStreamURL(word, lang = "English", types = "inh",
+    layout = "era-layered", etym = null) {
+    let url = `${API_BASE}/etymology/${encodeURIComponent(word)}/tree/layout/stream`
+        + `?lang=${encodeURIComponent(lang)}&types=${encodeURIComponent(types)}`
+        + `&layout=${encodeURIComponent(layout)}`;
+    if (etym != null) url += `&etym=${etym}`;
+    return url;
+}
+
+function buildConceptLayoutStreamURL(concepts,
+    { pos = null, threshold = 0.3, includeEtymologyEdges = true } = {}) {
+    let url = `${API_BASE}/concept-map/layout/stream?concepts=${encodeURIComponent(concepts)}`
+        + `&threshold=${threshold}&include_etymology_edges=${includeEtymologyEdges}`;
+    if (pos) url += `&pos=${encodeURIComponent(pos)}`;
+    return url;
+}

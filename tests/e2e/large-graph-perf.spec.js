@@ -8,6 +8,15 @@ import { waitForGraph, getNodeCount, zoomToScale } from "./helpers.js";
  */
 
 test.describe("Large graph performance (SPC-00004)", () => {
+    // These assert client-physics behavior (stabilized→freeze, barnesHut,
+    // LOD/clustering). Pin the fallback (client) architecture so they keep
+    // testing it after SPC-00021 Phase 5 flips the default to server.
+    test.beforeEach(async ({ page }) => {
+        await page.addInitScript(() => {
+            try { localStorage.setItem("layoutMode", "client"); } catch { /* private mode */ }
+        });
+    });
+
     test.describe("R1: Straight edges for large graphs", () => {
         test("large graph has smooth: false", async ({ page }) => {
             await page.goto("/?view=etymology&word=water&lang=English&types=inh,bor,der,cog&layout=force-directed");

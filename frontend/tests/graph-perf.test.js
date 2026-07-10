@@ -73,6 +73,7 @@ function loadGraph() {
         Object.assign(window, {
             classifyLang, LAYOUTS, baseGraphOptions, applyPerformanceOverrides,
             LOD_SCALE_THRESHOLD, CLUSTER_THRESHOLD, DECLUSTER_THRESHOLD, CLUSTER_MIN_NODES,
+            updateGraph,
         });
         `
     );
@@ -186,5 +187,54 @@ describe("baseGraphOptions convergence tuning (R6)", () => {
         const opts = window.baseGraphOptions({});
         expect(opts.physics.minVelocity).toBe(2.0);
         expect(opts.physics.maxVelocity).toBe(50);
+    });
+});
+
+describe("updateGraph server-mode option construction (SPC-00021)", () => {
+    // Capture the options handed to `new vis.Network(...)` so we can assert the
+    // physics-disabled contract without a real renderer.
+    function installVisCapture() {
+        let captured = null;
+        class DataSet {
+            constructor(arr) { this._d = arr || []; this.length = this._d.length; }
+            forEach(fn) { this._d.forEach(fn); }
+            get() { return this._d; }
+            getIds() { return this._d.map((x) => x.id); }
+            update() {}
+            add() {}
+            clear() {}
+        }
+        class Network {
+            constructor(_c, _data, options) { captured = options; }
+            on() {}
+            moveTo() {}
+            getPositions() { return {}; }
+            setOptions() {}
+            destroy() {}
+            isCluster() { return false; }
+        }
+        window.vis = { DataSet, Network };
+        return () => captured;
+    }
+
+    const DATA = {
+        nodes: [
+            { id: "water:English", label: "water", language: "English", level: 0 },
+            { id: "eau:French", label: "eau", language: "French", level: -1 },
+        ],
+        edges: [{ from: "eau:French", to: "water:English", label: "der" }],
+    };
+
+    it("disables physics at construction in server mode", () => {
+        const getCaptured = installVisCapture();
+        window.updateGraph(DATA, { serverMode: true });
+        expect(getCaptured().physics.enabled).toBe(false);
+    });
+
+    it("leaves physics enabled in client mode", () => {
+        const getCaptured = installVisCapture();
+        window.updateGraph(DATA, { serverMode: false });
+        // Client mode never sets enabled:false (defaults to on).
+        expect(getCaptured().physics.enabled).not.toBe(false);
     });
 });
