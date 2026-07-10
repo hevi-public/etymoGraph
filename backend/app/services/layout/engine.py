@@ -45,7 +45,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from app.services.layout import fa2
+from app.services.layout import LAYOUT_ALGO_VERSION, fa2
 from app.services.layout.edge_params import build_concept_edges, build_vis_edges
 from app.services.layout.fa2 import SolverParams
 from app.services.layout.families import (
@@ -345,7 +345,7 @@ def solve(
     phonetic_edges: list[dict] | None = None,
     etymology_edges: list[dict] | None = None,
     include_etymology_edges: bool = True,
-    algo_version: str = "1",
+    algo_version: str = LAYOUT_ALGO_VERSION,
     cancel=None,
 ) -> Iterator[FrameState]:
     """Run the full layout pipeline for one graph, yielding a FrameState per

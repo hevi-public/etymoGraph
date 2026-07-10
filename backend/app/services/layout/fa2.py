@@ -1,8 +1,9 @@
 """Numeric force solver, ported from vis-network's forceAtlas2Based physics.
 
-Formulas pinned from github.com/visjs/vis-network at tag v9.1.9 — the exact
-release the frontend integration pins in index.html
-(vis-network@9.1.9/standalone/umd/vis-network.min.js).
+Formulas pinned from github.com/visjs/vis-network at tag v9.1.9 — the release
+the Phase 3+4 frontend integration (SPC-00021, PR #18) pins in index.html
+(vis-network@9.1.9/standalone/umd/vis-network.min.js). Until that PR lands,
+index.html still loads unpinned latest from unpkg.
 
 Sources read directly (not just docs), all at the v9.1.9 tag:
   - lib/network/modules/components/physics/FA2BasedRepulsionSolver.js
