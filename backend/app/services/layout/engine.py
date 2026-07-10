@@ -45,7 +45,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from app.services.layout import fa2
+from app.services.layout import LAYOUT_ALGO_VERSION, fa2
 from app.services.layout.edge_params import build_concept_edges, build_vis_edges
 from app.services.layout.fa2 import SolverParams
 from app.services.layout.families import (
@@ -61,10 +61,17 @@ LAYOUTS = ("force-directed", "era-layered", "concept")
 
 # Physics constants per layout, from graph.js's LAYOUTS registry
 # (force-directed/era-layered) and concept-map.js's own barnesHut options.
-# forceAtlas2Based-style formulas (fa2.py) are used for all three here —
-# concept's real client-side solver is barnesHut, but SPC-00021 R3 uses one
-# solver implementation server-side; visual equivalence, not solver-identity,
-# is the acceptance bar (spec §11 risk 1).
+# FA2-style repulsion/spring/integration formulas (fa2.py) are used for all
+# three here — concept's real client-side solver is barnesHut, but SPC-00021
+# R3 uses one solver implementation server-side; visual equivalence, not
+# solver-identity, is the acceptance bar (spec §11 risk 1). Central gravity
+# is the exception: vis picks its gravity law by solver type (see fa2.py's
+# module docstring), so each layout gets the variant its client solver
+# actually runs — "fa2" for the forceAtlas2Based etymology layouts, "base"
+# for the barnesHut concept map. graph.js's >1000-node performance fallback
+# to barnesHut (applyPerformanceOverrides) is deliberately not mirrored:
+# this engine ships for the <1500-node regime under the same visual-
+# equivalence bar.
 _LAYOUT_PARAMS: dict[str, SolverParams] = {
     "force-directed": SolverParams(
         gravitational_constant=-350,
@@ -75,6 +82,7 @@ _LAYOUT_PARAMS: dict[str, SolverParams] = {
         min_velocity=2.0,
         max_velocity=50,
         max_iterations=300,
+        central_gravity_variant="fa2",
     ),
     "era-layered": SolverParams(
         gravitational_constant=-80,
@@ -85,6 +93,7 @@ _LAYOUT_PARAMS: dict[str, SolverParams] = {
         min_velocity=2.0,
         max_velocity=50,
         max_iterations=500,
+        central_gravity_variant="fa2",
     ),
     "concept": SolverParams(
         gravitational_constant=-8000,
@@ -95,6 +104,7 @@ _LAYOUT_PARAMS: dict[str, SolverParams] = {
         min_velocity=0.75,
         max_velocity=50,
         max_iterations=300,
+        central_gravity_variant="base",
     ),
 }
 
@@ -335,7 +345,7 @@ def solve(
     phonetic_edges: list[dict] | None = None,
     etymology_edges: list[dict] | None = None,
     include_etymology_edges: bool = True,
-    algo_version: str = "1",
+    algo_version: str = LAYOUT_ALGO_VERSION,
     cancel=None,
 ) -> Iterator[FrameState]:
     """Run the full layout pipeline for one graph, yielding a FrameState per

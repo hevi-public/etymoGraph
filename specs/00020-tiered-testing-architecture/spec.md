@@ -13,6 +13,25 @@
 > correctness risk (R2). The design below was **adversarially verified** (POCs run against this codebase);
 > the feasibility caveats it surfaced are baked in rather than glossed.
 
+## Implementation status
+
+**Landed via SPC-00021 (PR #13):** Steps 1–3 (lifespan Motor client, `get_db`/`get_words_collection`
+`Depends` providers, all router call-sites injected), the tier/`acceptance`/`live`/`discovery` pytest
+markers, `FakeWordsCollection` (`backend/tests/fakes.py`), and the autouse reset of the
+`lang_cache`/`concept_resolver` module-global caches.
+
+**Landed (acceptance snapshot net):** `backend/tests/test_acceptance_snapshots.py` — the full app
+in-process via `httpx.ASGITransport`, the seam overridden with `FakeWordsCollection` seeded from the
+SPC-00013 `raw_kaikki` fixtures, asserting `word_detail` + `chain` byte-for-byte against
+`system_output`; plus `--strict-markers` enforcement and the `make acceptance` target. (An earlier
+draft of this net caught a genuinely stale `chemistry` snapshot that the skip-as-pass live suite had
+hidden — the failure mode this spec exists to eliminate; the fixture regen in PR #15 resolved it.)
+
+**Follow-up (not yet implemented):** Step 4 — the `WordsRepository` port (and with it no-live-Mongo
+Tier 2 for `TreeBuilder`); Tier 1 testcontainers contract tests for the fake's `$elemMatch`/sort
+semantics; Tier 0 marking of existing pure tests; acceptance tree assertions (the recorded trees pull
+descendants/cognates from the full corpus, which a single-doc seed cannot reproduce).
+
 ## Problem
 
 The system has **no injectable IO seam**:

@@ -863,6 +863,10 @@ let edgeBaseColors = {};  // id → {color, highlight} original edge colors
 let rootNodeId = null;   // etymological root (deepest ancestor)
 let wordNodeId = null;   // searched word
 
+// --- Server-side layout streaming (SPC-00021 Phase 3+4) ---
+let layoutTween = null;              // active createPositionTween handle (server mode)
+const draggingIds = new Set();       // nodes the user currently owns (skipped by tweens)
+
 // --- Performance thresholds (SPC-00004) ---
 const LARGE_GRAPH_THRESHOLD = 200;
 const VERY_LARGE_GRAPH_THRESHOLD = 1000;
@@ -1030,10 +1034,27 @@ function buildVisEdges(edges) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function updateGraph(data) {
+function updateGraph(data, opts) {
+    opts = opts || {};
+    // Server mode (SPC-00021): positions arrive over SSE and are tweened in;
+    // vis.js physics stays disabled. `opts.serverMode` lets the fallback path
+    // force the client physics engine even when the flag says "server".
+    const serverMode = opts.serverMode !== undefined
+        ? opts.serverMode
+        : (typeof getLayoutMode === "function" && getLayoutMode() === "server");
+
+    // Capture the outgoing layout so surviving nodes keep their coordinates
+    // across a filter re-solve (the new stream then morphs, not restarts).
+    let priorPositions = null;
+    if (serverMode && network) {
+        try { priorPositions = network.getPositions(); } catch { priorPositions = null; }
+    }
+
     if (network) {
         network.destroy();
     }
+    if (layoutTween) { layoutTween.stop(); layoutTween = null; }
+    draggingIds.clear();
     currentNodes = data.nodes;
     lodActive = false;
     activeClusters = [];
@@ -1045,10 +1066,15 @@ function updateGraph(data) {
     const layout = LAYOUTS[currentLayout];
     const options = layout.getGraphOptions();
     applyPerformanceOverrides(options, data.nodes.length);
+    if (serverMode) {
+        // Keep the full solver options (drag micro-adjust, fallback), just start frozen.
+        options.physics = Object.assign({}, options.physics, { enabled: false });
+    }
     const { visNodes, nodeBaseColors: colors } = layout.buildVisNodes(data.nodes, rootNodeId);
     nodeBaseColors = colors;
 
-    // Tree-based initial positioning for force-directed layout
+    // Tree-based initial positioning for force-directed layout. This client seed
+    // is frame-0 in server mode too, so first paint is identical to today.
     if (currentLayout === "force-directed" && data.edges.length > 0) {
         const positions = computeTreePositions(data.nodes, data.edges, rootNodeId);
         // Scale down relative to root (0,0) so nodes start compact
@@ -1057,6 +1083,17 @@ function updateGraph(data) {
             if (vn.fixed?.x && vn.fixed?.y) continue;
             const pos = positions[vn.id];
             if (pos) { vn.x = pos.x * scale; vn.y = pos.y * scale; }
+        }
+    }
+
+    // Server-mode continuity: place surviving nodes where they were before the
+    // rebuild (respecting any fixed axis, e.g. era-layered tier bands).
+    if (serverMode && priorPositions) {
+        for (const vn of visNodes) {
+            const prev = priorPositions[vn.id];
+            if (!prev) continue;
+            if (!(vn.fixed && vn.fixed.x)) vn.x = prev.x;
+            if (!(vn.fixed && vn.fixed.y)) vn.y = prev.y;
         }
     }
 
@@ -1084,6 +1121,13 @@ function updateGraph(data) {
     // Expose network instance for E2E tests and zoom controls
     window.__etymoNetwork = network;
     window.__etymoNodesDS = nodesDataSet;
+
+    // Server mode: build the tween loop and seed it from the client-seed
+    // positions (frame-0) so the first streamed frame animates in smoothly.
+    if (serverMode && typeof createPositionTween === "function") {
+        layoutTween = createPositionTween(nodesDataSet, { getSkip: () => draggingIds });
+        try { layoutTween.seedCurrent(network.getPositions()); } catch { /* fresh network */ }
+    }
 
     if (layout.onBeforeDrawing) {
         network.on("beforeDrawing", (ctx) => layout.onBeforeDrawing(network, ctx));
@@ -1125,18 +1169,49 @@ function updateGraph(data) {
         }
     });
 
-    // R5: Freeze physics after stabilization to reduce CPU usage
+    // R5: Freeze physics after stabilization to reduce CPU usage. (In server
+    // mode physics starts disabled, so `stabilized` never fires — harmless.)
     network.on("stabilized", () => {
         network.setOptions({ physics: { enabled: false } });
     });
-    network.on("dragStart", () => {
-        network.setOptions({ physics: { enabled: true } });
+    network.on("dragStart", (params) => {
+        if (params?.nodes) params.nodes.forEach((id) => draggingIds.add(id));
+        // Client mode re-enables physics for a live drag; server mode keeps it
+        // off so the drag doesn't pull the whole server-solved layout toward the
+        // client equilibrium (SPC-00021 risk #6 — physics-off drag is the default).
+        if (!serverMode) network.setOptions({ physics: { enabled: true } });
     });
-    network.on("dragEnd", () => {
-        setTimeout(() => {
-            if (network) network.setOptions({ physics: { enabled: false } });
-        }, 500);
+    network.on("dragEnd", (params) => {
+        if (params?.nodes) {
+            // Re-sync the tween baseline to where the node was dropped, so a frame
+            // arriving mid-drag won't snap it back to its pre-drag position.
+            if (serverMode && layoutTween) {
+                layoutTween.syncCurrent(network.getPositions(params.nodes));
+            }
+            params.nodes.forEach((id) => draggingIds.delete(id));
+        }
+        if (!serverMode) {
+            setTimeout(() => {
+                if (network) network.setOptions({ physics: { enabled: false } });
+            }, 500);
+        }
     });
+}
+
+/**
+ * Apply a streamed layout frame in server mode by tweening node positions.
+ * No-op in client mode (no active tween). Called by the app's stream glue.
+ * @param {Object<string, number[]>} positions id → [x, y] from an SSE frame
+ * @param {{final?: boolean}} [opts] final frames settle with a longer ease-out
+ */
+function applyLayoutFrame(positions, opts) {
+    opts = opts || {};
+    if (!layoutTween || !positions) return;
+    if (opts.final) {
+        layoutTween.tweenTo(positions, { durationMs: 300, easing: "easeOut" });
+    } else {
+        layoutTween.tweenTo(positions, { durationMs: 150, easing: "linear" });
+    }
 }
 
 // Trackpad: pinch zooms (ctrlKey), two-finger scroll pans

@@ -17,6 +17,10 @@ export default [
                 clearTimeout: "readonly",
                 URLSearchParams: "readonly",
                 Worker: "readonly",
+                EventSource: "readonly",
+                requestAnimationFrame: "readonly",
+                cancelAnimationFrame: "readonly",
+                performance: "readonly",
                 // vis.js globals
                 vis: "readonly",
                 // App-specific globals from other files
@@ -38,6 +42,16 @@ export default [
                 currentLayout: "writable",
                 selectWord: "readonly",
                 router: "readonly",
+                // Server-side layout streaming (SPC-00021, layout-stream.js + glue)
+                getLayoutMode: "readonly",
+                openLayoutStream: "readonly",
+                closeLayoutStream: "readonly",
+                createPositionTween: "readonly",
+                interpolatePositions: "readonly",
+                applyLayoutFrame: "readonly",
+                applyConceptLayoutFrame: "readonly",
+                buildEtymologyLayoutStreamURL: "readonly",
+                buildConceptLayoutStreamURL: "readonly",
             },
         },
         rules: {

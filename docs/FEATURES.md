@@ -69,7 +69,7 @@ Checkboxes in the Filters popover (click "Filters ▾" button in header):
 |------|---------|---------|
 | `inh` (Inherited) | Direct ancestor in the same language lineage | Checked |
 | `bor` (Borrowed) | Loanword from another language | Checked |
-| `der` (Derived) | General derivation | Checked |
+| `der` (Derived) | General derivation (incl. `derived` full-name alias) | Checked |
 | `cog` (Cognate) | Related word from the same root in another language | Checked |
 
 Changing the filter re-fetches the tree immediately. Borrowed edges are shown with dashed lines. Cognate edges are shown with gold dashed lines.
@@ -434,16 +434,16 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 
 ---
 
-### 16. Server-Side Layout Engine (SPC-00021 Phase 0–2)
+### 16. Server-Side Layout Engine (SPC-00021 Phase 0–4)
 
-A Python/numpy port of the client-side layout engine, now exposed over additive HTTP endpoints that stream server-computed positions via Server-Sent Events. `/api/etymology/{word}/tree` and `/api/concept-map` are unaffected and remain byte-identical — all layout features ship on new `.../layout` and `.../layout/stream` endpoints. Frontend integration (the `layoutMode` flag, tweening, filter re-solve) is Phase 3+ and not yet wired, so the browser still uses client-side physics today.
+A Python/numpy port of the client-side layout engine, exposed over additive HTTP endpoints that stream server-computed positions via Server-Sent Events, plus the frontend that consumes them. `/api/etymology/{word}/tree` and `/api/concept-map` are unaffected and remain byte-identical — all layout features ship on new `.../layout` and `.../layout/stream` endpoints. The frontend is wired behind a `layoutMode` feature flag whose **default is `client`** (today's physics), so server streaming is opt-in until the Phase 5 flip.
 
 **What exists:**
 - `backend/app/services/layout/families.py` — language-family classification and era-tier machinery (`classify_lang`, `get_era_tier`, family-cluster X positions, era-layered invisible intra-family springs), golden-tested against `frontend/public/js/graph.js`.
 - `backend/app/services/layout/edge_params.py` — degree-based per-edge length/springConstant for both the etymology graph and the concept map, golden-tested against `graph.js`/`concept-map.js`.
 - `backend/app/services/layout/phonetic_numpy.py` — a numpy-vectorized twin of `phonetic_similarity.build_similarity_edges`, exact-equality-tested against it.
 - `backend/app/services/layout/seed.py` — the BFS/radial/linear tree-position seeding engine (`compute_tree_positions`), ported line-for-line from `graph.js`'s `computeTreePositions`, including the barycentric refinement pass.
-- `backend/app/services/layout/fa2.py` — the numeric force solver. Formulas pinned directly from vis-network's own source (not just its public options docs): asymmetric degree-weighted repulsion, distance-independent central gravity, Newton's-third-law springs, semi-implicit Euler integration. Exact O(n²) pairwise repulsion (not vis's Barnes-Hut tree), vectorized via BLAS matmul for speed.
+- `backend/app/services/layout/fa2.py` — the numeric force solver. Formulas pinned directly from vis-network's own source at v9.1.9 (not just its public options docs): asymmetric degree-weighted repulsion, both of vis's central-gravity laws (the distance-proportional `ForceAtlas2BasedCentralGravitySolver` for the etymology layouts, the constant-magnitude base `CentralGravitySolver` for the barnesHut concept map), Newton's-third-law springs, semi-implicit Euler integration. Exact O(n²) pairwise repulsion (not vis's Barnes-Hut tree), vectorized via BLAS matmul for speed.
 - `backend/app/services/layout/engine.py` — orchestration wiring the above into one `solve(layout, nodes, edges, ...)` entry point per layout (`force-directed`, `era-layered`, `concept`), yielding a position frame per solver iteration.
 
 **Performance:** a synthetic cupboard-scale graph (940 nodes) solves in ~1.3s for force-directed, ~2.2s for era-layered — within the spec's budget.
@@ -475,12 +475,23 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 
 **nginx:** the `/api/` proxy block sets `proxy_http_version 1.1`, clears the `Connection` header, and raises `proxy_read_timeout` so SSE frames flow incrementally. Buffering stays on for normal endpoints; the backend opts a single response out per-request via `X-Accel-Buffering: no`.
 
+**Frontend integration (Phase 3+4):** the browser consumes the stream through a thin, view-agnostic module and a feature flag.
+
+- **`layoutMode` flag** (`server` | `client`): precedence is URL `?layoutMode=` > `localStorage.layoutMode` > default `client`. An explicit `?layoutMode=` is persisted to `localStorage` on load (so it survives URL normalization — the flag is a global toggle, not a view-scoped router param). `window.__layoutMode` mirrors the resolved value for E2E.
+- **`frontend/public/js/layout-stream.js`** — `getLayoutMode()`, a singleton `openLayoutStream(url, {onGraph,onFrame,onFinal,onError,graphTimeoutMs})` EventSource wrapper (closes any prior stream; guards a 10 s first-`graph` timeout; closes on `final` *before* the handler runs so EventSource's post-close auto-reconnect can't re-run a solve), and `createPositionTween(nodesDataSet)` — a single rAF loop that interpolates node positions between frames (the frames carry the FA2 dynamics; the tween only bridges them — linear between frames, 300 ms ease-out onto `final`). Nodes being dragged are user-owned and skipped. The interpolation math is pure and unit-tested.
+- **Etymology (`graph.js`) & concept map (`concept-map.js`):** in server mode `updateGraph`/`updateConceptMap` build the network with `physics.enabled = false`, keep the existing client seed as frame-0 (identical first paint), and tween each streamed frame via `applyLayoutFrame`/`applyConceptLayoutFrame`. Concept mode takes phonetic edges from the `graph` event (no Web Worker spawn). Drag is physics-off in server mode (SPC-00021 risk #6) so a nudge doesn't pull the solved layout toward the client equilibrium.
+- **Filters re-solve on the backend** (`app.js`): etymology type checkboxes and the layout dropdown re-request the etymology stream; the concept similarity slider filters displayed edges instantly and, debounced ~300 ms, re-requests a solve at the new `threshold`; the etymology-edges toggle and POS filter re-request too. Each change closes the in-flight stream (the server cancels the orphaned solve) and opens a new one; cache keys cover every param, so revisiting a combination is a warm hit. Surviving nodes keep their prior coordinates across a re-solve, so the layout **morphs** instead of restarting.
+- **Fallback:** any stream error, or no `graph` event within 10 s, closes the stream and runs today's exact client path (`/tree` + client physics for etymology; per-concept merge + Web Worker for the concept map). One shared code path, selected by flag or fallback.
+- **Asset pin:** `index.html` pins `vis-network@9.1.9` (was floating `latest`) to remove CDN drift from E2E.
+
 **Known limitations:**
 - The overlap-avoidance radius is estimated from label length (`clamp(12 + 3.5·len, 20, 60)`) — the server can't measure rendered node boxes, so overlap is approximate vs. the client.
 - Final layouts differ somewhat from vis.js despite matching constants and seeds; the acceptance bar is visual equivalence, not positional equality (spec §11).
 - 940-node graphs solve well within budget but do not always reach `minVelocity` within the iteration cap; positions at the cap are still a good layout. Barnes-Hut repulsion for the 1500+ regime is a deferred follow-up behind the `repulsion_fn` seam.
+- **Server-mode multi-concept tinting:** the server merges concepts into one word set without per-word concept membership, so in server mode a word shared across concepts renders with its base language color rather than the accent-blended tint the client path applies. The legend still lists all concepts. Single-concept maps are unaffected.
+- The concept similarity slider incurs a solve round-trip on release (debounced); the instant client-side edge filter still runs during the drag, so only the settle is deferred.
 
-**Not yet built:** frontend integration — the `layoutMode` flag, rAF tweening between frames, filter re-solve, and the `client`→`server` default flip (Phases 3–5). See `specs/00021-server-side-layout-streaming/spec.md` §10 for the phase plan.
+**Phase 5 (not yet done):** flip the `layoutMode` default from `client` to `server` (a one-line change) and record the before/after settle-time table. See `specs/00021-server-side-layout-streaming/spec.md` §10.
 
 ---
 
@@ -515,6 +526,7 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 | `make load` | Load data into MongoDB |
 | `make precompute-phonetic` | Precompute Dolgopolsky sound classes for concept map (requires `lingpy` + `pymongo`) |
 | `make precompute-edges` | Precompute compound/affix etymology edges (requires `pymongo`) |
+| `make acceptance` | Run only the hermetic acceptance tier (SPC-00020, no live stack) |
 | `make test-frontend` | Run Vitest unit tests (router, etc.) |
 | `make test-e2e` | Run Playwright E2E tests (requires `make run`) |
 | `make test-all` | Run all tests (pytest + Vitest + Playwright) |
@@ -650,7 +662,8 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 make setup-dev  # Install linters, pre-commit hooks, test dependencies
 make lint       # Run Ruff and ESLint
 make format     # Format Python code with Ruff
-make test       # Run pytest
+make test       # Run pytest (hermetic: unit + acceptance, no live stack)
+make acceptance # Run only the hermetic acceptance tier (SPC-00020)
 ```
 
 **Test coverage**:
@@ -663,6 +676,7 @@ make test       # Run pytest
 - `tests/fixtures/wiktionary/`: Snapshot fixtures for the canonical-word integration tests planned in the SPC-00013 follow-up. Each fixture pairs current API output with hand-encoded Wiktionary ground truth and an explicit gap inventory (Q1–Q12). Regenerate with `make collect-fixtures` against `make run` services. Re-collecting an existing fixture preserves its hand-curated `known_gaps`/`wiktionary_reference`/`meta.notes` by default (only `system_output`/`raw_kaikki`/`meta.collected_at`/`meta.etymograph_git_sha` refresh) — pass `--reset-review` to `collect_wiktionary_examples.py` to discard curated content and regenerate it heuristically instead.
 - `tests/integration/test_api_characterization.py`: SPC-00013 Phase 1 — black-box pytest suite that parametrizes over the fixture JSONs and asserts each live API response equals the captured snapshot. Run with `make test-integration` (requires `make run`). Skips automatically when the API is unreachable.
 - `tests/integration/test_wiktionary_consistency.py`: SPC-00013 Phase 3 — Wiktionary-consistency assertions over fixture content (no API needed). Each documented gap is xfailed; closing a gap in Phase 4 flips the xfail to XPASS, forcing the developer to update both system code and `known_gaps` flag in the same commit.
+- `backend/tests/test_acceptance_snapshots.py`: SPC-00020 hermetic **acceptance tier** — runs the full FastAPI app in-process via `httpx.ASGITransport` (no live server, no live Mongo). The Mongo seam (`get_words_collection`) is overridden with `FakeWordsCollection` seeded from the SPC-00013 `raw_kaikki` fixtures, and `word_detail` + `chain` responses are asserted byte-for-byte against the recorded `system_output`. This is the CI-runnable mirror of the live `tests/integration` suite (which skips when the stack is down). Tree assertions are deferred: the recorded trees pull descendants/cognates from the full corpus, which a single-doc seed cannot reproduce. Run with `make acceptance`.
 - Future: tests for other services (template_parser, lang_cache) when touched
 
 **Linting configuration**:
