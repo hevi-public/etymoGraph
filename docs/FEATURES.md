@@ -69,7 +69,7 @@ Checkboxes in the Filters popover (click "Filters ▾" button in header):
 |------|---------|---------|
 | `inh` (Inherited) | Direct ancestor in the same language lineage | Checked |
 | `bor` (Borrowed) | Loanword from another language | Checked |
-| `der` (Derived) | General derivation | Checked |
+| `der` (Derived) | General derivation (incl. `derived` full-name alias) | Checked |
 | `cog` (Cognate) | Related word from the same root in another language | Checked |
 
 Changing the filter re-fetches the tree immediately. Borrowed edges are shown with dashed lines. Cognate edges are shown with gold dashed lines.
@@ -443,7 +443,7 @@ A Python/numpy port of the client-side layout engine, exposed over additive HTTP
 - `backend/app/services/layout/edge_params.py` — degree-based per-edge length/springConstant for both the etymology graph and the concept map, golden-tested against `graph.js`/`concept-map.js`.
 - `backend/app/services/layout/phonetic_numpy.py` — a numpy-vectorized twin of `phonetic_similarity.build_similarity_edges`, exact-equality-tested against it.
 - `backend/app/services/layout/seed.py` — the BFS/radial/linear tree-position seeding engine (`compute_tree_positions`), ported line-for-line from `graph.js`'s `computeTreePositions`, including the barycentric refinement pass.
-- `backend/app/services/layout/fa2.py` — the numeric force solver. Formulas pinned directly from vis-network's own source (not just its public options docs): asymmetric degree-weighted repulsion, distance-independent central gravity, Newton's-third-law springs, semi-implicit Euler integration. Exact O(n²) pairwise repulsion (not vis's Barnes-Hut tree), vectorized via BLAS matmul for speed.
+- `backend/app/services/layout/fa2.py` — the numeric force solver. Formulas pinned directly from vis-network's own source at v9.1.9 (not just its public options docs): asymmetric degree-weighted repulsion, both of vis's central-gravity laws (the distance-proportional `ForceAtlas2BasedCentralGravitySolver` for the etymology layouts, the constant-magnitude base `CentralGravitySolver` for the barnesHut concept map), Newton's-third-law springs, semi-implicit Euler integration. Exact O(n²) pairwise repulsion (not vis's Barnes-Hut tree), vectorized via BLAS matmul for speed.
 - `backend/app/services/layout/engine.py` — orchestration wiring the above into one `solve(layout, nodes, edges, ...)` entry point per layout (`force-directed`, `era-layered`, `concept`), yielding a position frame per solver iteration.
 
 **Performance:** a synthetic cupboard-scale graph (940 nodes) solves in ~1.3s for force-directed, ~2.2s for era-layered — within the spec's budget.
@@ -526,6 +526,7 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 | `make load` | Load data into MongoDB |
 | `make precompute-phonetic` | Precompute Dolgopolsky sound classes for concept map (requires `lingpy` + `pymongo`) |
 | `make precompute-edges` | Precompute compound/affix etymology edges (requires `pymongo`) |
+| `make acceptance` | Run only the hermetic acceptance tier (SPC-00020, no live stack) |
 | `make test-frontend` | Run Vitest unit tests (router, etc.) |
 | `make test-e2e` | Run Playwright E2E tests (requires `make run`) |
 | `make test-all` | Run all tests (pytest + Vitest + Playwright) |
@@ -660,7 +661,8 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 make setup-dev  # Install linters, pre-commit hooks, test dependencies
 make lint       # Run Ruff and ESLint
 make format     # Format Python code with Ruff
-make test       # Run pytest
+make test       # Run pytest (hermetic: unit + acceptance, no live stack)
+make acceptance # Run only the hermetic acceptance tier (SPC-00020)
 ```
 
 **Test coverage**:
@@ -673,6 +675,7 @@ make test       # Run pytest
 - `tests/fixtures/wiktionary/`: Snapshot fixtures for the canonical-word integration tests planned in the SPC-00013 follow-up. Each fixture pairs current API output with hand-encoded Wiktionary ground truth and an explicit gap inventory (Q1–Q12). Regenerate with `make collect-fixtures` against `make run` services. Re-collecting an existing fixture preserves its hand-curated `known_gaps`/`wiktionary_reference`/`meta.notes` by default (only `system_output`/`raw_kaikki`/`meta.collected_at`/`meta.etymograph_git_sha` refresh) — pass `--reset-review` to `collect_wiktionary_examples.py` to discard curated content and regenerate it heuristically instead.
 - `tests/integration/test_api_characterization.py`: SPC-00013 Phase 1 — black-box pytest suite that parametrizes over the fixture JSONs and asserts each live API response equals the captured snapshot. Run with `make test-integration` (requires `make run`). Skips automatically when the API is unreachable.
 - `tests/integration/test_wiktionary_consistency.py`: SPC-00013 Phase 3 — Wiktionary-consistency assertions over fixture content (no API needed). Each documented gap is xfailed; closing a gap in Phase 4 flips the xfail to XPASS, forcing the developer to update both system code and `known_gaps` flag in the same commit.
+- `backend/tests/test_acceptance_snapshots.py`: SPC-00020 hermetic **acceptance tier** — runs the full FastAPI app in-process via `httpx.ASGITransport` (no live server, no live Mongo). The Mongo seam (`get_words_collection`) is overridden with `FakeWordsCollection` seeded from the SPC-00013 `raw_kaikki` fixtures, and `word_detail` + `chain` responses are asserted byte-for-byte against the recorded `system_output`. This is the CI-runnable mirror of the live `tests/integration` suite (which skips when the stack is down). Tree assertions are deferred: the recorded trees pull descendants/cognates from the full corpus, which a single-doc seed cannot reproduce. Run with `make acceptance`.
 - Future: tests for other services (template_parser, lang_cache) when touched
 
 **Linting configuration**:

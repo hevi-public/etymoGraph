@@ -93,6 +93,17 @@ def test_era_layered_and_concept_use_uniform_mass_one():
 
 
 @pytest.mark.tier0
+def test_central_gravity_variant_matches_each_layouts_client_solver():
+    """vis picks its central-gravity law by solver type (fa2.py module
+    docstring): forceAtlas2Based — both etymology layouts in graph.js — runs
+    the FA2 variant; barnesHut — concept-map.js — runs the base one. Rail:
+    keep the server-side mapping in lockstep with the client solvers."""
+    assert engine._LAYOUT_PARAMS["force-directed"].central_gravity_variant == "fa2"
+    assert engine._LAYOUT_PARAMS["era-layered"].central_gravity_variant == "fa2"
+    assert engine._LAYOUT_PARAMS["concept"].central_gravity_variant == "base"
+
+
+@pytest.mark.tier0
 def test_concept_seeds_from_etymology_edges_only():
     """The seed positions must come from compute_tree_positions over the
     etymology-derived vis edges only, not the phonetic edges — matching

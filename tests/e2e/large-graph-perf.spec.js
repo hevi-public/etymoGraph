@@ -24,9 +24,11 @@ test.describe("Large graph performance (SPC-00004)", () => {
             const nodeCount = await getNodeCount(page);
             test.skip(nodeCount <= 200, `Graph too small (${nodeCount} nodes)`);
 
+            // vis-network keeps module options on edgesHandler, not network.options,
+            // and normalizes smooth: false to { enabled: false }.
             const smooth = await page.evaluate(() => {
-                return window.__etymoNetwork.body.data.edges._data.size > 0
-                    && window.__etymoNetwork.options.edges.smooth === false;
+                return window.__etymoNetwork.body.data.edges.length > 0
+                    && window.__etymoNetwork.edgesHandler.options.smooth.enabled === false;
             });
             expect(smooth).toBe(true);
         });
@@ -38,8 +40,8 @@ test.describe("Large graph performance (SPC-00004)", () => {
             test.skip(nodeCount > 200, `Graph too large (${nodeCount} nodes)`);
 
             const smooth = await page.evaluate(() => {
-                const s = window.__etymoNetwork.options.edges.smooth;
-                return s && s.type === "continuous";
+                const s = window.__etymoNetwork.edgesHandler.options.smooth;
+                return s.enabled === true && s.type === "continuous";
             });
             expect(smooth).toBe(true);
         });
@@ -55,7 +57,7 @@ test.describe("Large graph performance (SPC-00004)", () => {
             await zoomToScale(page, 0.2);
 
             const fontColor = await page.evaluate(() => {
-                return window.__etymoNetwork.options.nodes.font.color;
+                return window.__etymoNetwork.nodesHandler.options.font.color;
             });
             expect(fontColor).toBe("transparent");
         });
@@ -70,7 +72,7 @@ test.describe("Large graph performance (SPC-00004)", () => {
             await zoomToScale(page, 0.6);
 
             const fontColor = await page.evaluate(() => {
-                return window.__etymoNetwork.options.nodes.font.color;
+                return window.__etymoNetwork.nodesHandler.options.font.color;
             });
             expect(fontColor).toBe("#fff");
         });
@@ -119,7 +121,7 @@ test.describe("Large graph performance (SPC-00004)", () => {
             test.skip(nodeCount <= 200, `Graph too small (${nodeCount} nodes)`);
 
             const improved = await page.evaluate(() => {
-                return window.__etymoNetwork.options.layout.improvedLayout;
+                return window.__etymoNetwork.layoutEngine.options.improvedLayout;
             });
             expect(improved).toBe(false);
         });
@@ -161,7 +163,7 @@ test.describe("Large graph performance (SPC-00004)", () => {
             test.skip(nodeCount <= 1000, `Graph too small for barnesHut test (${nodeCount} nodes)`);
 
             const solver = await page.evaluate(() => {
-                return window.__etymoNetwork.options.physics.solver;
+                return window.__etymoNetwork.physics.options.solver;
             });
             expect(solver).toBe("barnesHut");
         });
@@ -181,7 +183,7 @@ test.describe("Large graph performance (SPC-00004)", () => {
 
             // LOD should be reset — labels visible
             const fontColor = await page.evaluate(() => {
-                return window.__etymoNetwork.options.nodes.font.color;
+                return window.__etymoNetwork.nodesHandler.options.font.color;
             });
             // After a fresh graph load, the font color should be the default
             // (it may be the object form {color: "#fff"} or "#fff")

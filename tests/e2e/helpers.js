@@ -4,10 +4,30 @@
 
 /** Wait until the etymology graph has rendered nodes. */
 export async function waitForGraph(page, timeout = 15000) {
+    // waitForFunction signature is (fn, arg, options) — options must be the
+    // third argument or the timeout silently falls back to actionTimeout.
     await page.waitForFunction(
         () => typeof window.__etymoNetwork !== "undefined"
             && window.__etymoNetwork !== null
             && window.__etymoNetwork.body.data.nodes.length > 0,
+        undefined,
+        { timeout }
+    );
+}
+
+/**
+ * Wait until the URL's word param matches AND the graph has nodes.
+ * waitForGraph alone passes vacuously during a search transition (the old
+ * graph still has nodes), so history tests must anchor on the URL update
+ * that router.push performs.
+ */
+export async function waitForGraphWord(page, word, timeout = 15000) {
+    await page.waitForFunction(
+        (expected) => new URLSearchParams(window.location.search).get("word") === expected
+            && typeof window.__etymoNetwork !== "undefined"
+            && window.__etymoNetwork !== null
+            && window.__etymoNetwork.body.data.nodes.length > 0,
+        word,
         { timeout }
     );
 }
@@ -18,6 +38,7 @@ export async function waitForConceptMap(page, timeout = 15000) {
         () => typeof window.conceptNetwork !== "undefined"
             && window.conceptNetwork !== null
             && window.conceptNetwork.body.data.nodes.length > 0,
+        undefined,
         { timeout }
     );
 }

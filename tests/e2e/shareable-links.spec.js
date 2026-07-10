@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { waitForGraph, waitForConceptMap, getSearchParams } from "./helpers.js";
+import { waitForGraph, waitForGraphWord, waitForConceptMap, getSearchParams } from "./helpers.js";
 
 test.describe("Direct URL Loading", () => {
     test("/ loads wine in English with clean URL", async ({ page }) => {
@@ -26,8 +26,10 @@ test.describe("Direct URL Loading", () => {
     test("/?view=concept&concept=water loads concept map", async ({ page }) => {
         await page.goto("/?view=concept&concept=water");
         await waitForConceptMap(page);
-        const input = page.locator("#concept-search-input");
-        await expect(input).toHaveValue("water");
+        // Multi-concept UI: the loaded concept renders as a chip; the input stays empty
+        const chip = page.locator("#concept-chips .concept-chip");
+        await expect(chip).toHaveCount(1);
+        await expect(chip).toContainText("water");
         // Concept view should be active
         const activeBtn = page.locator(".view-btn.active");
         await expect(activeBtn).toHaveAttribute("data-view", "concept");
@@ -49,21 +51,23 @@ test.describe("History Navigation", () => {
         await page.goto("/");
         await waitForGraph(page);
 
-        // Search for fire
+        // Search for fire. The Enter handler is async (fetches the best match
+        // before pushing state), so wait for the URL to reflect the push —
+        // waitForGraph alone passes vacuously on the still-rendered old graph.
         await page.fill("#search-input", "fire");
         await page.press("#search-input", "Enter");
-        await waitForGraph(page);
+        await waitForGraphWord(page, "fire");
 
         // Search for apple
         await page.fill("#search-input", "apple");
         await page.press("#search-input", "Enter");
-        await waitForGraph(page);
+        await waitForGraphWord(page, "apple");
 
         // Go back twice to reach wine
         await page.goBack();
-        await waitForGraph(page);
+        await waitForGraphWord(page, "fire");
         await page.goBack();
-        await waitForGraph(page);
+        await waitForGraphWord(page, "wine");
 
         const params = await getSearchParams(page);
         expect(params.word).toBe("wine");
@@ -73,23 +77,35 @@ test.describe("History Navigation", () => {
     });
 
     test("filter changes use replaceState (back skips them)", async ({ page }) => {
-        await page.goto("/?word=fire");
+        // Start at the default and push one real history entry (fire) — a
+        // direct goto has no prior entry, so back would leave the app.
+        await page.goto("/");
         await waitForGraph(page);
+        await page.fill("#search-input", "fire");
+        await page.press("#search-input", "Enter");
+        await waitForGraphWord(page, "fire");
 
-        // Change a filter (uncheck borrowed)
+        // Change a filter (uncheck borrowed) — must replaceState, no new entry
         await page.click("#filters-btn");
         const borCheckbox = page.locator("#ety-filters input[value='bor']");
         await borCheckbox.uncheck();
-        await waitForGraph(page);
+        await page.waitForFunction(
+            () => {
+                const t = new URLSearchParams(window.location.search).get("types");
+                return t !== null && !t.split(",").includes("bor");
+            },
+            undefined,
+            { timeout: 10000 }
+        );
 
         // URL should have types param (replaceState)
         let params = await getSearchParams(page);
         expect(params.types).toBeDefined();
         expect(params.types).not.toContain("bor");
 
-        // Go back — should go to / (wine), not to fire with different types
+        // Go back — should skip the filter change and land on wine
         await page.goBack();
-        await waitForGraph(page);
+        await waitForGraphWord(page, "wine");
         params = await getSearchParams(page);
         expect(params.word).toBe("wine");
         expect(params.lang).toBe("English");
@@ -187,8 +203,8 @@ test.describe("DOM Consistency", () => {
         const display = page.locator("#similarity-value");
         await expect(display).toHaveText("0.75");
 
-        // Verify concept input is restored
-        const input = page.locator("#concept-search-input");
-        await expect(input).toHaveValue("water");
+        // Verify the concept chip is restored (multi-concept UI keeps the input empty)
+        const chip = page.locator("#concept-chips .concept-chip");
+        await expect(chip).toContainText("water");
     });
 });

@@ -49,6 +49,7 @@ function initConceptMap() {
     if (conceptNetwork) {
         conceptNetwork.destroy();
         conceptNetwork = null;
+        window.conceptNetwork = null;
     }
 }
 
@@ -210,6 +211,9 @@ function updateConceptMap(data, opts) {
         { nodes: conceptNodesDS, edges: conceptEdgesDS },
         options
     );
+
+    // Expose network instance for E2E tests (top-level `let` is not a window property)
+    window.conceptNetwork = conceptNetwork;
 
     // Server mode: tween streamed frames; keep physics off (a threshold change
     // re-solves on the backend rather than running the client barnesHut engine).
@@ -622,6 +626,7 @@ function destroyConceptMap() {
     if (conceptNetwork) {
         conceptNetwork.destroy();
         conceptNetwork = null;
+        window.conceptNetwork = null;
     }
     conceptNodesDS = null;
     conceptEdgesDS = null;
