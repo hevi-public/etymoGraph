@@ -70,8 +70,6 @@ LANGUAGE_DOCS: list[dict[str, str]] = [
 
 def _fixture_params() -> list:
     """Discover fixture JSONs as pytest params keyed by word."""
-    if not FIXTURES_DIR.exists():
-        return []
     return [
         pytest.param(json.loads(path.read_text(encoding="utf-8")), id=path.stem)
         for path in sorted(FIXTURES_DIR.glob("*.json"))
@@ -79,6 +77,11 @@ def _fixture_params() -> list:
 
 
 FIXTURE_PARAMS = _fixture_params()
+
+# Parametrizing over an empty list would report the suite as "skipped" — the
+# exact skip-as-pass failure mode this net exists to eliminate. Fail collection
+# loudly instead if the fixtures ever go missing.
+assert FIXTURE_PARAMS, f"no SPC-00013 fixtures found in {FIXTURES_DIR}"
 
 
 @pytest.fixture
