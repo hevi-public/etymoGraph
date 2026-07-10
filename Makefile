@@ -1,4 +1,4 @@
-.PHONY: setup run stop clean download load logs build update setup-dev lint test format precompute-phonetic precompute-edges test-frontend test-e2e test-integration test-all collect-fixtures
+.PHONY: setup run stop clean download load logs build update setup-dev lint test acceptance format precompute-phonetic precompute-edges test-frontend test-e2e test-integration test-all collect-fixtures
 
 setup: build download load
 	@echo "Setup complete! Run 'make run' to start."
@@ -50,9 +50,13 @@ lint:  ## Run linters on Python and JavaScript code
 	@echo "Running ESLint on JavaScript code..."
 	npx eslint frontend/public/js/**/*.js
 
-test:  ## Run Python tests
+test:  ## Run Python tests (hermetic: unit + acceptance, no live stack)
 	@echo "Running pytest..."
 	cd backend && pytest
+
+acceptance:  ## Run the hermetic acceptance tier only (SPC-00020, no live stack)
+	@echo "Running acceptance tier (in-process app via httpx ASGITransport)..."
+	cd backend && pytest -m acceptance $(FLAGS)
 
 format:  ## Format Python code with Ruff
 	@echo "Formatting Python code with Ruff..."

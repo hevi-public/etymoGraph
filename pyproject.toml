@@ -55,6 +55,8 @@ testpaths = ["backend/tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+# --strict-markers turns a typo'd/unregistered marker into a collection error.
+addopts = "--strict-markers"
 markers = [
     "tier0: pure logic, no IO",
     "tier1: real ephemeral Mongo",
