@@ -316,7 +316,11 @@ async function measureConceptRun(page, word) {
  * (`window.__lastLayoutFinal` set) + the fixed terminal tween; the window
  * starts at network creation, same anchor as the client metric. On timeout,
  * reports whether the flag resolved to server and whether a `final` ever
- * arrived (a `layoutMode: "client"` here means the fallback engaged).
+ * arrived. Interpretation: `finalSeen=false` with `layoutMode=server` means
+ * the stream never delivered a final — a slow solve OR the client fallback
+ * having engaged (the flag never changes on fallback; its only writer is
+ * getLayoutMode()). A `layoutMode: "client"` value could only be a stale
+ * localStorage pin, never fallback detection.
  */
 async function measureServerEtymologyRun(page, word, layout) {
     await page.goto("about:blank");

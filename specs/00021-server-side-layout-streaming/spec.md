@@ -233,11 +233,11 @@ backend's `X-Accel-Buffering: no`, so normal endpoints keep proxy buffering. Ver
 
 ## 8. R5 — Frontend integration
 
-- **Flag** `layoutMode=server|client`: precedence URL param (registered in `router.js`) >
-  `localStorage.layoutMode` > default (`client` until the final flip; `server` since Phase 5 —
-  as built, the param is deliberately NOT view-scoped in `router.js`, see §10 note in
-  `docs/FEATURES.md`: it persists to localStorage on load instead). `window.__layoutMode`
-  exposed for E2E.
+- **Flag** `layoutMode=server|client`: precedence URL param > `localStorage.layoutMode` >
+  default (`client` until the final flip; `server` since Phase 5). As built, the param is read
+  by `layout-stream.js` and deliberately NOT view-scoped in `router.js` (that would reset it on
+  view switch) — an explicit URL value persists to localStorage on load instead; see the
+  layoutMode note in `docs/FEATURES.md` §16. `window.__layoutMode` exposed for E2E.
 - **New `frontend/public/js/layout-stream.js`** (plain script tag):
   - `openLayoutStream(url, {onGraph, onFrame, onFinal, onError, graphTimeoutMs: 10000})` —
     EventSource wrapper; module-level singleton closed before any new request, on view switch, and
