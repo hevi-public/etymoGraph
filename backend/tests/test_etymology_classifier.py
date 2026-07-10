@@ -135,6 +135,25 @@ def test_extract_word_mentions_excludes_ancestry():
     assert mentions[0].word == "testum"
 
 
+def test_extract_word_mentions_excludes_derived_alias_ancestry():
+    """Regression: `derived` (Wiktionary's spelled-out alias for `der`) must
+    be excluded from mentions like any other ancestry template, not just its
+    short form.
+    """
+    doc = {
+        "etymology_templates": [
+            {"name": "derived", "args": {"1": "en", "2": "la", "3": "alchimista"}},
+            {"name": "m", "args": {"1": "grc", "2": "khumeia"}},
+        ],
+    }
+
+    mentions = extract_word_mentions(doc)
+
+    words = {m.word for m in mentions}
+    assert "alchimista" not in words
+    assert "khumeia" in words
+
+
 def test_extract_word_mentions_from_affix_template():
     """Test extraction of components from affix templates."""
     doc = {
