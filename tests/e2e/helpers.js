@@ -24,8 +24,12 @@ export async function waitForConceptMap(page, timeout = 15000) {
 
 /** Wait until a server-mode layout stream has applied its terminal `final` frame. */
 export async function waitForFinalFrame(page, timeout = 15000) {
+    // waitForFunction's signature is (fn, arg, options) — the arg slot must be
+    // filled or the options object is consumed as the page-function argument
+    // and the timeout is silently ignored.
     await page.waitForFunction(
         () => window.__lastLayoutFinal !== undefined && window.__lastLayoutFinal !== null,
+        undefined,
         { timeout }
     );
 }

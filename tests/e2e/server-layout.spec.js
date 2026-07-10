@@ -20,7 +20,9 @@ test.describe("Server-side layout streaming (SPC-00021)", () => {
             expect(mode).toBe("server");
 
             const physicsEnabled = await page.evaluate(
-                () => window.__etymoNetwork.options.physics.enabled
+                // vis-network keeps module options on network.physics.options;
+                // network.options holds only locale/clickToUse.
+                () => window.__etymoNetwork.physics.options.enabled
             );
             expect(physicsEnabled).toBe(false);
         });
@@ -51,7 +53,7 @@ test.describe("Server-side layout streaming (SPC-00021)", () => {
             // Fallback renders via the client engine (physics not force-disabled)
             // and never applies a streamed final frame.
             const [physicsEnabled, finalApplied] = await page.evaluate(() => [
-                window.__etymoNetwork.options.physics.enabled,
+                window.__etymoNetwork.physics.options.enabled,
                 window.__lastLayoutFinal,
             ]);
             expect(physicsEnabled).not.toBe(false);
@@ -66,7 +68,7 @@ test.describe("Server-side layout streaming (SPC-00021)", () => {
             await waitForFinalFrame(page, 6000);
 
             const [physicsEnabled, edgeCount] = await page.evaluate(() => [
-                window.conceptNetwork.options.physics.enabled,
+                window.conceptNetwork.physics.options.enabled,
                 window.conceptNetwork.body.data.edges.length,
             ]);
             expect(physicsEnabled).toBe(false);
@@ -86,7 +88,7 @@ test.describe("Server-side layout streaming (SPC-00021)", () => {
             await waitForFinalFrame(page, 6000);
 
             const physicsEnabled = await page.evaluate(
-                () => window.conceptNetwork.options.physics.enabled
+                () => window.conceptNetwork.physics.options.enabled
             );
             expect(physicsEnabled).toBe(false);
         });

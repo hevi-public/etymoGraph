@@ -116,8 +116,13 @@ async function loadEtymologyClientFallback(word, lang, types, etym) {
 
 function switchView(view, skipRoute = false) {
     if (view === activeView) return;
-    // Cancel any in-flight layout stream from the view we're leaving.
+    // Cancel any in-flight layout stream from the view we're leaving, and any
+    // pending debounced concept re-solve — if that timer fired after the
+    // switch it would reopen a concept stream and silently close the new
+    // view's in-flight stream (the singleton close raises no error event, so
+    // no fallback would run).
     if (typeof closeLayoutStream === "function") closeLayoutStream();
+    clearTimeout(similarityResolveTimer);
     activeView = view;
 
     const etymControls = document.getElementById("etymology-controls");
