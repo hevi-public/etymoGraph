@@ -1,17 +1,18 @@
 """Numeric force solver, ported from vis-network's forceAtlas2Based physics.
 
-Formulas pinned from github.com/visjs/vis-network (master branch, fetched
-2026-07-05) — no version is pinned in index.html yet (that lands with the
-frontend integration phase), so this is the best available source-of-truth
-snapshot; revisit if/when the frontend pins an exact release.
+Formulas pinned from github.com/visjs/vis-network at tag v9.1.9 — the exact
+release the frontend integration pins in index.html
+(vis-network@9.1.9/standalone/umd/vis-network.min.js).
 
-Sources read directly (not just docs):
+Sources read directly (not just docs), all at the v9.1.9 tag:
   - lib/network/modules/components/physics/FA2BasedRepulsionSolver.js
   - lib/network/modules/components/physics/BarnesHutSolver.js (parent class:
     overlapAvoidanceFactor, avoidOverlap clamping)
   - lib/network/modules/components/physics/CentralGravitySolver.js
+  - lib/network/modules/components/physics/FA2BasedCentralGravitySolver.js
   - lib/network/modules/components/physics/SpringSolver.js
-  - lib/network/modules/PhysicsEngine.js (_performStep, calculateComponentVelocity)
+  - lib/network/modules/PhysicsEngine.js (init solver selection, _performStep,
+    calculateComponentVelocity)
 
 Repulsion (ForceAtlas2BasedRepulsionSolver._calculateForces):
     degree_i = edge_count_i + 1                          # only the "self" node's
@@ -44,16 +45,34 @@ temporaries), not vis's Barnes-Hut spatial tree approximation — a deliberate
 simplification the spec sanctions for the <1500-node regime this ships for;
 `repulsion_fn` below is an explicit seam for a future Barnes-Hut/grid solver.
 
-Central gravity (CentralGravitySolver._calculateForces):
+Central gravity — vis has TWO gravity solvers, selected by *solver type* in
+PhysicsEngine.init(): solver "forceAtlas2Based" gets
+ForceAtlas2BasedCentralGravitySolver; every other type (barnesHut — the
+default — repulsion, hierarchicalRepulsion) gets the base
+CentralGravitySolver. So the etymology layouts (graph.js configures
+forceAtlas2Based for both force-directed and era-layered) need the FA2
+variant, while the concept map (concept-map.js configures barnesHut) needs
+the base one. SolverParams.central_gravity_variant picks between them.
+
+  Base variant (CentralGravitySolver._calculateForces):
     dx, dy = -pos_i                                      # vector from node to origin
     distance = |dx, dy|  (== |pos_i| by construction)
     gravityForce = 0 if distance == 0 else centralGravity / distance
     force_i += (dx, dy) * gravityForce
-  Note: since |(dx,dy)| == distance, this force has *constant magnitude*
-  centralGravity, always pointing toward the origin — "distance-independent"
-  is the literal, verified behavior of vis's ONE shared CentralGravitySolver
-  class, used for every solver type (not a barnesHut-specific variant as an
-  earlier draft of this port's design assumed before the source was read).
+  Since |(dx,dy)| == distance, this force has *constant magnitude*
+  centralGravity, always pointing toward the origin — distance-INDEPENDENT.
+
+  FA2 variant (ForceAtlas2BasedCentralGravitySolver._calculateForces,
+  overriding the base class's method):
+    if distance > 0:
+        degree = edge_count_i + 1                        # same degree as repulsion
+        gravityForce = centralGravity * degree * mass_i
+        force_i += (dx, dy) * gravityForce               # dx, dy NOT normalized
+  Magnitude is centralGravity * degree * mass * distance — it grows LINEARLY
+  with distance from the origin. (When distance == 0 vis skips the force
+  assignment entirely, leaving the previous tick's value in place — a quirk
+  this port doesn't reproduce: dx = dy = 0 there, so the contribution is
+  zero either way in this fresh-sum-per-iteration model.)
 
 Springs (SpringSolver._calculateSpringForce — this app never uses the
 "via" support-node branch for smooth curves, since backend edges always
@@ -82,6 +101,7 @@ from __future__ import annotations
 import hashlib
 from collections.abc import Iterator
 from dataclasses import dataclass
+from typing import Literal
 
 import numpy as np
 
@@ -92,7 +112,12 @@ REPULSION_BLOCK_SIZE = 512
 class SolverParams:
     """Per-layout physics constants — mirrors graph.js's LAYOUTS registry /
     concept-map.js's physics options (gravitationalConstant, centralGravity,
-    springConstant, damping, avoidOverlap, minVelocity, maxVelocity)."""
+    springConstant, damping, avoidOverlap, minVelocity, maxVelocity).
+
+    central_gravity_variant selects between vis's two gravity solvers (see
+    module docstring): "fa2" (ForceAtlas2BasedCentralGravitySolver — solver
+    type forceAtlas2Based, the etymology layouts) or "base"
+    (CentralGravitySolver — every other solver type, the concept map)."""
 
     gravitational_constant: float
     central_gravity: float
@@ -103,6 +128,13 @@ class SolverParams:
     max_velocity: float
     dt: float = 0.5
     max_iterations: int = 300
+    central_gravity_variant: Literal["fa2", "base"] = "fa2"
+
+    def __post_init__(self) -> None:
+        # A typo'd variant would otherwise silently pick one law or the other.
+        if self.central_gravity_variant not in ("fa2", "base"):
+            msg = f"Unknown central_gravity_variant {self.central_gravity_variant!r}"
+            raise ValueError(msg)
 
 
 @dataclass
@@ -254,15 +286,26 @@ def _apply_coincident_jitter(
         forces[j] -= jit * gravity_force_j
 
 
-def _central_gravity_forces(pos: np.ndarray, central_gravity: float) -> np.ndarray:
-    """Constant-magnitude force toward the origin (see module docstring)."""
+def _central_gravity_forces(
+    pos: np.ndarray,
+    central_gravity: float,
+    variant: str,
+    mass: np.ndarray,
+    degree: np.ndarray,
+) -> np.ndarray:
+    """Pull toward the origin, one of vis's two laws (see module docstring):
+    "base" is constant-magnitude, "fa2" grows linearly with distance and
+    scales with degree * mass."""
     n = pos.shape[0]
     if central_gravity == 0:
         return np.zeros((n, 2), dtype=np.float64)
     dxy = -pos
-    distance = np.sqrt((dxy**2).sum(axis=-1))
-    with np.errstate(invalid="ignore", divide="ignore"):
-        gravity_force = np.where(distance == 0, 0.0, central_gravity / distance)
+    if variant == "fa2":
+        gravity_force = central_gravity * degree * mass
+    else:
+        distance = np.sqrt((dxy**2).sum(axis=-1))
+        with np.errstate(invalid="ignore", divide="ignore"):
+            gravity_force = np.where(distance == 0, 0.0, central_gravity / distance)
     return dxy * gravity_force[:, np.newaxis]
 
 
@@ -343,7 +386,9 @@ def run(
         forces = repulsion_fn(
             cur_pos, mass, degree, radius, params.gravitational_constant, params.avoid_overlap, rng
         )
-        forces += _central_gravity_forces(cur_pos, params.central_gravity)
+        forces += _central_gravity_forces(
+            cur_pos, params.central_gravity, params.central_gravity_variant, mass, degree
+        )
         forces += _spring_forces(cur_pos, edges_i, edges_j, edge_k, edge_length)
 
         damping_force = params.damping * vel

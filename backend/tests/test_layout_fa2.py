@@ -229,9 +229,10 @@ def test_spring_pulls_stretched_edge_toward_rest_length():
 
 
 @pytest.mark.tier0
-def test_central_gravity_pulls_free_node_toward_origin():
+@pytest.mark.parametrize("variant", ["fa2", "base"])
+def test_central_gravity_pulls_free_node_toward_origin(variant):
     """A single free node, no edges, no repulsion partner, positive central
-    gravity — it moves toward the origin."""
+    gravity — it moves toward the origin under either gravity law."""
     pos = np.array([[100.0, 0.0]])
     mass = np.array([1.0])
     degree = np.array([1.0])
@@ -248,6 +249,7 @@ def test_central_gravity_pulls_free_node_toward_origin():
         min_velocity=0.001,
         max_velocity=50,
         max_iterations=20,
+        central_gravity_variant=variant,
     )
     rng = seed_rng(["a"], "1")
     steps = _run_to_end(
@@ -266,6 +268,91 @@ def test_central_gravity_pulls_free_node_toward_origin():
     )
     assert steps[-1].pos[0, 0] < 100.0
     assert steps[-1].pos[0, 0] >= 0.0  # heavy damping shouldn't overshoot past the origin
+
+
+def _first_step_pull(x0, variant, *, mass=1.0, degree=1.0):
+    """First-iteration displacement toward the origin of a single free node
+    starting at (x0, 0) with only central gravity acting (no repulsion
+    partner, no springs, zero initial velocity — so damping contributes
+    nothing on this step and the displacement isolates the gravity law)."""
+    pos = np.array([[x0, 0.0]])
+    edges_i, edges_j, edge_k, edge_length = _no_edges()
+    params = SolverParams(
+        gravitational_constant=0.0,
+        central_gravity=0.025,
+        spring_constant=0.06,
+        damping=0.5,
+        avoid_overlap=0.0,
+        min_velocity=0.001,
+        max_velocity=50,
+        max_iterations=1,
+        central_gravity_variant=variant,
+    )
+    steps = _run_to_end(
+        pos,
+        np.array([mass]),
+        np.array([degree]),
+        np.zeros(1),
+        np.array([False]),
+        np.array([False]),
+        edges_i,
+        edges_j,
+        edge_k,
+        edge_length,
+        params,
+        seed_rng(["a"], "1"),
+    )
+    return x0 - steps[-1].pos[0, 0]
+
+
+@pytest.mark.tier0
+def test_fa2_central_gravity_grows_linearly_with_distance():
+    """The forceAtlas2Based gravity law (used by both etymology layouts):
+    pull magnitude is proportional to distance from the origin, so a node
+    twice as far moves twice as far on the first step."""
+    near = _first_step_pull(100.0, "fa2")
+    far = _first_step_pull(200.0, "fa2")
+    assert near > 0
+    assert far == pytest.approx(2 * near)
+
+
+@pytest.mark.tier0
+def test_base_central_gravity_is_distance_independent():
+    """The base gravity law (used by the barnesHut concept map): constant
+    pull magnitude, so first-step displacement is the same at any distance."""
+    near = _first_step_pull(100.0, "base")
+    far = _first_step_pull(200.0, "base")
+    assert near > 0
+    assert far == pytest.approx(near)
+
+
+@pytest.mark.tier0
+def test_fa2_central_gravity_scales_with_degree_and_mass():
+    """The FA2 law's force is centralGravity * degree * mass * distance:
+    tripling degree triples the first-step pull, while mass cancels out of
+    the resulting acceleration (F ∝ m, a = F/m) — so a heavier node moves
+    exactly as far. Both discriminate the FA2 law from the base one, which
+    ignores degree and slows heavier nodes."""
+    base_pull = _first_step_pull(100.0, "fa2")
+    assert _first_step_pull(100.0, "fa2", degree=3.0) == pytest.approx(3 * base_pull)
+    assert _first_step_pull(100.0, "fa2", mass=4.0) == pytest.approx(base_pull)
+
+
+@pytest.mark.tier0
+def test_unknown_central_gravity_variant_is_rejected():
+    """A typo'd variant must fail loudly at construction, not silently pick
+    one gravity law."""
+    with pytest.raises(ValueError, match="central_gravity_variant"):
+        SolverParams(
+            gravitational_constant=0.0,
+            central_gravity=0.025,
+            spring_constant=0.06,
+            damping=0.5,
+            avoid_overlap=0.0,
+            min_velocity=0.001,
+            max_velocity=50,
+            central_gravity_variant="barnesHut",
+        )
 
 
 @pytest.mark.tier0

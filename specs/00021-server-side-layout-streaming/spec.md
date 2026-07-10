@@ -158,7 +158,10 @@ the exact formulas from the pinned vis-network version's solver sources
 - Repulsion: FA2 linear-falloff `F = G·m_i·m_j / d`, exact O(n²) vectorized with row-chunking
   (block ≈ 512) to bound temporaries. `repulsion_fn` is an explicit seam — a Barnes-Hut/grid
   implementation for the 1500+ regime is a follow-up spec.
-- Central gravity: FA2 distance-independent variant for etymology; barnesHut variant for concept.
+- Central gravity: FA2 variant (`cg·degree·mass` on un-normalized `(dx,dy)` — distance-
+  *proportional*) for etymology; base/barnesHut variant (constant magnitude `cg`) for concept.
+  (Corrected during implementation against the pinned v9.1.9 source: an earlier draft of this
+  line labeled the FA2 variant "distance-independent" — that describes the base variant.)
 - Springs: per-edge `F = k_e·(L_e − d)`, both endpoints; era-layered adds the invisible
   intra-family springs.
 - avoidOverlap: vis's radius-adjusted distance with estimated node radius
