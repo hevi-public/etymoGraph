@@ -1,0 +1,171 @@
+{
+  "spec": "SPC-00021",
+  "captured_at": "2026-07-10",
+  "request": "/api/etymology/cheese/tree/layout?lang=English&types=inh%2Cbor%2Cder&layout=era-layered",
+  "algo_version": "3",
+  "meta": {
+    "layout": "era-layered",
+    "algo_version": "3",
+    "node_count": 39,
+    "edge_count": 38,
+    "converged": false
+  },
+  "positions": {
+    "cheese:English": [
+      -2423.1,
+      -100.0
+    ],
+    "chese:Middle English": [
+      -1560.7,
+      200.0
+    ],
+    "ċīese:Old English": [
+      -1864.0,
+      350.0
+    ],
+    "*kāsī:Proto-West Germanic": [
+      -1325.4,
+      650.0
+    ],
+    "cāseus:Latin": [
+      -345.6,
+      500.0
+    ],
+    "chiz:Abenaki": [
+      -2257.3,
+      -100.0
+    ],
+    "chizi:Shona": [
+      -1640.1,
+      -100.0
+    ],
+    "cihs:Mohegan-Pequot": [
+      -2085.5,
+      -100.0
+    ],
+    "itshizi:Xhosa": [
+      -1478.6,
+      -100.0
+    ],
+    "jiss:Somali": [
+      -1919.4,
+      -100.0
+    ],
+    "sis:Tok Pisin": [
+      -1917.1,
+      -100.0
+    ],
+    "sisi:Samoan": [
+      -1382.3,
+      -100.0
+    ],
+    "hihi:Tokelauan": [
+      -1806.3,
+      -100.0
+    ],
+    "tsís:Mohawk": [
+      -1727.0,
+      -100.0
+    ],
+    "ushizi:Zulu": [
+      -1379.3,
+      -100.0
+    ],
+    "čidᶻ:Lushootseed": [
+      -1819.8,
+      -100.0
+    ],
+    "吉士:Chinese": [
+      -1294.2,
+      -100.0
+    ],
+    "芝士:Chinese": [
+      -1214.9,
+      -100.0
+    ],
+    "起司:Chinese": [
+      -1133.1,
+      -100.0
+    ],
+    "起士:Chinese": [
+      -973.3,
+      -100.0
+    ],
+    "치즈:Korean": [
+      -897.0,
+      -100.0
+    ],
+    "cheis:Middle Scots": [
+      -1162.1,
+      200.0
+    ],
+    "Chisholm:English": [
+      -2344.8,
+      -100.0
+    ],
+    "Chiswick:English": [
+      -2176.5,
+      -100.0
+    ],
+    "ciese:Old English": [
+      -940.3,
+      350.0
+    ],
+    "kæsa:Icelandic": [
+      -2006.7,
+      -100.0
+    ],
+    "cacio:Italian": [
+      -1563.6,
+      -100.0
+    ],
+    "caciu:Sicilian": [
+      -343.8,
+      -100.0
+    ],
+    "caseo:Interlingua": [
+      -1466.2,
+      -100.0
+    ],
+    "cash:Aromanian": [
+      -193.5,
+      -100.0
+    ],
+    "قاشر:Ottoman Turkish": [
+      387.1,
+      -100.0
+    ],
+    "kaşar:Turkish": [
+      530.8,
+      -100.0
+    ],
+    "caso:Neapolitan": [
+      -97.2,
+      -100.0
+    ],
+    "casu:Sardinian": [
+      -0.8,
+      -100.0
+    ],
+    "casu:Sicilian": [
+      95.1,
+      -100.0
+    ],
+    "caș:Romanian": [
+      288.4,
+      -100.0
+    ],
+    "chis:Dalmatian": [
+      190.5,
+      -100.0
+    ],
+    "kazeina:Polish": [
+      625.9,
+      -100.0
+    ],
+    "keso:Tagalog": [
+      -1046.3,
+      -100.0
+    ]
+  }
+}

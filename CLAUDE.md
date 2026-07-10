@@ -166,7 +166,20 @@ claude mcp get mongodb  # Shows details for specific server
 
 **Phase**: Core product complete (vis.js etymology graph + phonetic concept map); SPC-00021
 (server-side layout + SSE) fully implemented — all phases done, spec status `implemented`
-**Last completed**: SPC-00021 Phase 5 — `layoutMode` default flipped to `server` (client stays the
+**Last completed**: SPC-00021 spec §9 test-gap closure (post-merge follow-up) — Tier-0 SSE
+frame-cadence tests (`backend/tests/test_layout_cadence.py`: `_run_solver` driven with a stub job
++ list-appending offer; stride/80 ms bounds, `final`/`error`→`done` termination incl. cancel and
+engine-rejected layout — the last one red-first: the stride computation used to sit *outside*
+`_run_solver`'s try, so an unknown layout skipped `done` and would have heartbeat the SSE loop
+forever; now inside) and the `tests/fixtures/layout/final/` characterization snapshots (4 scenarios
+captured live under algo_version 3 via new `scripts/capture_layout_snapshots.py` /
+`make capture-layout-snapshots`; live suite replays each request — node-id sets exact, positions
+atol=0.5 px, algo_version exact, plus a loud guard against an empty snapshot dir). Also fixed the
+live suite's stale `EXPECTED_ALGO_VERSION` pin ("1" — pre-dated both algo bumps; the opt-in suite
+had quietly rotted). Found while verifying: 29 SPC-00013 `test_api_characterization` tests fail on
+topology drift vs the 2026-07-10 reloaded dump — fixtures need a live regen (flagged as a separate
+task, not this branch).
+Before that: SPC-00021 Phase 5 — `layoutMode` default flipped to `server` (client stays the
 explicit/fallback path), §10 server cold/warm table measured live (`make bench-layout-server`:
 cheese era 0.42 s cold / 0.29 s warm vs client-physics *never stabilizing*; every graph at target
 scale within targets; live cupboard grew to 1,028 nodes and its 6.98 s cold solve belongs to the
@@ -182,10 +195,10 @@ from vis-network v9.1.9 source), `LAYOUT_ALGO_VERSION` → `"3"`, red-first regr
 `docs/screenshots/spc00021-p5-*.png`, `curl -N` incremental frames through nginx, full E2E green
 (22 pass; a latent popover bug in `server-layout.spec.js`'s slider test fixed — first live run of
 the suite since the merge), backend 168 pass, Vitest 68 pass.
-**Next task**: SPC-00021 post-merge follow-ups (spec §9 gaps: SSE cadence-policy test,
-`tests/fixtures/layout/final/` characterization snapshots; hardware-flaky 1.5 s cupboard budget in
-`test_layout_perf.py`; concept re-solve rebuilds the vis.Network instead of in-place edge swap;
-sticky `?layoutMode=` localStorage rewrite; `chemistry.json` live regen; `find_descendants`
+**Next task**: SPC-00021 post-merge follow-ups (SPC-00013 fixture regen vs the reloaded dump — 29
+live characterization tests failing, incl. the `chemistry.json` regen; hardware-flaky cupboard
+budget in `test_layout_perf.py` (2x headroom band-aid); concept re-solve rebuilds the vis.Network
+instead of in-place edge swap; sticky `?layoutMode=` localStorage rewrite; `find_descendants`
 derived-alias FakeWordsCollection test) — or start a roadmap spec (SPC-00014–00020).
 
 **Recent**:

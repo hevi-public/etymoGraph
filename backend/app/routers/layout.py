@@ -408,10 +408,12 @@ def _make_offer(loop: asyncio.AbstractEventLoop, queue: asyncio.Queue):
 def _run_solver(job: _SolveJob, cancel: threading.Event, offer) -> None:
     """Iterate the solve in a worker thread, offering throttled ``frame`` events
     then the ``final`` (or an ``error``), always terminated by ``done``."""
-    stride = max(1, math.ceil(engine.iteration_budget(job.layout) / _FRAME_TARGET))
-    last_emit_ms = -math.inf
     final_state: engine.FrameState | None = None
     try:
+        # Inside the try: iteration_budget raises on an unknown layout, and if
+        # that escaped `offer("done")` the SSE read loop would heartbeat forever.
+        stride = max(1, math.ceil(engine.iteration_budget(job.layout) / _FRAME_TARGET))
+        last_emit_ms = -math.inf
         for state in engine.solve(**job.solve_kwargs, cancel=cancel):
             if state.solve_ms is not None:
                 final_state = state

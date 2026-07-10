@@ -1,0 +1,3923 @@
+{
+  "spec": "SPC-00021",
+  "captured_at": "2026-07-10",
+  "request": "/api/concept-map/layout?concepts=fire%2Cwater",
+  "algo_version": "3",
+  "meta": {
+    "layout": "concept",
+    "algo_version": "3",
+    "node_count": 977,
+    "edge_count": 115810,
+    "converged": false
+  },
+  "positions": {
+    "'a'aaw:Tipai": [
+      224.4,
+      508.7
+    ],
+    "'akere:Tabaru": [
+      -243.3,
+      -340.3
+    ],
+    "'samaqan:Malecite-Passamaquoddy": [
+      -933.1,
+      -151.9
+    ],
+    "'y:Old Tupi": [
+      -655.9,
+      363.2
+    ],
+    "Brand:German": [
+      843.9,
+      411.3
+    ],
+    "Feier:East Central German": [
+      440.4,
+      762.0
+    ],
+    "Feier:Hunsrik": [
+      403.3,
+      934.2
+    ],
+    "Feier:Luxembourgish": [
+      295.9,
+      966.9
+    ],
+    "Feuer:German": [
+      331.1,
+      96.3
+    ],
+    "Füer:Low German": [
+      243.6,
+      36.0
+    ],
+    "Gewässer:German": [
+      -136.4,
+      53.2
+    ],
+    "Heizlüfter:German": [
+      626.7,
+      -127.0
+    ],
+    "Heizstrahler:German": [
+      1064.5,
+      -258.8
+    ],
+    "Ofen:German": [
+      -253.7,
+      543.8
+    ],
+    "Waasser:Luxembourgish": [
+      -188.2,
+      -550.9
+    ],
+    "Wasser:Central Franconian": [
+      -576.3,
+      116.2
+    ],
+    "Wasser:German": [
+      -185.2,
+      -550.6
+    ],
+    "Wasser:Hunsrik": [
+      -355.2,
+      73.3
+    ],
+    "Water:Low German": [
+      -292.1,
+      -699.0
+    ],
+    "Weeter:North Frisian": [
+      -696.5,
+      -456.3
+    ],
+    "Woater:Saterland Frisian": [
+      -291.9,
+      -698.8
+    ],
+    "Woser:Hutterisch": [
+      -578.0,
+      119.1
+    ],
+    "ab:Äynu": [
+      378.2,
+      693.2
+    ],
+    "abba:Sardinian": [
+      -133.2,
+      1023.4
+    ],
+    "abpa':Lun Bawang": [
+      176.1,
+      687.3
+    ],
+    "acqua:Corsican": [
+      -388.4,
+      436.9
+    ],
+    "acqua:Italian": [
+      -351.8,
+      73.3
+    ],
+    "acqua:Lombard": [
+      -163.7,
+      267.4
+    ],
+    "acqua:Sicilian": [
+      -160.7,
+      163.2
+    ],
+    "acque:Italian": [
+      226.3,
+      503.6
+    ],
+    "acva:Romagnol": [
+      -160.6,
+      161.9
+    ],
+    "aebōj:Marshallese": [
+      79.9,
+      373.5
+    ],
+    "afo:Malagasy": [
+      600.9,
+      537.8
+    ],
+    "aghe:Friulian": [
+      -439.4,
+      345.2
+    ],
+    "agir:Northern Kurdish": [
+      442.3,
+      -158.1
+    ],
+    "agua:Asturian": [
+      -797.2,
+      247.4
+    ],
+    "agua:Chavacano": [
+      -798.2,
+      246.8
+    ],
+    "agua:Fala": [
+      -610.2,
+      157.4
+    ],
+    "agua:Old Galician-Portuguese": [
+      -387.7,
+      272.7
+    ],
+    "agua:Old Spanish": [
+      -267.6,
+      266.4
+    ],
+    "agua:Spanish": [
+      -706.2,
+      442.5
+    ],
+    "aguas:Spanish": [
+      310.9,
+      90.1
+    ],
+    "agwa:Hiligaynon": [
+      -439.8,
+      343.2
+    ],
+    "aha:Old Saxon": [
+      -383.7,
+      275.6
+    ],
+    "ahi:Hawaiian": [
+      487.5,
+      -1.5
+    ],
+    "ahi:Māori": [
+      396.4,
+      345.5
+    ],
+    "ahi:Rapa Nui": [
+      327.7,
+      537.8
+    ],
+    "ai:Iban": [
+      -378.8,
+      868.9
+    ],
+    "aia:Eastern Cham": [
+      -803.6,
+      247.5
+    ],
+    "aiga:Occitan": [
+      -678.1,
+      724.2
+    ],
+    "aigua:Catalan": [
+      -705.9,
+      444.2
+    ],
+    "aigües:Catalan": [
+      666.7,
+      271.5
+    ],
+    "aile:Manx": [
+      616.9,
+      -309.1
+    ],
+    "aing:Brunei Malay": [
+      -691.5,
+      -169.9
+    ],
+    "air:Indonesian": [
+      -469.4,
+      -192.7
+    ],
+    "air:Malay": [
+      -305.6,
+      -24.4
+    ],
+    "aiwe:Walloon": [
+      -1004.0,
+      -84.0
+    ],
+    "ake:Ternate": [
+      -254.7,
+      542.2
+    ],
+    "ake:Tidore": [
+      -334.5,
+      347.1
+    ],
+    "akel:Pagu": [
+      8.6,
+      -200.9
+    ],
+    "akere:Loloda": [
+      -169.4,
+      -251.1
+    ],
+    "aks:Tsimshian": [
+      18.4,
+      199.4
+    ],
+    "akvo:Esperanto": [
+      -385.5,
+      155.0
+    ],
+    "akwingwa:Anindilyakwa": [
+      390.0,
+      243.9
+    ],
+    "amaizi:Nyankole": [
+      552.5,
+      -192.4
+    ],
+    "amaizi:Tooro": [
+      565.8,
+      181.1
+    ],
+    "aman:Kabyle": [
+      -334.6,
+      69.0
+    ],
+    "aman:Tarifit": [
+      -239.1,
+      57.4
+    ],
+    "aman:Tashelhit": [
+      -126.6,
+      50.1
+    ],
+    "amanzi:Xhosa": [
+      412.5,
+      -77.0
+    ],
+    "amanzi:Zulu": [
+      375.9,
+      6.3
+    ],
+    "amazi:Rwanda-Rundi": [
+      597.6,
+      -35.8
+    ],
+    "ame:Laurentian": [
+      -707.0,
+      441.6
+    ],
+    "ame:Mpade": [
+      669.4,
+      174.8
+    ],
+    "api:Balinese": [
+      537.3,
+      614.3
+    ],
+    "api:Brunei Malay": [
+      532.1,
+      720.5
+    ],
+    "api:Indonesian": [
+      492.9,
+      839.0
+    ],
+    "api:Malay": [
+      432.9,
+      758.5
+    ],
+    "api:Tausug": [
+      487.9,
+      368.5
+    ],
+    "apoy:Ilocano": [
+      572.3,
+      328.7
+    ],
+    "apoy:Tagalog": [
+      570.7,
+      436.8
+    ],
+    "apuy:Maguindanao": [
+      564.6,
+      213.5
+    ],
+    "apă:Romanian": [
+      -339.5,
+      803.3
+    ],
+    "aqua:Emilian": [
+      -387.8,
+      153.5
+    ],
+    "aqua:Latin": [
+      -252.4,
+      546.3
+    ],
+    "aquo:Ido": [
+      -754.1,
+      352.9
+    ],
+    "ar:Northern Kurdish": [
+      622.8,
+      -411.9
+    ],
+    "ardore:Italian": [
+      514.2,
+      -288.4
+    ],
+    "as:Achumawi": [
+      341.1,
+      -150.0
+    ],
+    "ateş:Turkish": [
+      128.1,
+      162.0
+    ],
+    "atibii:Hadza": [
+      897.5,
+      54.2
+    ],
+    "atl:Central Huasteca Nahuatl": [
+      469.9,
+      -548.4
+    ],
+    "atl:Central Nahuatl": [
+      467.0,
+      -552.1
+    ],
+    "atl:Classical Nahuatl": [
+      548.2,
+      -194.9
+    ],
+    "atl:Eastern Huasteca Nahuatl": [
+      453.4,
+      -435.8
+    ],
+    "atl:Morelos Nahuatl": [
+      452.9,
+      -434.2
+    ],
+    "atl:Tlamacazapa Nahuatl": [
+      537.1,
+      -291.8
+    ],
+    "atl:Western Huasteca Nahuatl": [
+      527.1,
+      -376.0
+    ],
+    "auga:Galician": [
+      -872.9,
+      144.4
+    ],
+    "augua:Aragonese": [
+      -487.1,
+      258.7
+    ],
+    "av:Northern Kurdish": [
+      -321.2,
+      361.5
+    ],
+    "ayaq:Kedah Malay": [
+      -860.7,
+      777.5
+    ],
+    "aèr:Betawi": [
+      532.8,
+      -377.9
+    ],
+    "aʼ:Mam": [
+      296.1,
+      468.8
+    ],
+    "baañ:Woiwurrung": [
+      403.3,
+      248.4
+    ],
+    "bassar:Cimbrian": [
+      68.6,
+      -23.1
+    ],
+    "be:West Makian": [
+      452.6,
+      664.7
+    ],
+    "bi:Zaghawa": [
+      530.8,
+      612.3
+    ],
+    "biche:Rendille": [
+      -118.7,
+      690.6
+    ],
+    "bioa:Rejang": [
+      47.3,
+      835.2
+    ],
+    "bishaan:Oromo": [
+      -187.7,
+      440.2
+    ],
+    "biyo:Somali": [
+      71.9,
+      737.0
+    ],
+    "bo:Gunwinggu": [
+      531.0,
+      721.8
+    ],
+    "boßər:Gottscheerish": [
+      113.0,
+      150.9
+    ],
+    "brand:Danish": [
+      448.0,
+      90.5
+    ],
+    "brand:Dutch": [
+      762.8,
+      634.0
+    ],
+    "brand:Swedish": [
+      699.6,
+      556.4
+    ],
+    "bronwater:Dutch": [
+      -44.3,
+      500.0
+    ],
+    "brulego:Esperanto": [
+      781.5,
+      294.2
+    ],
+    "brulo:Esperanto": [
+      540.4,
+      91.8
+    ],
+    "bu:Amanab": [
+      571.9,
+      334.6
+    ],
+    "butsch:Pumpokol": [
+      25.0,
+      577.7
+    ],
+    "bàsser:Gottscheerish": [
+      39.2,
+      83.3
+    ],
+    "bál:Icelandic": [
+      34.7,
+      81.9
+    ],
+    "bål:Swedish": [
+      29.7,
+      79.7
+    ],
+    "bël:Mapos Buang": [
+      489.6,
+      0.6
+    ],
+    "bòsser:Mòcheno": [
+      38.0,
+      82.1
+    ],
+    "bùrn:Scottish Gaelic": [
+      392.9,
+      343.1
+    ],
+    "bē:Mwotlap": [
+      397.0,
+      837.8
+    ],
+    "bē:Vurës": [
+      445.0,
+      652.1
+    ],
+    "bặp:Tày": [
+      679.8,
+      1035.6
+    ],
+    "chuu:Beaver": [
+      133.3,
+      552.7
+    ],
+    "chúchut:Papantla Totonac": [
+      318.9,
+      86.1
+    ],
+    "com:Wari'": [
+      -20.2,
+      -90.6
+    ],
+    "cuhy:Canela": [
+      73.8,
+      387.9
+    ],
+    "cô:Canela": [
+      -55.6,
+      318.0
+    ],
+    "cúi:Muong": [
+      247.5,
+      281.2
+    ],
+    "daa:Vanimo": [
+      -108.1,
+      -77.8
+    ],
+    "danom:Kankanaey": [
+      -218.6,
+      -46.8
+    ],
+    "danum:Bulungan": [
+      -310.9,
+      -130.9
+    ],
+    "daq:Pacoh": [
+      -531.4,
+      8.7
+    ],
+    "da³⁵:Bugan": [
+      513.5,
+      -95.0
+    ],
+    "dej:White Hmong": [
+      -379.8,
+      -217.4
+    ],
+    "dekó:Desano": [
+      219.7,
+      117.9
+    ],
+    "di:Teribe": [
+      -213.9,
+      -163.5
+    ],
+    "dife:Haitian Creole": [
+      160.2,
+      431.3
+    ],
+    "dilo:Louisiana Creole": [
+      323.8,
+      85.7
+    ],
+    "dilo:Michif": [
+      -577.6,
+      -178.2
+    ],
+    "disparo:Spanish": [
+      489.9,
+      365.4
+    ],
+    "djilo:Karipúna Creole French": [
+      331.7,
+      90.3
+    ],
+    "dlo:Haitian Creole": [
+      241.1,
+      -655.8
+    ],
+    "dlo:Karipúna Creole French": [
+      -97.6,
+      -469.9
+    ],
+    "dlo:Louisiana Creole": [
+      -97.0,
+      -469.6
+    ],
+    "dobur:Old Irish": [
+      96.1,
+      -128.5
+    ],
+    "dolla:Northern Sami": [
+      242.4,
+      -656.0
+    ],
+    "dolo:Louisiana Creole": [
+      319.7,
+      -584.9
+    ],
+    "dour:Breton": [
+      163.8,
+      -375.5
+    ],
+    "dowr:Cornish": [
+      227.7,
+      -558.7
+    ],
+    "duna:Garifuna": [
+      -384.2,
+      -217.3
+    ],
+    "dwfr:Welsh": [
+      108.2,
+      146.5
+    ],
+    "dwfyr:Middle Welsh": [
+      -416.5,
+      -383.4
+    ],
+    "dān:Marshallese": [
+      -437.5,
+      338.6
+    ],
+    "dĕĕk:Arem": [
+      -357.8,
+      148.0
+    ],
+    "dŵr:Welsh": [
+      110.3,
+      -449.2
+    ],
+    "dʑɜ⁵³:Shixing": [
+      210.7,
+      127.5
+    ],
+    "dỡq:Eastern Bru": [
+      -431.8,
+      -13.8
+    ],
+    "eau:Bariai": [
+      -1218.6,
+      -647.8
+    ],
+    "eau:French": [
+      -1143.6,
+      426.9
+    ],
+    "eaux:French": [
+      2919.4,
+      2918.8
+    ],
+    "eehf chjoohxv:Akha": [
+      2640.5,
+      3116.8
+    ],
+    "eelquvq:Hani": [
+      139.1,
+      554.4
+    ],
+    "eld:Norwegian Nynorsk": [
+      55.9,
+      332.1
+    ],
+    "eld:Swedish": [
+      -219.1,
+      350.2
+    ],
+    "eldur:Icelandic": [
+      -21.3,
+      298.0
+    ],
+    "entusiasmo:Italian": [
+      621.0,
+      760.0
+    ],
+    "estufa:Spanish": [
+      -237.2,
+      50.7
+    ],
+    "ev:Vurës": [
+      329.0,
+      774.5
+    ],
+    "eva:Piedmontese": [
+      -1134.8,
+      66.1
+    ],
+    "fairo:Ido": [
+      396.3,
+      163.1
+    ],
+    "fai¹:Mulam": [
+      103.0,
+      945.9
+    ],
+    "fajro:Esperanto": [
+      296.5,
+      -49.3
+    ],
+    "falò:Italian": [
+      176.8,
+      328.1
+    ],
+    "faojer:Vilamovian": [
+      33.1,
+      82.8
+    ],
+    "faya:Sranan Tongo": [
+      194.6,
+      954.6
+    ],
+    "feiz:Zhuang": [
+      336.8,
+      752.6
+    ],
+    "feu:French": [
+      -36.7,
+      1025.5
+    ],
+    "feu:Walloon": [
+      137.6,
+      1038.1
+    ],
+    "fire:English": [
+      327.8,
+      538.2
+    ],
+    "fix:Bouyei": [
+      119.3,
+      255.0
+    ],
+    "fi¹:Mulam": [
+      368.1,
+      615.0
+    ],
+    "flamma:Latin": [
+      564.5,
+      185.6
+    ],
+    "foc:Catalan": [
+      -88.2,
+      933.6
+    ],
+    "foc:Romanian": [
+      -65.2,
+      840.9
+    ],
+    "focu:Corsican": [
+      -181.3,
+      884.2
+    ],
+    "focu:Sicilian": [
+      -180.5,
+      884.8
+    ],
+    "focus:Latin": [
+      97.6,
+      635.5
+    ],
+    "fogo:Galician": [
+      -32.6,
+      750.4
+    ],
+    "fogo:Portuguese": [
+      38.7,
+      831.4
+    ],
+    "fogo:Venetan": [
+      -67.8,
+      840.7
+    ],
+    "fogu:Fala": [
+      -38.3,
+      744.0
+    ],
+    "fogu:Sardinian": [
+      -67.6,
+      840.4
+    ],
+    "fogão:Portuguese": [
+      -63.2,
+      620.2
+    ],
+    "fornello:Italian": [
+      634.8,
+      628.2
+    ],
+    "fornuis:Dutch": [
+      515.0,
+      938.6
+    ],
+    "fuego:Aragonese": [
+      -361.8,
+      526.2
+    ],
+    "fuego:Spanish": [
+      -361.5,
+      526.0
+    ],
+    "fueu:Asturian": [
+      -152.6,
+      1009.5
+    ],
+    "fuir:Old Dutch": [
+      128.3,
+      163.3
+    ],
+    "fuoco:Italian": [
+      -436.2,
+      795.4
+    ],
+    "fuoco:Neapolitan": [
+      -179.0,
+      882.2
+    ],
+    "fuogo:Mirandese": [
+      -475.3,
+      705.3
+    ],
+    "fuòc:Occitan": [
+      -273.2,
+      721.1
+    ],
+    "fòc:Occitan": [
+      -117.5,
+      690.9
+    ],
+    "fûc:Friulian": [
+      -89.1,
+      935.2
+    ],
+    "fûg:Emilian": [
+      -241.5,
+      974.4
+    ],
+    "fầy:Tày": [
+      490.8,
+      454.3
+    ],
+    "gaisras:Lithuanian": [
+      745.9,
+      377.1
+    ],
+    "gali:Gamilaraay": [
+      163.7,
+      -59.3
+    ],
+    "gira:Afar": [
+      289.0,
+      187.2
+    ],
+    "glimt:Danish": [
+      594.6,
+      854.4
+    ],
+    "goj:Kaingang": [
+      164.9,
+      663.0
+    ],
+    "guņs:Latgalian": [
+      -162.4,
+      165.1
+    ],
+    "gô:Apinayé": [
+      -465.5,
+      527.8
+    ],
+    "haʼ:Epigraphic Mayan": [
+      -252.7,
+      807.9
+    ],
+    "hella:Finnish": [
+      211.7,
+      130.9
+    ],
+    "hi:Yilan Creole": [
+      -143.3,
+      551.3
+    ],
+    "hoe:Angor": [
+      -288.3,
+      712.8
+    ],
+    "horno:Spanish": [
+      -202.6,
+      633.0
+    ],
+    "hoření:Czech": [
+      271.2,
+      386.0
+    ],
+    "hoả hoạn:Vietnamese": [
+      1171.0,
+      1462.6
+    ],
+    "hoả lực:Vietnamese": [
+      1254.3,
+      1689.8
+    ],
+    "hoả:Vietnamese": [
+      -419.1,
+      618.3
+    ],
+    "hu:Abau": [
+      -341.8,
+      781.6
+    ],
+    "hàngòed'è:Goemai": [
+      -285.5,
+      1076.4
+    ],
+    "hààm:Goemai": [
+      -303.1,
+      -143.9
+    ],
+    "hààmd'è:Goemai": [
+      326.5,
+      299.9
+    ],
+    "héen:Tlingit": [
+      -474.0,
+      702.0
+    ],
+    "i:Lower Grand Valley Dani": [
+      397.6,
+      4157.2
+    ],
+    "i:White Lachi": [
+      701.9,
+      707.9
+    ],
+    "ia:Jarai": [
+      -1734.4,
+      384.2
+    ],
+    "iaue:Old French": [
+      -764.6,
+      797.7
+    ],
+    "icɨ:Arara-Karo": [
+      274.3,
+      381.5
+    ],
+    "idanö:Nias": [
+      322.0,
+      288.3
+    ],
+    "ignis:Latin": [
+      -387.0,
+      434.8
+    ],
+    "ih:Apiaká": [
+      -415.6,
+      942.8
+    ],
+    "ild:Danish": [
+      70.9,
+      -26.8
+    ],
+    "ild:Norwegian Bokmål": [
+      431.2,
+      -338.9
+    ],
+    "ildsted:Danish": [
+      862.8,
+      539.2
+    ],
+    "ilma:Finnish": [
+      -635.8,
+      -85.0
+    ],
+    "ilma:Maltese": [
+      -265.0,
+      158.2
+    ],
+    "imeq:Greenlandic": [
+      -250.5,
+      805.8
+    ],
+    "incendi:Catalan": [
+      1.3,
+      1156.3
+    ],
+    "incendie:French": [
+      -439.8,
+      337.5
+    ],
+    "incendio:Esperanto": [
+      -123.9,
+      1124.2
+    ],
+    "incendio:Italian": [
+      -348.9,
+      991.3
+    ],
+    "incendio:Spanish": [
+      -522.1,
+      981.3
+    ],
+    "incendium:Latin": [
+      46.5,
+      1039.4
+    ],
+    "incêndio:Portuguese": [
+      -871.1,
+      144.1
+    ],
+    "inneq:Greenlandic": [
+      -382.1,
+      705.0
+    ],
+    "ino:Mixed Great Andamanese": [
+      -106.6,
+      -78.9
+    ],
+    "intohimo:Finnish": [
+      -241.2,
+      1192.5
+    ],
+    "ipi:West Makian": [
+      245.2,
+      791.5
+    ],
+    "iudiņs:Latgalian": [
+      68.7,
+      -24.2
+    ],
+    "iwo:Ama": [
+      -978.3,
+      151.0
+    ],
+    "ií:Nheengatu": [
+      -1868.3,
+      136.6
+    ],
+    "iŋ:Jarawa": [
+      -561.2,
+      521.6
+    ],
+    "iɕi:Bokar": [
+      -307.8,
+      -801.5
+    ],
+    "jage:Uyajitaya": [
+      -589.9,
+      868.7
+    ],
+    "jaɨnoi:Minica Huitoto": [
+      -309.3,
+      630.0
+    ],
+    "jaɨnoi:Nüpode Huitoto": [
+      -514.7,
+      611.5
+    ],
+    "jaʼ:K'iche'": [
+      -382.7,
+      700.5
+    ],
+    "jeis:Achang": [
+      149.7,
+      422.4
+    ],
+    "jo:Konabéré": [
+      -475.2,
+      706.4
+    ],
+    "joru:Borôro": [
+      192.7,
+      204.9
+    ],
+    "kalayo:Cebuano": [
+      -671.2,
+      823.8
+    ],
+    "kalayo:Central Bikol": [
+      275.3,
+      386.4
+    ],
+    "kalayo:Hiligaynon": [
+      293.2,
+      195.6
+    ],
+    "kalyu:Warlpiri": [
+      294.6,
+      193.9
+    ],
+    "kamna:Czech": [
+      135.6,
+      548.7
+    ],
+    "kapi:Pitjantjatjara": [
+      -32.9,
+      747.7
+    ],
+    "kawu:Barngarla": [
+      -418.7,
+      619.5
+    ],
+    "kaŋkɨ:Dumi": [
+      -308.5,
+      613.6
+    ],
+    "kebakaran:Indonesian": [
+      48.7,
+      827.7
+    ],
+    "khan:Dongxiang": [
+      -298.6,
+      -130.2
+    ],
+    "kijeek:Marshallese": [
+      -459.5,
+      524.7
+    ],
+    "kova:Kilivila": [
+      -159.7,
+      780.1
+    ],
+    "kości:Polish": [
+      -205.2,
+      629.0
+    ],
+    "krosnis:Lithuanian": [
+      250.9,
+      602.7
+    ],
+    "krāsns:Latvian": [
+      253.6,
+      605.2
+    ],
+    "kul:Arin": [
+      149.6,
+      -170.6
+    ],
+    "kuɴ:Natchez": [
+      26.9,
+      573.0
+    ],
+    "kwé:Xârâcùù": [
+      -310.6,
+      628.6
+    ],
+    "kwé:Xârâgurè": [
+      -562.4,
+      529.4
+    ],
+    "kylpy:Finnish": [
+      170.0,
+      329.3
+    ],
+    "kályha:Hungarian": [
+      -462.1,
+      527.0
+    ],
+    "kõɔ:Northern Dagara": [
+      -153.9,
+      783.1
+    ],
+    "köiö:Iaai": [
+      90.9,
+      634.1
+    ],
+    "kǫʼ:Navajo": [
+      -603.5,
+      612.6
+    ],
+    "kə:Xerénte": [
+      -417.8,
+      614.7
+    ],
+    "kʼokʼ:Tzotzil": [
+      -152.6,
+      783.6
+    ],
+    "kʼáakʼ:Yucatec Maya": [
+      -360.9,
+      526.2
+    ],
+    "lang:Mato": [
+      11.5,
+      183.1
+    ],
+    "lee:Afar": [
+      566.0,
+      42.3
+    ],
+    "leng:Mochica": [
+      -298.2,
+      440.3
+    ],
+    "liepsna:Lithuanian": [
+      -383.9,
+      1105.5
+    ],
+    "liesi:Finnish": [
+      -45.9,
+      500.7
+    ],
+    "linfa:Spanish": [
+      73.0,
+      -17.6
+    ],
+    "llume:Asturian": [
+      -239.7,
+      716.7
+    ],
+    "lowak:Chickasaw": [
+      -851.9,
+      333.9
+    ],
+    "luci:Sicilian": [
+      -258.4,
+      530.0
+    ],
+    "lumbre:Spanish": [
+      -779.0,
+      699.1
+    ],
+    "lume:Galician": [
+      377.8,
+      445.2
+    ],
+    "luu:Finnish": [
+      -120.1,
+      353.2
+    ],
+    "lympha:Latin": [
+      -36.0,
+      3.0
+    ],
+    "là:Mochica": [
+      114.6,
+      248.6
+    ],
+    "lámhach:Irish": [
+      -658.7,
+      524.2
+    ],
+    "lämmitin:Finnish": [
+      663.7,
+      459.2
+    ],
+    "lämmityslaite:Finnish": [
+      284.6,
+      386.7
+    ],
+    "lửa:Vietnamese": [
+      38.9,
+      78.9
+    ],
+    "ma'a:Tairuma": [
+      75.8,
+      730.5
+    ],
+    "maane:Kenga": [
+      -36.9,
+      504.6
+    ],
+    "maane:Morom": [
+      8.5,
+      662.0
+    ],
+    "maane:Naba": [
+      150.7,
+      561.2
+    ],
+    "mace:Taraon": [
+      827.3,
+      -270.2
+    ],
+    "madzi:Chichewa": [
+      25.8,
+      573.5
+    ],
+    "malenga:Gogo": [
+      -627.4,
+      954.7
+    ],
+    "mayá:Budza": [
+      9.6,
+      662.9
+    ],
+    "maĩ:Kikuyu": [
+      99.0,
+      -127.7
+    ],
+    "maʔ:Cacua": [
+      -203.5,
+      720.3
+    ],
+    "maʔa:Dahalo": [
+      -385.7,
+      438.9
+    ],
+    "mbish:Potawatomi": [
+      -59.5,
+      614.0
+    ],
+    "mei:Zou": [
+      -107.2,
+      463.8
+    ],
+    "metsi:Tswana": [
+      -253.2,
+      264.7
+    ],
+    "mina:Pitjantjatjara": [
+      -92.8,
+      -177.8
+    ],
+    "mindim:Bakoko": [
+      -485.9,
+      1087.5
+    ],
+    "mizyu:Yilan Creole": [
+      -473.5,
+      -459.9
+    ],
+    "mi³¹:Pela": [
+      657.7,
+      365.5
+    ],
+    "moto:Chichewa": [
+      71.1,
+      -24.9
+    ],
+    "moya:Juba Arabic": [
+      -357.4,
+      527.5
+    ],
+    "moyo:Nubi": [
+      -287.0,
+      446.2
+    ],
+    "mpi:Unami": [
+      152.1,
+      792.7
+    ],
+    "muh:Bathari": [
+      -572.2,
+      704.7
+    ],
+    "mw:Egyptian": [
+      -386.2,
+      438.2
+    ],
+    "mwaki:Kikuyu": [
+      -259.8,
+      534.9
+    ],
+    "myi:Lutuv": [
+      522.9,
+      522.6
+    ],
+    "mɛ̄̃:Pande": [
+      -378.6,
+      694.0
+    ],
+    "namc:Sui": [
+      -56.8,
+      227.9
+    ],
+    "nam³:Cun": [
+      -57.7,
+      228.4
+    ],
+    "nam³:E": [
+      40.9,
+      273.1
+    ],
+    "nam⁴:Lingao": [
+      -32.2,
+      308.9
+    ],
+    "nanum:Sakizaya": [
+      -503.5,
+      438.6
+    ],
+    "nar:Maltese": [
+      -414.8,
+      -393.4
+    ],
+    "nde⁵³:Bolyu": [
+      -552.3,
+      324.0
+    ],
+    "ndox:Wolof": [
+      -554.9,
+      313.5
+    ],
+    "ndʐɿ⁵³:Namuyi": [
+      -822.1,
+      609.8
+    ],
+    "ne:Ura (Vanuatu)": [
+      -704.3,
+      611.6
+    ],
+    "neste:Finnish": [
+      -558.6,
+      -274.3
+    ],
+    "ngau:Palauan": [
+      107.9,
+      260.6
+    ],
+    "ngi'ri:Lumun": [
+      -346.9,
+      70.2
+    ],
+    "ngô:Kayapó": [
+      -593.0,
+      -178.1
+    ],
+    "ngô:Suyá": [
+      -653.2,
+      358.7
+    ],
+    "ngû:Sango": [
+      -291.2,
+      445.2
+    ],
+    "nibi:Ojibwe": [
+      -267.8,
+      268.9
+    ],
+    "nigl:Kuman": [
+      -814.7,
+      431.4
+    ],
+    "nil:Golin": [
+      249.1,
+      18.8
+    ],
+    "nio:Neverver": [
+      -772.7,
+      53.0
+    ],
+    "nippe:Massachusett": [
+      -268.4,
+      270.3
+    ],
+    "noms:Hlai": [
+      -310.6,
+      -19.4
+    ],
+    "nopim:Malecite-Passamaquoddy": [
+      -504.5,
+      432.5
+    ],
+    "noqó:Hamer-Banna": [
+      -711.6,
+      615.3
+    ],
+    "nzue:Baoule": [
+      -743.0,
+      -107.0
+    ],
+    "nââx:Dâw": [
+      -761.5,
+      148.4
+    ],
+    "ní:Bassa": [
+      -759.1,
+      43.0
+    ],
+    "nújpacyo:Bora": [
+      -705.3,
+      1037.3
+    ],
+    "nįį:Winnebago": [
+      -704.7,
+      611.3
+    ],
+    "nước:Vietnamese": [
+      -185.4,
+      443.8
+    ],
+    "nəm⁴:Mulam": [
+      -492.7,
+      169.7
+    ],
+    "nɨʔ:Chimalapa Zoque": [
+      -817.4,
+      -35.3
+    ],
+    "nɨʔ:Rayón Zoque": [
+      -871.9,
+      44.8
+    ],
+    "n̥am³:Chadong": [
+      -466.9,
+      76.5
+    ],
+    "nặm:Tày": [
+      793.2,
+      17.9
+    ],
+    "ocak:Turkish": [
+      -533.3,
+      795.5
+    ],
+    "od:Azerbaijani": [
+      -164.5,
+      167.5
+    ],
+    "ofn:Icelandic": [
+      -501.0,
+      436.6
+    ],
+    "ogenj:Slovene": [
+      -590.4,
+      236.7
+    ],
+    "ogień:Old Polish": [
+      -460.5,
+      90.6
+    ],
+    "ogień:Polish": [
+      -588.9,
+      238.8
+    ],
+    "ogya:Nkonya": [
+      -860.9,
+      519.6
+    ],
+    "oheň:Czech": [
+      -654.4,
+      356.5
+    ],
+    "oheň:Old Czech": [
+      -788.2,
+      245.5
+    ],
+    "oheň:Slovak": [
+      -266.3,
+      155.7
+    ],
+    "ok:Bimin": [
+      -678.0,
+      189.2
+    ],
+    "ok:Iwam": [
+      -717.1,
+      289.7
+    ],
+    "omi:Yoruba": [
+      499.3,
+      275.6
+    ],
+    "omn:Norwegian Nynorsk": [
+      -483.4,
+      182.2
+    ],
+    "on:Sedang": [
+      -519.3,
+      14.9
+    ],
+    "opâ:Kâte": [
+      -504.0,
+      621.4
+    ],
+    "os:Daur": [
+      54.5,
+      -386.6
+    ],
+    "ot:Turkmen": [
+      -682.8,
+      -190.0
+    ],
+    "ovn:Danish": [
+      -681.3,
+      195.6
+    ],
+    "ovn:Norwegian Bokmål": [
+      -749.1,
+      -269.5
+    ],
+    "owv:Creek": [
+      -1082.0,
+      -136.0
+    ],
+    "oɲĩ:Àhàn": [
+      -754.6,
+      349.1
+    ],
+    "oʻt:Uzbek": [
+      -24.3,
+      -732.6
+    ],
+    "pa'ah:Yurok": [
+      -117.7,
+      690.2
+    ],
+    "paa:Northern Paiute": [
+      -243.4,
+      981.7
+    ],
+    "pafado:Esperanto": [
+      -502.0,
+      438.4
+    ],
+    "paia:Tok Pisin": [
+      13.7,
+      933.9
+    ],
+    "paisu:Banggai": [
+      -553.7,
+      524.8
+    ],
+    "palba:Czech": [
+      -258.9,
+      155.1
+    ],
+    "palo:Finnish": [
+      -210.9,
+      -37.9
+    ],
+    "pani:Romani": [
+      -203.2,
+      629.6
+    ],
+    "panno:Old Prussian": [
+      -215.8,
+      359.8
+    ],
+    "paru:Bakairí": [
+      -258.6,
+      157.8
+    ],
+    "pawaka:Malay": [
+      -603.5,
+      616.2
+    ],
+    "pepe:Makasar": [
+      17.6,
+      938.9
+    ],
+    "perairan:Indonesian": [
+      307.9,
+      867.3
+    ],
+    "peč:Slovene": [
+      -110.3,
+      -82.1
+    ],
+    "piec:Polish": [
+      -528.7,
+      797.0
+    ],
+    "piva:Savosavo": [
+      -433.9,
+      815.5
+    ],
+    "plameň:Slovak": [
+      -484.2,
+      892.1
+    ],
+    "pobo:Borôro": [
+      -293.7,
+      897.3
+    ],
+    "poêle:French": [
+      -464.0,
+      83.9
+    ],
+    "pożar:Polish": [
+      -344.8,
+      70.2
+    ],
+    "požar:Slovene": [
+      -261.7,
+      155.7
+    ],
+    "požiar:Slovak": [
+      -520.4,
+      15.3
+    ],
+    "požár:Czech": [
+      -479.4,
+      155.0
+    ],
+    "pânî:Domari": [
+      159.1,
+      440.9
+    ],
+    "pʼoe:Tewa": [
+      -274.4,
+      887.2
+    ],
+    "pʼȍʼóne:Taos": [
+      -973.5,
+      628.8
+    ],
+    "qid:Lhao Vo": [
+      -189.3,
+      445.9
+    ],
+    "queima:Galician": [
+      -694.7,
+      -16.2
+    ],
+    "raemx:Zhuang": [
+      33.8,
+      82.3
+    ],
+    "raen:Yapese": [
+      -207.7,
+      -40.7
+    ],
+    "ramx:Bouyei": [
+      -59.8,
+      -268.9
+    ],
+    "ran:Arop-Lokep": [
+      -160.2,
+      159.8
+    ],
+    "rhëʔ:Ajië": [
+      -688.9,
+      275.9
+    ],
+    "riha:Central Tunebo": [
+      -812.1,
+      -38.4
+    ],
+    "rogo:Italian": [
+      -689.7,
+      199.8
+    ],
+    "rạhi:Rotuman": [
+      -812.0,
+      -38.4
+    ],
+    "sa:Pawaia": [
+      -693.6,
+      -449.8
+    ],
+    "samqwan:Mi'kmaq": [
+      -1112.3,
+      -241.5
+    ],
+    "se:Bonan": [
+      -49.8,
+      -663.7
+    ],
+    "seseb:Palauan": [
+      -572.4,
+      331.6
+    ],
+    "sidik:Turkish": [
+      -741.7,
+      -270.4
+    ],
+    "sileng:Apma": [
+      -470.9,
+      -454.1
+    ],
+    "sin:Gun": [
+      -623.5,
+      -492.6
+    ],
+    "siʼ:Belait": [
+      -1014.4,
+      -196.6
+    ],
+    "sobă:Romanian": [
+      -591.3,
+      237.5
+    ],
+    "sopi:Kilivila": [
+      -674.6,
+      100.3
+    ],
+    "sparo:Italian": [
+      -464.2,
+      81.5
+    ],
+    "spis:Swedish": [
+      -590.8,
+      440.3
+    ],
+    "stoof:Dutch": [
+      -631.2,
+      -79.2
+    ],
+    "stufa:Italian": [
+      -428.9,
+      -11.0
+    ],
+    "su:Azerbaijani": [
+      -704.8,
+      -551.3
+    ],
+    "su:Basque": [
+      -836.6,
+      -247.8
+    ],
+    "su:Gagauz": [
+      -609.3,
+      -583.2
+    ],
+    "su:Turkish": [
+      -536.3,
+      -640.6
+    ],
+    "sunog:Tagalog": [
+      -673.8,
+      98.2
+    ],
+    "suv:Khalaj": [
+      -745.3,
+      -380.6
+    ],
+    "suv:Uzbek": [
+      -839.9,
+      -130.1
+    ],
+    "suw:Turkmen": [
+      17.8,
+      198.3
+    ],
+    "suzu:Mangghuer": [
+      -911.7,
+      235.0
+    ],
+    "szu:Mongghul": [
+      -765.1,
+      527.0
+    ],
+    "ta:Ama": [
+      -460.6,
+      -536.3
+    ],
+    "taangax̂:Aleut": [
+      -670.9,
+      95.6
+    ],
+    "tam:Chewong": [
+      551.0,
+      -194.6
+    ],
+    "tan:Breton": [
+      -67.4,
+      108.6
+    ],
+    "tannura:Sicilian": [
+      -205.1,
+      -435.1
+    ],
+    "te:Deg Xinag": [
+      -522.8,
+      -547.5
+    ],
+    "teine:Old Irish": [
+      -316.8,
+      -47.5
+    ],
+    "teine:Scottish Gaelic": [
+      -324.2,
+      -43.0
+    ],
+    "thuỷ:Vietnamese": [
+      -109.0,
+      -63.7
+    ],
+    "ti:Wancho": [
+      97.3,
+      -122.8
+    ],
+    "timessi:Tarifit": [
+      -674.5,
+      -178.8
+    ],
+    "tine:Irish": [
+      -536.5,
+      8.0
+    ],
+    "tiro:Italian": [
+      -279.9,
+      -602.3
+    ],
+    "tiro:Spanish": [
+      -372.6,
+      -671.2
+    ],
+    "tit:Pipil": [
+      49.7,
+      -566.8
+    ],
+    "tletl:Classical Nahuatl": [
+      260.9,
+      -391.9
+    ],
+    "toya:Balinese": [
+      14.9,
+      192.6
+    ],
+    "traba:Bwatoo": [
+      -638.4,
+      -271.3
+    ],
+    "tsa'ccu:Cofán": [
+      -694.6,
+      -29.9
+    ],
+    "tshàa:Naro": [
+      -622.0,
+      -392.7
+    ],
+    "tu:Lower Tanana": [
+      -323.4,
+      -409.6
+    ],
+    "tu:South Slavey": [
+      -317.9,
+      -44.8
+    ],
+    "tubi':Aklanon": [
+      -484.2,
+      184.1
+    ],
+    "tubig:Cebuano": [
+      -161.2,
+      261.5
+    ],
+    "tubig:Central Bikol": [
+      -160.7,
+      263.1
+    ],
+    "tubig:Hiligaynon": [
+      -159.9,
+      264.9
+    ],
+    "tubig:Kinaray-a": [
+      -214.6,
+      357.0
+    ],
+    "tubig:Tagalog": [
+      -116.2,
+      367.8
+    ],
+    "tubig:Tausug": [
+      -120.1,
+      371.1
+    ],
+    "tubig:Waray-Waray": [
+      -214.1,
+      357.0
+    ],
+    "tui:Khumi Chin": [
+      137.7,
+      52.6
+    ],
+    "tui:Zou": [
+      -471.6,
+      -690.4
+    ],
+    "tulekahju:Estonian": [
+      -803.9,
+      -479.8
+    ],
+    "tuli:Estonian": [
+      -289.8,
+      -505.0
+    ],
+    "tuli:Finnish": [
+      -387.2,
+      -217.7
+    ],
+    "tuli:Karelian": [
+      -289.9,
+      -505.4
+    ],
+    "tuli:Votic": [
+      -373.1,
+      -481.2
+    ],
+    "tulipalo:Finnish": [
+      -350.3,
+      72.9
+    ],
+    "tulitus:Finnish": [
+      -793.0,
+      -599.5
+    ],
+    "tuna:Kari'na": [
+      -136.1,
+      44.6
+    ],
+    "tuna:Pemon": [
+      -311.6,
+      -152.3
+    ],
+    "tuna:Ye'kwana": [
+      -310.9,
+      -131.3
+    ],
+    "tuļ:Livonian": [
+      -383.5,
+      -506.0
+    ],
+    "tyi:Atong (India)": [
+      144.3,
+      53.4
+    ],
+    "tzyin:Masakará": [
+      -703.6,
+      -19.0
+    ],
+    "tzü:Chungli Ao": [
+      320.4,
+      -319.7
+    ],
+    "tzüe:Masakará": [
+      -764.0,
+      531.7
+    ],
+    "tân:Welsh": [
+      -102.3,
+      -65.9
+    ],
+    "tí:Maléku Jaíka": [
+      -443.7,
+      -597.9
+    ],
+    "tó:Navajo": [
+      -210.2,
+      -174.5
+    ],
+    "tűz:Hungarian": [
+      -380.7,
+      -216.9
+    ],
+    "tűzeset:Hungarian": [
+      -1076.4,
+      315.7
+    ],
+    "tɕɯ⁵⁵:Northern Pumi": [
+      -136.7,
+      43.5
+    ],
+    "tɯci:Japhug": [
+      -251.1,
+      254.7
+    ],
+    "tʂi:Guiqiong": [
+      -135.9,
+      42.1
+    ],
+    "tʃə⁵⁵:Southern Pumi": [
+      -217.0,
+      -47.8
+    ],
+    "tạnu:Rotuman": [
+      -243.6,
+      53.2
+    ],
+    "ue:Batui": [
+      -859.5,
+      57.2
+    ],
+    "ue:Saluan": [
+      -772.3,
+      -183.2
+    ],
+    "ugn:Swedish": [
+      -813.7,
+      429.6
+    ],
+    "ugnis:Lithuanian": [
+      -159.5,
+      263.8
+    ],
+    "ugnis:Old Prussian": [
+      -58.4,
+      126.8
+    ],
+    "uguns:Latvian": [
+      -380.8,
+      272.9
+    ],
+    "uisce:Irish": [
+      -854.5,
+      331.7
+    ],
+    "uisce:Old Irish": [
+      -913.9,
+      234.6
+    ],
+    "uisge:Scottish Gaelic": [
+      -912.3,
+      235.6
+    ],
+    "ujë:Albanian": [
+      70.7,
+      -22.2
+    ],
+    "uku:Ternate": [
+      -189.1,
+      447.1
+    ],
+    "umlilo:Xhosa": [
+      -634.5,
+      -89.9
+    ],
+    "umlilo:Zulu": [
+      -374.3,
+      -474.0
+    ],
+    "uni:Tariana": [
+      -381.7,
+      163.1
+    ],
+    "uno:Wauja": [
+      -743.1,
+      -99.3
+    ],
+    "ur:Basque": [
+      -444.7,
+      -627.1
+    ],
+    "ushtey:Manx": [
+      -520.9,
+      -545.5
+    ],
+    "usu:Dongxiang": [
+      -94.6,
+      -169.7
+    ],
+    "uuhf chjoohxv:Akha": [
+      -3691.1,
+      -1925.8
+    ],
+    "uwoi:Mori Atas": [
+      -576.2,
+      710.0
+    ],
+    "uwoi:Mori Bawah": [
+      -553.0,
+      350.9
+    ],
+    "uwoi:Padoe": [
+      -675.6,
+      106.2
+    ],
+    "uÿ:Xinca": [
+      -3497.2,
+      -2194.9
+    ],
+    "vai:Tokelauan": [
+      -1128.7,
+      -40.2
+    ],
+    "vai:Tongan": [
+      -1022.0,
+      232.4
+    ],
+    "vand:Danish": [
+      -747.2,
+      -271.2
+    ],
+    "vanduo:Lithuanian": [
+      -686.4,
+      -852.7
+    ],
+    "vann:Norwegian Bokmål": [
+      -846.6,
+      -221.8
+    ],
+    "vatn:Faroese": [
+      -560.2,
+      -274.4
+    ],
+    "vatn:Icelandic": [
+      -1003.5,
+      -455.0
+    ],
+    "vatn:Norwegian Nynorsk": [
+      -392.9,
+      -569.6
+    ],
+    "vatn:Old Norse": [
+      -433.0,
+      -9.7
+    ],
+    "vatten:Swedish": [
+      -915.6,
+      -656.4
+    ],
+    "vesi:Estonian": [
+      -384.6,
+      155.6
+    ],
+    "vesi:Finnish": [
+      -385.5,
+      155.4
+    ],
+    "vesi:Votic": [
+      -494.8,
+      268.7
+    ],
+    "vezi:Karelian": [
+      -776.2,
+      140.8
+    ],
+    "vezi:Ludian": [
+      -246.2,
+      48.9
+    ],
+    "vež:Livonian": [
+      -443.9,
+      338.3
+    ],
+    "vil:Sui": [
+      -944.5,
+      -244.9
+    ],
+    "vivacità:Italian": [
+      -1116.4,
+      -390.4
+    ],
+    "viďėn:Polabian": [
+      -650.4,
+      -279.3
+    ],
+    "voda:Czech": [
+      -19.3,
+      -103.6
+    ],
+    "voda:Old Czech": [
+      -171.5,
+      -257.9
+    ],
+    "voda:Serbo-Croatian": [
+      -170.8,
+      -258.0
+    ],
+    "voda:Slovak": [
+      -171.7,
+      -255.3
+    ],
+    "voda:Slovene": [
+      -254.2,
+      -353.2
+    ],
+    "vuur:Afrikaans": [
+      242.8,
+      34.6
+    ],
+    "vuur:Dutch": [
+      -200.5,
+      -448.5
+    ],
+    "vådă:Polabian": [
+      -758.4,
+      -284.0
+    ],
+    "víz:Hungarian": [
+      -492.5,
+      243.7
+    ],
+    "wa:Panim": [
+      -902.8,
+      -63.1
+    ],
+    "waa:Sidamo": [
+      -1027.2,
+      -300.0
+    ],
+    "wahig:Binukid": [
+      -599.6,
+      439.7
+    ],
+    "wai:Hawaiian": [
+      -1095.8,
+      164.5
+    ],
+    "wai:Māori": [
+      -1035.2,
+      84.7
+    ],
+    "wapo'o:Angaataha": [
+      -805.7,
+      437.1
+    ],
+    "wara:Tok Pisin": [
+      -49.6,
+      -547.8
+    ],
+    "water:Afrikaans": [
+      -140.0,
+      -355.0
+    ],
+    "water:Dutch": [
+      -24.6,
+      -382.8
+    ],
+    "water:English": [
+      -556.1,
+      -274.0
+    ],
+    "water:Middle Dutch": [
+      -26.6,
+      -380.5
+    ],
+    "water:Middle English": [
+      -25.7,
+      -380.2
+    ],
+    "water:Middle Low German": [
+      -139.1,
+      -355.2
+    ],
+    "wateren:Dutch": [
+      136.5,
+      -908.8
+    ],
+    "watra:Sranan Tongo": [
+      -123.9,
+      -709.4
+    ],
+    "watter:Scots": [
+      -124.4,
+      -709.4
+    ],
+    "wattn:Elfdalian": [
+      -560.5,
+      -274.4
+    ],
+    "watu:Negerhollands": [
+      -528.6,
+      -743.2
+    ],
+    "waudher:Yola": [
+      -123.6,
+      -709.3
+    ],
+    "we'aha:Bunama": [
+      -779.0,
+      150.3
+    ],
+    "we:Caac": [
+      -891.0,
+      -306.8
+    ],
+    "we:Haeke": [
+      -954.0,
+      -2.7
+    ],
+    "we:Haveke": [
+      -1042.7,
+      0.1
+    ],
+    "wi:Agutaynen": [
+      -835.5,
+      -135.6
+    ],
+    "woda:Old Polish": [
+      -275.5,
+      -242.0
+    ],
+    "woda:Polish": [
+      128.6,
+      48.1
+    ],
+    "woda:Silesian": [
+      -276.0,
+      -242.2
+    ],
+    "woda:Upper Sorbian": [
+      -605.6,
+      -508.5
+    ],
+    "wody:Polish": [
+      -782.2,
+      -480.9
+    ],
+    "wogeń:Lower Sorbian": [
+      -462.8,
+      89.1
+    ],
+    "woheń:Upper Sorbian": [
+      -1227.7,
+      -277.7
+    ],
+    "wundan:Old Prussian": [
+      -48.0,
+      3.1
+    ],
+    "wupaj:Maung": [
+      -265.9,
+      157.1
+    ],
+    "wuta:Hausa": [
+      -720.0,
+      -366.8
+    ],
+    "wååder:North Frisian": [
+      -521.7,
+      -742.0
+    ],
+    "wæter:Old English": [
+      -51.5,
+      -546.1
+    ],
+    "wòda:Kashubian": [
+      -204.3,
+      -149.8
+    ],
+    "wóda:Lower Sorbian": [
+      -205.1,
+      -150.0
+    ],
+    "wói:Kohistani Shina": [
+      -959.6,
+      -358.2
+    ],
+    "wôda:Slovincian": [
+      -204.7,
+      -150.1
+    ],
+    "xhui:Wutunhua": [
+      -704.8,
+      -551.1
+    ],
+    "xuix:Central Bai": [
+      -588.0,
+      -181.8
+    ],
+    "y:Old Tupi": [
+      -1476.1,
+      463.6
+    ],
+    "y:Paraguayan Guarani": [
+      -1565.8,
+      927.6
+    ],
+    "yaki:Baure": [
+      -776.1,
+      58.2
+    ],
+    "yaku:Quechua": [
+      -709.3,
+      -16.9
+    ],
+    "yangın:Turkish": [
+      -1194.9,
+      -126.8
+    ],
+    "yanğın:Azerbaijani": [
+      -812.0,
+      -701.2
+    ],
+    "yasi:Apatani": [
+      -45.4,
+      0.9
+    ],
+    "yimi:Bura": [
+      -358.1,
+      -580.8
+    ],
+    "yuw:Bargam": [
+      -929.6,
+      -149.6
+    ],
+    "z:Sani": [
+      -371.6,
+      -743.0
+    ],
+    "zaljum:Paiwan": [
+      -99.0,
+      -467.5
+    ],
+    "ze:Northern Qiang": [
+      101.4,
+      -135.8
+    ],
+    "zjarr:Albanian": [
+      -290.0,
+      -698.3
+    ],
+    "água:Portuguese": [
+      -487.0,
+      258.0
+    ],
+    "águas:Portuguese": [
+      -557.5,
+      -270.1
+    ],
+    "áugua:Extremaduran": [
+      -389.3,
+      273.4
+    ],
+    "âcua:Emilian": [
+      -163.4,
+      266.8
+    ],
+    "ægoa:Ligurian": [
+      -705.2,
+      443.6
+    ],
+    "ægua:Ligurian": [
+      -243.5,
+      55.3
+    ],
+    "çiş:Turkish": [
+      -474.6,
+      -189.5
+    ],
+    "éilʼ:Tlingit": [
+      -125.7,
+      -915.5
+    ],
+    "êa:Rade": [
+      -448.6,
+      -254.5
+    ],
+    "ìe:Khiamniungan Naga": [
+      -527.0,
+      -852.1
+    ],
+    "ìní:Tara Baka": [
+      -571.0,
+      -466.3
+    ],
+    "ñoon:Ocaina": [
+      -476.2,
+      -186.8
+    ],
+    "òdżin:Kashubian": [
+      -434.5,
+      -10.7
+    ],
+    "óih:Eastern Katu": [
+      -520.1,
+      -79.5
+    ],
+    "ôgyń:Silesian": [
+      -593.7,
+      440.1
+    ],
+    "ùnh:Hrê": [
+      -313.3,
+      225.5
+    ],
+    "čáhci:Northern Sami": [
+      -406.5,
+      -105.2
+    ],
+    "đak:Bahnar": [
+      -325.2,
+      334.1
+    ],
+    "đác:Muong": [
+      -69.0,
+      215.0
+    ],
+    "ŋaŋ:Hote": [
+      -537.3,
+      -374.8
+    ],
+    "ŋi:Tocho": [
+      -539.2,
+      -367.3
+    ],
+    "ŋkɛ̀:Bamum": [
+      -324.8,
+      -408.3
+    ],
+    "ũih:Eastern Bru": [
+      -519.0,
+      -80.4
+    ],
+    "ūdens:Latvian": [
+      -219.6,
+      -47.3
+    ],
+    "ŭnh:Bahnar": [
+      -389.0,
+      279.9
+    ],
+    "żar:Polish": [
+      -641.3,
+      -284.8
+    ],
+    "ǃqhaa:Nǀuu": [
+      -429.9,
+      -12.2
+    ],
+    "ǃqhàa:ǃXóõ": [
+      -622.5,
+      24.6
+    ],
+    "ɔŋ²⁴:E'ma Buyang": [
+      -210.9,
+      -753.7
+    ],
+    "ɗà:Lendu": [
+      134.8,
+      -709.4
+    ],
+    "ə́əcì:Midob": [
+      -430.6,
+      -817.3
+    ],
+    "ɣəi⁵⁵:Pela": [
+      20.6,
+      208.2
+    ],
+    "ɨkɨ:Akuntsu": [
+      -517.7,
+      -84.8
+    ],
+    "ʒi¹³:Queyu": [
+      -277.2,
+      -599.9
+    ],
+    "ʔahkʰa:Southern Pomo": [
+      -674.6,
+      717.5
+    ],
+    "ʔaŋ¹³:Red Gelao": [
+      -96.1,
+      -464.2
+    ],
+    "ʔuŋ:Laha (Vietnam)": [
+      -437.0,
+      -300.9
+    ],
+    "ʔɔŋ:Qabiao": [
+      29.5,
+      -295.3
+    ],
+    "ʔɔŋ⁴⁵:Baha": [
+      -321.3,
+      -408.2
+    ],
+    "ʔɨ:Emerillon": [
+      -956.8,
+      507.5
+    ],
+    "ʔɨ:Guajá": [
+      -946.2,
+      332.9
+    ],
+    "αββο:Bactrian": [
+      78.6,
+      735.0
+    ],
+    "θάλασσα:Greek": [
+      16.2,
+      -469.5
+    ],
+    "νερό:Greek": [
+      -201.0,
+      -443.4
+    ],
+    "πυρά:Ancient Greek": [
+      297.3,
+      -48.8
+    ],
+    "πῦρ:Ancient Greek": [
+      297.7,
+      -50.1
+    ],
+    "φωτιά:Greek": [
+      -160.1,
+      176.2
+    ],
+    "ύο:Tsakonian": [
+      880.4,
+      -1107.6
+    ],
+    "аӡы:Abkhaz": [
+      -409.2,
+      -103.2
+    ],
+    "быˮ:Nganasan": [
+      -64.0,
+      -267.4
+    ],
+    "ва:Komi-Permyak": [
+      -1013.4,
+      395.2
+    ],
+    "ва:Komi-Zyrian": [
+      -1004.7,
+      -84.3
+    ],
+    "ведь:Erzya": [
+      -907.8,
+      416.7
+    ],
+    "ведь:Moksha": [
+      -256.9,
+      257.6
+    ],
+    "вит:Northern Mansi": [
+      171.7,
+      334.0
+    ],
+    "вить:Central Mansi": [
+      -590.6,
+      -184.7
+    ],
+    "вода:Carpathian Rusyn": [
+      -274.6,
+      -241.3
+    ],
+    "вода:Macedonian": [
+      -275.6,
+      -241.4
+    ],
+    "вода:Old East Slavic": [
+      -293.2,
+      -504.9
+    ],
+    "вода:Pannonian Rusyn": [
+      -275.2,
+      -241.3
+    ],
+    "вода:Serbo-Croatian": [
+      -523.8,
+      -91.4
+    ],
+    "води:Macedonian": [
+      -680.9,
+      -647.5
+    ],
+    "води:Ukrainian": [
+      -402.4,
+      -682.7
+    ],
+    "ву:Udmurt": [
+      -949.9,
+      76.2
+    ],
+    "вӱд:Eastern Mari": [
+      294.2,
+      196.8
+    ],
+    "вӹд:Western Mari": [
+      279.6,
+      390.7
+    ],
+    "гал:Mongolian": [
+      16.7,
+      -189.9
+    ],
+    "иˮ:Tundra Nenets": [
+      -887.2,
+      682.2
+    ],
+    "йиӈк:Northern Khanty": [
+      -626.9,
+      -369.1
+    ],
+    "костёр:Russian": [
+      50.1,
+      -961.4
+    ],
+    "лъа:Khvarshi": [
+      -29.3,
+      -898.2
+    ],
+    "лъе:Hinukh": [
+      414.5,
+      -749.9
+    ],
+    "лъи:Bezhta": [
+      141.5,
+      -801.1
+    ],
+    "лъи:Tsez": [
+      -23.6,
+      -817.2
+    ],
+    "лъим:Avar": [
+      -279.8,
+      -494.6
+    ],
+    "лъыᵸ:Hunzib": [
+      491.8,
+      -676.1
+    ],
+    "мафӏэ:East Circassian": [
+      369.1,
+      -228.6
+    ],
+    "машӏо:West Circassian": [
+      -116.6,
+      -604.2
+    ],
+    "мимыл:Alutor": [
+      577.8,
+      -510.6
+    ],
+    "моча:Russian": [
+      -412.9,
+      -99.9
+    ],
+    "муэ:Nanai": [
+      646.2,
+      260.1
+    ],
+    "на̄й:Northern Mansi": [
+      -614.0,
+      -662.1
+    ],
+    "об:Tajik": [
+      164.0,
+      -131.9
+    ],
+    "оган:Macedonian": [
+      -436.6,
+      -299.8
+    ],
+    "огень:Pannonian Rusyn": [
+      -580.6,
+      123.1
+    ],
+    "огнь:Old East Slavic": [
+      -218.7,
+      -45.3
+    ],
+    "огън:Bulgarian": [
+      -519.1,
+      -78.6
+    ],
+    "озар:Tajik": [
+      -113.7,
+      -808.2
+    ],
+    "оожии:Southern Yukaghir": [
+      -309.9,
+      -816.4
+    ],
+    "от:Kazakh": [
+      -304.7,
+      -602.0
+    ],
+    "от:Kyrgyz": [
+      62.7,
+      -662.2
+    ],
+    "оташ:Tajik": [
+      63.6,
+      -370.6
+    ],
+    "печка:Macedonian": [
+      -166.2,
+      -240.2
+    ],
+    "печь:Russian": [
+      -69.3,
+      223.3
+    ],
+    "пожар:Macedonian": [
+      -123.8,
+      49.0
+    ],
+    "псы:East Circassian": [
+      20.0,
+      -190.7
+    ],
+    "псы:West Circassian": [
+      237.9,
+      -144.6
+    ],
+    "піч:Ukrainian": [
+      -104.7,
+      -82.4
+    ],
+    "сеча:Ukrainian": [
+      -629.4,
+      -378.1
+    ],
+    "стрелба:Bulgarian": [
+      168.8,
+      -1011.6
+    ],
+    "су:Kazakh": [
+      -671.2,
+      269.9
+    ],
+    "суу:Kyrgyz": [
+      -707.6,
+      -649.9
+    ],
+    "тʼуғр̌:Nivkh": [
+      -97.5,
+      -465.3
+    ],
+    "тол:Moksha": [
+      51.4,
+      -568.2
+    ],
+    "тол:Nivkh": [
+      66.2,
+      -656.6
+    ],
+    "толл:Akkala Sami": [
+      17.5,
+      -471.6
+    ],
+    "ту:Tundra Nenets": [
+      -214.0,
+      -866.9
+    ],
+    "тул:Eastern Mari": [
+      -207.0,
+      -762.2
+    ],
+    "тыл:Udmurt": [
+      -202.8,
+      -648.3
+    ],
+    "тӱӽәт:Eastern Khanty": [
+      -38.7,
+      2.5
+    ],
+    "ули:Udihe": [
+      -119.0,
+      -610.5
+    ],
+    "уль:Ket": [
+      272.8,
+      -252.2
+    ],
+    "уля:Northern Mansi": [
+      62.0,
+      -843.7
+    ],
+    "урина:Russian": [
+      -117.7,
+      -603.6
+    ],
+    "ус:Mongolian": [
+      -623.0,
+      -728.8
+    ],
+    "усн:Kalmyk": [
+      -103.0,
+      -174.5
+    ],
+    "ут:Bashkir": [
+      223.2,
+      -316.7
+    ],
+    "уһан:Buryat": [
+      -61.3,
+      -267.7
+    ],
+    "хи:Chechen": [
+      -409.3,
+      -102.9
+    ],
+    "хий:Ingush": [
+      -313.4,
+      -141.1
+    ],
+    "цӏе:Chechen": [
+      -117.8,
+      -818.0
+    ],
+    "цӏи:Ingush": [
+      139.1,
+      -713.2
+    ],
+    "чаһць:Akkala Sami": [
+      -425.7,
+      -377.2
+    ],
+    "чаӽ:Nivkh": [
+      -488.7,
+      -163.9
+    ],
+    "шин:Lak": [
+      -466.6,
+      -462.1
+    ],
+    "шыв:Chuvash": [
+      -894.0,
+      -425.2
+    ],
+    "щин:Lak": [
+      -479.6,
+      -316.1
+    ],
+    "янғын:Bashkir": [
+      -929.1,
+      -529.8
+    ],
+    "үрт:Bashkir": [
+      102.0,
+      -133.7
+    ],
+    "һал:Kalmyk": [
+      319.9,
+      -782.6
+    ],
+    "һыу:Bashkir": [
+      -324.8,
+      362.9
+    ],
+    "խարույկ:Armenian": [
+      -350.8,
+      -914.1
+    ],
+    "կրակ:Armenian": [
+      -359.4,
+      -310.0
+    ],
+    "հուր:Armenian": [
+      355.7,
+      -406.5
+    ],
+    "հրդեհ:Armenian": [
+      281.5,
+      -948.4
+    ],
+    "չիշիկ:Armenian": [
+      -358.7,
+      -317.5
+    ],
+    "ջուր:Armenian": [
+      14.7,
+      -467.2
+    ],
+    "վառարան:Armenian": [
+      381.7,
+      -869.3
+    ],
+    "וואַסער:Yiddish": [
+      -186.6,
+      -550.5
+    ],
+    "נורא:Aramaic": [
+      -181.2,
+      -546.9
+    ],
+    "פֿײַער:Yiddish": [
+      331.5,
+      95.9
+    ],
+    "שריפה:Hebrew": [
+      -16.7,
+      -370.7
+    ],
+    "آب:Kashmiri": [
+      398.5,
+      929.8
+    ],
+    "آب:Urdu": [
+      162.2,
+      759.7
+    ],
+    "آپ:Baluchi": [
+      185.1,
+      678.6
+    ],
+    "آگ:Urdu": [
+      -541.9,
+      82.1
+    ],
+    "ئاگر:Central Kurdish": [
+      131.9,
+      58.4
+    ],
+    "ئوت:Uyghur": [
+      360.8,
+      -227.5
+    ],
+    "او:Alviri-Vidari": [
+      -659.6,
+      525.6
+    ],
+    "اوبه:Pashto": [
+      232.1,
+      1051.3
+    ],
+    "اور:Pashto": [
+      325.2,
+      -697.0
+    ],
+    "اُوغ:Khowar": [
+      225.0,
+      511.3
+    ],
+    "اۆگُن:Kashmiri": [
+      -136.1,
+      -353.7
+    ],
+    "تش:Mazanderani": [
+      -210.2,
+      -758.1
+    ],
+    "جل:Urdu": [
+      36.0,
+      -285.3
+    ],
+    "حريق:Arabic": [
+      -360.3,
+      -308.4
+    ],
+    "حريقة:Arabic": [
+      -409.3,
+      -119.2
+    ],
+    "زَل:Kashmiri": [
+      55.5,
+      -837.9
+    ],
+    "سۇ:Uyghur": [
+      -535.0,
+      -637.5
+    ],
+    "عافية:Arabic": [
+      234.9,
+      -134.0
+    ],
+    "ما:Arabic": [
+      404.2,
+      -597.4
+    ],
+    "ماي:Arabic": [
+      -17.4,
+      -627.9
+    ],
+    "مي:Arabic": [
+      380.2,
+      -496.7
+    ],
+    "مي:Baharna Arabic": [
+      683.4,
+      -492.9
+    ],
+    "مي:Libyan Arabic": [
+      746.2,
+      -188.0
+    ],
+    "نار:Arabic": [
+      -22.4,
+      -637.9
+    ],
+    "پانی:Pahari-Potwari": [
+      -143.2,
+      551.1
+    ],
+    "پانی:Urdu": [
+      64.6,
+      473.6
+    ],
+    "پاڻي:Sindhi": [
+      60.0,
+      476.2
+    ],
+    "پاݨی:Saraiki": [
+      -17.3,
+      408.8
+    ],
+    "پونؠ:Kashmiri": [
+      -143.0,
+      551.1
+    ],
+    "چھو:Balti": [
+      145.9,
+      -624.2
+    ],
+    "ڛياط:Soqotri": [
+      270.7,
+      -224.4
+    ],
+    "ܡܝܐ:Assyrian Neo-Aramaic": [
+      -198.7,
+      634.0
+    ],
+    "އަލިފާން:Dhivehi": [
+      -382.7,
+      -217.9
+    ],
+    "ފެން:Dhivehi": [
+      104.2,
+      261.9
+    ],
+    "अग्नि:Hindi": [
+      -205.1,
+      -433.1
+    ],
+    "अग्नि:Marathi": [
+      -135.6,
+      -354.7
+    ],
+    "अग्नि:Sanskrit": [
+      -519.2,
+      -77.8
+    ],
+    "अप्:Sanskrit": [
+      194.8,
+      951.0
+    ],
+    "अम्म:Kurux": [
+      382.9,
+      -500.5
+    ],
+    "आग:Hindi": [
+      -624.7,
+      14.0
+    ],
+    "आगो:Nepali": [
+      -246.3,
+      -331.3
+    ],
+    "आतिश:Hindi": [
+      107.9,
+      -450.7
+    ],
+    "आप:Hindi": [
+      132.5,
+      869.9
+    ],
+    "आब:Hindi": [
+      213.0,
+      865.1
+    ],
+    "आब:Kashmiri": [
+      252.4,
+      611.7
+    ],
+    "उदक:Hindi": [
+      -51.0,
+      -11.1
+    ],
+    "उदक:Konkani": [
+      169.7,
+      -381.3
+    ],
+    "ऑइ:Shina": [
+      -828.2,
+      -360.4
+    ],
+    "ऒगुन:Kashmiri": [
+      -63.3,
+      -266.8
+    ],
+    "जल:Hindi": [
+      109.5,
+      -317.5
+    ],
+    "जल:Marathi": [
+      7.2,
+      -462.8
+    ],
+    "जल:Nepali": [
+      30.0,
+      -291.5
+    ],
+    "जल:Sanskrit": [
+      135.1,
+      -530.7
+    ],
+    "जलन:Hindi": [
+      -344.3,
+      -309.7
+    ],
+    "ज़ल:Kashmiri": [
+      -18.6,
+      -748.0
+    ],
+    "तीः:Chepang": [
+      -205.9,
+      -644.1
+    ],
+    "तीर्थ:Sanskrit": [
+      150.1,
+      -625.6
+    ],
+    "नीर:Hindi": [
+      201.0,
+      -469.9
+    ],
+    "पाणी:Bhilali": [
+      228.0,
+      283.4
+    ],
+    "पाणी:Malvi": [
+      63.0,
+      489.1
+    ],
+    "पाणी:Marathi": [
+      -143.4,
+      550.4
+    ],
+    "पानि:Maithili": [
+      228.6,
+      282.9
+    ],
+    "पानी:Hindi": [
+      74.5,
+      393.7
+    ],
+    "पानी:Nepali": [
+      245.9,
+      273.0
+    ],
+    "पानीय:Sanskrit": [
+      160.2,
+      439.8
+    ],
+    "पृथु:Sanskrit": [
+      242.1,
+      32.8
+    ],
+    "पोन्य:Kashmiri": [
+      -17.3,
+      408.9
+    ],
+    "भारत:Sanskrit": [
+      235.8,
+      -138.3
+    ],
+    "माची:Idu": [
+      746.8,
+      -410.3
+    ],
+    "मि:Newar": [
+      651.6,
+      -220.9
+    ],
+    "मूत्र:Hindi": [
+      52.4,
+      -565.2
+    ],
+    "यज्ञ:Sanskrit": [
+      -329.5,
+      354.7
+    ],
+    "लः:Newar": [
+      401.9,
+      -669.1
+    ],
+    "वाटर:Hindi": [
+      -53.8,
+      -543.3
+    ],
+    "शोला:Hindi": [
+      216.3,
+      -844.5
+    ],
+    "सरल:Sanskrit": [
+      318.8,
+      -583.6
+    ],
+    "हरि:Sanskrit": [
+      355.9,
+      -406.4
+    ],
+    "অগ্নি:Bengali": [
+      117.8,
+      -223.6
+    ],
+    "অনল:Bengali": [
+      539.8,
+      -478.0
+    ],
+    "আগুন:Bengali": [
+      122.8,
+      -228.4
+    ],
+    "আতশ:Bengali": [
+      214.6,
+      -308.0
+    ],
+    "চিকা:Rabha": [
+      -68.5,
+      111.0
+    ],
+    "জল:Bengali": [
+      210.3,
+      -228.7
+    ],
+    "জুই:Assamese": [
+      223.8,
+      -750.4
+    ],
+    "পানি:Bengali": [
+      169.8,
+      340.4
+    ],
+    "পানী:Assamese": [
+      -142.5,
+      551.1
+    ],
+    "বারি:Bengali": [
+      386.0,
+      8.4
+    ],
+    "ਅਗਨ:Punjabi": [
+      14.4,
+      -188.7
+    ],
+    "ਅੱਗ:Punjabi": [
+      -243.5,
+      -334.4
+    ],
+    "ਪਾਣੀ:Punjabi": [
+      -17.9,
+      408.1
+    ],
+    "આગ:Gujarati": [
+      280.3,
+      -57.7
+    ],
+    "પાણી:Gujarati": [
+      57.8,
+      475.9
+    ],
+    "ଅଗ୍ନି:Odia": [
+      190.0,
+      210.5
+    ],
+    "ଜଳ:Odia": [
+      360.5,
+      -74.1
+    ],
+    "ପାଣି:Odia": [
+      -67.3,
+      614.7
+    ],
+    "ஒன்று:Tamil": [
+      323.4,
+      -317.3
+    ],
+    "சிறுநீர்:Tamil": [
+      711.9,
+      -49.5
+    ],
+    "தண்ணீர்:Tamil": [
+      15.4,
+      -192.4
+    ],
+    "தீ:Tamil": [
+      404.2,
+      -329.0
+    ],
+    "நீர்:Tamil": [
+      136.9,
+      -533.7
+    ],
+    "நீர்நிலை:Tamil": [
+      874.0,
+      241.4
+    ],
+    "நெருப்பு:Tamil": [
+      366.4,
+      -229.8
+    ],
+    "అగ్ని:Telugu": [
+      159.3,
+      -53.2
+    ],
+    "నిప్పు:Telugu": [
+      438.6,
+      -148.7
+    ],
+    "నీరు:Telugu": [
+      262.1,
+      -385.1
+    ],
+    "ಅಗ್ನಿ:Kannada": [
+      158.3,
+      -52.3
+    ],
+    "ಕಿಚ್ಚು:Kannada": [
+      448.3,
+      84.9
+    ],
+    "ತೂ:Tulu": [
+      278.5,
+      -497.4
+    ],
+    "ನೀರು:Kannada": [
+      261.1,
+      -390.6
+    ],
+    "ನೀರ್:Tulu": [
+      200.9,
+      -471.6
+    ],
+    "ಬೆಂಕಿ:Kannada": [
+      292.2,
+      199.6
+    ],
+    "അഗ്നി:Malayalam": [
+      158.8,
+      -52.9
+    ],
+    "ജലം:Malayalam": [
+      -93.7,
+      -177.1
+    ],
+    "തീ:Malayalam": [
+      452.3,
+      -435.5
+    ],
+    "വെള്ളം:Malayalam": [
+      61.1,
+      -369.5
+    ],
+    "งอ:Eastern Lawa": [
+      -93.7,
+      -176.0
+    ],
+    "งอ:Western Lawa": [
+      -22.1,
+      -95.8
+    ],
+    "ชล:Thai": [
+      82.4,
+      -223.7
+    ],
+    "ที:Gong": [
+      287.9,
+      -477.2
+    ],
+    "น้ำ:Thai": [
+      153.1,
+      88.5
+    ],
+    "ลอา-อืม:Eastern Lawa": [
+      403.6,
+      244.0
+    ],
+    "ลอา-อูม:Eastern Lawa": [
+      339.0,
+      -140.8
+    ],
+    "ลเอม:Eastern Lawa": [
+      210.6,
+      126.7
+    ],
+    "อาเย:Urak Lawoi'": [
+      -502.8,
+      441.3
+    ],
+    "เตา:Thai": [
+      96.8,
+      151.2
+    ],
+    "เพลิง:Thai": [
+      760.3,
+      479.2
+    ],
+    "ไฟ:Thai": [
+      317.3,
+      649.5
+    ],
+    "ນ້ຳ:Lao": [
+      195.4,
+      215.6
+    ],
+    "ອົມ:Khmu": [
+      522.6,
+      -77.1
+    ],
+    "ໄຟ:Lao": [
+      432.9,
+      415.5
+    ],
+    "ཆུ:Dzongkha": [
+      367.8,
+      -238.4
+    ],
+    "ཆུ:Sherpa": [
+      222.4,
+      -559.6
+    ],
+    "ཆུ:Tibetan": [
+      224.5,
+      -750.4
+    ],
+    "མེ:Dzongkha": [
+      798.6,
+      -96.5
+    ],
+    "མེ:Tibetan": [
+      705.1,
+      -44.9
+    ],
+    "ဍာ်:Mon": [
+      14.8,
+      -111.2
+    ],
+    "တေဇော:Burmese": [
+      288.6,
+      -65.2
+    ],
+    "ဗမတ်:Mon": [
+      463.6,
+      172.9
+    ],
+    "မီး:Burmese": [
+      245.0,
+      34.5
+    ],
+    "မ့ၣ်:S'gaw Karen": [
+      734.3,
+      103.4
+    ],
+    "ရေ:Burmese": [
+      -206.4,
+      -145.8
+    ],
+    "ဢႃႇပေႃႇ:Shan": [
+      369.6,
+      446.6
+    ],
+    "ၼမ်ႉ:Shan": [
+      69.2,
+      358.7
+    ],
+    "ၽႆး:Shan": [
+      431.8,
+      561.1
+    ],
+    "ၾႆး:Shan": [
+      322.0,
+      534.0
+    ],
+    "ალი:Georgian": [
+      557.1,
+      -607.3
+    ],
+    "ცეცხლი:Georgian": [
+      721.3,
+      -311.9
+    ],
+    "წე:Bats": [
+      57.6,
+      -744.2
+    ],
+    "წყალი:Georgian": [
+      446.4,
+      83.3
+    ],
+    "ხანძარი:Georgian": [
+      652.0,
+      -130.7
+    ],
+    "ხი:Bats": [
+      -612.5,
+      53.9
+    ],
+    "ኣኹ:Awngi": [
+      -60.6,
+      305.3
+    ],
+    "እሳት:Amharic": [
+      -143.3,
+      -354.4
+    ],
+    "ᎠᎹ:Cherokee": [
+      752.1,
+      205.7
+    ],
+    "ᎠᏥᎳ:Cherokee": [
+      442.2,
+      -159.1
+    ],
+    "ទៀក:Tampuan": [
+      323.4,
+      292.3
+    ],
+    "ᠤᠰᠤ:Mongolian": [
+      133.5,
+      -538.3
+    ],
+    "ᠤᠰᠤᠨ:Middle Mongol": [
+      -172.0,
+      -254.5
+    ],
+    "ᠮᡠᡴᡝ:Manchu": [
+      161.8,
+      440.1
+    ],
+    "ᤆᤫᤠ᤹ᤸ:Limbu": [
+      226.1,
+      -135.9
+    ],
+    "ᤔᤡ:Limbu": [
+      453.7,
+      -246.2
+    ],
+    "ᦓᧄᧉ:Lü": [
+      150.6,
+      -306.0
+    ],
+    "ᦺᦝ:Lü": [
+      423.6,
+      490.5
+    ],
+    "ᨶ᩶ᩣᩴ:Northern Thai": [
+      -17.2,
+      407.8
+    ],
+    "ᨼᩱ:Northern Thai": [
+      571.4,
+      435.0
+    ],
+    "ᰕᰧ:Lepcha": [
+      625.9,
+      106.5
+    ],
+    "ᰣᰫᰵ:Lepcha": [
+      378.5,
+      7.5
+    ],
+    "ᱥᱮᱺᱜᱮᱹᱞ:Santali": [
+      334.8,
+      -143.0
+    ],
+    "ᱫᱟᱜ:Santali": [
+      -62.2,
+      114.5
+    ],
+    "ḇanyo:Sahu": [
+      -120.8,
+      403.4
+    ],
+    "ὕδωρ:Ancient Greek": [
+      317.3,
+      -578.5
+    ],
+    "ⴰⴼⴰ:Central Atlas Tamazight": [
+      301.5,
+      974.6
+    ],
+    "ⴰⵎⴰⵏ:Central Atlas Tamazight": [
+      476.1,
+      173.5
+    ],
+    "アペ:Ainu": [
+      269.9,
+      705.0
+    ],
+    "ストーブ:Japanese": [
+      413.4,
+      -78.3
+    ],
+    "囲炉裏:Japanese": [
+      623.5,
+      -408.3
+    ],
+    "水:Chinese": [
+      109.9,
+      -448.2
+    ],
+    "水:Japanese": [
+      407.8,
+      241.4
+    ],
+    "水:Miyako": [
+      15.5,
+      280.1
+    ],
+    "水:Okinawan": [
+      591.8,
+      -36.6
+    ],
+    "水:Yonaguni": [
+      170.0,
+      -54.9
+    ],
+    "水:Yoron": [
+      200.7,
+      -233.3
+    ],
+    "火:Chinese": [
+      485.2,
+      275.0
+    ],
+    "火:Japanese": [
+      127.4,
+      -342.2
+    ],
+    "火事:Japanese": [
+      377.1,
+      6.9
+    ],
+    "火災:Japanese": [
+      477.3,
+      -3.3
+    ],
+    "炎:Japanese": [
+      110.6,
+      -229.0
+    ],
+    "ꒉ:Nuosu": [
+      -186.4,
+      102.0
+    ],
+    "ꓬꓲꓻ:Lisu": [
+      -531.9,
+      -382.1
+    ],
+    "ꠙꠣꠘꠤ:Sylheti": [
+      -40.9,
+      508.7
+    ],
+    "ꦠꦺꦴꦪ:Javanese": [
+      -243.1,
+      -346.8
+    ],
+    "ꦧꦚꦸ:Javanese": [
+      -143.0,
+      550.6
+    ],
+    "ꪙꪾ꫁:Tai Dam": [
+      -17.3,
+      405.0
+    ],
+    "ꪼꪡ:Tai Dam": [
+      442.2,
+      562.3
+    ],
+    "ꯃꯩ:Manipuri": [
+      307.1,
+      861.7
+    ],
+    "물:Jeju": [
+      197.9,
+      -411.3
+    ],
+    "물:Korean": [
+      448.8,
+      -250.4
+    ],
+    "불:Korean": [
+      394.1,
+      159.7
+    ],
+    "큰불:Korean": [
+      673.7,
+      39.6
+    ],
+    "화재:Korean": [
+      10.1,
+      570.0
+    ],
+    "𐌅𐌄𐌓𐌔𐌄:Etruscan": [
+      -56.4,
+      -274.2
+    ],
+    "𐌍𐌄𐌓𐌉:Etruscan": [
+      239.3,
+      -653.5
+    ],
+    "𐍆𐍉𐌽:Gothic": [
+      -107.7,
+      454.6
+    ],
+    "𐤌𐤌:Phoenician": [
+      823.1,
+      136.2
+    ],
+    "𐬀𐬞:Avestan": [
+      242.4,
+      780.8
+    ],
+    "𐬁𐬙𐬀𐬭:Avestan": [
+      354.6,
+      -409.2
+    ],
+    "𑃔:Sora": [
+      276.8,
+      -270.1
+    ],
+    "𖽃𖽔𖾐 𖼮𖽡𖽦𖾐:Lipo": [
+      4116.1,
+      -29.0
+    ]
+  }
+}
