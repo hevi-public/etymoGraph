@@ -165,7 +165,14 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: Core product complete (vis.js etymology graph + phonetic concept map); roadmap drafted
-**Last completed**: SPC-00021 Phase 3+4 (see `specs/00021-server-side-layout-streaming/spec.md`
+**Last completed**: SPC-00021 Phase 0d — the perf baseline harness
+(`tests/e2e/layout-baseline.spec.js`, opt-in via `LAYOUT_BASELINE=1`, never in CI;
+`make bench-layout-baseline`) and the measured §10 baseline table. Headline numbers (client
+physics, Apple M2): force-directed settles in 11.65 s (cheese, 108 nodes) → 143.16 s (cupboard,
+779 nodes) vs the < 2.5 s cold target; **era-layered — the default layout — never fires
+`stabilized` at all** (clamp-locked `avoidOverlap` oscillation on the fixed-Y tiers; spec §11
+risk 2 is live production behavior and the SPC-00004 R5 physics freeze never engages for it).
+Before that: SPC-00021 Phase 3+4 (see `specs/00021-server-side-layout-streaming/spec.md`
 §8–9) — frontend integration of the Phase 2 SSE endpoints, default-`client` (opt-in via
 `?layoutMode=server`). New `frontend/public/js/layout-stream.js` (singleton EventSource wrapper with
 first-`graph` timeout + no-reconnect-after-`final`; a pure, unit-tested rAF position tween);
@@ -182,6 +189,14 @@ covering the fallback architecture after the Phase 5 flip.
 and record the before/after settle-time table (spec §10).
 
 **Recent**:
+- SPC-00021 Phase 0d (2026-07-10): baseline harness + measured table (spec §10, decision-log
+  addendum). Probes install via `page.addInitScript` (an accessor on `window.__etymoNetwork`; the
+  concept map needs an rAF poller instead — its `conceptNetwork` was a top-level `let`, so the
+  `window.conceptNetwork` hook the E2E helpers assert on had never actually existed; since fixed
+  in PR #20 — `concept-map.js` now sets `window.conceptNetwork` explicitly). Measured against
+  SPC-00013 fixture trees (`LAYOUT_BASELINE_FIXTURES=1`) because the local MongoDB had lost its
+  `etymology.words` collection at measurement time (since restored via full reload; the
+  concept-map baseline column is deferred to a follow-up live run).
 - SPC-00021 Phase 3+4 (2026-07-05): frontend integration described above. Flag is read URL >
   localStorage > default (`client`); it is intentionally NOT a view-scoped router param (that would
   reset on view switch and break the router's `.toEqual` unit tests), so an explicit `?layoutMode=`

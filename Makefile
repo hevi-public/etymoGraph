@@ -1,4 +1,4 @@
-.PHONY: setup run stop clean download load logs build update setup-dev lint test acceptance format precompute-phonetic precompute-edges test-frontend test-e2e test-integration test-all collect-fixtures
+.PHONY: setup run stop clean download load logs build update setup-dev lint test acceptance format precompute-phonetic precompute-edges test-frontend test-e2e test-integration test-all collect-fixtures bench-layout-baseline
 
 setup: build download load
 	@echo "Setup complete! Run 'make run' to start."
@@ -87,3 +87,6 @@ test-all:  ## Run all tests
 
 collect-fixtures:  ## Regenerate Wiktionary example fixtures (SPC-00013, requires make run)
 	python scripts/collect_wiktionary_examples.py --all $(FLAGS)
+
+bench-layout-baseline:  ## Measure client-physics layout baseline (SPC-00021 §10, requires make run; never in CI)
+	LAYOUT_BASELINE=1 npx playwright test tests/e2e/layout-baseline.spec.js --workers=1 $(FLAGS)

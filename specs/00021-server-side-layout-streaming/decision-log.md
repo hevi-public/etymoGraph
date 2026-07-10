@@ -120,3 +120,43 @@ without blocking on it.
   direct verification of the layout engine, `find_descendants`, and `phonetic_similarity.py`;
   drafted this spec and log. Attempted to review the HAIP repo directly (`add_repo` approval did
   not come through); relied on SPC-00020 as its in-repo adaptation.
+
+## Addendum — Phase 0d baseline measurement (2026-07-10)
+
+The §5 "Perf baseline" harness (`tests/e2e/layout-baseline.spec.js`, `make bench-layout-baseline`)
+was implemented and run after Phase 2. Three decisions made during that work, and one finding:
+
+**Fixture-served trees.** At measurement time the local MongoDB data directory had lost the
+`etymology.words` collection file (mongod fasserts on any word query; `data/raw/` was empty too,
+so no reload without a fresh multi-hour download of a *newer* Kaikki dump than the fixtures were
+captured from). Rather than block the baseline — or measure against drifted data — the harness
+gained an opt-in `LAYOUT_BASELINE_FIXTURES=1` mode that fulfills `/api/etymology/{word}/tree` from
+the SPC-00013 captures via Playwright request interception. The measured quantity
+(`stabilized − network-created`, per §5) starts *after* the response is parsed, so serving the
+captured production response changes nothing about the metric while pinning the exact graph
+topology. Default mode still measures the live stack. Concept-map runs need live concept
+resolution and are skipped in fixture mode; the concept baseline is deferred until the DB is
+restored (`make update`).
+
+**Timed-out runs are not repeated.** Layouts run under a fixed `randomSeed`, so a run that
+produces no `stabilized` event within the timeout would repeat identically; the harness
+short-circuits the remaining runs for that combination instead of burning 3 timeouts. The
+"three runs, median" rule exists for wall-clock noise of *settled* runs and still applies there.
+
+**Clamp diagnostics.** An unstabilized run reports the fraction of frames in which some node rode
+the `maxVelocity` clamp, to distinguish a non-converging oscillation (fraction ≈ 1) from a merely
+slow settle.
+
+**Finding: era-layered never stabilizes on the client.** For every measured word, era-layered —
+the *default* layout — produces no `stabilized` event at all (velocities pinned at the
+`maxVelocity` clamp for 73–100% of frames; verified unchanged over 3+ minutes on cheese).
+Mechanism: same-tier nodes on a fixed-Y band shoving each other via `avoidOverlap` — §11 risk 2
+("era-layered 1D solve can oscillate") is not a porting risk but today's production behavior.
+Consequences: SPC-00004 R5's stabilized→freeze never engages for era-layered (client physics runs,
+and burns CPU, indefinitely), and the era-layered client baseline is "∞" — the server engine's
+iteration cap (§6: 500 for era-layered) is the only thing that gives era-layered a settle time at
+all.
+
+**Participants:** Claude (autonomous implementation session, 2026-07-10) — harness, measurements,
+this addendum. Human decision still owed: restoring the local dataset (`make update`) and rerunning
+`make bench-layout-baseline` for the concept-map column.

@@ -530,6 +530,7 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 | `make test-frontend` | Run Vitest unit tests (router, etc.) |
 | `make test-e2e` | Run Playwright E2E tests (requires `make run`) |
 | `make test-all` | Run all tests (pytest + Vitest + Playwright) |
+| `make bench-layout-baseline` | Measure the client-physics layout settle baseline (SPC-00021 §10; opt-in perf harness, requires `make run`, never runs in CI) |
 | `make logs` | Tail all service logs |
 | `make clean` | Remove containers and data |
 | `./scripts/init.sh` | Check prerequisites, create dirs, build images |

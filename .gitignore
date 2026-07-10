@@ -16,3 +16,6 @@ htmlcov/
 .vscode/
 *.swp
 *.swo
+
+# Playwright artifacts
+test-results/
