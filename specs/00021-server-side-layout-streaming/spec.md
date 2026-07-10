@@ -329,7 +329,10 @@ cupboard 940) predate the determinism + reverse-edge fixes. Trees were served fr
 captures (`LAYOUT_BASELINE_FIXTURES=1` — topology identical to the live API; the measured window
 starts after the response is parsed) because the local dataset was lost at measurement time; the
 concept-map baseline requires the live DB and is deferred until after a data reload (see the
-decision-log addendum).
+decision-log addendum). The wine/cupboard force-directed medians exceed the harness's default
+90 s settle ceiling — reproducing them requires the documented override, e.g.
+`LAYOUT_BASELINE_TIMEOUT_MS=240000 LAYOUT_BASELINE_LAYOUTS=force-directed make bench-layout-baseline`
+(the ceiling only bounds the wait; it does not affect the measured settle time).
 
 ¹ era-layered produced no `stabilized` event on any word (90 s ceiling): same-tier nodes on a
 fixed-Y band shove each other via `avoidOverlap` with velocities riding the `maxVelocity` clamp
