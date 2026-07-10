@@ -43,6 +43,7 @@ function initConceptMap() {
     if (conceptNetwork) {
         conceptNetwork.destroy();
         conceptNetwork = null;
+        window.conceptNetwork = null;
     }
 }
 
@@ -170,6 +171,9 @@ function updateConceptMap(data) {
         { nodes: conceptNodesDS, edges: conceptEdgesDS },
         options
     );
+
+    // Expose network instance for E2E tests (top-level `let` is not a window property)
+    window.conceptNetwork = conceptNetwork;
 
     // Show word count status
     const statusEl = document.getElementById("concept-status");
@@ -534,6 +538,7 @@ function destroyConceptMap() {
     if (conceptNetwork) {
         conceptNetwork.destroy();
         conceptNetwork = null;
+        window.conceptNetwork = null;
     }
     conceptNodesDS = null;
     conceptEdgesDS = null;
