@@ -37,6 +37,20 @@ function blendHexColors(baseHex, accentHex, ratio) {
     return `rgb(${r[0]},${r[1]},${r[2]})`;
 }
 
+/**
+ * Normalize per-word concept membership onto the client's `_concepts`
+ * convention. The client-mode merge (`mergeConceptResults`) tags `_concepts`
+ * directly; server `graph` events carry the same membership as `concepts`
+ * (SPC-00021 Phase 5). Pure — the tint/tooltip logic reads only `_concepts`.
+ * @param {Array<Object>} words word entries from either source
+ * @returns {Array<Object>} words, each with `_concepts` when membership is known
+ */
+function normalizeConceptMembership(words) {
+    return (words || []).map((w) =>
+        (!w._concepts && Array.isArray(w.concepts)) ? { ...w, _concepts: w.concepts } : w
+    );
+}
+
 const conceptContainer = document.getElementById("concept-graph");
 
 function similarityToEdgeLength(similarity) {
@@ -77,7 +91,7 @@ function updateConceptMap(data, opts) {
     // Deduplicate words by ID (same word+lang may appear with different POS)
     const seenIds = new Set();
     const uniqueWords = [];
-    for (const w of data.words) {
+    for (const w of normalizeConceptMembership(data.words)) {
         if (!seenIds.has(w.id)) {
             seenIds.add(w.id);
             uniqueWords.push(w);
