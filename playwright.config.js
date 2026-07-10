@@ -3,7 +3,7 @@ export default defineConfig({
     testDir: "tests/e2e",
     timeout: 30000,
     use: {
-        baseURL: "http://localhost:8080",
+        baseURL: process.env.PW_BASE_URL || "http://localhost:8080",
         actionTimeout: 5000,
         screenshot: "only-on-failure",
     },

@@ -164,7 +164,14 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: Core product complete (vis.js etymology graph + phonetic concept map); roadmap drafted
-**Last completed**: SPC-00021 Phase 2 (see `specs/00021-server-side-layout-streaming/spec.md` §7) —
+**Last completed**: SPC-00021 Phase 0d — the perf baseline harness
+(`tests/e2e/layout-baseline.spec.js`, opt-in via `LAYOUT_BASELINE=1`, never in CI;
+`make bench-layout-baseline`) and the measured §10 baseline table. Headline numbers (client
+physics, Apple M2): force-directed settles in 11.65 s (cheese, 108 nodes) → 143.16 s (cupboard,
+779 nodes) vs the < 2.5 s cold target; **era-layered — the default layout — never fires
+`stabilized` at all** (clamp-locked `avoidOverlap` oscillation on the fixed-Y tiers; spec §11
+risk 2 is live production behavior and the SPC-00004 R5 physics freeze never engages for it).
+Before that: SPC-00021 Phase 2 (see `specs/00021-server-side-layout-streaming/spec.md` §7) —
 the SSE layout endpoints (`backend/app/routers/layout.py`: 4 additive endpoints, plain-GET +
 stream × etymology/concept), the hand-rolled SSE formatter (`services/sse.py`), the `layouts`
 write-through cache (`services/layout_cache.py`, canonical sha256 key + node-id-hash
@@ -178,6 +185,14 @@ zero-frames warm.
 `layoutMode` flag, rAF tweening, filter re-solve, E2E), then Phase 5 flip default to `server`.
 
 **Recent**:
+- SPC-00021 Phase 0d (2026-07-10): baseline harness + measured table (spec §10, decision-log
+  addendum). Probes install via `page.addInitScript` (an accessor on `window.__etymoNetwork`; the
+  concept map needs an rAF poller instead — its `conceptNetwork` is a top-level `let`, so the
+  `window.conceptNetwork` hook the E2E helpers assert on has never actually existed; flagged as a
+  separate fix). Measured against SPC-00013 fixture trees (`LAYOUT_BASELINE_FIXTURES=1`) because
+  the local MongoDB lost its `etymology.words` collection file (mongod fasserts on any word query;
+  `data/raw/` is empty too — run `make update` before any live-DB work; the concept-map baseline
+  column is deferred until then).
 - SPC-00021 Phase 2 (2026-07-05): endpoints + SSE + `layouts` cache + nginx + acceptance/
   characterization tests. Refactored `etymology.py`/`concept_map.py` to extract shared
   `build_tree`/`resolve_concept_words` so the layout endpoints reuse the exact topology path (no

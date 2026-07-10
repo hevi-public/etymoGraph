@@ -309,15 +309,34 @@ Ordered commit groups (each green + revertible), branch `claude/visjs-graph-perf
 6. **Phase 3+4**: frontend integration (default `client`) + E2E + docs.
 7. **Phase 5**: flip default to `server`; before/after table below.
 
-**Baseline (Phase 0d, to be filled in):**
+**Baseline (Phase 0d, measured 2026-07-10):**
 
 | Graph | Nodes | Baseline settle (client physics) | Server cold | Server warm |
 |---|---|---|---|---|
-| cheese | 108 | *(measure)* | | |
-| fire | 263 | *(measure)* | target < 1.2 s | |
-| hound | 464 | *(measure)* | | |
-| wine | 540 | *(measure)* | | |
-| cupboard | 940 | *(measure)* | target < 2.5 s | target < 0.8 s |
+| cheese | 108 | force-directed 11.65 s; era-layered never stabilizes¹ | | |
+| fire | 271 | force-directed 25.37 s; era-layered never stabilizes¹ | target < 1.2 s | |
+| hound | 326 | force-directed 15.26 s; era-layered never stabilizes¹ | | |
+| wine | 534 | force-directed 72.83 s; era-layered never stabilizes¹ | | |
+| cupboard | 779 | force-directed 143.16 s; era-layered never stabilizes¹ | target < 2.5 s | target < 0.8 s |
+
+Measurement conditions: `make bench-layout-baseline` (Apple M2, macOS 26.5, headless Chromium /
+Playwright 1.58), median of 3 runs; metric per §5 (`stabilized` event − network creation). Run
+variance was < 0.2% throughout (fixed `randomSeed` ⇒ deterministic tick count). Long-frame
+(> 33 ms) counts during settle were 0–2 up to wine and 9 for cupboard — on this hardware the cost
+shows up as total settle duration rather than per-frame jank. Node counts are the post-R1
+regenerated fixture trees (PRs #14/#15); the pre-R1 estimates (fire 263, hound 464, wine 540,
+cupboard 940) predate the determinism + reverse-edge fixes. Trees were served from the SPC-00013
+captures (`LAYOUT_BASELINE_FIXTURES=1` — topology identical to the live API; the measured window
+starts after the response is parsed) because the local dataset was lost at measurement time; the
+concept-map baseline requires the live DB and is deferred until after a data reload (see the
+decision-log addendum).
+
+¹ era-layered produced no `stabilized` event on any word (90 s ceiling): same-tier nodes on a
+fixed-Y band shove each other via `avoidOverlap` with velocities riding the `maxVelocity` clamp
+(73–100% of frames; unchanged after 3+ min). §11 risk 2 is today's production behavior — the
+SPC-00004 R5 physics freeze never engages for the default layout, so client physics burns CPU
+indefinitely. The server engine's era-layered iteration cap (§6) is what first gives this layout
+a bounded settle at all.
 
 **Acceptance** ("settled" := today's `stabilized` event; server := `final` applied + tween done):
 targets above; no > 16 ms main-thread frames during server-mode settle; first paint not slower
