@@ -515,6 +515,7 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 | `make load` | Load data into MongoDB |
 | `make precompute-phonetic` | Precompute Dolgopolsky sound classes for concept map (requires `lingpy` + `pymongo`) |
 | `make precompute-edges` | Precompute compound/affix etymology edges (requires `pymongo`) |
+| `make acceptance` | Run only the hermetic acceptance tier (SPC-00020, no live stack) |
 | `make test-frontend` | Run Vitest unit tests (router, etc.) |
 | `make test-e2e` | Run Playwright E2E tests (requires `make run`) |
 | `make test-all` | Run all tests (pytest + Vitest + Playwright) |
@@ -649,7 +650,8 @@ The first event carries the full graph (same shape `/tree`/`/concept-map` return
 make setup-dev  # Install linters, pre-commit hooks, test dependencies
 make lint       # Run Ruff and ESLint
 make format     # Format Python code with Ruff
-make test       # Run pytest
+make test       # Run pytest (hermetic: unit + acceptance, no live stack)
+make acceptance # Run only the hermetic acceptance tier (SPC-00020)
 ```
 
 **Test coverage**:
@@ -662,6 +664,7 @@ make test       # Run pytest
 - `tests/fixtures/wiktionary/`: Snapshot fixtures for the canonical-word integration tests planned in the SPC-00013 follow-up. Each fixture pairs current API output with hand-encoded Wiktionary ground truth and an explicit gap inventory (Q1–Q12). Regenerate with `make collect-fixtures` against `make run` services. Re-collecting an existing fixture preserves its hand-curated `known_gaps`/`wiktionary_reference`/`meta.notes` by default (only `system_output`/`raw_kaikki`/`meta.collected_at`/`meta.etymograph_git_sha` refresh) — pass `--reset-review` to `collect_wiktionary_examples.py` to discard curated content and regenerate it heuristically instead.
 - `tests/integration/test_api_characterization.py`: SPC-00013 Phase 1 — black-box pytest suite that parametrizes over the fixture JSONs and asserts each live API response equals the captured snapshot. Run with `make test-integration` (requires `make run`). Skips automatically when the API is unreachable.
 - `tests/integration/test_wiktionary_consistency.py`: SPC-00013 Phase 3 — Wiktionary-consistency assertions over fixture content (no API needed). Each documented gap is xfailed; closing a gap in Phase 4 flips the xfail to XPASS, forcing the developer to update both system code and `known_gaps` flag in the same commit.
+- `backend/tests/test_acceptance_snapshots.py`: SPC-00020 hermetic **acceptance tier** — runs the full FastAPI app in-process via `httpx.ASGITransport` (no live server, no live Mongo). The Mongo seam (`get_words_collection`) is overridden with `FakeWordsCollection` seeded from the SPC-00013 `raw_kaikki` fixtures, and `word_detail` + `chain` responses are asserted byte-for-byte against the recorded `system_output`. This is the CI-runnable mirror of the live `tests/integration` suite (which skips when the stack is down). Tree assertions are deferred: the recorded trees pull descendants/cognates from the full corpus, which a single-doc seed cannot reproduce. Run with `make acceptance`.
 - Future: tests for other services (template_parser, lang_cache) when touched
 
 **Linting configuration**:
