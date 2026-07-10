@@ -28,7 +28,10 @@ from app.services.layout.seed import compute_tree_positions
 
 # "2": etymology layouts switched from the base constant-magnitude central
 # gravity to vis's ForceAtlas2BasedCentralGravitySolver law (SPC-00021).
-LAYOUT_ALGO_VERSION = "2"
+# "3": concept layout switched from the FA2 repulsion law to vis's barnesHut
+# 1/d² law its G=-8000 was calibrated for — under FA2's 1/d law every concept
+# solve exploded to a velocity-clamp-limited square (SPC-00021 Phase 5).
+LAYOUT_ALGO_VERSION = "3"
 
 __all__ = [
     "ERA_TIERS",

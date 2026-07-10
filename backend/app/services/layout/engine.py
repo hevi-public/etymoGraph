@@ -61,17 +61,17 @@ LAYOUTS = ("force-directed", "era-layered", "concept")
 
 # Physics constants per layout, from graph.js's LAYOUTS registry
 # (force-directed/era-layered) and concept-map.js's own barnesHut options.
-# FA2-style repulsion/spring/integration formulas (fa2.py) are used for all
-# three here — concept's real client-side solver is barnesHut, but SPC-00021
-# R3 uses one solver implementation server-side; visual equivalence, not
-# solver-identity, is the acceptance bar (spec §11 risk 1). Central gravity
-# is the exception: vis picks its gravity law by solver type (see fa2.py's
-# module docstring), so each layout gets the variant its client solver
-# actually runs — "fa2" for the forceAtlas2Based etymology layouts, "base"
-# for the barnesHut concept map. graph.js's >1000-node performance fallback
-# to barnesHut (applyPerformanceOverrides) is deliberately not mirrored:
-# this engine ships for the <1500-node regime under the same visual-
-# equivalence bar.
+# Spring/integration formulas (fa2.py) are shared, but BOTH force laws vis
+# picks by solver type follow the layout's client solver: central gravity
+# ("fa2" for the forceAtlas2Based etymology layouts, "base" for the
+# barnesHut concept map) and repulsion ("fa2"'s 1/d-with-degree vs
+# "barneshut"'s 1/d²-no-degree — see fa2.py's module docstring). The
+# constants are calibrated per law: running concept's G=-8000 under the FA2
+# law was the SPC-00021 Phase 5 blow-up (every concept solve expanded to a
+# velocity-clamp-limited ±8-11k px square). graph.js's >1000-node
+# performance fallback to barnesHut (applyPerformanceOverrides) is
+# deliberately not mirrored: this engine ships for the <1500-node regime
+# under the visual-equivalence bar (spec §11 risk 1).
 _LAYOUT_PARAMS: dict[str, SolverParams] = {
     "force-directed": SolverParams(
         gravitational_constant=-350,
@@ -105,6 +105,7 @@ _LAYOUT_PARAMS: dict[str, SolverParams] = {
         max_velocity=50,
         max_iterations=300,
         central_gravity_variant="base",
+        repulsion_law="barneshut",
     ),
 }
 

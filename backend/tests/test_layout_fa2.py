@@ -498,3 +498,109 @@ def test_repulsion_scales_to_hundreds_of_nodes_quickly():
 
     assert len(steps) > 0
     assert elapsed < 5.0
+
+
+# --- barnesHut repulsion law (SPC-00021 Phase 5: the concept map's law) -----
+
+
+@pytest.mark.tier0
+def test_barneshut_repulsion_matches_the_pinned_vis_formula():
+    """Hand-computed check against BarnesHutSolver._calculateForces (v9.1.9):
+    force on i = (pos_j - pos_i) * G * m_i * m_j / d³, i.e. magnitude
+    |G| * m_i * m_j / d² directed away from j for negative G — no degree
+    factor, one power of d steeper than the FA2 law."""
+    from app.services.layout.fa2 import default_repulsion_fn
+
+    pos = np.array([[0.0, 0.0], [3.0, 4.0]])  # d = 5
+    mass = np.array([2.0, 1.5])
+    degree = np.array([7.0, 1.0])  # must be ignored under barneshut
+    rng = seed_rng(["a", "b"], "3")
+
+    forces = default_repulsion_fn(
+        pos, mass, degree, np.zeros(2), -1000.0, 0.0, rng, law="barneshut"
+    )
+
+    # gravityForce = G*m_i*m_j/d³ = -1000*3/125 = -24; force_0 = (3,4)*-24
+    np.testing.assert_allclose(forces[0], [-72.0, -96.0], rtol=1e-12)
+    np.testing.assert_allclose(forces[1], [72.0, 96.0], rtol=1e-12)
+
+
+@pytest.mark.tier0
+def test_barneshut_repulsion_ignores_degree_where_fa2_scales_with_it():
+    """The degree factor is FA2-only: changing degrees must change FA2 forces
+    and leave barnesHut forces untouched."""
+    from app.services.layout.fa2 import default_repulsion_fn
+
+    pos = np.array([[0.0, 0.0], [100.0, 0.0]])
+    mass = np.ones(2)
+    low = np.array([1.0, 1.0])
+    high = np.array([9.0, 9.0])
+    rng = seed_rng(["a", "b"], "3")
+
+    bh_low = default_repulsion_fn(pos, mass, low, np.zeros(2), -8000.0, 0.0, rng, law="barneshut")
+    bh_high = default_repulsion_fn(pos, mass, high, np.zeros(2), -8000.0, 0.0, rng, law="barneshut")
+    np.testing.assert_array_equal(bh_low, bh_high)
+
+    fa2_low = default_repulsion_fn(pos, mass, low, np.zeros(2), -8000.0, 0.0, rng, law="fa2")
+    fa2_high = default_repulsion_fn(pos, mass, high, np.zeros(2), -8000.0, 0.0, rng, law="fa2")
+    np.testing.assert_allclose(fa2_high, 9 * fa2_low, rtol=1e-12)
+
+
+@pytest.mark.tier0
+def test_barneshut_coincident_nodes_get_a_seeded_push_apart():
+    """Exactly-coincident nodes can't get a direction from the matmul path;
+    the seeded jitter pass must still push them apart under the barneshut law,
+    deterministically."""
+    from app.services.layout.fa2 import default_repulsion_fn
+
+    pos = np.zeros((2, 2))
+    mass = np.ones(2)
+    degree = np.ones(2)
+
+    forces_a = default_repulsion_fn(
+        pos, mass, degree, np.zeros(2), -8000.0, 0.0, seed_rng(["a", "b"], "3"), law="barneshut"
+    )
+    forces_b = default_repulsion_fn(
+        pos, mass, degree, np.zeros(2), -8000.0, 0.0, seed_rng(["a", "b"], "3"), law="barneshut"
+    )
+    assert np.abs(forces_a).max() > 0
+    np.testing.assert_array_equal(forces_a, forces_b)  # seeded → bit-identical
+    np.testing.assert_allclose(forces_a[0], -forces_a[1])  # pushed apart symmetrically
+
+
+@pytest.mark.tier0
+def test_unknown_repulsion_law_is_rejected():
+    with pytest.raises(ValueError, match="repulsion_law"):
+        SolverParams(
+            gravitational_constant=-350,
+            central_gravity=0.0,
+            spring_constant=0.06,
+            damping=0.5,
+            avoid_overlap=0.0,
+            min_velocity=2.0,
+            max_velocity=50,
+            repulsion_law="quadtree",
+        )
+
+
+@pytest.mark.tier0
+def test_barneshut_overlap_avoidance_uses_the_receivers_radius():
+    """avoid_overlap replaces the pair distance with
+    max(0.1 + (1-avoidOverlap)*radius_i, d - radius_i) for the RECEIVING node
+    only (vis BarnesHutSolver parent-class semantics). Production concept
+    solves run avoid_overlap=0.5 with real radii, so the transform must be
+    pinned under the barneshut law too, not only at avoid_overlap=0."""
+    from app.services.layout.fa2 import default_repulsion_fn
+
+    pos = np.array([[0.0, 0.0], [3.0, 4.0]])  # d = 5
+    mass = np.ones(2)
+    degree = np.ones(2)
+    radius = np.array([2.0, 0.0])
+    rng = seed_rng(["a", "b"], "3")
+
+    forces = default_repulsion_fn(pos, mass, degree, radius, -1000.0, 0.5, rng, law="barneshut")
+
+    # node 0 (radius 2): dist_eff = max(0.1 + 0.5*2, 5-2) = 3 → (3,4) * -1000/27
+    np.testing.assert_allclose(forces[0], [-1000.0 / 9.0, -4000.0 / 27.0], rtol=1e-12)
+    # node 1 (radius 0): transform skipped → dist_eff = 5 → (-3,-4) * -1000/125
+    np.testing.assert_allclose(forces[1], [24.0, 32.0], rtol=1e-12)
