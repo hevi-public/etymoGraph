@@ -164,12 +164,50 @@ claude mcp get mongodb  # Shows details for specific server
 ## Current Status
 
 **Phase**: Core product complete (vis.js etymology graph + phonetic concept map); roadmap drafted
-**Last completed**: SPC-00021 spec approved (server-side graph layout + SSE streaming)
-**Next task**: Implement SPC-00021 phase by phase (see `specs/00021-server-side-layout-streaming/spec.md`
-§10) — starts with the `find_descendants` determinism fix + fixture regen, then test groundwork,
-then the numpy layout engine.
+**Last completed**: SPC-00021 Phase 2 (see `specs/00021-server-side-layout-streaming/spec.md` §7) —
+the SSE layout endpoints (`backend/app/routers/layout.py`: 4 additive endpoints, plain-GET +
+stream × etymology/concept), the hand-rolled SSE formatter (`services/sse.py`), the `layouts`
+write-through cache (`services/layout_cache.py`, canonical sha256 key + node-id-hash
+invalidation), nginx SSE unbuffering, and the tiered tests (Tier 0 sse/cache, acceptance event
+contract + `final==GET` parity + cache hit/zero-frames + unknown-word + concept merge + disconnect
+cancellation, live characterization). `/tree`/`/chain` verified byte-identical; `/concept-map`
+behavior-identical (its byte order is pre-existing Mongo natural-order nondeterminism). Verified
+live against the 10.4M-doc DB: `fire` (271 nodes) streams graph→frames→final cold, graph→final
+zero-frames warm.
+**Next task**: SPC-00021 Phase 3+4 — frontend integration (`frontend/public/js/layout-stream.js`,
+`layoutMode` flag, rAF tweening, filter re-solve, E2E), then Phase 5 flip default to `server`.
 
 **Recent**:
+- SPC-00021 Phase 2 (2026-07-05): endpoints + SSE + `layouts` cache + nginx + acceptance/
+  characterization tests. Refactored `etymology.py`/`concept_map.py` to extract shared
+  `build_tree`/`resolve_concept_words` so the layout endpoints reuse the exact topology path (no
+  drift). Extended `FakeWordsCollection` with `$or`/`$ne`/`$regex` + `replace_one` for concept
+  acceptance + cache tests; added the missing `concept_resolver._concept_cache` autouse reset.
+  Backend suite: 117 pass (the 2 `slow` perf-budget tests are hardware-sensitive and flake on
+  slow/BLAS-less numpy — unrelated to Phase 2).
+- SPC-00021 follow-ups merged (2026-07-05): two background tasks spawned from the Phase 0+1 work
+  landed as separate PRs (#14, #15) and were reunified onto this branch. #14 fixes the
+  `find_descendants` reverse-edge bug described below (ancestor→descendant direction restored,
+  matching `_build_ancestor_chain`); #15 adds a merge-preserving mode to
+  `collect_wiktionary_examples.py` (no longer clobbers hand-curated `known_gaps`/notes on
+  `--force`) and regenerates all 11 fixtures incorporating both fixes. `docs/FEATURES.md`'s
+  now-obsolete "duplicate reverse edges" limitation entry was removed. While resolving a stale
+  review note on `chemistry.json`, found and separately flagged another gap: `ANCESTRY_TYPES`
+  doesn't recognize `"derived"` as an alias of `"der"`, so some words' ancestor chains (chemistry's
+  Latin/Arabic/Greek ancestry, specifically) are invisible to `/chain` even though the compound-edge
+  path (`/tree`'s `component` edges) already works correctly.
+- SPC-00021 Phase 0+1 (2026-07-05): `find_descendants` deterministic sort (fixture regen deferred —
+  the collector script clobbers hand-curated `known_gaps`/notes on `--force`, needs a
+  merge-preserving mode first — since fixed, see above); SPC-00020 Steps 1–3 DI seam (lifespan
+  Motor client + Depends); `FakeWordsCollection` + real TreeBuilder tests; JS layout goldens
+  (`frontend/tests/layout-goldens.test.js`, fixed two latent Vitest/jsdom harness bugs along the
+  way — missing `localStorage`, silently-dropped `eval()`-scope globals); the full numpy layout
+  engine with formulas pinned directly from vis-network's own source (not just its options docs).
+  Cupboard-scale (940 nodes) solves in ~1.3s, within budget, after reformulating the O(n²)
+  repulsion as a BLAS matmul (the first cut missed the 1.5s budget by 4x). Found and separately
+  flagged (fixed above in #14): a pre-existing bug where `find_descendants` adds
+  ancestor/descendant edges in the reverse direction from `_build_ancestor_chain`, producing
+  duplicate reverse edges in most multi-hop etymology chains.
 - SPC-00021 (2026-07-04, approved): move graph layout from vis.js client physics to a backend
   numpy solver streaming states over SSE; frontend tweens between frames with physics disabled;
   client physics kept as `layoutMode=client` fallback. Modifies SPC-00004/00002; pulls SPC-00014's

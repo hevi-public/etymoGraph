@@ -1,6 +1,7 @@
 import re
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
+from motor.motor_asyncio import AsyncIOMotorCollection
 
 from app.database import get_words_collection
 
@@ -55,10 +56,11 @@ async def _expand_polysemous(col, results: list[dict]) -> list[dict]:
 
 @router.get("/search")
 async def search_words(
-    q: str = Query(..., min_length=1), limit: int = Query(20, ge=1, le=100)
+    q: str = Query(..., min_length=1),
+    limit: int = Query(20, ge=1, le=100),
+    col: AsyncIOMotorCollection = Depends(get_words_collection),
 ) -> dict:
     """Search words by exact match then prefix, deduplicated and merged."""
-    col = get_words_collection()
     projection = {"_id": 0, "word": 1, "lang": 1, "pos": 1}
 
     # First: exact word matches (case-sensitive) — these are highest priority

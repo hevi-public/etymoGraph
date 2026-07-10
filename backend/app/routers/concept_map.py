@@ -2,7 +2,8 @@
 
 from collections import defaultdict
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
+from motor.motor_asyncio import AsyncIOMotorCollection
 
 from app.database import get_words_collection
 from app.services.concept_resolver import resolve_concept, suggest_concepts
@@ -15,6 +16,37 @@ from app.services.template_parser import COGNATE_TYPE, node_id
 router = APIRouter()
 
 
+async def resolve_concept_words(
+    col: AsyncIOMotorCollection,
+    concept: str,
+    pos: str | None,
+    include_etymology_edges: bool,
+) -> dict | None:
+    """Resolve one concept to its word set, intra-concept etymology edges, and
+    Turchin clusters.
+
+    Returns ``None`` when the concept has no words with phonetic data — the
+    ``/concept-map`` endpoint turns that into a 404; the SPC-00021 multi-concept
+    layout endpoint skips it and merges the rest. Extracted from the endpoint so
+    both callers share one resolution path (``/concept-map`` stays
+    byte-identical).
+    """
+    docs, resolution_method = await resolve_concept(col, concept, pos)
+    if not docs:
+        return None
+
+    words = [format_word_for_response(doc) for doc in docs]
+    clusters = build_clusters(words)
+    etymology_edges = _extract_etymology_edges(docs, words) if include_etymology_edges else []
+
+    return {
+        "resolution_method": resolution_method,
+        "words": words,
+        "etymology_edges": etymology_edges,
+        "clusters": clusters,
+    }
+
+
 @router.get("/concept-map")
 async def get_concept_map(
     concept: str = Query(..., description="The concept to map (e.g. 'fire')"),
@@ -22,36 +54,25 @@ async def get_concept_map(
     include_etymology_edges: bool = Query(
         True, description="Include known etymological connections"
     ),
+    col: AsyncIOMotorCollection = Depends(get_words_collection),
 ) -> dict:
     """Build a concept map with phonetic similarity edges for a given concept."""
-    col = get_words_collection()
+    resolved = await resolve_concept_words(col, concept, pos, include_etymology_edges)
 
-    docs, resolution_method = await resolve_concept(col, concept, pos)
-
-    if not docs:
+    if resolved is None:
         raise HTTPException(
             status_code=404,
             detail=f"No words with phonetic data found for concept '{concept}'",
         )
 
-    words = [format_word_for_response(doc) for doc in docs]
-
-    # Turchin clusters
-    clusters = build_clusters(words)
-
-    # Etymology edges between concept map words
-    etymology_edges = []
-    if include_etymology_edges:
-        etymology_edges = _extract_etymology_edges(docs, words)
-
     return {
         "concept": concept,
-        "resolution_method": resolution_method,
-        "word_count": len(words),
-        "words": words,
+        "resolution_method": resolved["resolution_method"],
+        "word_count": len(resolved["words"]),
+        "words": resolved["words"],
         "phonetic_edges": [],  # computed client-side in Web Worker
-        "etymology_edges": etymology_edges,
-        "clusters": clusters,
+        "etymology_edges": resolved["etymology_edges"],
+        "clusters": resolved["clusters"],
     }
 
 
@@ -59,9 +80,9 @@ async def get_concept_map(
 async def get_concept_suggestions(
     q: str = Query(..., min_length=1, description="Partial concept name"),
     limit: int = Query(10, ge=1, le=50),
+    col: AsyncIOMotorCollection = Depends(get_words_collection),
 ) -> dict:
     """Autocomplete endpoint for concept search."""
-    col = get_words_collection()
     suggestions = await suggest_concepts(col, q, limit)
     return {"suggestions": suggestions}
 

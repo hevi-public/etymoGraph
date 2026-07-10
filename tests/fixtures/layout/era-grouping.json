@@ -1,0 +1,48 @@
+{
+  "tieredGroups": {
+    "2": {
+      "romance": [
+        "f:Latin"
+      ]
+    },
+    "3": {
+      "germanic": [
+        "d:OldEnglish1",
+        "e:OldEnglish2"
+      ]
+    },
+    "6": {
+      "germanic": [
+        "a:English",
+        "b:German"
+      ],
+      "romance": [
+        "c:French"
+      ]
+    }
+  },
+  "clusterPositions": {
+    "f:Latin": 0,
+    "d:OldEnglish1": -20,
+    "e:OldEnglish2": 20,
+    "a:English": -110,
+    "b:German": -70,
+    "c:French": 110
+  },
+  "extraEdges": [
+    {
+      "from": "d:OldEnglish1",
+      "to": "e:OldEnglish2",
+      "hidden": true,
+      "physics": true,
+      "length": 50
+    },
+    {
+      "from": "a:English",
+      "to": "b:German",
+      "hidden": true,
+      "physics": true,
+      "length": 75
+    }
+  ]
+}

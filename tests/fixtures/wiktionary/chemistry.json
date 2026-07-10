@@ -8,11 +8,11 @@
     "notes": "Phase 2 cross-check: see meta.notes for details."
   },
   "meta": {
-    "collected_at": "2026-05-23T12:10:32+00:00",
-    "etymograph_git_sha": "2612e90c0356dd259f4b43c73390a34140fb9efa",
+    "collected_at": "2026-07-05T12:09:56+00:00",
+    "etymograph_git_sha": "b20fb70543be0382c0e45b7df4ef9d96817c01c6",
     "kaikki_dump_date": null,
     "kaikki_source_url": "https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz",
-    "notes": "Phase 2: System /chain is EMPTY despite Wiktionary clearly stating 'chemist + -ry'. Surprise finding: main SPC-00012 ALSO misses this — templates are `suf`/`derived` not `compound`/`suffix`, and SPC-00012 doesn't normalize those variants. So Q2 is OPEN at /tree too for chemistry. Doublet of alchemy not surfaced as edge.",
+    "notes": "Phase 2: System /chain is EMPTY despite Wiktionary clearly stating 'chemist + -ry'. Updated 2026-07-05, correcting an earlier guess: the /tree gap is closed — AFFIX_TEMPLATES already recognizes 'suf' as a suffix-template alias, so /tree now correctly shows a chemist -> chemistry component edge via SPC-00012's precomputed edges. The real remaining gap is /chain specifically: chemistry's three ancestor templates (to Latin alchimista, Arabic كيمياء, Ancient Greek χυμείᾱ) use the spelled-out name 'derived' rather than the abbreviation 'der', which ANCESTRY_TYPES doesn't recognize as an alias — those ancestor links are invisible to /chain (and to /tree's own descendant search, which filters by the same type set). Tracked separately as a distinct template-name-normalization gap, not a SPC-00012 issue. Doublet of alchemy not surfaced as edge.",
     "spec": "SPC-00013",
     "wiktionary_revision_seen": null,
     "wiktionary_url": "https://en.wiktionary.org/wiki/chemistry"
@@ -380,37 +380,10 @@
       ]
     },
     "tree_inh": {
-      "edges": [],
-      "nodes": [
-        {
-          "id": "chemistry:English",
-          "label": "chemistry",
-          "language": "English",
-          "level": 0,
-          "uncertainty": null
-        }
-      ]
-    },
-    "tree_inh_bor_der_cog": {
       "edges": [
         {
-          "from": "chem:Chinese",
-          "label": "der",
-          "to": "chemistry:English"
-        },
-        {
-          "from": "kemistri:Cebuano",
-          "label": "bor",
-          "to": "chemistry:English"
-        },
-        {
-          "from": "കെമിസ്ട്രി:Malayalam",
-          "label": "bor",
-          "to": "chemistry:English"
-        },
-        {
-          "from": "케미:Korean",
-          "label": "der",
+          "from": "chemist:English",
+          "label": "component",
           "to": "chemistry:English"
         }
       ],
@@ -420,6 +393,58 @@
           "label": "chemistry",
           "language": "English",
           "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "chemist:English",
+          "label": "chemist",
+          "language": "English",
+          "level": -1,
+          "uncertainty": null
+        }
+      ]
+    },
+    "tree_inh_bor_der_cog": {
+      "edges": [
+        {
+          "from": "chemist:English",
+          "label": "component",
+          "to": "chemistry:English"
+        },
+        {
+          "from": "chemistry:English",
+          "label": "der",
+          "to": "chem:Chinese"
+        },
+        {
+          "from": "chemistry:English",
+          "label": "bor",
+          "to": "kemistri:Cebuano"
+        },
+        {
+          "from": "chemistry:English",
+          "label": "bor",
+          "to": "കെമിസ്ട്രി:Malayalam"
+        },
+        {
+          "from": "chemistry:English",
+          "label": "der",
+          "to": "케미:Korean"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "chemistry:English",
+          "label": "chemistry",
+          "language": "English",
+          "level": 0,
+          "uncertainty": null
+        },
+        {
+          "id": "chemist:English",
+          "label": "chemist",
+          "language": "English",
+          "level": -1,
           "uncertainty": null
         },
         {
@@ -529,7 +554,22 @@
       "phonetic_ipa": "kɛmɪstɹi",
       "pos": "noun",
       "pronunciation": "/ˈkɛm.ɪ.stɹi/",
-      "related_mentions": [],
+      "related_mentions": [
+        {
+          "lang": "English",
+          "lang_code": "en",
+          "role": "component",
+          "source_template": "suf",
+          "word": "chemist"
+        },
+        {
+          "lang": "English",
+          "lang_code": "en",
+          "role": "component",
+          "source_template": "suf",
+          "word": "ry"
+        }
+      ],
       "word": "chemistry"
     }
   },

@@ -1,0 +1,102 @@
+{
+  "English": {
+    "family": "germanic",
+    "color": "#5B8DEF"
+  },
+  "German": {
+    "family": "germanic",
+    "color": "#5B8DEF"
+  },
+  "French": {
+    "family": "romance",
+    "color": "#EF5B5B"
+  },
+  "Spanish": {
+    "family": "romance",
+    "color": "#EF5B5B"
+  },
+  "Italian": {
+    "family": "other",
+    "color": "#A0A0B8"
+  },
+  "Latin": {
+    "family": "romance",
+    "color": "#EF5B5B"
+  },
+  "Old English": {
+    "family": "germanic",
+    "color": "#5B8DEF"
+  },
+  "Middle English": {
+    "family": "germanic",
+    "color": "#5B8DEF"
+  },
+  "Anglo-Norman": {
+    "family": "other",
+    "color": "#A0A0B8"
+  },
+  "Early Modern English": {
+    "family": "germanic",
+    "color": "#5B8DEF"
+  },
+  "Proto-Indo-European": {
+    "family": "pie",
+    "color": "#F5C842"
+  },
+  "Proto-Germanic": {
+    "family": "germanic",
+    "color": "#5B8DEF"
+  },
+  "Ancient Greek": {
+    "family": "greek",
+    "color": "#43D9A2"
+  },
+  "Greek": {
+    "family": "greek",
+    "color": "#43D9A2"
+  },
+  "Russian": {
+    "family": "slavic",
+    "color": "#CE6BF0"
+  },
+  "Sanskrit": {
+    "family": "indoiranian",
+    "color": "#FF6B9D"
+  },
+  "Arabic": {
+    "family": "semitic",
+    "color": "#00BCD4"
+  },
+  "Finnish": {
+    "family": "uralic",
+    "color": "#8BC34A"
+  },
+  "Turkish": {
+    "family": "turkic",
+    "color": "#673AB7"
+  },
+  "Mandarin": {
+    "family": "indoiranian",
+    "color": "#FF6B9D"
+  },
+  "Welsh": {
+    "family": "celtic",
+    "color": "#FF8C42"
+  },
+  "Georgian": {
+    "family": "kartvelian",
+    "color": "#4CAF50"
+  },
+  "Armenian": {
+    "family": "armenian",
+    "color": "#FF5722"
+  },
+  "Albanian": {
+    "family": "albanian",
+    "color": "#CDDC39"
+  },
+  "SomeUnknownLanguage": {
+    "family": "other",
+    "color": "#A0A0B8"
+  }
+}

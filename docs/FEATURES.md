@@ -434,6 +434,56 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 
 ---
 
+### 16. Server-Side Layout Engine (SPC-00021 Phase 0–2)
+
+A Python/numpy port of the client-side layout engine, now exposed over additive HTTP endpoints that stream server-computed positions via Server-Sent Events. `/api/etymology/{word}/tree` and `/api/concept-map` are unaffected and remain byte-identical — all layout features ship on new `.../layout` and `.../layout/stream` endpoints. Frontend integration (the `layoutMode` flag, tweening, filter re-solve) is Phase 3+ and not yet wired, so the browser still uses client-side physics today.
+
+**What exists:**
+- `backend/app/services/layout/families.py` — language-family classification and era-tier machinery (`classify_lang`, `get_era_tier`, family-cluster X positions, era-layered invisible intra-family springs), golden-tested against `frontend/public/js/graph.js`.
+- `backend/app/services/layout/edge_params.py` — degree-based per-edge length/springConstant for both the etymology graph and the concept map, golden-tested against `graph.js`/`concept-map.js`.
+- `backend/app/services/layout/phonetic_numpy.py` — a numpy-vectorized twin of `phonetic_similarity.build_similarity_edges`, exact-equality-tested against it.
+- `backend/app/services/layout/seed.py` — the BFS/radial/linear tree-position seeding engine (`compute_tree_positions`), ported line-for-line from `graph.js`'s `computeTreePositions`, including the barycentric refinement pass.
+- `backend/app/services/layout/fa2.py` — the numeric force solver. Formulas pinned directly from vis-network's own source at v9.1.9 (not just its public options docs): asymmetric degree-weighted repulsion, both of vis's central-gravity laws (the distance-proportional `ForceAtlas2BasedCentralGravitySolver` for the etymology layouts, the constant-magnitude base `CentralGravitySolver` for the barnesHut concept map), Newton's-third-law springs, semi-implicit Euler integration. Exact O(n²) pairwise repulsion (not vis's Barnes-Hut tree), vectorized via BLAS matmul for speed.
+- `backend/app/services/layout/engine.py` — orchestration wiring the above into one `solve(layout, nodes, edges, ...)` entry point per layout (`force-directed`, `era-layered`, `concept`), yielding a position frame per solver iteration.
+
+**Performance:** a synthetic cupboard-scale graph (940 nodes) solves in ~1.3s for force-directed, ~2.2s for era-layered — within the spec's budget.
+
+**Determinism:** seeded RNG (sha256 of the sorted node-id set + algorithm version) makes repeated solves of the same graph bit-identical — required for shareable links and the cache below.
+
+**Endpoints (Phase 2):** four additive endpoints, each mounted under `/api`:
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /api/etymology/{word}/tree/layout` | Settled positions in one response: `{nodes, edges, positions, meta}`. Same params as `/tree` plus `layout=force-directed\|era-layered`; nodes carry additive `family`/`tier`. Snapshot / curl / cache-warming surface. |
+| `GET /api/etymology/{word}/tree/layout/stream` | The UI's single request: SSE stream of the solve. |
+| `GET /api/concept-map/layout` | Settled concept-map layout. Takes `concepts=` (comma-separated — the server replicates the client's multi-concept merge/dedupe), `pos`, `threshold`, `include_etymology_edges`. |
+| `GET /api/concept-map/layout/stream` | SSE stream of the concept-map solve; the `graph` event carries populated `phonetic_edges` (computed server-side, no Web Worker). |
+
+**SSE protocol** (`text/event-stream`):
+
+```
+event: graph   data: {nodes/words, edges, meta:{layout, algo_version, node_count, edge_count, cache:"hit"|"miss"}}
+event: frame   data: {i, t_ms, positions: {"word:Lang":[x,y], …}}   # full positions, ~5–15 per solve
+event: final   data: frame shape + {converged, iterations, solve_ms, algo_version}   # always emitted (incl. cache hit, then 0 frames)
+event: error   data: {message}                                      # on solve failure, then close
+: ping                                                              # heartbeat every 15s
+```
+
+The first event carries the full graph (same shape `/tree`/`/concept-map` return, plus the additive fields). Topology is built on the event loop via Motor; the numpy solve runs in a thread and pushes throttled frames through an `asyncio.Queue` (frames droppable/latest-wins, `final` never dropped). A client disconnect cancels the solve. Positions are rounded to 1 dp, so the streamed `final` and the plain-GET response are byte-for-byte identical for the same request.
+
+**Cache:** solved layouts are written through to a Mongo `layouts` collection, keyed by a sha256 of the canonical request (including `algo_version`). A stored fingerprint of the *built graph* — its node-id set **and** its position-affecting edges (etymology edge endpoints; for concept maps the phonetic-similarity values derived from `dolgo_*` fields) — is re-validated on read, so a data reload that changes the graph self-invalidates a stale layout; an `algo_version` bump orphans all old entries. Concept requests are solved in a request-order-independent order, so `concepts=fire,water` and `concepts=water,fire` share one cache entry and one deterministic layout. Cache writes are best-effort (a failure logs at WARN, never fails the request).
+
+**nginx:** the `/api/` proxy block sets `proxy_http_version 1.1`, clears the `Connection` header, and raises `proxy_read_timeout` so SSE frames flow incrementally. Buffering stays on for normal endpoints; the backend opts a single response out per-request via `X-Accel-Buffering: no`.
+
+**Known limitations:**
+- The overlap-avoidance radius is estimated from label length (`clamp(12 + 3.5·len, 20, 60)`) — the server can't measure rendered node boxes, so overlap is approximate vs. the client.
+- Final layouts differ somewhat from vis.js despite matching constants and seeds; the acceptance bar is visual equivalence, not positional equality (spec §11).
+- 940-node graphs solve well within budget but do not always reach `minVelocity` within the iteration cap; positions at the cap are still a good layout. Barnes-Hut repulsion for the 1500+ regime is a deferred follow-up behind the `repulsion_fn` seam.
+
+**Not yet built:** frontend integration — the `layoutMode` flag, rAF tweening between frames, filter re-solve, and the `client`→`server` default flip (Phases 3–5). See `specs/00021-server-side-layout-streaming/spec.md` §10 for the phase plan.
+
+---
+
 ## API Endpoints
 
 | Endpoint | Description |
@@ -445,6 +495,10 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | `GET /api/search?q=wine&limit=20` | Prefix search, deduplicated by word |
 | `GET /api/concept-map?concept=fire&pos=noun` | Concept map with phonetic similarity edges, etymology edges, and clusters |
 | `GET /api/concepts/suggest?q=fi&limit=10` | Concept autocomplete (English entries with translations) |
+| `GET /api/etymology/{word}/tree/layout?types=inh&layout=force-directed` | Server-solved etymology layout: `{nodes, edges, positions, meta}` (SPC-00021) |
+| `GET /api/etymology/{word}/tree/layout/stream?types=inh` | SSE stream of the etymology layout solve (`graph`→`frame*`→`final`) |
+| `GET /api/concept-map/layout?concepts=fire,water&threshold=0.3` | Server-solved concept-map layout with populated phonetic edges |
+| `GET /api/concept-map/layout/stream?concepts=fire` | SSE stream of the concept-map layout solve |
 | `GET /docs` | Swagger UI (auto-generated) |
 
 ---
@@ -605,7 +659,7 @@ make test       # Run pytest
 - `frontend/tests/graph-perf.test.js`: 13 unit tests for performance thresholds, LOD, clustering, family property
 - `tests/e2e/shareable-links.spec.js`: 10 E2E tests for URL routing (direct load, history, DOM consistency)
 - `tests/e2e/large-graph-perf.spec.js`: 10 E2E tests for large-graph performance (R1-R7, interaction integrity)
-- `tests/fixtures/wiktionary/`: Snapshot fixtures for the canonical-word integration tests planned in the SPC-00013 follow-up. Each fixture pairs current API output with hand-encoded Wiktionary ground truth and an explicit gap inventory (Q1–Q12). Regenerate with `make collect-fixtures` against `make run` services.
+- `tests/fixtures/wiktionary/`: Snapshot fixtures for the canonical-word integration tests planned in the SPC-00013 follow-up. Each fixture pairs current API output with hand-encoded Wiktionary ground truth and an explicit gap inventory (Q1–Q12). Regenerate with `make collect-fixtures` against `make run` services. Re-collecting an existing fixture preserves its hand-curated `known_gaps`/`wiktionary_reference`/`meta.notes` by default (only `system_output`/`raw_kaikki`/`meta.collected_at`/`meta.etymograph_git_sha` refresh) — pass `--reset-review` to `collect_wiktionary_examples.py` to discard curated content and regenerate it heuristically instead.
 - `tests/integration/test_api_characterization.py`: SPC-00013 Phase 1 — black-box pytest suite that parametrizes over the fixture JSONs and asserts each live API response equals the captured snapshot. Run with `make test-integration` (requires `make run`). Skips automatically when the API is unreachable.
 - `tests/integration/test_wiktionary_consistency.py`: SPC-00013 Phase 3 — Wiktionary-consistency assertions over fixture content (no API needed). Each documented gap is xfailed; closing a gap in Phase 4 flips the xfail to XPASS, forcing the developer to update both system code and `known_gaps` flag in the same commit.
 - Future: tests for other services (template_parser, lang_cache) when touched
