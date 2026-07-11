@@ -901,6 +901,10 @@ function applyPerformanceOverrides(options, nodeCount) {
  * Handle level-of-detail label visibility based on zoom scale (R2).
  * Hides labels when zoomed out past threshold, restores when zoomed in.
  * Only fires setOptions on threshold crossings to avoid thrashing.
+ * Node labels can only be made transparent (a box node's geometry derives
+ * from its label size, so font.size:0 would collapse every box); edge labels
+ * get size:0 too because transparent text still pays full per-frame layout
+ * and draw cost — size 0 is what actually skips the work.
  * @param {number} scale - current zoom scale from network.getScale()
  */
 function handleZoomLOD(scale) {
@@ -908,13 +912,13 @@ function handleZoomLOD(scale) {
     if (scale < LOD_SCALE_THRESHOLD && !lodActive) {
         network.setOptions({
             nodes: { font: { color: "transparent" } },
-            edges: { font: { color: "transparent" } },
+            edges: { font: { color: "transparent", size: 0 } },
         });
         lodActive = true;
     } else if (scale >= LOD_SCALE_THRESHOLD && lodActive) {
         network.setOptions({
             nodes: { font: { color: "#fff" } },
-            edges: { font: { color: "#999" } },
+            edges: { font: { color: "#999", size: 11 } },
         });
         lodActive = false;
     }
@@ -970,6 +974,59 @@ function handleZoomClustering(scale) {
         activeClusters = [];
     }
 }
+
+// --- Zoom-idle scheduling ---
+
+const ZOOM_IDLE_MS = 150;
+
+/**
+ * Debounce zoom-dependent work to gesture idle. network.cluster()/openCluster()
+ * take 200–400 ms on 1000-node graphs, so running the R2/R3 hooks synchronously
+ * inside every wheel/pinch event freezes the gesture mid-flight; deferring them
+ * until the zoom scale has been quiet for idleMs keeps the gesture at frame rate.
+ * @param {Function} onIdle - called with the last poked scale after idleMs of quiet
+ * @param {{idleMs?: number, setTimer?: Function, clearTimer?: Function}} [opts] - test seams
+ * @returns {{poke: Function, cancel: Function, isPending: Function}}
+ */
+function createZoomIdleScheduler(onIdle, opts) {
+    opts = opts || {};
+    const idleMs = opts.idleMs != null ? opts.idleMs : ZOOM_IDLE_MS;
+    const setTimer = opts.setTimer || ((fn, ms) => setTimeout(fn, ms));
+    const clearTimer = opts.clearTimer || ((id) => clearTimeout(id));
+    let timerId = null;
+    let lastScale = null;
+
+    function fire() {
+        timerId = null;
+        const scale = lastScale;
+        lastScale = null;
+        onIdle(scale);
+    }
+
+    return {
+        poke(scale) {
+            lastScale = scale;
+            if (timerId != null) clearTimer(timerId);
+            timerId = setTimer(fire, idleMs);
+        },
+        cancel() {
+            if (timerId != null) clearTimer(timerId);
+            timerId = null;
+            lastScale = null;
+        },
+        isPending() {
+            return timerId != null;
+        },
+    };
+}
+
+const zoomIdleScheduler = createZoomIdleScheduler((scale) => {
+    if (!network) return;
+    handleZoomLOD(scale);
+    handleZoomClustering(scale);
+    // Stable E2E hook: tests await this counter to know the deferred work ran.
+    window.__zoomIdleRuns = (window.__zoomIdleRuns || 0) + 1;
+});
 
 // --- updateGraph helpers ---
 
@@ -1058,6 +1115,9 @@ function updateGraph(data, opts) {
     currentNodes = data.nodes;
     lodActive = false;
     activeClusters = [];
+    // A pending zoom-idle callback belongs to the outgoing graph — its scale is
+    // stale and would apply LOD/clustering to the fresh network.
+    zoomIdleScheduler.cancel();
 
     const found = findRootAndWordNodes(data.nodes);
     rootNodeId = found.rootNodeId;
@@ -1117,6 +1177,12 @@ function updateGraph(data, opts) {
         }
     });
     network = new vis.Network(graphContainer, { nodes, edges }, options);
+
+    // vis-network 9.1.9 schedules redraws with setTimeout(0) instead of
+    // requestAnimationFrame on Safari (CanvasRenderer.requiresTimeout), which
+    // yields unpaced, vsync-misaligned frames during zoom/pan. Every browser
+    // we support has rAF — force it.
+    if (network.renderer) network.renderer.requiresTimeout = false;
 
     // Expose network instance for E2E tests and zoom controls
     window.__etymoNetwork = network;
@@ -1223,8 +1289,7 @@ graphContainer.addEventListener("wheel", (e) => {
         const scale = network.getScale();
         const newScale = Math.max(0.1, Math.min(5, scale * (1 - e.deltaY * 0.01)));
         network.moveTo({ scale: newScale, animation: false });
-        handleZoomLOD(newScale);
-        handleZoomClustering(newScale);
+        zoomIdleScheduler.poke(newScale);
     } else {
         const pos = network.getViewPosition();
         const scale = network.getScale();
@@ -1291,8 +1356,7 @@ graphContainer.addEventListener("touchmove", (e) => {
     newPos.y += (touchState.lastCenter.y - center.y) / newScale;
 
     network.moveTo({ scale: newScale, position: newPos, animation: false });
-    handleZoomLOD(newScale);
-    handleZoomClustering(newScale);
+    zoomIdleScheduler.poke(newScale);
     touchState.lastCenter = center;
 }, { passive: false });
 
@@ -1663,6 +1727,8 @@ if (typeof window !== "undefined") {
     window.applyPerformanceOverrides = applyPerformanceOverrides;
     window.handleZoomLOD = handleZoomLOD;
     window.handleZoomClustering = handleZoomClustering;
+    window.createZoomIdleScheduler = createZoomIdleScheduler;
+    window.ZOOM_IDLE_MS = ZOOM_IDLE_MS;
     window.classifyLang = classifyLang;
     window.baseGraphOptions = baseGraphOptions;
     window.LAYOUTS = LAYOUTS;

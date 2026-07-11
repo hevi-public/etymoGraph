@@ -83,6 +83,25 @@ export async function zoomToScale(page, targetScale, { maxSteps = 100 } = {}) {
     }
 }
 
+/** Snapshot the deferred zoom-work run counter (see waitForZoomIdle). */
+export async function getZoomIdleRuns(page) {
+    return await page.evaluate(() => window.__zoomIdleRuns || 0);
+}
+
+/**
+ * Wait until the deferred zoom work (LOD + clustering) has run again.
+ * The zoom hooks are debounced to gesture idle (ZOOM_IDLE_MS), so tests must
+ * snapshot the run counter with getZoomIdleRuns BEFORE dispatching zoom events
+ * and pass that snapshot here.
+ */
+export async function waitForZoomIdle(page, runsBefore, timeout = 5000) {
+    await page.waitForFunction(
+        (before) => (window.__zoomIdleRuns || 0) > before,
+        runsBefore,
+        { timeout }
+    );
+}
+
 /** Return the current URL search params as a plain object. */
 export async function getSearchParams(page) {
     return await page.evaluate(() => {

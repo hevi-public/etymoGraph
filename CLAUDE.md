@@ -166,7 +166,23 @@ claude mcp get mongodb  # Shows details for specific server
 
 **Phase**: Core product complete (vis.js etymology graph + phonetic concept map); SPC-00021
 (server-side layout + SSE) fully implemented — all phases done, spec status `implemented`
-**Last completed**: SPC-00021 Phase 5 — `layoutMode` default flipped to `server` (client stays the
+**Last completed**: fix (2026-07-11, branch `claude/graph-zoom-performance-54b535`) — large-graph
+zoom/pan responsiveness. Live profiling (1,028-node cupboard) showed the SPC-00004 R2/R3 zoom
+hooks running synchronously inside every wheel/pinch event: `network.cluster()`/`openCluster()`
+cost 216/367 ms at that scale, freezing pinches whenever the scale crossed the 0.25/0.35
+thresholds. Hooks now debounce to gesture idle (`createZoomIdleScheduler`, 150 ms, injectable
+timers; `window.__zoomIdleRuns` E2E hook; `updateGraph` cancels pending runs). Also: LOD now
+zeroes edge `font.size` (transparent-only text still paid full per-frame layout — measured only
+~1.4 ms of 8.7 ms saved), and both networks force `renderer.requiresTimeout = false` (vis 9.1.9
+uses `setTimeout(0)` frame pacing on Safari). Per-event wheel cost: 3 ms avg with 216–367 ms
+spikes → 0.013 ms avg / 0.4 ms max. New `tests/e2e/graph-zoom-perf.spec.js` verified red on the
+old code, green after; scheduler + LOD Vitest units (75 pass); latent cluster-assertion bug in
+`large-graph-perf.spec.js` fixed (clusters live in `body.nodeIndices`, never the user DataSet —
+the ≥500-node skip guard had kept it from ever running). Known limit documented in FEATURES.md
+§15: vis redraws all elements per frame (no viewport culling, ~8.5 ms at 1,028 nodes, 64% edges);
+if pan still feels heavy on slower hardware, the follow-up is CSS-transform gesture compositing
+with a single `moveTo` commit at gesture end.
+**Previous**: SPC-00021 Phase 5 — `layoutMode` default flipped to `server` (client stays the
 explicit/fallback path), §10 server cold/warm table measured live (`make bench-layout-server`:
 cheese era 0.42 s cold / 0.29 s warm vs client-physics *never stabilizing*; every graph at target
 scale within targets; live cupboard grew to 1,028 nodes and its 6.98 s cold solve belongs to the

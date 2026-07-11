@@ -415,9 +415,18 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 | Scale | Behavior |
 |-------|----------|
 | >= 0.4 | Full labels on nodes and edges (normal) |
-| < 0.4 | Labels hidden (transparent) — reduces per-frame draw cost |
+| < 0.4 | Node labels hidden (transparent), edge labels disabled (`font.size: 0` — transparent-only text still pays full per-frame layout cost) |
 | < 0.25 | Nodes cluster by language family (500+ node graphs only) |
 | > 0.35 | Clusters open, individual nodes visible (hysteresis gap prevents flicker) |
+
+**Gesture-idle deferral:** the LOD and clustering hooks run only after the zoom
+scale has been quiet for `ZOOM_IDLE_MS` (150 ms), not on every wheel/pinch
+event. `network.cluster()`/`openCluster()` take 200–400 ms on 1000-node graphs,
+so running them synchronously inside the gesture froze the pinch mid-flight
+whenever the scale crossed 0.25/0.35. The debounce lives in
+`createZoomIdleScheduler()` (pure, injectable timers); each completed run
+increments `window.__zoomIdleRuns` as a stable test hook, and `updateGraph`
+cancels any pending run so a stale scale never applies to a fresh graph.
 
 **Physics freeze (R5):** After the graph layout stabilizes, physics simulation is automatically disabled to eliminate per-frame force calculations. Dragging a node temporarily re-enables physics, which freezes again 500ms after drag ends.
 
@@ -430,7 +439,11 @@ Adaptive rendering and physics optimizations for graphs with 200+ nodes. Small g
 - Searching a new word while clustered resets everything cleanly
 - Hysteresis gap (0.10 between cluster/decluster thresholds) prevents flicker during continuous zoom
 
-**Implementation:** All changes scoped to `graph.js`. Pure predicate function `applyPerformanceOverrides()` is extracted and unit-testable without vis.js. LOD and clustering are handled by `handleZoomLOD()` and `handleZoomClustering()`, called from the wheel handler.
+**Implementation:** All changes scoped to `graph.js`. Pure predicate function `applyPerformanceOverrides()` is extracted and unit-testable without vis.js. LOD and clustering are handled by `handleZoomLOD()` and `handleZoomClustering()`, invoked via the gesture-idle scheduler described above.
+
+**Frame pacing:** vis-network 9.1.9 schedules redraws with `setTimeout(0)` instead of `requestAnimationFrame` on Safari (`CanvasRenderer.requiresTimeout`), producing unpaced, vsync-misaligned frames during zoom/pan. Both networks force `renderer.requiresTimeout = false` after construction.
+
+**Known limitation:** vis-network redraws every node, edge, and label on each frame with no viewport culling — full-redraw cost is linear in graph size regardless of what is visible (~8.5 ms at 1,028 nodes / 1,144 edges on a fast machine, ~64% of it edges). Continuous pan/zoom on multi-hundred-node graphs is therefore inherently redraw-bound on slower hardware; if that proves insufficient, the follow-up would be compositing gestures via CSS transform on the canvas and committing a single `moveTo` at gesture end.
 
 ---
 

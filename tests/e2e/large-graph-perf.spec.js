@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
-import { waitForGraph, getNodeCount, zoomToScale } from "./helpers.js";
+import {
+    waitForGraph, getNodeCount, zoomToScale, getZoomIdleRuns, waitForZoomIdle,
+} from "./helpers.js";
 
 /**
  * E2E tests for large-graph performance optimizations (SPC-00004).
@@ -54,7 +56,9 @@ test.describe("Large graph performance (SPC-00004)", () => {
             const nodeCount = await getNodeCount(page);
             test.skip(nodeCount <= 50, `Graph too small for LOD test (${nodeCount} nodes)`);
 
+            const before = await getZoomIdleRuns(page);
             await zoomToScale(page, 0.2);
+            await waitForZoomIdle(page, before);
 
             const fontColor = await page.evaluate(() => {
                 return window.__etymoNetwork.nodesHandler.options.font.color;
@@ -66,10 +70,14 @@ test.describe("Large graph performance (SPC-00004)", () => {
             await page.goto("/?view=etymology&word=water&lang=English&types=inh,bor,der,cog&layout=force-directed");
             await waitForGraph(page);
 
-            // First zoom out to trigger LOD
+            // First zoom out to trigger LOD (deferred to gesture idle)
+            let before = await getZoomIdleRuns(page);
             await zoomToScale(page, 0.2);
+            await waitForZoomIdle(page, before);
             // Then zoom back in
+            before = await getZoomIdleRuns(page);
             await zoomToScale(page, 0.6);
+            await waitForZoomIdle(page, before);
 
             const fontColor = await page.evaluate(() => {
                 return window.__etymoNetwork.nodesHandler.options.font.color;
@@ -85,11 +93,14 @@ test.describe("Large graph performance (SPC-00004)", () => {
             const nodeCount = await getNodeCount(page);
             test.skip(nodeCount < 500, `Graph too small for clustering (${nodeCount} nodes)`);
 
+            const before = await getZoomIdleRuns(page);
             await zoomToScale(page, 0.15);
+            await waitForZoomIdle(page, before);
 
             const hasClusters = await page.evaluate(() => {
-                const ids = window.__etymoNetwork.body.data.nodes.getIds();
-                return ids.some(id => String(id).startsWith("cluster:"));
+                // Clusters live in body.nodeIndices, not in the user DataSet.
+                return window.__etymoNetwork.body.nodeIndices
+                    .some(id => String(id).startsWith("cluster:"));
             });
             expect(hasClusters).toBe(true);
         });
@@ -100,14 +111,19 @@ test.describe("Large graph performance (SPC-00004)", () => {
             const nodeCount = await getNodeCount(page);
             test.skip(nodeCount < 500, `Graph too small for clustering (${nodeCount} nodes)`);
 
-            // Cluster first
+            // Cluster first (deferred to gesture idle)
+            let before = await getZoomIdleRuns(page);
             await zoomToScale(page, 0.15);
+            await waitForZoomIdle(page, before);
             // Then decluster
+            before = await getZoomIdleRuns(page);
             await zoomToScale(page, 0.5);
+            await waitForZoomIdle(page, before);
 
             const hasClusters = await page.evaluate(() => {
-                const ids = window.__etymoNetwork.body.data.nodes.getIds();
-                return ids.some(id => String(id).startsWith("cluster:"));
+                // Clusters live in body.nodeIndices, not in the user DataSet.
+                return window.__etymoNetwork.body.nodeIndices
+                    .some(id => String(id).startsWith("cluster:"));
             });
             expect(hasClusters).toBe(false);
         });
@@ -174,8 +190,10 @@ test.describe("Large graph performance (SPC-00004)", () => {
             await page.goto("/?view=etymology&word=water&lang=English&types=inh,bor,der,cog&layout=force-directed");
             await waitForGraph(page);
 
-            // Trigger LOD
+            // Trigger LOD (deferred to gesture idle)
+            const before = await getZoomIdleRuns(page);
             await zoomToScale(page, 0.2);
+            await waitForZoomIdle(page, before);
 
             // Search a new word
             await page.goto("/?view=etymology&word=cat&lang=English&types=inh,bor,der&layout=force-directed");
