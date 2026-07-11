@@ -425,8 +425,11 @@ event. `network.cluster()`/`openCluster()` take 200–400 ms on 1000-node graphs
 so running them synchronously inside the gesture froze the pinch mid-flight
 whenever the scale crossed 0.25/0.35. The debounce lives in
 `createZoomIdleScheduler()` (pure, injectable timers); each completed run
-increments `window.__zoomIdleRuns` as a stable test hook, and `updateGraph`
-cancels any pending run so a stale scale never applies to a fresh graph.
+increments `window.__zoomIdleRuns` as a stable test hook
+(`window.__zoomIdlePending()` reports a still-scheduled run), and `updateGraph`
+cancels any pending run so a stale scale never applies to a fresh graph. The
+zoom buttons (☆/⊙ focus, ⊞ fit) also poke the scheduler when their animation
+finishes, so LOD/clustering re-evaluate after button-driven scale changes too.
 
 **Physics freeze (R5):** After the graph layout stabilizes, physics simulation is automatically disabled to eliminate per-frame force calculations. Dragging a node temporarily re-enables physics, which freezes again 500ms after drag ends.
 

@@ -263,6 +263,12 @@ const EDGE_LABELS = {
     component: "component", mention: "related",
 };
 
+// Base label fonts — shared by baseGraphOptions and the LOD restore path so a
+// zoom-out/in cycle can't drift from the construction-time values.
+const BASE_NODE_FONT_COLOR = "#fff";
+const BASE_EDGE_FONT_COLOR = "#999";
+const BASE_EDGE_FONT_SIZE = 11;
+
 // --- Uncertainty styling constants ---
 
 const UNCERTAINTY_BORDER_DASHES = [5, 5];
@@ -658,7 +664,7 @@ function baseGraphOptions(overrides) {
         },
         edges: {
             color: { color: "#555", highlight: "#aaa" },
-            font: { color: "#999", size: 11, strokeWidth: 0 },
+            font: { color: BASE_EDGE_FONT_COLOR, size: BASE_EDGE_FONT_SIZE, strokeWidth: 0 },
             smooth: { type: "continuous" },
             width: 3,
             length: 200,
@@ -666,7 +672,7 @@ function baseGraphOptions(overrides) {
         nodes: {
             shape: "box",
             borderWidth: 0,
-            font: { size: 13, multi: true, color: "#fff" },
+            font: { size: 13, multi: true, color: BASE_NODE_FONT_COLOR },
             margin: 10,
         },
         physics: {
@@ -917,8 +923,8 @@ function handleZoomLOD(scale) {
         lodActive = true;
     } else if (scale >= LOD_SCALE_THRESHOLD && lodActive) {
         network.setOptions({
-            nodes: { font: { color: "#fff" } },
-            edges: { font: { color: "#999", size: 11 } },
+            nodes: { font: { color: BASE_NODE_FONT_COLOR } },
+            edges: { font: { color: BASE_EDGE_FONT_COLOR, size: BASE_EDGE_FONT_SIZE } },
         });
         lodActive = false;
     }
@@ -1027,6 +1033,13 @@ const zoomIdleScheduler = createZoomIdleScheduler((scale) => {
     // Stable E2E hook: tests await this counter to know the deferred work ran.
     window.__zoomIdleRuns = (window.__zoomIdleRuns || 0) + 1;
 });
+
+// Stable E2E hook: a run-counter increment alone can come from an intermediate
+// idle fire mid-test (any >idleMs stall between synthetic wheel steps); tests
+// must also see "nothing still scheduled" before asserting LOD/cluster state.
+if (typeof window !== "undefined") {
+    window.__zoomIdlePending = () => zoomIdleScheduler.isPending();
+}
 
 // --- updateGraph helpers ---
 
@@ -1670,6 +1683,16 @@ document.getElementById("toggle-panel").addEventListener("click", () => {
 });
 
 // Zoom controls
+
+// The zoom buttons change scale without wheel events, so they poke the idle
+// scheduler themselves once their animation lands. If the network is rebuilt
+// mid-animation the listener dies with the old instance — no stale poke.
+function pokeZoomHooksAfterAnimation() {
+    network.once("animationFinished", () => {
+        if (network) zoomIdleScheduler.poke(network.getScale());
+    });
+}
+
 function focusNode(nodeId) {
     if (!network || !nodeId) return;
     const pos = network.getPositions([nodeId])[nodeId];
@@ -1679,6 +1702,7 @@ function focusNode(nodeId) {
         scale: 2.5,
         animation: { duration: 500, easingFunction: "easeInOutQuad" },
     });
+    pokeZoomHooksAfterAnimation();
     network.selectNodes([nodeId]);
 }
 
@@ -1690,6 +1714,7 @@ document.getElementById("zoom-fit").addEventListener("click", () => {
     network.fit({
         animation: { duration: 500, easingFunction: "easeInOutQuad" },
     });
+    pokeZoomHooksAfterAnimation();
 });
 
 // Etymology link mode: persist preference
