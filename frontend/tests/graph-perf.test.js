@@ -190,6 +190,135 @@ describe("baseGraphOptions convergence tuning (R6)", () => {
     });
 });
 
+describe("createZoomIdleScheduler", () => {
+    function makeFakeTimers() {
+        let nextId = 1;
+        const pending = new Map();
+        return {
+            setTimer: (fn, ms) => {
+                const id = nextId++;
+                pending.set(id, { fn, ms });
+                return id;
+            },
+            clearTimer: (id) => pending.delete(id),
+            fireAll: () => {
+                for (const [id, t] of [...pending]) {
+                    pending.delete(id);
+                    t.fn();
+                }
+            },
+            count: () => pending.size,
+            delays: () => [...pending.values()].map((t) => t.ms),
+        };
+    }
+
+    it("defaults to the ZOOM_IDLE_MS delay", () => {
+        const timers = makeFakeTimers();
+        const sched = window.createZoomIdleScheduler(() => {}, timers);
+        sched.poke(0.5);
+        expect(timers.delays()).toEqual([window.ZOOM_IDLE_MS]);
+    });
+
+    it("debounces: repeated pokes keep a single pending timer", () => {
+        const timers = makeFakeTimers();
+        const sched = window.createZoomIdleScheduler(() => {}, timers);
+        sched.poke(0.5);
+        sched.poke(0.4);
+        sched.poke(0.3);
+        expect(timers.count()).toBe(1);
+    });
+
+    it("fires onIdle once with the last poked scale", () => {
+        const timers = makeFakeTimers();
+        const calls = [];
+        const sched = window.createZoomIdleScheduler((s) => calls.push(s), timers);
+        sched.poke(0.5);
+        sched.poke(0.2);
+        timers.fireAll();
+        expect(calls).toEqual([0.2]);
+        expect(sched.isPending()).toBe(false);
+    });
+
+    it("cancel prevents the pending fire", () => {
+        const timers = makeFakeTimers();
+        const calls = [];
+        const sched = window.createZoomIdleScheduler((s) => calls.push(s), timers);
+        sched.poke(0.5);
+        sched.cancel();
+        timers.fireAll();
+        expect(calls).toEqual([]);
+        expect(sched.isPending()).toBe(false);
+    });
+
+    it("reschedules on poke after a fire", () => {
+        const timers = makeFakeTimers();
+        const calls = [];
+        const sched = window.createZoomIdleScheduler((s) => calls.push(s), timers);
+        sched.poke(0.5);
+        timers.fireAll();
+        sched.poke(0.8);
+        timers.fireAll();
+        expect(calls).toEqual([0.5, 0.8]);
+    });
+});
+
+describe("handleZoomLOD edge-label suppression", () => {
+    // Transparent-only labels still pay full per-frame text layout/draw cost;
+    // LOD must zero the edge font size so the work is actually skipped
+    // (node labels stay color-only — box geometry derives from label size).
+    function installVisRecorder() {
+        const setOptionsCalls = [];
+        class DataSet {
+            constructor(arr) { this._d = arr || []; this.length = this._d.length; }
+            forEach(fn) { this._d.forEach(fn); }
+            get() { return this._d; }
+            getIds() { return this._d.map((x) => x.id); }
+            update() {}
+            add() {}
+            clear() {}
+        }
+        class Network {
+            constructor() {}
+            on() {}
+            moveTo() {}
+            getPositions() { return {}; }
+            setOptions(o) { setOptionsCalls.push(o); }
+            destroy() {}
+            isCluster() { return false; }
+        }
+        window.vis = { DataSet, Network };
+        return setOptionsCalls;
+    }
+
+    const DATA = {
+        nodes: [{ id: "water:English", label: "water", language: "English", level: 0 }],
+        edges: [],
+    };
+
+    it("zooming out past the threshold zeroes edge font size", () => {
+        const calls = installVisRecorder();
+        window.updateGraph(DATA, { serverMode: true });
+        calls.length = 0;
+        window.handleZoomLOD(0.2);
+        expect(calls).toEqual([{
+            nodes: { font: { color: "transparent" } },
+            edges: { font: { color: "transparent", size: 0 } },
+        }]);
+    });
+
+    it("zooming back in restores the base edge font size", () => {
+        const calls = installVisRecorder();
+        window.updateGraph(DATA, { serverMode: true });
+        window.handleZoomLOD(0.2);
+        calls.length = 0;
+        window.handleZoomLOD(0.6);
+        expect(calls).toEqual([{
+            nodes: { font: { color: "#fff" } },
+            edges: { font: { color: "#999", size: 11 } },
+        }]);
+    });
+});
+
 describe("updateGraph server-mode option construction (SPC-00021)", () => {
     // Capture the options handed to `new vis.Network(...)` so we can assert the
     // physics-disabled contract without a real renderer.

@@ -226,6 +226,10 @@ function updateConceptMap(data, opts) {
         options
     );
 
+    // Force rAF-paced redraws on Safari — same vis-network 9.1.9 workaround as
+    // the etymology network in graph.js (CanvasRenderer.requiresTimeout).
+    if (conceptNetwork.renderer) conceptNetwork.renderer.requiresTimeout = false;
+
     // Expose network instance for E2E tests (top-level `let` is not a window property)
     window.conceptNetwork = conceptNetwork;
 
